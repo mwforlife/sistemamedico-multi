@@ -165,7 +165,7 @@ if(isset($_GET['user'])){
 										<a class="nav-sub-link" href="causaltermino.html">CAUSAL TERMINO CONTRATO</a>
 									</li>
 									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="diasferiados.html">DIAS FERIADOS</a>
+										<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
 									</li>
 								</ul>
 							</li>

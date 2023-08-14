@@ -37,7 +37,7 @@ if(isset($_POST['UserRut']) && isset($_POST['UserNombre']) && isset($_POST['User
     $password1 = $_POST['UserPassword1'];
     $empresa = $_POST['idempresa'];
 
-    if($idempresa<=0){
+    if($empresa<=0){
         echo "No se puede registrar el usuario, no se ha encontrado la empresa";
         return;
     }
@@ -52,7 +52,7 @@ if(isset($_POST['UserRut']) && isset($_POST['UserNombre']) && isset($_POST['User
             echo "Ya hay un usuario con los datos que usted intenta ingresar, favor de revisar el Rut y/0 Correo Electronico e intentar nuevamente";
             return;
         }
-       $result= $c->registrarusuario($rut, $nombre, $apellido,$apellido2, $email, $direccion, $region, $comuna, $profesion,$servicio, $phone, $password);
+       $result= $c->registrarusuario($rut, $nombre, $apellido,$apellido2, $email, $direccion, $region, $comuna, $phone, $password);
        if($result==true){
         $id = $c->buscaridusuario($rut, $email);
         if($id == null){

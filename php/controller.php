@@ -24,12 +24,14 @@ require "Class/Otrosatecedentes.php";
 require "Class/Responsable.php";
 require "Class/Datosubicacion.php";
 require "Class/Incripcion.php";
+require 'Class/DiasFeriados.php';
+require 'Class/Disponibilidad.php';
 
 class Controller{
     private $mi;
 
     private $host = "localhost";
-    /*Variables
+    /*Variables*/
     private $user = "root";
     private $pass = "";
     private $bd = "oncoway";
@@ -39,7 +41,7 @@ class Controller{
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server*/
+    /*Variables BD Server
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
@@ -1371,7 +1373,7 @@ class Controller{
     //Usuarios
     public function registrarusuario($rut, $nombre, $apellido1, $apellido2, $correo, $direccion, $region, $comuna, $telefono, $contrasena){
         $this->conexion();
-        $sql = "insert into usuarios values(null, '$rut', '$nombre', '$apellido1', '$apellido2', '$correo', '$direccion', $region, $comuna, '$telefono', sha1('$contrasena'), now(),1)";
+        $sql = "insert into usuarios values(null, '$rut', '$nombre', '$apellido1', '$apellido2', '$correo', '$direccion', $region, $comuna, '$telefono', sha1('$contrasena'),1, now())";
         $result = $this->mi->query($sql); 
         $this->desconexion();
         return json_encode($result);
@@ -1730,9 +1732,9 @@ class Controller{
     }
 
     //Cambiar Estado
-    public function cambiarestado($id, $estado){
+    public function cambiarestado($id,$empresa, $estado){
         $this->conexion();
-        $sql = "update usuarios set estado = $estado where id = $id";
+        $sql = "update usuarioprofesion set estado = $estado where usuario = $id and empresa = $empresa";
         $result = $this->mi->query($sql); 
         $this->desconexion();
         return json_encode($result);
@@ -3651,6 +3653,74 @@ class Controller{
         return json_encode($result);
     }
 
+    /*****************************Dias Feriados****************** */
+    
+    //Listar Dias Feriados
+    function listardiasferiados()
+    {
+        $this->conexion();
+        $sql = "select * from diasferiado";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs['id'];
+            $periodo = $rs['periodo'];
+            $fecha = $rs['fecha'];
+            $descripcion = $rs['descripcion'];
+            $DF = new DiasFeriados($id, $periodo, $fecha, $descripcion);
+            $lista[] = $DF;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Comprobar Dias Feriados
+    function comprobardiasferiados($fecha)
+    {
+        $this->conexion();
+        $sql = "select * from diasferiado where fecha = '$fecha'";
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $this->desconexion();
+            return true;
+        }
+        $this->desconexion();
+        return false;
+    }
+
+    //Registrar Disponibilidad
+    function registrardisponibilidad( $usuario,$empresa, $fecha, $horainicio, $horafinal, $intervalo, $estado)
+    {
+        $this->conexion();
+        $sql = "insert into disponibilidad values(null,$usuario, $empresa,  '$fecha', '$horainicio', '$horafinal', $intervalo, $estado, now())";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Listar Disponibilidad
+    function listardisponibilidad($usuario, $empresa)
+    {
+        $this->conexion();
+        $sql = "select * from disponibilidad where usuario = $usuario and empresa = $empresa";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $usuario = $rs["usuario"];
+            $empresa = $rs["empresa"];
+            $fecha = $rs["fecha"];
+            $horainicio = $rs["horainicio"];
+            $horafinal = $rs["horafin"];
+            $intervalo = $rs["intervalo"];
+            $estado = $rs["estado"];
+            $registro = $rs["registro"];
+            $disponibilidad = new Disponibilidad($id, $usuario, $empresa, $fecha, $horainicio, $horafinal, $intervalo, $estado, $registro);
+            $lista[] = $disponibilidad;
+        }
+        $this->desconexion();
+        return $lista;
+    }
             
 }
 ?>

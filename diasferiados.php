@@ -40,7 +40,7 @@ $object = $c->buscarenUsuario1($id);
 	<link rel="icon" href="assets/img/brand/favicon.ico" type="image/x-icon" />
 
 	<!-- Title -->
-	<title>OncoWay | TNM REGIONALES</title>
+	<title>OncoWay | Ecog</title>
 
 	<!-- Bootstrap css-->
 	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -352,7 +352,7 @@ $object = $c->buscarenUsuario1($id);
 					<!-- Page Header -->
 					<div class="page-header">
 						<div class="page-header-1">
-							<h1 class="main-content-title tx-30">Registro de TNM-Regionales Clinico</h1>
+							<h1 class="main-content-title tx-30">Ecog</h1>
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
 							</ol>
@@ -364,36 +364,35 @@ $object = $c->buscarenUsuario1($id);
 							<div class="card orverflow-hidden">
 								<div class="card-body">
 									<div>
-										<h6 class="main-content-label mb-1">Registro de TNM-Regionales Clinico</h6>
+										<h6 class="main-content-label mb-1">Registro de Días Feriados</h6>
 										<p class="text-mutted card-sub-title"></p>
 									</div>
-									<form id="tnmform" name="tnmform" class="needs-validation was-validated">
+									<form id="feriadosform" name="feriadosform" class="needs-validation was-validated">
 										<div class="row">
 											<div class="col-lg-6">
 												<div class="form-group has-success mg-b-0">
-													<label>Codigo</label>
-													<input class="form-control" id="Codigo" name="Codigo" placeholder="Codigo" required="" type="text" value="">
-													<input class="form-control" id="tipo" name="tipo" required="" type="hidden" value="2">
-												</div>
-											</div>
-											<div class="col-lg-6">
-												<div class="form-group has-success mg-b-0">
-													<label>Nombre</label>
-													<input class="form-control" id="Nombre" name="Nombre" placeholder="Nombre TNM" required="" type="text" value="">
-												</div>
-											</div>
-											<div class="col-lg-6">
-												<div class="form-group has-success mg-b-0">
-													<label>Diagnostico</label>
-													<select name="diagnostico" id="diagnostico" class="form-control select2">
-														<option value="">Seleccione</option>
-														<?php
-														$diagnostico = $c->listarDiagnosticos();
-														foreach ($diagnostico as $key) {
-															echo "<option value='" . $key->getId() . "'>" . $key->getNombre() . "</option>";
-														}
-														?>
+													<label>Periodo</label>
+													<?php
+													$cont = date('Y');
+													?>
+													<select id="sel1" name="periodo" class="form-control">
+														<?php while ($cont >= 1950) { ?>
+															<option value="<?php echo ($cont); ?>"><?php echo ($cont); ?></option>
+														<?php $cont = ($cont - 1);
+														} ?>
 													</select>
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group has-success mg-b-0">
+													<label>Fecha</label>
+													<input class="form-control" id="fecha" name="fecha" required="" type="date">
+												</div>
+											</div>
+											<div class="col-lg-12">
+												<div class="form-group has-success mg-b-0">
+													<label>Descripción</label>
+													<input class="form-control" id="descripcion" name="descripcion" placeholder="Evento" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-md-12 mt-3 text-right">
@@ -411,7 +410,7 @@ $object = $c->buscarenUsuario1($id);
 						<div class="col-xl-12 col-lg-12 col-md-12">
 							<div class="card transcation-crypto1" id="transcation-crypto1">
 								<div class="card-header bd-b-0">
-									<h4 class="card-title font-weight-semibold mb-0">Listado de TNM-Primario Clinico</h4>
+									<h4 class="card-title font-weight-semibold mb-0">Listado de días feriados</h4>
 								</div>
 								<div class="card-body">
 									<div class="">
@@ -419,28 +418,29 @@ $object = $c->buscarenUsuario1($id);
 											<table class="table w-100 text-nowrap" id="example1">
 												<thead class="border-top text-center">
 													<tr>
-														<th class="bg-transparent">Codigo</th>
-														<th class="bg-transparent">Nombre</th>
-														<th class="bg-transparent">Diagnostico</th>
-														<th class="bg-transparent text-center">Accion</th>
+														<th class="bg-transparent">Periodo</th>
+														<th class="bg-transparent">Fecha</th>
+														<th class="bg-transparent">Descripcion</th>
+														<th class="bg-transparent text-center">Eliminar</th>
 													</tr>
 												</thead>
 												<tbody class="text-center">
 													<?php
-														$lista = $c->listartnm(2);
-														foreach ($lista as $row) {
-															echo "<tr>";
-															echo "<td>".$row->getCodigo()."</td>";
-															echo "<td>".$row->getNombre()."</td>";
-															echo "<td>".$row->getDiagnostico()."</td>";
-															echo "<td class='text-center'>";
-															echo "<a href='#' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#modaledit' onclick='cargarTNM(".$row->getId().")'><i class='fa fa-edit'></i></a>";
-															echo "<a href='#' class='btn btn-danger btn-sm' onclick='EliminarTNM(".$row->getId().")'><i class='fas fa-trash-alt'></i></a>";
-															echo "</td>";
-															echo "</tr>";
+													$lista = $c->listardiasferiados();
+													if (count($lista) > 0) {
+														foreach ($lista as $object) {
+															echo "<tr>
+																		<td>" . $object->getPeriodo() . "</td>
+																		<td>" . date("d-m-Y", strtotime($object->getFecha())) . "</td>
+																		<td>" . $object->getDescripcion() . "</td>
+																		<td class='text-center'>
+																			<a href='javascript:void(0)' class='btn btn-sm btn-danger' onclick='Eliminar(" . $object->getId() . ")'><i class='fa fa-trash'></i></a>
+																		</td>
+																	</tr>";
 														}
+													}
+
 													?>
-													
 												</tbody>
 											</table>
 										</div>
@@ -469,26 +469,6 @@ $object = $c->buscarenUsuario1($id);
 		</div>
 		<!--End Footer-->
 
-
-
-		<!-- Edit Modal -->
-		<div class="modal fade" id="modaledit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="staticBackdropLabel">Edición</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="content">
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 	<!-- End Page -->
 
@@ -543,7 +523,7 @@ $object = $c->buscarenUsuario1($id);
 	<script src="JsFunctions/Alert/toastify.js"></script>
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
-	<script src="JsFunctions/function.js"></script>
+	<script src="JsFunctions/diasferiados.js"></script>
 
 
 

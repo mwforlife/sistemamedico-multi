@@ -2619,7 +2619,7 @@ function verinforme(id) {
 
 
 //Finalizar Comite
-function finalizarcomite(id){
+function finalizarcomite1(id){
     swal.fire({
         title: '¿Estas seguro de finalizar este comite?',
         text: "No podras revertir esta accion!",

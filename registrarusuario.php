@@ -5,6 +5,13 @@ error_reporting(E_ALL);
 require 'php/controller.php';
 $c = new Controller();
 session_start();
+$empresa = null;
+if(isset($_SESSION['CURRENT_ENTERPRISE'])){
+	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+	$empresa = $c->buscarEmpresa($enterprise);
+}else{
+    header("Location: index.php");
+}
 if (!isset($_SESSION['USER_ID'])) {
 	header("Location: signin.php");
 } else {
@@ -148,7 +155,7 @@ $object = $c->buscarenUsuario1($id);
 								<a class="nav-sub-link" href="causaltermino.html">CAUSAL TERMINO CONTRATO</a>
 							</li>
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="diasferiados.html">DIAS FERIADOS</a>
+								<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
 							</li>
 						</ul>
 					</li>

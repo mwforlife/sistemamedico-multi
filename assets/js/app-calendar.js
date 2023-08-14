@@ -121,6 +121,12 @@ $(function() {
 		$('#EventEndDate').val(endDate.format('LL'));
 		$('#mainEventStartTime').val(startDate.format('LT')).trigger('change');
 		$('#EventEndTime').val(endDate.format('LT')).trigger('change');
+		$('#mainEventStartTime1').val(startDate.format('LT')).trigger('change');
+		$('#EventEndTime1').val(endDate.format('LT')).trigger('change');
+		$('#mainEventStartTime2').val(startDate.format('LT')).trigger('change');
+		$('#EventEndTime2').val(endDate.format('LT')).trigger('change');
+		$('#mainEventStartTime3').val(startDate.format('LT')).trigger('change');
+		$('#EventEndTime3').val(endDate.format('LT')).trigger('change');
 	});
 	// Display calendar event modal
 	azCalendar.on('eventClick', function(calEvent, jsEvent, view) {

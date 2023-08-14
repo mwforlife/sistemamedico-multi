@@ -1,4 +1,4 @@
-// sample calendar events data
+// sample calendar events data 
 'use strict'
 var curYear = moment().format('YYYY');
 var curMonth = moment().format('MM');

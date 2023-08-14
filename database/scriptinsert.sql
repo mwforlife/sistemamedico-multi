@@ -6617,6 +6617,8 @@ INSERT INTO `usuarios` (`id`, `rut`, `nombre`, `apellido1`, `apellido2`, `correo
 
 insert  into usuarioprofesion (`usuario`, `profesion`, `proveniencia`, `empresa`, `estado`)values
 (1,10, 1,1, 1),
-(1,9, 1,1, 1),
+(1,9, 1,2, 1),
 (2,7, 1,2, 1),
 (3, 4, 1,1, 1);
+
+alter table usuarios add column `estado` int(1) not null default 1 after `contrasena`;

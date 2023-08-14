@@ -1,3 +1,30 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+require 'php/controller.php';
+$c = new Controller();
+
+session_start();
+$empresa = null;
+if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
+    $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+    $empresa = $c->buscarEmpresa($enterprise);
+} else {
+    header("Location: index.php");
+}
+
+if (!isset($_SESSION['USER_ID'])) {
+    header("Location: signin.php");
+} else {
+    $valid = $c->validarsesion($_SESSION['USER_ID'], $_SESSION['USER_TOKEN']);
+    if ($valid == false) {
+        header("Location: lockscreen.php");
+    }
+}
+$id = $_SESSION['USER_ID'];
+$object = $c->buscarenUsuario1($id);
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -31,20 +58,20 @@
 
     <!-- Color css-->
     <link id="theme" rel="stylesheet" type="text/css" media="all" href="assets/css/colors/color.css">
+    <!-- Fullcalendar css-->
+    <link href='assets/plugins/fullcalendar/fullcalendar.css' rel='stylesheet' />
+    <link href='assets/plugins/fullcalendar/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+
 
     <!-- Select2 css -->
     <link href="assets/plugins/select2/css/select2.min.css" rel="stylesheet">
 
-    <!-- Internal DataTables css-->
-    <link href="assets/plugins/datatable/dataTables.bootstrap4.min.css" rel="stylesheet" />
-    <link href="assets/plugins/datatable/responsivebootstrap4.min.css" rel="stylesheet" />
-    <link href="assets/plugins/datatable/fileexport/buttons.bootstrap4.min.css" rel="stylesheet" />
 
     <!-- Sidemenu css-->
     <link href="assets/css/sidemenu/sidemenu.css" rel="stylesheet">
 
     <link rel="stylesheet" href="JsFunctions/Alert/loader.css">
-    
+
 
 </head>
 
@@ -74,7 +101,8 @@
                 <a class="main-logo" href="index.php">
                     <img src="assets/img/brand/logo.png" class="header-brand-img desktop-logo" alt="logo">
                     <img src="assets/img/brand/icon.png" class="header-brand-img icon-logo" alt="logo">
-                    <img src="assets/img/brand/dark-logo.png" class="header-brand-img desktop-logo theme-logo" alt="logo">
+                    <img src="assets/img/brand/dark-logo.png" class="header-brand-img desktop-logo theme-logo"
+                        alt="logo">
                     <img src="assets/img/brand/icon.png" class="header-brand-img icon-logo theme-logo" alt="logo">
                 </a>
             </div>
@@ -82,7 +110,9 @@
                 <ul class="nav">
                     <li class="nav-header"><span class="nav-label">Dashboard</span></li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span
+                                class="sidemenu-label">Definiciones de Comité</span><i
+                                class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
@@ -111,7 +141,9 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span
+                                class="sidemenu-label">Definiciones Generales</span><i
+                                class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="regiones.php">Regiones</a>
@@ -132,16 +164,18 @@
                                 <a class="nav-sub-link" href="causaltermino.html">CAUSAL TERMINO CONTRATO</a>
                             </li>
                             <li class="nav-sub-item">
-                                <a class="nav-sub-link" href="diasferiados.html">DIAS FERIADOS</a>
+                                <a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
                             </li>
                         </ul>
                     </li>
                     <li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="tipodocumento.html"><i class="fe fe-grid sidemenu-icon"></i><span class="sidemenu-label">Redactar documentos</span></a>
+                        <a class="nav-link" href="tipodocumento.html"><i class="fe fe-grid sidemenu-icon"></i><span
+                                class="sidemenu-label">Redactar documentos</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span
+                                class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="empresas.html">Registro de Empresas</a>
@@ -152,7 +186,8 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span
+                                class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="auditoria.html">Auditoria</a>
@@ -164,7 +199,8 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span
+                                class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="pacientes.php">Ficha Pacientes</a>
@@ -179,7 +215,8 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span
+                                class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="pacientesmedico.html">Ficha Pacientes</a>
@@ -193,7 +230,8 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span
+                                class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="comite.php">Crear Comité</a>
@@ -207,7 +245,9 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span
+                                class="sidemenu-label">Gestion de Usuarios</span><i
+                                class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
@@ -234,14 +274,18 @@
                 </div>
                 <div class="main-header-center">
                     <div class="responsive-logo">
-                        <a href="index.php"><img src="assets/img/brand/dark-logo.png" class="mobile-logo" alt="logo"></a>
-                        <a href="index.php"><img src="assets/img/brand/logo.png" class="mobile-logo-dark" alt="logo"></a>
+                        <a href="index.php"><img src="assets/img/brand/dark-logo.png" class="mobile-logo"
+                                alt="logo"></a>
+                        <a href="index.php"><img src="assets/img/brand/logo.png" class="mobile-logo-dark"
+                                alt="logo"></a>
                     </div>
                     <div class="input-group">
                         <div class="mt-0">
                             <form class="form-inline">
                                 <div class="search-element">
-                                    <input type="search" class="form-control header-search text-dark" readonly value="<?php echo $empresa->getRazonSocial();?>" aria-label="Search" tabindex="1">
+                                    <input type="search" class="form-control header-search text-dark" readonly
+                                        value="<?php echo $empresa->getRazonSocial(); ?>" aria-label="Search"
+                                        tabindex="1">
                                     <button class="btn" type="submit">
                                         <i class="fa fa-"></i>
                                     </button>
@@ -253,13 +297,17 @@
                 <div class="main-header-right">
                     <div class="dropdown d-md-flex">
                         <a class="nav-link icon full-screen-link fullscreen-button" href="">
-                            <i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+                                    viewBox="0 0 24 24" width="24">
                                     <path d="M0 0h24v24H0V0z" fill="none" />
-                                    <path d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                                    <path
+                                        d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
                                 </svg></i>
-                            <i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+                                    viewBox="0 0 24 24" width="24">
                                     <path d="M0 0h24v24H0V0z" fill="none" />
-                                    <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
+                                    <path
+                                        d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
                                 </svg></i>
                         </a>
                     </div>
@@ -277,7 +325,9 @@
                             </a>
                         </div>
                     </div>
-                    <button class="navbar-toggler navresponsive-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler navresponsive-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4"
+                        aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fe fe-more-vertical header-icons navbar-toggler-icon"></i>
                     </button><!-- Navresponsive closed -->
                 </div>
@@ -291,13 +341,18 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
                     <div class="d-flex order-lg-2 ml-auto">
                         <div class="dropdown">
-                            <a class="nav-link icon full-screen-link fullscreen-button" href=""><i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <a class="nav-link icon full-screen-link fullscreen-button" href=""><i
+                                    class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+                                        viewBox="0 0 24 24" width="24">
                                         <path d="M0 0h24v24H0V0z" fill="none" />
-                                        <path d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                                        <path
+                                            d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
                                     </svg></i>
-                                <i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                <i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+                                        viewBox="0 0 24 24" width="24">
                                         <path d="M0 0h24v24H0V0z" fill="none" />
-                                        <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
+                                        <path
+                                            d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
                                     </svg></i>
                             </a>
                         </div>
@@ -357,7 +412,82 @@
                                             </h5>
                                         </div>
                                         <div class="col-md-12">
-                                            <div id='calendar'></div>
+
+                                            <!-- Row -->
+                                            <div class="card">
+                                                <div class="row no-gutters">
+                                                    <div class="col-lg-3">
+                                                        <div class="card-body p-0">
+                                                            <div class="card-header">
+                                                                <div class="card-title font-weight-semibold ">Lista de
+                                                                    Eventos
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <nav
+                                                                    class="nav main-nav-column main-nav-calendar-event">
+                                                                    <a class="nav-link w-100 d-flex" href="">
+                                                                        <div
+                                                                            class="wd-10 ht-10 rounded-circle bg-primary mr-3">
+                                                                        </div>
+                                                                        <div>Eventos de Calendario</div>
+                                                                    </a>
+                                                                    <a class="nav-link w-100 d-flex" href="">
+                                                                        <div
+                                                                            class="wd-10 ht-10 rounded-circle bg-secondary mr-3">
+                                                                        </div>
+                                                                        <div>Eventos de Cumpleaños</div>
+                                                                    </a>
+                                                                    <a class="nav-link w-100 d-flex" href="">
+                                                                        <div
+                                                                            class="wd-10 ht-10 rounded-circle bg-success mr-3">
+                                                                        </div>
+                                                                        <div>Dias Festivos</div>
+                                                                    </a>
+                                                                    <a class="nav-link w-100 d-flex" href="">
+                                                                        <div
+                                                                            class="wd-10 ht-10 rounded-circle bg-info mr-3">
+                                                                        </div>
+                                                                        <div>Otros</div>
+                                                                    </a>
+                                                                    <a class="nav-link w-100 d-flex" href="">
+                                                                        <div
+                                                                            class="wd-10 ht-10 rounded-circle bg-warning mr-3">
+                                                                        </div>
+                                                                        <div>Horario de Oficina</div>
+                                                                    </a>
+                                                                    <a class="nav-link w-100 d-flex" href="">
+                                                                        <div
+                                                                            class="wd-10 ht-10 rounded-circle bg-danger mr-3">
+                                                                        </div>
+                                                                        <div>Horario de Trabajo</div>
+                                                                    </a>
+                                                                </nav>
+                                                                <div class="mt-5">
+                                                                    <a class="btn btn-outline-primary" href="#"
+                                                                        data-toggle="modal"
+                                                                        data-target="#modalSetSchedule"><i
+                                                                            class="fe fe-plus"></i> Nuevo Horario
+                                                                        Mensual</a>
+                                                                </div>
+                                                                <div class="mt-2">
+                                                                    <a class="btn btn-outline-primary" href="#"
+                                                                        data-toggle="modal"
+                                                                        data-target="#modalSetSchedule1"><i
+                                                                            class="fe fe-plus"></i> Nuevo Horario Por
+                                                                        Fecha</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <div
+                                                            class="main-content-body main-content-body-calendar card-body border-left">
+                                                            <div class="main-calendar" id="calendar"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -385,23 +515,249 @@
             </div>
         </div>
         <!--End Footer-->
+        <input type="hidden" id="idUsuario" value="<?php echo $object->getId(); ?>">
+        <input type="hidden" id="idEmpresa" value="<?php echo $empresa->getId(); ?>">
 
-
-
-        <!-- Edit Modal -->
-        <div class="modal fade" id="modalhora" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+        <div aria-hidden="true" class="modal main-modal-calendar-schedule" id="modalSetSchedule" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Administrar Agenda</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <h6 class="modal-title">Crear Nuevo Horario</h6><button aria-label="Close" class="close"
+                            data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
-                        <div class="content">
+                        <form id="mainFormCalendar" name="mainFormCalendar">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="">Periodo:</label>
+                                    <?php
+                                        $ano = date("Y");
+                                        $mes = date("m");
+                                        $periodo = $ano."-".$mes;
+                                    ?>
+                                    <input type="month" class="form-control" value="<?php echo $periodo; ?>" id="periodo">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row justify-content-center">
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <input type="checkbox" class="btn-check" name="bloque" id="lunes" autocomplete="off"
+                                        value="1">
+                                    <label class="btn btn-outline-success btn-block w-100 mt-2"
+                                        for="lunes">Lunes</label>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <input type="checkbox" class="btn-check" name="bloque" id="martes"
+                                        autocomplete="off" value="1">
+                                    <label class="btn btn-outline-success btn-block w-100 mt-2"
+                                        for="martes">Martes</label>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <input type="checkbox" class="btn-check" name="bloque" id="miercoles"
+                                        autocomplete="off" value="1">
+                                    <label class="btn btn-outline-success btn-block w-100 mt-2"
+                                        for="miercoles">Miercoles</label>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <input type="checkbox" class="btn-check" name="bloque" id="jueves"
+                                        autocomplete="off" value="1">
+                                    <label class="btn btn-outline-success btn-block w-100 mt-2"
+                                        for="jueves">Jueves</label>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <input type="checkbox" class="btn-check" name="bloque" id="viernes"
+                                        autocomplete="off" value="1">
+                                    <label class="btn btn-outline-success btn-block w-100 mt-2"
+                                        for="viernes">Viernes</label>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <input type="checkbox" class="btn-check" name="bloque" id="sabado"
+                                        autocomplete="off" value="1">
+                                    <label class="btn btn-outline-success btn-block w-100 mt-2"
+                                        for="sabado">Sabado</label>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <input type="checkbox" class="btn-check" name="bloque" id="domingo"
+                                        autocomplete="off" value="1">
+                                    <label class="btn btn-outline-success btn-block w-100 mt-2"
+                                        for="domingo">Domingo</label>
+                                </div>
+                            </div>
 
-                        </div>
+
+                            <div class="form-group">
+                                <hr>
+                                <p>Jornada Matutina</p>
+                            </div>
+                            <div class="form-group">
+                                <label class="tx-13 mg-b-5 tx-gray-600">Hora de Inicio y Termino</label>
+                                <div class="row row-xs">
+                                    <div class="col-6">
+                                        <select class="select2 main-event-time form-control"
+                                            data-placeholder="Select time" id="mainEventStartTime">
+                                        </select>
+                                    </div><!-- col-7 -->
+                                    <div class="col-5">
+                                        <select class="select2 main-event-time form-control"
+                                            data-placeholder="Select time" id="EventEndTime">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="form-group">
+                                <p>Jornada Tarde</p>
+                            </div>
+                            <div class="form-group">
+                                <label class="tx-13 mg-b-5 tx-gray-600">Hora de Inicio y Termino</label>
+                                <div class="row row-xs">
+                                    <div class="col-6">
+                                        <select class="select2 main-event-time form-control"
+                                            data-placeholder="Select time" id="mainEventStartTime1">
+                                        </select>
+                                    </div><!-- col-7 -->
+                                    <div class="col-5">
+                                        <select class="select2 main-event-time form-control"
+                                            data-placeholder="Select time" id="EventEndTime1">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="">Intervalo de Atención</label>
+                                    <select name="intervalo" id="intervalo" class="form-control">
+                                        <option value="1">10 Minutos</option>
+                                        <option value="2">15 Minutos</option>
+                                        <option value="3">20 Minutos</option>
+                                        <option value="4">25 Minutos</option>
+                                        <option value="5">30 Minutos</option>
+                                        <option value="6">35 Minutos</option>
+                                        <option value="7">40 Minutos</option>
+                                        <option value="8">45 Minutos</option>
+                                        <option value="9">50 Minutos</option>
+                                        <option value="10">55 Minutos</option>
+                                        <option value="11">60 Minutos</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="d-flex mg-t-15 mg-lg-t-30 justify-content-end">
+                                <button class="btn btn-primary mr-4" type="submit">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div aria-hidden="true" class="modal main-modal-calendar-schedule" id="modalSetSchedule1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title">Crear Nuevo Horario</h6><button aria-label="Close" class="close"
+                            data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="mainFormCalendar1" name="mainFormCalendar1">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label for="">Fecha:</label>
+                                    <input type="date" class="form-control" id="datecalendar" value="">
+                                </div>
+                                <div class="col-md-4 d-flex align-items-end">
+                                    <button type="button" id="adddate" class="btn btn-outline-success"> <i
+                                            class="fa fa-plus"></i> Agregar</button>
+                                </div>
+                            </div>
+                            <div id="dateprint">
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <p>Jornada Matutina</p>
+                            </div>
+                            <div class="form-group">
+                                <label class="tx-13 mg-b-5 tx-gray-600">Hora de Inicio y Termino</label>
+                                <div class="row row-xs">
+                                    <div class="col-6">
+                                        <input type="time" class="form-control" id="mainEventStartTime2">
+                                    </div><!-- col-7 -->
+                                    <div class="col-5">
+                                        <input type="time" class="form-control" id="EventEndTime2">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="form-group">
+                                <p>Jornada Tarde</p>
+                            </div>
+                            <div class="form-group">
+                                <label class="tx-13 mg-b-5 tx-gray-600">Hora de Inicio y Termino</label>
+                                <div class="row row-xs">
+                                    <div class="col-6">
+                                        <input type="time" class="form-control" id="mainEventStartTime3">
+                                    </div><!-- col-7 -->
+                                    <div class="col-5">
+                                        <input type="time" class="form-control" id="EventEndTime3">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="">Intervalo de Atención</label>
+                                    <select name="intervalo2" id="intervalo2" class="form-control">
+                                        <option value="1">10 Minutos</option>
+                                        <option value="2">15 Minutos</option>
+                                        <option value="3">20 Minutos</option>
+                                        <option value="4">25 Minutos</option>
+                                        <option value="5">30 Minutos</option>
+                                        <option value="6">35 Minutos</option>
+                                        <option value="7">40 Minutos</option>
+                                        <option value="8">45 Minutos</option>
+                                        <option value="9">50 Minutos</option>
+                                        <option value="10">55 Minutos</option>
+                                        <option value="11">60 Minutos</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="d-flex mg-t-15 mg-lg-t-30 justify-content-end">
+                                <button type="button" class="btn btn-primary mr-4" id="dtbtnevent" type="submit">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div aria-hidden="true" class="modal main-modal-calendar-event" id="modalCalendarEvent" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <nav class="nav nav-modal-event">
+                            <a class="nav-link" href="#"><i class="icon ion-md-open"></i></a>
+                            <a class="nav-link" href="#"><i class="icon ion-md-trash"></i></a>
+                            <a class="nav-link" data-dismiss="modal" href="#">
+                                <i class="icon ion-md-close"></i></a>
+                        </nav>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="tx-13 tx-gray-600 mg-b-2">Start Date</label>
+                                <p class="event-start-date"></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="tx-13 mg-b-2">End Date</label>
+                                <p class="event-end-date"></p>
+                            </div>
+                        </div><label class="tx-13 tx-gray-600 mg-b-2">Description</label>
+                        <p class="event-desc tx-gray-900 mg-b-30"></p><a class="btn btn-secondary wd-80"
+                            data-dismiss="modal" href="">Close</a>
                     </div>
                 </div>
             </div>
@@ -415,6 +771,15 @@
 
     <!-- Jquery js-->
     <script src="assets/plugins/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap js-->
+    <script src="assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Moment js-->
+    <script src="assets/plugins/moment/min/moment.min.js"></script>
+
+    <!-- Datepicker js-->
+    <script src="assets/plugins/jquery-ui/ui/widgets/datepicker.js"></script>
 
     <!-- Perfect-scrollbar js -->
     <script src="assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
@@ -430,18 +795,22 @@
     <script src="assets/plugins/sidebar/sidebar.js"></script>
 
 
+    <script src='assets/plugins/fullcalendar/moment.min.js'></script>
+    <script src='assets/plugins/fullcalendar/fullcalendar.min.js'></script>
+    <script src="JsFunctions/app-calendar-events.js"></script>
+    <script src="assets/js/app-calendar.js"></script>
+
     <!-- Sticky js -->
     <script src="assets/js/sticky.js"></script>
-
-    <!-- Custom js -->
     <!-- Custom js -->
     <script src="assets/js/custom.js"></script>
     <script src="JsFunctions/Alert/toastify.js"></script>
     <script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
     <script src="JsFunctions/Alert/alert.js"></script>
     <script src="JsFunctions/function.js"></script>
-    <script src="assets/plugins/fullcalendar.min.js"></script>
     <script src="JsFunctions/Alert/loader.js"></script>
+    <script src="JsFunctions/agenda.js"></script>
+
 
 
 </body>

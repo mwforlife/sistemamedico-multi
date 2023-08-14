@@ -775,3 +775,22 @@ create table medidasantropometricas(
     clasificacioncintura int not null references clasificacioncintura(id),
     registro datetime not null default current_timestamp
 );
+
+create table diasferiado(
+    id int not null auto_increment primary key,
+    periodo int not null,
+    fecha date not null,
+    descripcion varchar(200) not null
+);
+
+create table disponibilidad(
+    id int not null auto_increment primary key,
+    usuario int not null references usuarios(id),
+    empresa int not null references empresa(id),
+    fecha date not null,
+    horainicio time not null,
+    horafin time not null,
+    intervalo int not null,
+    estado int not null default 1,
+    registro datetime not null default current_timestamp    
+);

@@ -166,7 +166,7 @@ $object = $c->buscarenUsuario1($id);
 								<a class="nav-sub-link" href="causaltermino.html">CAUSAL TERMINO CONTRATO</a>
 							</li>
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="diasferiados.html">DIAS FERIADOS</a>
+								<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
 							</li>
 						</ul>
 					</li>
@@ -435,7 +435,7 @@ $object = $c->buscarenUsuario1($id);
 							<div class="card orverflow-hidden">
 								<div class="card-header d-flex justify-content-between">
 									<h4>Pacientes a Evaluar</h4>
-									<button class="btn btn-outline-primary mb-2 d-none" id="btn-fina" onclick="finalizarcomite(<?php echo $comite->getId(); ?>)"><i class="fa fa-check"></i> Finalizar Comité </button>
+									<button class="btn btn-outline-primary mb-2 d-none" id="btn-fina" onclick="finalizarcomite1(<?php echo $comite->getId(); ?>)"><i class="fa fa-check"></i> Finalizar Comité </button>
 								</div>
 								<div class="card-body">
 									<div class="row">

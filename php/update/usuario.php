@@ -4,18 +4,29 @@ $c = new Controller();
 session_start();
 if (!isset($_SESSION['USER_ID'])) {
 	echo "No hay ninguna sesion iniciada";
+    return;
 } else {
 	$valid  = $c->validarsesion($_SESSION['USER_ID'], $_SESSION['USER_TOKEN']);
 	if ($valid == false) {
 		echo "No hay ninguna sesion iniciada";
+        return;
 	}
 }
+$empresa = null;
+if(isset($_SESSION['CURRENT_ENTERPRISE'])){
+	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+	$empresa = $c->buscarEmpresa($enterprise);
+	$idempresa = $empresa->getId();
+}else{
+    echo "No hay ninguna empresa seleccionada";
+    return;
+}
 $id = $_SESSION['USER_ID'];
-$object = $c->buscarenUsuario($id);
+$object = $c->buscarenUsuario($id,$empresa->getId());
 
 if (isset($_POST['id']) && isset($_POST['UserRut']) && isset($_POST['UserNombre']) && isset($_POST['UserApellido1']) && isset($_POST['UserApellido2']) && isset($_POST['UserEmail']) && isset($_POST['UserDireccion']) && isset($_POST['UserRegion']) && isset($_POST['UserComuna']) && isset($_POST['Userprofesion']) && isset($_POST['UserServicio'])  && isset($_POST['UserPhone']) && isset($_POST['idempresa'])) {
     $id = $_POST['id'];
-    $object1 = $c->buscarenUsuario($id);
+    $object1 = $c->buscarenUsuario($id,$empresa->getId());
 
     $rut = $_POST['UserRut'];
     $nombre = $_POST['UserNombre'];
