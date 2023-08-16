@@ -98,27 +98,18 @@ $(document).ready(function () {
     }
     //Horas de la mañana
     var start = $("#mainEventStartTime2").val();
-    if (start == "") {
-      ToastifyError("Debe seleccionar una hora de inicio");
-      return;
-    }
     var end = $("#EventEndTime2").val();
-    if (end == "") {
-      ToastifyError("Debe seleccionar una hora de fin");
-      return;
-    }
+   
 
     //Horas de la tarde
     var start1 = $("#mainEventStartTime3").val();
-    if (start1 == "") {
-      ToastifyError("Debe seleccionar una hora de inicio");
-      return;
-    }
     var end1 = $("#EventEndTime3").val();
-    if (end1 == "") {
-      ToastifyError("Debe seleccionar una hora de fin");
+
+    if((start == "" || end == "") && (start1 == "" || end1 == "")){
+      ToastifyError("Debe seleccionar seleccionar al menos una Jornada");
       return;
     }
+    
 
     //Recibir el intervalo de tiempo
     var intervalo2 = $("#intervalo2").val();
@@ -157,6 +148,7 @@ $(document).ready(function () {
         } else if (json.error == false || json.error == "false") {
           ToastifySuccess(json.mensaje);
           clearDates();
+          location.reload();
           return;
         } else {
           ToastifyError(json);
@@ -168,4 +160,42 @@ $(document).ready(function () {
       },
     });
   });
+});
+
+
+
+$(document).ready(function () {
+  $("#deleteEvent").click(function () {
+    $("#modalCalendarEvent").modal("hide");
+    //Preguntar si desea eliminar el evento
+    swal.fire({
+      title: "¿Desea eliminar el evento?",
+      text: "Esta acción no se puede revertir",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Si, eliminar",
+      cancelButtonText: "No, cancelar",
+      reverseButtons: true,
+    }).then(function (result) {
+      if (result.value) {
+        $id = $("#event-id").val();
+        if ($id == "" || $id == 0) {
+          ToastifyError("Error al obtener el id del evento");
+          return;
+        }
+        $.ajax({
+          url: "php/delete/agenda.php",
+          type: "POST",
+          data: {
+            id: $id,
+          },
+          success: function (data) {
+            ToastifySuccess("Se eliminó correctamente");
+            location.reload();
+          }
+        });
+      }
+    });
+  });
+
 });

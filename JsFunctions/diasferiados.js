@@ -40,7 +40,7 @@ function Eliminar(id){
         if (result.value) {
             $.ajax({
                 type: "POST",
-                url: "php/eliminar/diasferiados.php",
+                url: "php/delete/diasferiados.php",
                 data: {id: id},
                 success: function(data){
                     $("#global-loader").fadeOut("slow");

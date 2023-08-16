@@ -776,6 +776,8 @@ create table medidasantropometricas(
     registro datetime not null default current_timestamp
 );
 
+/*----------------------------Agenda
+-------------Dias feriados*/
 create table diasferiado(
     id int not null auto_increment primary key,
     periodo int not null,
@@ -783,6 +785,7 @@ create table diasferiado(
     descripcion varchar(200) not null
 );
 
+/*-------------Disponibilidad*/
 create table disponibilidad(
     id int not null auto_increment primary key,
     usuario int not null references usuarios(id),

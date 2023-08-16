@@ -101,8 +101,7 @@ $object = $c->buscarenUsuario1($id);
                 <a class="main-logo" href="index.php">
                     <img src="assets/img/brand/logo.png" class="header-brand-img desktop-logo" alt="logo">
                     <img src="assets/img/brand/icon.png" class="header-brand-img icon-logo" alt="logo">
-                    <img src="assets/img/brand/dark-logo.png" class="header-brand-img desktop-logo theme-logo"
-                        alt="logo">
+                    <img src="assets/img/brand/dark-logo.png" class="header-brand-img desktop-logo theme-logo" alt="logo">
                     <img src="assets/img/brand/icon.png" class="header-brand-img icon-logo theme-logo" alt="logo">
                 </a>
             </div>
@@ -110,9 +109,7 @@ $object = $c->buscarenUsuario1($id);
                 <ul class="nav">
                     <li class="nav-header"><span class="nav-label">Dashboard</span></li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span
-                                class="sidemenu-label">Definiciones de Comité</span><i
-                                class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
@@ -141,9 +138,7 @@ $object = $c->buscarenUsuario1($id);
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span
-                                class="sidemenu-label">Definiciones Generales</span><i
-                                class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="regiones.php">Regiones</a>
@@ -170,12 +165,10 @@ $object = $c->buscarenUsuario1($id);
                     </li>
                     <li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="tipodocumento.html"><i class="fe fe-grid sidemenu-icon"></i><span
-                                class="sidemenu-label">Redactar documentos</span></a>
+                        <a class="nav-link" href="tipodocumento.html"><i class="fe fe-grid sidemenu-icon"></i><span class="sidemenu-label">Redactar documentos</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span
-                                class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="empresas.html">Registro de Empresas</a>
@@ -186,8 +179,7 @@ $object = $c->buscarenUsuario1($id);
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span
-                                class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="auditoria.html">Auditoria</a>
@@ -199,8 +191,7 @@ $object = $c->buscarenUsuario1($id);
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span
-                                class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="pacientes.php">Ficha Pacientes</a>
@@ -215,8 +206,7 @@ $object = $c->buscarenUsuario1($id);
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span
-                                class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="pacientesmedico.html">Ficha Pacientes</a>
@@ -230,8 +220,7 @@ $object = $c->buscarenUsuario1($id);
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span
-                                class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="comite.php">Crear Comité</a>
@@ -245,9 +234,7 @@ $object = $c->buscarenUsuario1($id);
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span
-                                class="sidemenu-label">Gestion de Usuarios</span><i
-                                class="angle fe fe-chevron-right"></i></a>
+                        <a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
                         <ul class="nav-sub">
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
@@ -274,18 +261,14 @@ $object = $c->buscarenUsuario1($id);
                 </div>
                 <div class="main-header-center">
                     <div class="responsive-logo">
-                        <a href="index.php"><img src="assets/img/brand/dark-logo.png" class="mobile-logo"
-                                alt="logo"></a>
-                        <a href="index.php"><img src="assets/img/brand/logo.png" class="mobile-logo-dark"
-                                alt="logo"></a>
+                        <a href="index.php"><img src="assets/img/brand/dark-logo.png" class="mobile-logo" alt="logo"></a>
+                        <a href="index.php"><img src="assets/img/brand/logo.png" class="mobile-logo-dark" alt="logo"></a>
                     </div>
                     <div class="input-group">
                         <div class="mt-0">
                             <form class="form-inline">
                                 <div class="search-element">
-                                    <input type="search" class="form-control header-search text-dark" readonly
-                                        value="<?php echo $empresa->getRazonSocial(); ?>" aria-label="Search"
-                                        tabindex="1">
+                                    <input type="search" class="form-control header-search text-dark" readonly value="<?php echo $empresa->getRazonSocial(); ?>" aria-label="Search" tabindex="1">
                                     <button class="btn" type="submit">
                                         <i class="fa fa-"></i>
                                     </button>
@@ -297,17 +280,13 @@ $object = $c->buscarenUsuario1($id);
                 <div class="main-header-right">
                     <div class="dropdown d-md-flex">
                         <a class="nav-link icon full-screen-link fullscreen-button" href="">
-                            <i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 0 24 24" width="24">
+                            <i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                                     <path d="M0 0h24v24H0V0z" fill="none" />
-                                    <path
-                                        d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                                    <path d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
                                 </svg></i>
-                            <i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 0 24 24" width="24">
+                            <i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                                     <path d="M0 0h24v24H0V0z" fill="none" />
-                                    <path
-                                        d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
+                                    <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
                                 </svg></i>
                         </a>
                     </div>
@@ -325,9 +304,7 @@ $object = $c->buscarenUsuario1($id);
                             </a>
                         </div>
                     </div>
-                    <button class="navbar-toggler navresponsive-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler navresponsive-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fe fe-more-vertical header-icons navbar-toggler-icon"></i>
                     </button><!-- Navresponsive closed -->
                 </div>
@@ -341,18 +318,13 @@ $object = $c->buscarenUsuario1($id);
                 <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
                     <div class="d-flex order-lg-2 ml-auto">
                         <div class="dropdown">
-                            <a class="nav-link icon full-screen-link fullscreen-button" href=""><i
-                                    class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
-                                        viewBox="0 0 24 24" width="24">
+                            <a class="nav-link icon full-screen-link fullscreen-button" href=""><i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                                         <path d="M0 0h24v24H0V0z" fill="none" />
-                                        <path
-                                            d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                                        <path d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
                                     </svg></i>
-                                <i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
-                                        viewBox="0 0 24 24" width="24">
+                                <i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                                         <path d="M0 0h24v24H0V0z" fill="none" />
-                                        <path
-                                            d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
+                                        <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
                                     </svg></i>
                             </a>
                         </div>
@@ -424,65 +396,51 @@ $object = $c->buscarenUsuario1($id);
                                                                 </div>
                                                             </div>
                                                             <div class="card-body">
-                                                                <nav
-                                                                    class="nav main-nav-column main-nav-calendar-event">
+                                                                <nav class="nav main-nav-column main-nav-calendar-event">
                                                                     <a class="nav-link w-100 d-flex" href="">
-                                                                        <div
-                                                                            class="wd-10 ht-10 rounded-circle bg-primary mr-3">
+                                                                        <div class="wd-10 ht-10 rounded-circle bg-primary mr-3">
                                                                         </div>
                                                                         <div>Eventos de Calendario</div>
                                                                     </a>
                                                                     <a class="nav-link w-100 d-flex" href="">
-                                                                        <div
-                                                                            class="wd-10 ht-10 rounded-circle bg-secondary mr-3">
+                                                                        <div class="wd-10 ht-10 rounded-circle bg-secondary mr-3">
                                                                         </div>
                                                                         <div>Eventos de Cumpleaños</div>
                                                                     </a>
                                                                     <a class="nav-link w-100 d-flex" href="">
-                                                                        <div
-                                                                            class="wd-10 ht-10 rounded-circle bg-success mr-3">
+                                                                        <div class="wd-10 ht-10 rounded-circle bg-success mr-3">
                                                                         </div>
                                                                         <div>Dias Festivos</div>
                                                                     </a>
                                                                     <a class="nav-link w-100 d-flex" href="">
-                                                                        <div
-                                                                            class="wd-10 ht-10 rounded-circle bg-info mr-3">
+                                                                        <div class="wd-10 ht-10 rounded-circle bg-info mr-3">
                                                                         </div>
                                                                         <div>Otros</div>
                                                                     </a>
                                                                     <a class="nav-link w-100 d-flex" href="">
-                                                                        <div
-                                                                            class="wd-10 ht-10 rounded-circle bg-warning mr-3">
+                                                                        <div class="wd-10 ht-10 rounded-circle bg-warning mr-3">
                                                                         </div>
                                                                         <div>Horario de Oficina</div>
                                                                     </a>
                                                                     <a class="nav-link w-100 d-flex" href="">
-                                                                        <div
-                                                                            class="wd-10 ht-10 rounded-circle bg-danger mr-3">
+                                                                        <div class="wd-10 ht-10 rounded-circle bg-danger mr-3">
                                                                         </div>
                                                                         <div>Horario de Trabajo</div>
                                                                     </a>
                                                                 </nav>
                                                                 <div class="mt-5">
-                                                                    <a class="btn btn-outline-primary" href="#"
-                                                                        data-toggle="modal"
-                                                                        data-target="#modalSetSchedule"><i
-                                                                            class="fe fe-plus"></i> Nuevo Horario
+                                                                    <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#modalSetSchedule"><i class="fe fe-plus"></i> Nuevo Horario
                                                                         Mensual</a>
                                                                 </div>
                                                                 <div class="mt-2">
-                                                                    <a class="btn btn-outline-primary" href="#"
-                                                                        data-toggle="modal"
-                                                                        data-target="#modalSetSchedule1"><i
-                                                                            class="fe fe-plus"></i> Nuevo Horario Por
+                                                                    <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#modalSetSchedule1"><i class="fe fe-plus"></i> Nuevo Horario Por
                                                                         Fecha</a>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <div
-                                                            class="main-content-body main-content-body-calendar card-body border-left">
+                                                        <div class="main-content-body main-content-body-calendar card-body border-left">
                                                             <div class="main-calendar" id="calendar"></div>
                                                         </div>
                                                     </div>
@@ -522,8 +480,7 @@ $object = $c->buscarenUsuario1($id);
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h6 class="modal-title">Crear Nuevo Horario</h6><button aria-label="Close" class="close"
-                            data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                        <h6 class="modal-title">Crear Nuevo Horario</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
                         <form id="mainFormCalendar" name="mainFormCalendar">
@@ -531,9 +488,9 @@ $object = $c->buscarenUsuario1($id);
                                 <div class="col-md-12">
                                     <label for="">Periodo:</label>
                                     <?php
-                                        $ano = date("Y");
-                                        $mes = date("m");
-                                        $periodo = $ano."-".$mes;
+                                    $ano = date("Y");
+                                    $mes = date("m");
+                                    $periodo = $ano . "-" . $mes;
                                     ?>
                                     <input type="month" class="form-control" value="<?php echo $periodo; ?>" id="periodo">
                                 </div>
@@ -541,46 +498,32 @@ $object = $c->buscarenUsuario1($id);
                             <hr>
                             <div class="row justify-content-center">
                                 <div class="col-md-3 col-sm-6 col-xs-12">
-                                    <input type="checkbox" class="btn-check" name="bloque" id="lunes" autocomplete="off"
-                                        value="1">
-                                    <label class="btn btn-outline-success btn-block w-100 mt-2"
-                                        for="lunes">Lunes</label>
+                                    <input type="checkbox" class="btn-check" name="bloque" id="lunes" autocomplete="off" value="1">
+                                    <label class="btn btn-outline-success btn-block w-100 mt-2" for="lunes">Lunes</label>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
-                                    <input type="checkbox" class="btn-check" name="bloque" id="martes"
-                                        autocomplete="off" value="1">
-                                    <label class="btn btn-outline-success btn-block w-100 mt-2"
-                                        for="martes">Martes</label>
+                                    <input type="checkbox" class="btn-check" name="bloque" id="martes" autocomplete="off" value="1">
+                                    <label class="btn btn-outline-success btn-block w-100 mt-2" for="martes">Martes</label>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
-                                    <input type="checkbox" class="btn-check" name="bloque" id="miercoles"
-                                        autocomplete="off" value="1">
-                                    <label class="btn btn-outline-success btn-block w-100 mt-2"
-                                        for="miercoles">Miercoles</label>
+                                    <input type="checkbox" class="btn-check" name="bloque" id="miercoles" autocomplete="off" value="1">
+                                    <label class="btn btn-outline-success btn-block w-100 mt-2" for="miercoles">Miercoles</label>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
-                                    <input type="checkbox" class="btn-check" name="bloque" id="jueves"
-                                        autocomplete="off" value="1">
-                                    <label class="btn btn-outline-success btn-block w-100 mt-2"
-                                        for="jueves">Jueves</label>
+                                    <input type="checkbox" class="btn-check" name="bloque" id="jueves" autocomplete="off" value="1">
+                                    <label class="btn btn-outline-success btn-block w-100 mt-2" for="jueves">Jueves</label>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
-                                    <input type="checkbox" class="btn-check" name="bloque" id="viernes"
-                                        autocomplete="off" value="1">
-                                    <label class="btn btn-outline-success btn-block w-100 mt-2"
-                                        for="viernes">Viernes</label>
+                                    <input type="checkbox" class="btn-check" name="bloque" id="viernes" autocomplete="off" value="1">
+                                    <label class="btn btn-outline-success btn-block w-100 mt-2" for="viernes">Viernes</label>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
-                                    <input type="checkbox" class="btn-check" name="bloque" id="sabado"
-                                        autocomplete="off" value="1">
-                                    <label class="btn btn-outline-success btn-block w-100 mt-2"
-                                        for="sabado">Sabado</label>
+                                    <input type="checkbox" class="btn-check" name="bloque" id="sabado" autocomplete="off" value="1">
+                                    <label class="btn btn-outline-success btn-block w-100 mt-2" for="sabado">Sabado</label>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
-                                    <input type="checkbox" class="btn-check" name="bloque" id="domingo"
-                                        autocomplete="off" value="1">
-                                    <label class="btn btn-outline-success btn-block w-100 mt-2"
-                                        for="domingo">Domingo</label>
+                                    <input type="checkbox" class="btn-check" name="bloque" id="domingo" autocomplete="off" value="1">
+                                    <label class="btn btn-outline-success btn-block w-100 mt-2" for="domingo">Domingo</label>
                                 </div>
                             </div>
 
@@ -593,13 +536,11 @@ $object = $c->buscarenUsuario1($id);
                                 <label class="tx-13 mg-b-5 tx-gray-600">Hora de Inicio y Termino</label>
                                 <div class="row row-xs">
                                     <div class="col-6">
-                                        <select class="select2 main-event-time form-control"
-                                            data-placeholder="Select time" id="mainEventStartTime">
+                                        <select class="select2 main-event-time form-control" data-placeholder="Select time" id="mainEventStartTime">
                                         </select>
                                     </div><!-- col-7 -->
                                     <div class="col-5">
-                                        <select class="select2 main-event-time form-control"
-                                            data-placeholder="Select time" id="EventEndTime">
+                                        <select class="select2 main-event-time form-control" data-placeholder="Select time" id="EventEndTime">
                                         </select>
                                     </div>
                                 </div>
@@ -613,13 +554,11 @@ $object = $c->buscarenUsuario1($id);
                                 <label class="tx-13 mg-b-5 tx-gray-600">Hora de Inicio y Termino</label>
                                 <div class="row row-xs">
                                     <div class="col-6">
-                                        <select class="select2 main-event-time form-control"
-                                            data-placeholder="Select time" id="mainEventStartTime1">
+                                        <select class="select2 main-event-time form-control" data-placeholder="Select time" id="mainEventStartTime1">
                                         </select>
                                     </div><!-- col-7 -->
                                     <div class="col-5">
-                                        <select class="select2 main-event-time form-control"
-                                            data-placeholder="Select time" id="EventEndTime1">
+                                        <select class="select2 main-event-time form-control" data-placeholder="Select time" id="EventEndTime1">
                                         </select>
                                     </div>
                                 </div>
@@ -628,17 +567,17 @@ $object = $c->buscarenUsuario1($id);
                                 <div class="col-md-6">
                                     <label for="">Intervalo de Atención</label>
                                     <select name="intervalo" id="intervalo" class="form-control">
-                                        <option value="1">10 Minutos</option>
-                                        <option value="2">15 Minutos</option>
-                                        <option value="3">20 Minutos</option>
-                                        <option value="4">25 Minutos</option>
-                                        <option value="5">30 Minutos</option>
-                                        <option value="6">35 Minutos</option>
-                                        <option value="7">40 Minutos</option>
-                                        <option value="8">45 Minutos</option>
-                                        <option value="9">50 Minutos</option>
-                                        <option value="10">55 Minutos</option>
-                                        <option value="11">60 Minutos</option>
+                                        <option value="10">10 Minutos</option>
+                                        <option value="15">15 Minutos</option>
+                                        <option value="20">20 Minutos</option>
+                                        <option value="25">25 Minutos</option>
+                                        <option value="30">30 Minutos</option>
+                                        <option value="35">35 Minutos</option>
+                                        <option value="40">40 Minutos</option>
+                                        <option value="45">45 Minutos</option>
+                                        <option value="50">50 Minutos</option>
+                                        <option value="55">55 Minutos</option>
+                                        <option value="60">60 Minutos</option>
                                     </select>
                                 </div>
                             </div>
@@ -657,8 +596,7 @@ $object = $c->buscarenUsuario1($id);
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h6 class="modal-title">Crear Nuevo Horario</h6><button aria-label="Close" class="close"
-                            data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                        <h6 class="modal-title">Crear Nuevo Horario</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
                         <form id="mainFormCalendar1" name="mainFormCalendar1">
@@ -668,8 +606,7 @@ $object = $c->buscarenUsuario1($id);
                                     <input type="date" class="form-control" id="datecalendar" value="">
                                 </div>
                                 <div class="col-md-4 d-flex align-items-end">
-                                    <button type="button" id="adddate" class="btn btn-outline-success"> <i
-                                            class="fa fa-plus"></i> Agregar</button>
+                                    <button type="button" id="adddate" class="btn btn-outline-success"> <i class="fa fa-plus"></i> Agregar</button>
                                 </div>
                             </div>
                             <div id="dateprint">
@@ -709,17 +646,17 @@ $object = $c->buscarenUsuario1($id);
                                 <div class="col-md-6">
                                     <label for="">Intervalo de Atención</label>
                                     <select name="intervalo2" id="intervalo2" class="form-control">
-                                        <option value="1">10 Minutos</option>
-                                        <option value="2">15 Minutos</option>
-                                        <option value="3">20 Minutos</option>
-                                        <option value="4">25 Minutos</option>
-                                        <option value="5">30 Minutos</option>
-                                        <option value="6">35 Minutos</option>
-                                        <option value="7">40 Minutos</option>
-                                        <option value="8">45 Minutos</option>
-                                        <option value="9">50 Minutos</option>
-                                        <option value="10">55 Minutos</option>
-                                        <option value="11">60 Minutos</option>
+                                        <option value="10">10 Minutos</option>
+                                        <option value="15">15 Minutos</option>
+                                        <option value="20">20 Minutos</option>
+                                        <option value="25">25 Minutos</option>
+                                        <option value="30">30 Minutos</option>
+                                        <option value="35">35 Minutos</option>
+                                        <option value="40">40 Minutos</option>
+                                        <option value="45">45 Minutos</option>
+                                        <option value="50">50 Minutos</option>
+                                        <option value="55">55 Minutos</option>
+                                        <option value="60">60 Minutos</option>
                                     </select>
                                 </div>
                             </div>
@@ -747,17 +684,18 @@ $object = $c->buscarenUsuario1($id);
                     </div>
                     <div class="modal-body">
                         <div class="row">
+                            <input type="hidden" id="event-id">
                             <div class="col-sm-6">
-                                <label class="tx-13 tx-gray-600 mg-b-2">Start Date</label>
+                                <label class="tx-13 tx-gray-600 mg-b-2">Fecha Inicio</label>
                                 <p class="event-start-date"></p>
                             </div>
                             <div class="col-sm-6">
-                                <label class="tx-13 mg-b-2">End Date</label>
+                                <label class="tx-13 mg-b-2">Fecha Termino</label>
                                 <p class="event-end-date"></p>
                             </div>
-                        </div><label class="tx-13 tx-gray-600 mg-b-2">Description</label>
-                        <p class="event-desc tx-gray-900 mg-b-30"></p><a class="btn btn-secondary wd-80"
-                            data-dismiss="modal" href="">Close</a>
+                        </div><label class="tx-13 tx-gray-600 mg-b-2">Descripcion</label>
+                        <p class="event-desc tx-gray-900 mg-b-30"></p><a class="btn btn-secondary wd-80" data-dismiss="modal" href="">Cerrar</a>
+                        <button class="btn btn-danger" id="deleteEvent" type="button"><i class="fa fa-trash"></i> Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -797,8 +735,231 @@ $object = $c->buscarenUsuario1($id);
 
     <script src='assets/plugins/fullcalendar/moment.min.js'></script>
     <script src='assets/plugins/fullcalendar/fullcalendar.min.js'></script>
-    <script src="JsFunctions/app-calendar-events.js"></script>
-    <script src="assets/js/app-calendar.js"></script>
+    <script>
+        // sample calendar events data 
+        'use strict'
+        var curYear = moment().format('YYYY');
+        var curMonth = moment().format('MM');
+        // Calendar Event Source
+        var sptCalendarEvents = {
+            id: 1,
+            events: [
+            <?php
+                $disponibilidad = $c->listardisponibilidad($object->getId(),$empresa->getId());
+                foreach ($disponibilidad as $d) {
+                    $fecha = $d->getFecha();
+                    $horaInicio = $d->getHoraInicio();
+                    $horaFin = $d->getHoraFin();
+                    $intervalo = $d->getIntervalo();
+                    
+                    echo "{id:'".$d->getId()."',start:'".$fecha."T".$horaInicio."',end:'".$fecha."T".$horaFin."',title:'Agenda de Atención',backgroundColor:'#214fbe',borderColor:'#214fbe',description:'Horario de Atención a pacientes con una duración de ".$intervalo." minutos'},"; 
+                }
+            ?>
+        
+        ]
+        };
+        // Birthday Events Source
+        var sptBirthdayEvents = {
+            id: 2,
+            backgroundColor: '#e54d26',
+            borderColor: '#e54d26',
+            events: []
+        };
+        var sptHolidayEvents = {
+            id: 3,
+            backgroundColor: 'rgb(38, 156 ,142)',
+            borderColor: 'rgb(38, 156 ,142)',
+            events: [
+            <?php
+                $diasferiados = $c->listardiasferiados();
+                foreach ($diasferiados as $df) {
+                    $fecha = $df->getFecha();
+                    echo "{id:'".$df->getId()."',start:'".$fecha."T00:00:00',end:'".$fecha."T23:59:59',title:'".$df->getDescripcion()."'},";
+                }
+            ?>
+            ]
+
+        };
+        var sptOtherEvents = {
+            id: 4,
+            backgroundColor: 'rgb(38, 156 ,142)',
+            borderColor: 'rgb(38, 156 ,142)',
+            events: []
+        };
+    </script>
+    <script>
+        $(function() {
+
+            // Datepicker found in left sidebar of the page
+            var highlightedDays = ['2021-1-10', '2021-1-11', '2021-1-12', '2021-1-13', '2021-1-14', '2021-1-15', '2021-1-16'];
+            var date = new Date();
+
+            var generateTime = function(element) {
+                var n = 0,
+                    min = 30,
+                    periods = [' AM', ' PM'],
+                    times = [],
+                    hours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+                for (var i = 0; i < hours.length; i++) {
+                    times.push(hours[i] + ':' + n + n + periods[0]);
+                    while (n < 60 - min) {
+                        times.push(hours[i] + ':' + ((n += min) < 10 ? 'O' + n : n) + periods[0])
+                    }
+                    n = 0;
+                }
+                times = times.concat(times.slice(0).map(function(time) {
+                    return time.replace(periods[0], periods[1])
+                }));
+                //console.log(times);
+                $.each(times, function(index, val) {
+                    $(element).append('<option value="' + val + '">' + val + '</option>');
+                });
+            }
+            generateTime('.main-event-time');
+
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listWeek'
+                },
+
+                contentHeight: 480,
+                firstDay: 1,
+                defaultView: 'month',
+
+                allDayText: 'All Day',
+                views: {
+                    agenda: {
+                        columnHeaderHtml: function(mom) {
+                            return '<span>' + mom.format('ddd') + '</span>' + '<span>' + mom.format('DD') + '</span>';
+                        }
+                    },
+                    day: {
+                        columnHeader: false
+                    },
+                    listMonth: {
+                        listDayFormat: 'ddd DD',
+                        listDayAltFormat: false
+                    },
+                    listWeek: {
+                        listDayFormat: 'ddd DD',
+                        listDayAltFormat: false
+                    },
+                    agendaThreeDay: {
+                        type: 'agenda',
+                        duration: {
+                            days: 3
+                        },
+                        titleFormat: 'MMMM YYYY'
+                    }
+                },
+                eventSources: [sptCalendarEvents, sptBirthdayEvents, sptHolidayEvents, sptOtherEvents],
+                eventAfterAllRender: function(view) {
+                    if (view.name === 'listMonth' || view.name === 'listWeek') {
+                        var dates = view.el.find('.fc-list-heading-main');
+                        dates.each(function() {
+                            var text = $(this).text().split(' ');
+                            var now = moment().format('DD');
+                            $(this).html(text[0] + '<span>' + text[1] + '</span>');
+                            if (now === text[1]) {
+                                $(this).addClass('now');
+                            }
+                        });
+                    }
+                },
+                eventRender: function(event, element) {
+                    if (event.description) {
+                        element.find('.fc-list-item-title').append('<span class="fc-desc">' + event.description + '</span>');
+                        element.find('.fc-content').append('<span class="fc-desc">' + event.description + '</span>');
+                    }
+                    var eBorderColor = (event.source.borderColor) ? event.source.borderColor : event.borderColor;
+                    element.find('.fc-list-item-time').css({
+                        color: eBorderColor,
+                        borderColor: eBorderColor
+                    });
+                    element.find('.fc-list-item-title').css({
+                        borderColor: eBorderColor
+                    });
+                    element.css('borderLeftColor', eBorderColor);
+                },
+            });
+            var azCalendar = $('#calendar').fullCalendar('getCalendar');
+            // change view to week when in tablet
+            if (window.matchMedia('(min-width: 576px)').matches) {
+                azCalendar.changeView('month');
+            }
+            // change view to month when in desktop
+            if (window.matchMedia('(min-width: 992px)').matches) {
+                azCalendar.changeView('month');
+            }
+            // change view based in viewport width when resize is detected
+            azCalendar.option('windowResize', function(view) {
+                if (view.name === 'listWeek') {
+                    if (window.matchMedia('(min-width: 992px)').matches) {
+                        azCalendar.changeView('month');
+                    } else {
+                        azCalendar.changeView('listWeek');
+                    }
+                }
+            });
+            // display current date
+            var azDateNow = azCalendar.getDate();
+            azCalendar.option('select', function(startDate, endDate) {
+                $('#modalSetSchedule').modal('show');
+                $('#mainEventStartDate').val(startDate.format('LL'));
+                $('#EventEndDate').val(endDate.format('LL'));
+                $('#mainEventStartTime').val(startDate.format('LT')).trigger('change');
+                $('#EventEndTime').val(endDate.format('LT')).trigger('change');
+                $('#mainEventStartTime1').val(startDate.format('LT')).trigger('change');
+                $('#EventEndTime1').val(endDate.format('LT')).trigger('change');
+                $('#mainEventStartTime2').val(startDate.format('LT')).trigger('change');
+                $('#EventEndTime2').val(endDate.format('LT')).trigger('change');
+                $('#mainEventStartTime3').val(startDate.format('LT')).trigger('change');
+                $('#EventEndTime3').val(endDate.format('LT')).trigger('change');
+            });
+            // Display calendar event modal
+            azCalendar.on('eventClick', function(calEvent, jsEvent, view) {
+                var modal = $('#modalCalendarEvent');
+                modal.modal('show');
+                modal.find('.event-title').text(calEvent.title);
+                if (calEvent.description) {
+                    modal.find('.event-desc').text(calEvent.description);
+                    modal.find('.event-desc').prev().removeClass('d-none');
+                } else {
+                    modal.find('.event-desc').text('');
+                    modal.find('.event-desc').prev().addClass('d-none');
+                }
+                modal.find('.event-start-date').text(moment(calEvent.start).format('LLL'));
+                modal.find('.event-end-date').text(moment(calEvent.end).format('LLL'));
+                modal.find('#event-id').val(calEvent.id);
+                //styling
+                modal.find('.modal-header').css('backgroundColor', (calEvent.source.borderColor) ? calEvent.source.borderColor : calEvent.borderColor);
+            });
+            // Enable/disable calendar events from displaying in calendar
+            $('.main-nav-calendar-event a').on('click', function(e) {
+                e.preventDefault();
+                if ($(this).hasClass('exclude')) {
+                    $(this).removeClass('exclude');
+                    $(this).is(':first-child') ? azCalendar.addEventSource(sptCalendarEvents) : '';
+                    $(this).is(':nth-child(2)') ? azCalendar.addEventSource(sptBirthdayEvents) : '';
+                    $(this).is(':nth-child(3)') ? azCalendar.addEventSource(sptHolidayEvents) : '';
+                    $(this).is(':nth-child(4)') ? azCalendar.addEventSource(sptOtherEvents) : '';
+                } else {
+                    $(this).addClass('exclude');
+                    $(this).is(':first-child') ? azCalendar.removeEventSource(1) : '';
+                    $(this).is(':nth-child(2)') ? azCalendar.removeEventSource(2) : '';
+                    $(this).is(':nth-child(3)') ? azCalendar.removeEventSource(3) : '';
+                    $(this).is(':nth-child(4)') ? azCalendar.removeEventSource(4) : '';
+                }
+                azCalendar.render();
+                if (window.matchMedia('(max-width: 575px)').matches) {
+                    $('body').removeClass('main-content-left-show');
+                }
+            });
+
+        })
+    </script>
 
     <!-- Sticky js -->
     <script src="assets/js/sticky.js"></script>
