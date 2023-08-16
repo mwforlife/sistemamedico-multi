@@ -1,48 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Disponibilidad</title>
-    <!-- Agregar el enlace al archivo CSS de Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendario Semanal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Registro de Disponibilidad</h1>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <form action="procesar_registro.php" method="post">
-                    <div class="form-group">
-                        <label for="doctor_name">Nombre del Médico:</label>
-                        <input type="text" class="form-control" id="doctor_name" name="doctor_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Días de Disponibilidad:</label>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="days[]" value="lunes" id="check-lunes">
-                            <label class="form-check-label" for="check-lunes">Lunes</label>
-                        </div>
-                        <!-- Repetir para otros días -->
-                    </div>
-                    <div class="form-group">
-                        <label for="start_time">Hora de Inicio:</label>
-                        <input type="time" class="form-control" id="start_time" name="start_time" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="end_time">Hora de Fin:</label>
-                        <input type="time" class="form-control" id="end_time" name="end_time" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="duration">Duración de la Atención (minutos):</label>
-                        <input type="number" class="form-control" id="duration" name="duration" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Registrar Disponibilidad</button>
-                </form>
-            </div>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="input-group">
+          <input type="text" class="form-control" id="datepicker">
         </div>
+      </div>
     </div>
-    <!-- Agregar el enlace al archivo JavaScript de Bootstrap (opcional) -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.1/dist/js/bootstrap-datepicker.min.js"></script>
+  <script>
+    // Inicializar el DatePicker
+    $(document).ready(function() {
+      $('#datepicker').datepicker({
+        format: "D d", // Formato para mostrar solo día de la semana y número de día
+        autoclose: true,
+        todayHighlight: true,
+      });
+    });
+  </script>
 </body>
 </html>

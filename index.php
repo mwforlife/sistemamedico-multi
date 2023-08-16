@@ -180,6 +180,10 @@ $object = $c->buscarenUsuario1($id);
 					<li class="nav-item">
 						<a class="nav-link" href="agenda.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Agenda</span></a>
 					</li>
+					<!--------------------------Inicio Agenda--------------------------->
+					<li class="nav-item">
+						<a class="nav-link" href="reservas.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Reservas</span></a>
+					</li>
 
 					<!--------------------------Inicio Auditoria--------------------------->
 					<li class="nav-item">

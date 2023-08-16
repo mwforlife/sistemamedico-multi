@@ -370,10 +370,10 @@ $object = $c->buscarenUsuario1($id);
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            Medico
+                                            Medico: <?php echo $object->getNombre(). " " . $object->getApellido1(). " " . $object->getApellido2(); ?>
                                         </div>
                                         <div class="col-md-4">
-                                            Hospital:
+                                            Hospital: <?php echo $empresa->getRazonSocial(); ?>
                                         </div>
                                     </div>
                                     <hr>
@@ -502,27 +502,27 @@ $object = $c->buscarenUsuario1($id);
                                     <label class="btn btn-outline-success btn-block w-100 mt-2" for="lunes">Lunes</label>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
-                                    <input type="checkbox" class="btn-check" name="bloque" id="martes" autocomplete="off" value="1">
+                                    <input type="checkbox" class="btn-check" name="bloque" id="martes" autocomplete="off" value="2">
                                     <label class="btn btn-outline-success btn-block w-100 mt-2" for="martes">Martes</label>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
-                                    <input type="checkbox" class="btn-check" name="bloque" id="miercoles" autocomplete="off" value="1">
+                                    <input type="checkbox" class="btn-check" name="bloque" id="miercoles" autocomplete="off" value="3">
                                     <label class="btn btn-outline-success btn-block w-100 mt-2" for="miercoles">Miercoles</label>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
-                                    <input type="checkbox" class="btn-check" name="bloque" id="jueves" autocomplete="off" value="1">
+                                    <input type="checkbox" class="btn-check" name="bloque" id="jueves" autocomplete="off" value="4">
                                     <label class="btn btn-outline-success btn-block w-100 mt-2" for="jueves">Jueves</label>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
-                                    <input type="checkbox" class="btn-check" name="bloque" id="viernes" autocomplete="off" value="1">
+                                    <input type="checkbox" class="btn-check" name="bloque" id="viernes" autocomplete="off" value="5">
                                     <label class="btn btn-outline-success btn-block w-100 mt-2" for="viernes">Viernes</label>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
-                                    <input type="checkbox" class="btn-check" name="bloque" id="sabado" autocomplete="off" value="1">
+                                    <input type="checkbox" class="btn-check" name="bloque" id="sabado" autocomplete="off" value="6">
                                     <label class="btn btn-outline-success btn-block w-100 mt-2" for="sabado">Sabado</label>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
-                                    <input type="checkbox" class="btn-check" name="bloque" id="domingo" autocomplete="off" value="1">
+                                    <input type="checkbox" class="btn-check" name="bloque" id="domingo" autocomplete="off" value="0">
                                     <label class="btn btn-outline-success btn-block w-100 mt-2" for="domingo">Domingo</label>
                                 </div>
                             </div>
@@ -536,12 +536,10 @@ $object = $c->buscarenUsuario1($id);
                                 <label class="tx-13 mg-b-5 tx-gray-600">Hora de Inicio y Termino</label>
                                 <div class="row row-xs">
                                     <div class="col-6">
-                                        <select class="select2 main-event-time form-control" data-placeholder="Select time" id="mainEventStartTime">
-                                        </select>
+                                    <input type="time" class="form-control" id="mainEventStartTime">
                                     </div><!-- col-7 -->
                                     <div class="col-5">
-                                        <select class="select2 main-event-time form-control" data-placeholder="Select time" id="EventEndTime">
-                                        </select>
+                                    <input type="time" class="form-control" id="EventEndTime">
                                     </div>
                                 </div>
                             </div>
@@ -554,12 +552,10 @@ $object = $c->buscarenUsuario1($id);
                                 <label class="tx-13 mg-b-5 tx-gray-600">Hora de Inicio y Termino</label>
                                 <div class="row row-xs">
                                     <div class="col-6">
-                                        <select class="select2 main-event-time form-control" data-placeholder="Select time" id="mainEventStartTime1">
-                                        </select>
+                                    <input type="time" class="form-control" id="mainEventStartTime1">
                                     </div><!-- col-7 -->
                                     <div class="col-5">
-                                        <select class="select2 main-event-time form-control" data-placeholder="Select time" id="EventEndTime1">
-                                        </select>
+                                    <input type="time" class="form-control" id="EventEndTime1">
                                     </div>
                                 </div>
                             </div>
@@ -584,7 +580,7 @@ $object = $c->buscarenUsuario1($id);
 
 
                             <div class="d-flex mg-t-15 mg-lg-t-30 justify-content-end">
-                                <button class="btn btn-primary mr-4" type="submit">Guardar</button>
+                                <button class="btn btn-primary mr-4" id="dtbtneventmonth" type="button">Guardar</button>
                             </div>
                         </form>
                     </div>
@@ -663,7 +659,7 @@ $object = $c->buscarenUsuario1($id);
 
 
                             <div class="d-flex mg-t-15 mg-lg-t-30 justify-content-end">
-                                <button type="button" class="btn btn-primary mr-4" id="dtbtnevent" type="submit">Guardar</button>
+                                <button type="button" class="btn btn-primary mr-4" id="dtbtnevent" type="button">Guardar</button>
                             </div>
                         </form>
                     </div>
@@ -733,7 +729,7 @@ $object = $c->buscarenUsuario1($id);
     <script src="assets/plugins/sidebar/sidebar.js"></script>
 
 
-    <script src='assets/plugins/fullcalendar/moment.min.js'></script>
+    <script src='assets/plugins/fullcalendar/moment-es.min.js'></script>
     <script src='assets/plugins/fullcalendar/fullcalendar.min.js'></script>
     <script>
         // sample calendar events data 
@@ -769,15 +765,14 @@ $object = $c->buscarenUsuario1($id);
             id: 3,
             backgroundColor: 'rgb(38, 156 ,142)',
             borderColor: 'rgb(38, 156 ,142)',
-            events: [
-            <?php
+            events: [<?php
                 $diasferiados = $c->listardiasferiados();
                 foreach ($diasferiados as $df) {
                     $fecha = $df->getFecha();
                     echo "{id:'".$df->getId()."',start:'".$fecha."T00:00:00',end:'".$fecha."T23:59:59',title:'".$df->getDescripcion()."'},";
                 }
             ?>
-            ]
+]
 
         };
         var sptOtherEvents = {
@@ -817,12 +812,46 @@ $object = $c->buscarenUsuario1($id);
             }
             generateTime('.main-event-time');
 
+            moment.locale('es');
             $('#calendar').fullCalendar({
                 header: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay,listWeek'
                 },
+                buttonText: {
+                    today: 'Hoy',
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Dia',
+                    listWeek: 'Lista Semana'
+                },
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                    'Julio', 'Agosto', 'Septiembre', 'Octubre',
+                    'Noviembre', 'Diciembre'
+                ],
+                editable: true,
+                droppable: true,
+                //NOmbre de los dias
+                dayNamesShort: ['Domingo', 'Lunes', 'Martes', 'Miercoles',
+                    'Jueves', 'Viernes', 'Sabado'
+                ],
+                //Formato de fecha
+                formatDate: 'DD/MM/YYYY',
+                //Formato de hora
+                timeFormat: 'HH:mm',
+                titleFormat: 'DD MMMM YYYY',
+                //Formato de los dias de la semana en el titulo
+                columnFormat: 'ddd',
+                //Formato de los dias del mes
+                dayOfMonthFormat: 'dddd DD/MM',
+                //Formato de los eventos del dia
+                eventFormat: 'HH:mm',
+                //Formato de los eventos del dia
+                displayEventTime: true,
+                //No events to display
+                noEventsMessage: 'No hay eventos para mostrar',
+
 
                 contentHeight: 480,
                 firstDay: 1,

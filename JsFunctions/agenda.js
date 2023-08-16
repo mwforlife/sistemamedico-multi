@@ -164,6 +164,7 @@ $(document).ready(function () {
 
 
 
+//Creacion de eventos de eliminacion de eventos
 $(document).ready(function () {
   $("#deleteEvent").click(function () {
     $("#modalCalendarEvent").modal("hide");
@@ -198,4 +199,92 @@ $(document).ready(function () {
     });
   });
 
+});
+
+
+//Creacion de eventos de registro de horario mensual
+$(document).ready(function() {
+  $("#dtbtneventmonth").click(function() {
+      var periodo = $("#periodo").val();
+      var diasSeleccionados = [];
+      $("input[name='bloque']:checked").each(function() {
+          diasSeleccionados.push($(this).val());
+      });
+      var horaInicioMatutina = $("#mainEventStartTime").val();
+      var horaFinMatutina = $("#EventEndTime").val();
+      var horaInicioTarde = $("#mainEventStartTime1").val();
+      var horaFinTarde = $("#EventEndTime1").val();
+      var intervalo = $("#intervalo").val();
+      
+        // Realización de validaciones aquí
+        //Validar que la fecha no este vacia
+        if (periodo == "") {
+          ToastifyError("El periodo no puede estar vacio");
+          return;
+        }
+        //Validar que este seleccionado al menos un día
+        if (diasSeleccionados.length === 0) {
+          ToastifyError("Debe seleccionar al menos un día.");
+          return;
+       }
+
+      if((horaInicioMatutina == "" || horaFinMatutina == "") && (horaInicioTarde == "" || horaFinTarde == "")){
+        ToastifyError("Debe seleccionar seleccionar al menos una Jornada");
+        return;
+      }
+
+      //Validar el intervalo
+      if (intervalo == "") {
+        ToastifyError("Debe seleccionar un intervalo de tiempo");
+        return;
+      }    
+      
+    var idUsuario = $("#idUsuario").val();
+    var idEmpresa = $("#idEmpresa").val();
+
+      var datosHorario = {
+        periodo: periodo,
+        diasSeleccionados: diasSeleccionados,
+        horaInicioMatutina: horaInicioMatutina,
+        horaFinMatutina: horaFinMatutina,
+        horaInicioTarde: horaInicioTarde,
+        horaFinTarde: horaFinTarde,
+        intervalo: intervalo,
+        idUsuario: idUsuario,
+        idEmpresa: idEmpresa
+    };
+
+    $.ajax({
+      url: "php/insert/agenda1.php",
+      type: "POST",
+      data: {
+        datosHorario: datosHorario
+      },
+      success: function (data) {
+        //Comprobar si es un JSON
+        try {
+        //Recibir el JSON
+        var json = JSON.parse(data);
+        if (json.error == true || json.error == "true") {
+          ToastifyError(json.mensaje);
+          return;
+        } else if (json.error == false || json.error == "false") {
+          ToastifySuccess(json.mensaje);
+          setTimeout(function () {
+          //location.reload();
+          }, 3000);
+          return;
+        } else {
+          ToastifyError(json);
+          return;
+        }
+      } catch (error) {
+        ToastifyError(data);
+      }
+      },
+      error: function () {
+        ToastifyError("Error al registrar la agenda");
+      }
+    });
+  });
 });
