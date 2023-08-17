@@ -393,7 +393,6 @@ $object = $c->buscarenUsuario1($id);
                         </div>
                     </div>
                     <!--End Footer-->
-                    <input type="hidden" id="idUsuario" value="<?php echo $object->getId(); ?>">
                     <input type="hidden" id="idEmpresa" value="<?php echo $empresa->getId(); ?>">
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12">
@@ -402,11 +401,21 @@ $object = $c->buscarenUsuario1($id);
                                     <div class="row">
                                         <div class="col-md-3">
                                             Medico:
-                                            <select name="" id="" class='select2 form-control'>
+                                            <select name="idUsuario" id="idUsuario" class='select2 form-control'
+                                                onchange="sessionReserva()">
+                                                <option value="0">Seleccione un Medico</option>
                                                 <?php
                                                 $medicos = $c->listarusuario($empresa->getId());
                                                 foreach ($medicos as $medico) {
+                                                    if(isset($_SESSION['MED_ID'])){
+                                                    if($_SESSION['MED_ID'] == $medico->getId()){
+                                                        echo "<option value='" . $medico->getId() . "' selected>" . $medico->getNombre() . " " . $medico->getApellido1() . " " . $medico->getApellido2() . "</option>";
+                                                    }else{
                                                     echo "<option value='" . $medico->getId() . "'>" . $medico->getNombre() . " " . $medico->getApellido1() . " " . $medico->getApellido2() . "</option>";
+                                                    }
+                                                }else{
+                                                    echo "<option value='" . $medico->getId() . "'>" . $medico->getNombre() . " " . $medico->getApellido1() . " " . $medico->getApellido2() . "</option>";
+                                                }
                                                 }
                                                 ?>
                                             </select>
@@ -423,23 +432,6 @@ $object = $c->buscarenUsuario1($id);
                                             <div class="card">
                                                 <div class="row no-gutters">
                                                     <div class="col-lg-12">
-                                                        <div class="card-body p-0">
-                                                            <div class="card-header">
-                                                                <div class="card-title font-weight-semibold ">
-                                                                    Información Paciente</div>
-                                                            </div>
-                                                            <div class="card-body">
-
-                                                                <div class="w-100">
-                                                                    <label for="">Rut del Paciente</label>
-                                                                    <input type="text" onkeyup="formatRut(this)"
-                                                                        class="form-control"
-                                                                        placeholder="Rut del Paciente">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12">
                                                         <div
                                                             class="main-content-body main-content-body-calendar card-body border-left">
                                                             <div class="main-calendar" id="calendar"></div>
@@ -453,11 +445,6 @@ $object = $c->buscarenUsuario1($id);
                             </div>
                         </div>
                     </div>
-
-
-
-
-
                 </div>
             </div>
         </div>
@@ -474,6 +461,35 @@ $object = $c->buscarenUsuario1($id);
             </div>
         </div>
 
+        <div aria-hidden="true" class="modal main-modal-calendar-event" id="modalCalendarEvent" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <nav class="nav nav-modal-event">
+                            <a class="nav-link" href="#"><i class="icon ion-md-open"></i></a>
+                            <a class="nav-link" href="#"><i class="icon ion-md-trash"></i></a>
+                            <a class="nav-link" data-dismiss="modal" href="#">
+                                <i class="icon ion-md-close"></i></a>
+                        </nav>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <input type="hidden" id="event-id">
+
+                            <div class="col-sm-6">
+                                <label class="tx-13 tx-gray-600 mg-b-2">Fecha Inicio</label>
+                                <p class="event-start-date"></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="tx-13 mg-b-2">Fecha Termino</label>
+                                <p class="event-end-date"></p>
+                            </div>
+                        </div><label class="tx-13 tx-gray-600 mg-b-2">Descripcion</label>
+                        <p class="event-desc tx-gray-900 mg-b-30"></p><a class="btn btn-secondary wd-80" data-dismiss="modal" href="">Cerrar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
     <!-- End Page -->
@@ -509,33 +525,302 @@ $object = $c->buscarenUsuario1($id);
     <script src="assets/js/sticky.js"></script>
     <!-- Custom js -->
     <script src="assets/js/custom.js"></script>
+
+    <script src='assets/plugins/fullcalendar/moment-es.min.js'></script>
+    <script src='assets/plugins/fullcalendar/fullcalendar.min.js'></script>
     <script src="JsFunctions/Alert/toastify.js"></script>
     <script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
     <script src="JsFunctions/Alert/alert.js"></script>
     <script src="JsFunctions/function.js"></script>
     <script src="JsFunctions/Alert/loader.js"></script>
-    <script src="JsFunctions/agenda.js"></script>
-    <script src="JsFunctions/momentjs.js"></script>
-    <!-- Incluye los estilos de FullCalendar -->
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
-
-    <!-- Incluye las bibliotecas de jQuery y FullCalendar -->
-
+    <script src="JsFunctions/reservas.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-  var calendarEl = document.getElementById('calendar');
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'timeGridWeek', // Vista de la semana
-    weekends: false, // Ocultar fines de semana
-    selectable: true, // Permitir selección de fechas
-    dateClick: function(info) {
-      // Aquí puedes manejar la selección de fecha
-      alert('Fecha seleccionada: ' + info.dateStr);
-    }
-  });
-  calendar.render();
-});
+        // sample calendar events data 
+        'use strict'
+        var curYear = moment().format('YYYY');
+        var curMonth = moment().format('MM');
+        // Calendar Event Source
+        var sptCalendarEvents = {
+            id: 1,
+            events: [<?php
+            if (isset($_SESSION['MED_ID'])) {
+                $id = $_SESSION['MED_ID'];
+                $empresa = $empresa->getId();
+                $disponibilidad = $c->buscarhorario($id, $empresa);
+                $cantidad = count($disponibilidad);
+                $posicion = 0;
+                foreach ($disponibilidad as $d) {
+                    $fecha = $d->getFecha();
+                    $horaInicio = $d->getHoraInicio();
+                    $horaFin = $d->getHoraFin();
+                    $intervalo = $d->getIntervalo();
+                    if($d->getEstado()==1){
+                        if($posicion == $cantidad-1){
+                            echo "{id:'" . $d->getId() . "',start:'" . $fecha . "T" . $horaInicio . "',end:'" . $fecha . "T" . $horaFin . "',title:'Agenda de Atención',backgroundColor:'#214fbe',borderColor:'#214fbe',description:'Disponible'}";
+                        }else{
+                        //Disponible
+                        echo "{id:'" . $d->getId() . "',start:'" . $fecha . "T" . $horaInicio . "',end:'" . $fecha . "T" . $horaFin . "',title:'Agenda de Atención',backgroundColor:'#214fbe',borderColor:'#214fbe',description:'Disponible'},";
+                        }
+                    }else if($d->getEstado()==2){
+                        if($posicion == $cantidad-1){
+                            echo "{id:'" . $d->getId() . "',start:'" . $fecha . "T" . $horaInicio . "',end:'" . $fecha . "T" . $horaFin . "',title:'Agenda de Atención',backgroundColor:'#e54d26',borderColor:'#e54d26',description:'Reservada'}";
+                        }else{
+                        //Reservado
+                        echo "{id:'" . $d->getId() . "',start:'" . $fecha . "T" . $horaInicio . "',end:'" . $fecha . "T" . $horaFin . "',title:'Agenda de Atención',backgroundColor:'#e54d26',borderColor:'#e54d26',description:'Reservada'},";
+                        }
+                    }else if($d->getEstado()==3){
+                        if($posicion == $cantidad-1){
+                            //Cancelado con background gris
+                            echo "{id:'" . $d->getId() . "',start:'" . $fecha . "T" . $horaInicio . "',end:'" . $fecha . "T" . $horaFin . "',title:'Agenda de Atención',backgroundColor:'#e54d26',borderColor:'#e54d26',description:'Cancelada'}";
+                        }else{
+                            //Cancelado con background gris
+                            echo "{id:'" . $d->getId() . "',start:'" . $fecha . "T" . $horaInicio . "',end:'" . $fecha . "T" . $horaFin . "',title:'Agenda de Atención',backgroundColor:'#424242',borderColor:'#424242',description:'Cancelada'},";
+                        }
+                    }
+                }
+            }
+            ?>]
+        };
+        // Birthday Events Source
+        var sptBirthdayEvents = {
+            id: 2,
+            backgroundColor: '#e54d26',
+            borderColor: '#e54d26',
+            events: []
+        };
+        var sptHolidayEvents = {
+            id: 3,
+            backgroundColor: 'rgb(38, 156 ,142)',
+            borderColor: 'rgb(38, 156 ,142)',
+            events: [<?php
+            $diasferiados = $c->listardiasferiados();
+            foreach ($diasferiados as $df) {
+                $fecha = $df->getFecha();
+                echo "{id:'" . $df->getId() . "',start:'" . $fecha . "T00:00:00',end:'" . $fecha . "T23:59:59',title:'" . $df->getDescripcion() . "',description:'Feriado'},";
+            }
+            ?>
+            ]
 
+        };
+        var sptOtherEvents = {
+            id: 4,
+            backgroundColor: 'rgb(38, 156 ,142)',
+            borderColor: 'rgb(38, 156 ,142)',
+            events: []
+        };
+    </script>
+    <script>
+        $(function () {
+
+            // Datepicker found in left sidebar of the page
+            var highlightedDays = ['2021-1-10', '2021-1-11', '2021-1-12', '2021-1-13', '2021-1-14', '2021-1-15', '2021-1-16'];
+            var date = new Date();
+
+            var generateTime = function (element) {
+                var n = 0,
+                    min = 30,
+                    periods = [' AM', ' PM'],
+                    times = [],
+                    hours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+                for (var i = 0; i < hours.length; i++) {
+                    times.push(hours[i] + ':' + n + n + periods[0]);
+                    while (n < 60 - min) {
+                        times.push(hours[i] + ':' + ((n += min) < 10 ? 'O' + n : n) + periods[0])
+                    }
+                    n = 0;
+                }
+                times = times.concat(times.slice(0).map(function (time) {
+                    return time.replace(periods[0], periods[1])
+                }));
+                //console.log(times);
+                $.each(times, function (index, val) {
+                    $(element).append('<option value="' + val + '">' + val + '</option>');
+                });
+            }
+            generateTime('.main-event-time');
+
+            moment.locale('es');
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listWeek'
+                },
+                buttonText: {
+                    today: 'Hoy',
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Dia',
+                    listWeek: 'Lista Semana'
+                },
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                    'Julio', 'Agosto', 'Septiembre', 'Octubre',
+                    'Noviembre', 'Diciembre'
+                ],
+                editable: true,
+                droppable: true,
+                //NOmbre de los dias
+                dayNamesShort: ['Domingo', 'Lunes', 'Martes', 'Miercoles',
+                    'Jueves', 'Viernes', 'Sabado'
+                ],
+                //Formato de fecha
+                formatDate: 'DD/MM/YYYY',
+                //Formato de hora
+                timeFormat: 'HH:mm',
+                titleFormat: 'DD MMMM YYYY',
+                //Formato de los dias de la semana en el titulo
+                columnFormat: 'ddd',
+                //Formato de los dias del mes
+                dayOfMonthFormat: 'dddd DD/MM',
+                //Formato de los eventos del dia
+                eventFormat: 'HH:mm',
+                //Formato de los eventos del dia
+                displayEventTime: true,
+                //No events to display
+                noEventsMessage: 'No hay eventos para mostrar',
+
+
+                contentHeight: 480,
+                firstDay: 1,
+                defaultView: 'month',
+
+                allDayText: 'All Day',
+                views: {
+                    agenda: {
+                        columnHeaderHtml: function (mom) {
+                            return '<span>' + mom.format('ddd') + '</span>' + '<span>' + mom.format('DD') + '</span>';
+                        }
+                    },
+                    day: {
+                        columnHeader: false
+                    },
+                    listMonth: {
+                        listDayFormat: 'ddd DD',
+                        listDayAltFormat: false
+                    },
+                    listWeek: {
+                        listDayFormat: 'ddd DD',
+                        listDayAltFormat: false
+                    },
+                    agendaThreeDay: {
+                        type: 'agenda',
+                        duration: {
+                            days: 3
+                        },
+                        titleFormat: 'MMMM YYYY'
+                    }
+                },
+                eventSources: [sptCalendarEvents, sptBirthdayEvents, sptHolidayEvents, sptOtherEvents],
+                eventAfterAllRender: function (view) {
+                    if (view.name === 'listMonth' || view.name === 'listWeek') {
+                        var dates = view.el.find('.fc-list-heading-main');
+                        dates.each(function () {
+                            var text = $(this).text().split(' ');
+                            var now = moment().format('DD');
+                            $(this).html(text[0] + '<span>' + text[1] + '</span>');
+                            if (now === text[1]) {
+                                $(this).addClass('now');
+                            }
+                        });
+                    }
+                },
+                eventRender: function (event, element) {
+                    if (event.description) {
+                        element.find('.fc-list-item-title').append('<span class="fc-desc">' + event.description + '</span>');
+                        element.find('.fc-content').append('<span class="fc-desc">' + event.description + '</span>');
+                    }
+                    var eBorderColor = (event.source.borderColor) ? event.source.borderColor : event.borderColor;
+                    element.find('.fc-list-item-time').css({
+                        color: eBorderColor,
+                        borderColor: eBorderColor
+                    });
+                    element.find('.fc-list-item-title').css({
+                        borderColor: eBorderColor
+                    });
+                    element.css('borderLeftColor', eBorderColor);
+                },
+            });
+            var azCalendar = $('#calendar').fullCalendar('getCalendar');
+            // change view to week when in tablet
+            if (window.matchMedia('(min-width: 576px)').matches) {
+                azCalendar.changeView('month');
+            }
+            // change view to month when in desktop
+            if (window.matchMedia('(min-width: 992px)').matches) {
+                azCalendar.changeView('month');
+            }
+            // change view based in viewport width when resize is detected
+            azCalendar.option('windowResize', function (view) {
+                if (view.name === 'listWeek') {
+                    if (window.matchMedia('(min-width: 992px)').matches) {
+                        azCalendar.changeView('month');
+                    } else {
+                        azCalendar.changeView('listWeek');
+                    }
+                }
+            });
+            // display current date
+            var azDateNow = azCalendar.getDate();
+            azCalendar.option('select', function (startDate, endDate) {
+                $('#modalSetSchedule').modal('show');
+                $('#mainEventStartDate').val(startDate.format('LL'));
+                $('#EventEndDate').val(endDate.format('LL'));
+                $('#mainEventStartTime').val(startDate.format('LT')).trigger('change');
+                $('#EventEndTime').val(endDate.format('LT')).trigger('change');
+                $('#mainEventStartTime1').val(startDate.format('LT')).trigger('change');
+                $('#EventEndTime1').val(endDate.format('LT')).trigger('change');
+                $('#mainEventStartTime2').val(startDate.format('LT')).trigger('change');
+                $('#EventEndTime2').val(endDate.format('LT')).trigger('change');
+                $('#mainEventStartTime3').val(startDate.format('LT')).trigger('change');
+                $('#EventEndTime3').val(endDate.format('LT')).trigger('change');
+            });
+            // Display calendar event modal
+            azCalendar.on('eventClick', function (calEvent, jsEvent, view) {
+                if(calEvent.description == 'Disponible'){
+                    var modal = $('#modalCalendarEvent');
+                    modal.modal('show');
+                    modal.find('.event-title').text(calEvent.title);
+                    if (calEvent.description) {
+                        modal.find('.event-desc').text(calEvent.description);
+                        modal.find('.event-desc').prev().removeClass('d-none');
+                    } else {
+                        modal.find('.event-desc').text('');
+                        modal.find('.event-desc').prev().addClass('d-none');
+                    }
+                    modal.find('.event-start-date').text(moment(calEvent.start).format('LLL'));
+                    modal.find('.event-end-date').text(moment(calEvent.end).format('LLL'));
+                    modal.find('#event-id').val(calEvent.id);
+                    //styling
+                    modal.find('.modal-header').css('backgroundColor', (calEvent.source.borderColor) ? calEvent.source.borderColor : calEvent.borderColor);
+                }else if(calEvent.description == 'Feriado'){
+                    
+                }else{
+                    ToastifyError("La Hora "+calEvent.start.format('LT')+" - "+calEvent.end.format('LT')+" Ha sido "+calEvent.description);
+                }
+            });
+            // Enable/disable calendar events from displaying in calendar
+            $('.main-nav-calendar-event a').on('click', function (e) {
+                e.preventDefault();
+                if ($(this).hasClass('exclude')) {
+                    $(this).removeClass('exclude');
+                    $(this).is(':first-child') ? azCalendar.addEventSource(sptCalendarEvents) : '';
+                    $(this).is(':nth-child(2)') ? azCalendar.addEventSource(sptBirthdayEvents) : '';
+                    $(this).is(':nth-child(3)') ? azCalendar.addEventSource(sptHolidayEvents) : '';
+                    $(this).is(':nth-child(4)') ? azCalendar.addEventSource(sptOtherEvents) : '';
+                } else {
+                    $(this).addClass('exclude');
+                    $(this).is(':first-child') ? azCalendar.removeEventSource(1) : '';
+                    $(this).is(':nth-child(2)') ? azCalendar.removeEventSource(2) : '';
+                    $(this).is(':nth-child(3)') ? azCalendar.removeEventSource(3) : '';
+                    $(this).is(':nth-child(4)') ? azCalendar.removeEventSource(4) : '';
+                }
+                azCalendar.render();
+                if (window.matchMedia('(max-width: 575px)').matches) {
+                    $('body').removeClass('main-content-left-show');
+                }
+            });
+
+        })
     </script>
 
 

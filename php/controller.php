@@ -26,12 +26,13 @@ require "Class/Datosubicacion.php";
 require "Class/Incripcion.php";
 require 'Class/DiasFeriados.php';
 require 'Class/Disponibilidad.php';
+require 'Class/Horario.php';
 
 class Controller{
     private $mi;
 
     private $host = "localhost";
-    /*Variables
+    /*Variables*/
     private $user = "root";
     private $pass = "";
     private $bd = "oncoway";
@@ -41,7 +42,7 @@ class Controller{
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server*/
+    /*Variables BD Server
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
@@ -3711,6 +3712,18 @@ class Controller{
     {
         $this->conexion();
         $sql = "insert into disponibilidad values(null,$usuario, $empresa,  '$fecha', '$horainicio', '$horafinal', $intervalo, $estado, now())";
+        //Registrar y retornar el id de la disponibilidad
+        $result = $this->mi->query($sql);
+        $id = $this->mi->insert_id;
+        $this->desconexion();
+        return $id;
+    }
+    
+    //Registrar Disponibilidad
+    function registrarhorario( $usuario,$empresa, $fecha, $horainicio, $horafinal, $intervalo,$disponibilidad, $estado)
+    {
+        $this->conexion();
+        $sql = "insert into horarios values(null,$usuario, $empresa,  '$fecha', '$horainicio', '$horafinal', $intervalo, $disponibilidad, $estado, now())";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
@@ -3740,11 +3753,95 @@ class Controller{
         return $lista;
     }
 
+    //Listar Horario
+    function listarhorario($usuario, $empresa)
+    {
+        $this->conexion();
+        $sql = "select * from horarios where usuario = $usuario and empresa = $empresa and fecha >= curdate()";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $usuario = $rs["usuario"];
+            $empresa = $rs["empresa"];
+            $fecha = $rs["fecha"];
+            $horainicio = $rs["horainicio"];
+            $horafinal = $rs["horafin"];
+            $intervalo = $rs["intervalo"];
+            $disponibilidad = $rs["disponibilidad"];
+            $estado = $rs["estado"];
+            $registro = $rs["registro"];
+            $disponibilidad = new Horario($id, $usuario, $empresa, $fecha, $horainicio, $horafinal, $intervalo,$disponibilidad, $estado, $registro);
+            $lista[] = $disponibilidad;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Buscar Disponibilidad desde la fecha de hoy
+    function buscardisponibilidad($usuario, $empresa)
+    {
+        $this->conexion();
+        $sql = "select * from disponibilidad where usuario = $usuario and empresa = $empresa and fecha >= curdate()";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $usuario = $rs["usuario"];
+            $empresa = $rs["empresa"];
+            $fecha = $rs["fecha"];
+            $horainicio = $rs["horainicio"];
+            $horafinal = $rs["horafin"];
+            $intervalo = $rs["intervalo"];
+            $estado = $rs["estado"];
+            $registro = $rs["registro"];
+            $disponibilidad = new Disponibilidad($id, $usuario, $empresa, $fecha, $horainicio, $horafinal, $intervalo, $estado, $registro);
+            $lista[] = $disponibilidad;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Buscar Horario desde la fecha de hoy
+    function buscarhorario($usuario, $empresa)
+    {
+        $this->conexion();
+        $sql = "select * from horarios where usuario = $usuario and empresa = $empresa and fecha >= curdate()";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $usuario = $rs["usuario"];
+            $empresa = $rs["empresa"];
+            $fecha = $rs["fecha"];
+            $horainicio = $rs["horainicio"];
+            $horafinal = $rs["horafin"];
+            $intervalo = $rs["intervalo"];
+            $disponibilidad = $rs["disponibilidad"];
+            $estado = $rs["estado"];
+            $registro = $rs["registro"];
+            $disponibilidad = new Horario($id, $usuario, $empresa, $fecha, $horainicio, $horafinal, $intervalo, $disponibilidad, $estado, $registro);
+            $lista[] = $disponibilidad;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
     //Eliminar Disponibilidad
     function eliminardisponibilidad($id)
     {
         $this->conexion();
         $sql = "delete from disponibilidad where id = $id";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Eliminar Horario por disponibilidad
+    function eliminarhorariodisponibilidad($disponibilidad)
+    {
+        $this->conexion();
+        $sql = "delete from horarios where disponibilidad = $disponibilidad";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);

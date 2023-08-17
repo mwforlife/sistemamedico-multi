@@ -5,4 +5,5 @@ $c = new Controller();
 if(isset($_POST['id'])){
     $id = $_POST['id'];
     $c->eliminardisponibilidad($id);
+    $c->eliminarhorariodisponibilidad($id);
 }

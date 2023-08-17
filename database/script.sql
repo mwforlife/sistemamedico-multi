@@ -797,3 +797,17 @@ create table disponibilidad(
     estado int not null default 1,
     registro datetime not null default current_timestamp    
 );
+
+/********************Horarios***************/
+create table horarios(
+    id int not null auto_increment primary key,
+    usuario int not null references usuarios(id),
+    empresa int not null references empresa(id),
+    fecha date not null,
+    horainicio time not null,
+    horafin time not null,
+    intervalo int not null,
+    disponibilidad int not null references disponibilidad(id),
+    estado int not null default 1,
+    registro datetime not null default current_timestamp    
+);
