@@ -46,7 +46,7 @@ if(isset($_POST['datosHorario'])) {
     $horaFinMatutina = $datosHorario['horaFinMatutina'];
     $horaInicioTarde = $datosHorario['horaInicioTarde'];
     $horaFinTarde = $datosHorario['horaFinTarde'];
-    $intervalo = $datosHorario['intervalo'];
+    $intervalo2 = $datosHorario['intervalo'];
     $idUsuario = $datosHorario['idUsuario'];
     $idEmpresa = $datosHorario['idEmpresa'];
 
@@ -63,8 +63,8 @@ if(isset($_POST['datosHorario'])) {
             }else{
                 
                 if(!empty($horaInicioMatutina) && !empty($horaFinMatutina)){
-                    $id = $c->registrardisponibilidad($idUsuario, $idEmpresa, $fecha, $horaInicioMatutina, $horaFinMatutina, $intervalo, 1);
-                    $intervalo = new DateInterval('PT' . $intervalo . 'M'); // Crear intervalo en minutos
+                    $id = $c->registrardisponibilidad($idUsuario, $idEmpresa, $fecha, $horaInicioMatutina, $horaFinMatutina, $intervalo2, 1);
+                    $intervalo = new DateInterval('PT' . $intervalo2 . 'M'); // Crear intervalo en minutos
                     $startInterval = new DateTime($horaInicioMatutina);
                     $endInterval = new DateTime($horaFinMatutina);
 
@@ -73,15 +73,15 @@ if(isset($_POST['datosHorario'])) {
                         $endIntervalInterval = clone $startInterval;
                         $endIntervalInterval->add($intervalo);
 
-                        $c->registrarhorario($idUsuario, $idEmpresa, $fecha, $startInterval->format('H:i'), $endIntervalInterval->format('H:i'), $intervalo, $id, 1);
+                        $c->registrarhorario($idUsuario, $idEmpresa, $fecha, $startInterval->format('H:i'), $endIntervalInterval->format('H:i'), $intervalo2, $id, 1);
 
                         $startInterval = $endIntervalInterval;
                     }
                 }
 
                 if (!empty($horaInicioTarde) && !empty($horaFinTarde)) {
-                    $id = $c->registrardisponibilidad($idUsuario, $idEmpresa, $fecha, $horaInicioTarde, $horaFinTarde, $intervalo, 1);
-                    $intervalo = new DateInterval('PT' . $intervalo . 'M'); // Crear intervalo en minutos
+                    $id = $c->registrardisponibilidad($idUsuario, $idEmpresa, $fecha, $horaInicioTarde, $horaFinTarde, $intervalo2, 1);
+                    $intervalo = new DateInterval('PT' . $intervalo2 . 'M'); // Crear intervalo en minutos
                     $startInterval = new DateTime($horaInicioTarde);
                     $endInterval = new DateTime($horaFinTarde);
 
@@ -90,7 +90,7 @@ if(isset($_POST['datosHorario'])) {
                         $endIntervalInterval = clone $startInterval;
                         $endIntervalInterval->add($intervalo);
 
-                        $c->registrarhorario($idUsuario, $idEmpresa, $fecha, $startInterval->format('H:i'), $endIntervalInterval->format('H:i'), $intervalo, $id, 1);
+                        $c->registrarhorario($idUsuario, $idEmpresa, $fecha, $startInterval->format('H:i'), $endIntervalInterval->format('H:i'), $intervalo2, $id, 1);
 
                         $startInterval = $endIntervalInterval;
                     }

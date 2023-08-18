@@ -32,7 +32,7 @@ class Controller{
     private $mi;
 
     private $host = "localhost";
-    /*Variables*/
+    /*Variables
     private $user = "root";
     private $pass = "";
     private $bd = "oncoway";
@@ -42,7 +42,7 @@ class Controller{
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server
+    /*Variables BD Server*/
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
@@ -3807,6 +3807,31 @@ class Controller{
     {
         $this->conexion();
         $sql = "select * from horarios where usuario = $usuario and empresa = $empresa and fecha >= curdate()";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $usuario = $rs["usuario"];
+            $empresa = $rs["empresa"];
+            $fecha = $rs["fecha"];
+            $horainicio = $rs["horainicio"];
+            $horafinal = $rs["horafin"];
+            $intervalo = $rs["intervalo"];
+            $disponibilidad = $rs["disponibilidad"];
+            $estado = $rs["estado"];
+            $registro = $rs["registro"];
+            $disponibilidad = new Horario($id, $usuario, $empresa, $fecha, $horainicio, $horafinal, $intervalo, $disponibilidad, $estado, $registro);
+            $lista[] = $disponibilidad;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Buscar Horario por Disponibilidad
+    function buscarhorariodisponibilidad($disponibilidad)
+    {
+        $this->conexion();
+        $sql = "select * from horarios where disponibilidad = $disponibilidad";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {

@@ -43,7 +43,8 @@ $object = $c->buscarenUsuario1($id);
     <title>OncoWay</title>
 
     <!-- Bootstrap css-->
-    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!--<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />-->
+    <link rel="stylesheet" href="css/bootstrap.css">
 
     <!-- Icons css-->
     <link href="assets/css/icons.css" rel="stylesheet" />
@@ -763,8 +764,8 @@ $object = $c->buscarenUsuario1($id);
         };
         var sptHolidayEvents = {
             id: 3,
-            backgroundColor: 'rgb(38, 156 ,142)',
-            borderColor: 'rgb(38, 156 ,142)',
+            backgroundColor: '#FF8000',
+            borderColor: '#FF8000',
             events: [<?php
                 $diasferiados = $c->listardiasferiados();
                 foreach ($diasferiados as $df) {
