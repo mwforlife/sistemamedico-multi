@@ -435,9 +435,11 @@ $object = $c->buscarenUsuario1($id);
             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header justify-content-between align-items-center">
-                        <p class="text-white fs-20"><?php $medic = $c->buscarenUsuario1($_SESSION['MED_ID']);
+                        <p class="text-white fs-20"><?php
+                        if(isset($_SESSION['MED_ID'])){
+                        $medic = $c->buscarenUsuario1($_SESSION['MED_ID']);
                                                     echo "Medico: " . $medic->getNombre() . " " . $medic->getApellido1() . " " . $medic->getApellido2();
-                                                    ?></p>
+                        }?></p>
                         <p class="event-title text-start"></p>
                     </div>
                     <div class="modal-body">
