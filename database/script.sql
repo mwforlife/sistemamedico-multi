@@ -811,3 +811,12 @@ create table horarios(
     estado int not null default 1,
     registro datetime not null default current_timestamp    
 );
+
+create table atenciones(
+    id int not null auto_increment primary key,
+    paciente int not null references pacientes(id),
+    horario int not null references horarios(id),
+    observacion text null,
+    estado int not null default 1,
+    registro datetime not null default current_timestamp
+);

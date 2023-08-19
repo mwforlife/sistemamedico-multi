@@ -212,7 +212,7 @@ $object = $c->buscarenUsuario1($id);
                                 <a class="nav-sub-link" href="pacientesmedico.html">Ficha Pacientes</a>
                             </li>
                             <li class="nav-sub-item">
-                                <a class="nav-sub-link" href="consultas.html">Consultas</a>
+                                <a class="nav-sub-link" href="consultas.php">Consultas</a>
                             </li>
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link" href="recetas.html">Recetas Emitidas</a>
@@ -436,10 +436,11 @@ $object = $c->buscarenUsuario1($id);
                 <div class="modal-content">
                     <div class="modal-header justify-content-between align-items-center">
                         <p class="text-white fs-20"><?php
-                        if(isset($_SESSION['MED_ID'])){
-                        $medic = $c->buscarenUsuario1($_SESSION['MED_ID']);
-                                                    echo "Medico: " . $medic->getNombre() . " " . $medic->getApellido1() . " " . $medic->getApellido2();
-                        }?></p>
+                                                    if (isset($_SESSION['MED_ID'])) {
+                                                        $medic = $c->buscarenUsuario1($_SESSION['MED_ID']);
+                                                        echo "<input type='hidden' id='idMedico' value='" . $medic->getId() . "'>";
+                                                        echo "Medico: " . $medic->getNombre() . " " . $medic->getApellido1() . " " . $medic->getApellido2();
+                                                    } ?></p>
                         <p class="event-title text-start"></p>
                     </div>
                     <div class="modal-body">
@@ -452,32 +453,52 @@ $object = $c->buscarenUsuario1($id);
                             <hr>
                             <div class="row">
                                 <!--Tipo Identificacion-->
-                                <div class="col-lg-3">
-                                    <div class="form-group has-success mg-b-0">
-                                        <label>Tipo Identificacion:</label>
-                                        <select class="form-control" id="tipoidentificacion" onchange="checktipo(this)" name="tipoidentificacion" required="">
-                                            <option value="1">RUN</option>
-                                            <option value="2">Sin RUN</option>
-                                            <option value="3">Pasaporte</option>
-                                            <option value="4">Indentificación de Su País</option>
-                                        </select>
-                                    </div>
-                                </div>
                                 <!--Rut paciente-->
-                                <div class="col-lg-3 rut">
-                                    <div class="form-group has-success mg-b-0">
-                                        <label>RUN Paciente:</label>
-                                        <input class="form-control" id="rut" name="rut" onkeyup="formatRut(this), buscarpacienterun(this)" placeholder="11.111.111-1" required="" type="text" value="">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group has-success mg-b-0">
+                                                <label>Tipo Identificacion:</label>
+                                                <select class="form-control" id="tipoidentificacion" onchange="checktipo(this)" name="tipoidentificacion" required="">
+                                                    <option value="1">RUN</option>
+                                                    <option value="2">Sin RUN</option>
+                                                    <option value="3">Pasaporte</option>
+                                                    <option value="4">Indentificación de Su País</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 rut">
+                                            <div class="form-group has-success mg-b-0">
+                                                <label>RUN Paciente:</label>
+                                                <input class="form-control" id="rut" name="rut" onkeyup="formatRut(this), buscarpacienterun(this)" placeholder="11.111.111-1" required="" type="text" value="">
+                                            </div>
+                                        </div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                            <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                            </symbol>
+                                            <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                                            </symbol>
+                                            <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                            </symbol>
+                                        </svg>
+                                        <!--Pasaporte-->
+                                        <div class="col-md-12 d-none idotro">
+                                            <div class="form-group has-success mg-b-0">
+                                                <label>Pasaporte/DNI/NIE:</label>
+                                                <input class="form-control" id="documentoadd" onkeyup="buscarpacientepasaporte(this)" name="documentoadd" placeholder="Pasaporte/DNI/NIE" type="text" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 d-flex justify-content-center">
+                                            <!--Buscar otro Paciente-->
+                                            <button class="btn btn-outline-primary fs-19 mt-4 btnotro d-none" onclick="otroPaciente()"><i class="fa fa-search"></i> Buscar otro Paciente</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <!--Pasaporte-->
-                                <div class="col-lg-3 d-none idotro">
-                                    <div class="form-group has-success mg-b-0">
-                                        <label>Pasaporte/DNI/NIE:</label>
-                                        <input class="form-control" id="documentoadd" onkeyup="buscarpacientepasaporte(this)" name="documentoadd" placeholder="Pasaporte/DNI/NIE" type="text" value="">
-                                    </div>
-                                </div>
-                                <div class="col-md-12 details">
+                                <input type="hidden" id="idPaciente">
+                                <div class="col-md-6 details">
 
                                 </div>
 
@@ -486,11 +507,9 @@ $object = $c->buscarenUsuario1($id);
                         <hr>
                         <div class="row justify-content-end">
                             <div class="col-md-12 d-flex justify-content-end gap-2">
-                            <button class="btn btn-outline-success" id="btnReservar" onclick="reservar()"><i class="fa fa-calendar"></i> Reservar</button>
-                            <p class="event-desc tx-gray-900"></p><a class="btn btn-secondary" data-dismiss="modal" href=""><i class="fa fa-times"></i> Cerrar</a>
-                        
+                                <p class="event-desc tx-gray-900"></p><a class="btn btn-secondary" data-dismiss="modal" href=""><i class="fa fa-times"></i> Cerrar</a>
                             </div>
-                            </div>
+                        </div>
 
                     </div>
                 </div>

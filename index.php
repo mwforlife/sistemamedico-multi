@@ -184,6 +184,10 @@ $object = $c->buscarenUsuario1($id);
 					<li class="nav-item">
 						<a class="nav-link" href="reservas.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Reservas</span></a>
 					</li>
+					<!--------------------------Inicio Agenda--------------------------->
+					<li class="nav-item">
+						<a class="nav-link" href="atencion.php"><i class="fe fe-user sidemenu-icon"></i><span class="sidemenu-label">Atención</span></a>
+					</li>
 
 					<!--------------------------Inicio Auditoria--------------------------->
 					<li class="nav-item">
@@ -222,7 +226,7 @@ $object = $c->buscarenUsuario1($id);
 								<a class="nav-sub-link" href="pacientesmedico.html">Ficha Pacientes</a>
 							</li>
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="consultas.html">Consultas</a>
+								<a class="nav-sub-link" href="consultas.php">Consultas</a>
 							</li>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="recetas.html">Recetas Emitidas</a>

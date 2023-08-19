@@ -206,7 +206,7 @@ $object = $c->buscarenUsuario($id,$empresa->getId());
 								<a class="nav-sub-link" href="pacientesmedico.html">Ficha Pacientes</a>
 							</li>
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="consultas.html">Consultas</a>
+								<a class="nav-sub-link" href="consultas.php">Consultas</a>
 							</li>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="recetas.html">Recetas Emitidas</a>

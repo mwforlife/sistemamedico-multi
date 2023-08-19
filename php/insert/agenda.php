@@ -11,10 +11,12 @@ if (isset($_POST['fechas']) && isset($_POST['start']) && isset($_POST['end']) &&
     $intervalo2 = $_POST['intervalo2'];
     $idUsuario = $_POST['idUsuario'];
     $idEmpresa = $_POST['idEmpresa'];
+    $errores = "";
     //Recorrer el arreglo de fechas
     foreach ($fechas as $fecha) {
         //Comprobar que la fecha no sea un dia anterior a la fecha actual
         $fechaActual = date("Y-m-d");
+        $horaActual = date("H:i");
         if ($fecha >= $fechaActual) {
             if ($c->comprobardiasferiados($fecha)) {
                 $mensaje .= "Fecha: $fecha es feriado;";
@@ -55,6 +57,8 @@ if (isset($_POST['fechas']) && isset($_POST['start']) && isset($_POST['end']) &&
                     }
                 }
             }
+        }else{
+            echo "Fecha: $fecha es anterior a la fecha actual ".$fechaActual. "Hora: $horaActual";
         }
     }
     echo json_encode(array("error" => false, "mensaje" => "Se registró correctamente"));
