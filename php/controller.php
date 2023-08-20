@@ -33,7 +33,7 @@ class Controller{
     private $mi;
 
     private $host = "localhost";
-    /*Variables
+    /*Variables*/
     private $user = "root";
     private $pass = "";
     private $bd = "oncoway";
@@ -43,7 +43,7 @@ class Controller{
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server*/
+    /*Variables BD Server
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
@@ -1612,6 +1612,22 @@ class Controller{
             $registro = $rs['registro'];
             $estado = $rs['estado'];
             $object = new Usuario($id, $rut, $nombre, $apellido1, $apellido2, $correo, $direccion, $region, $comuna, $profesion, $proveniencia, $telefono, $contrasena, $registro, $estado);
+            $this->desconexion();
+            return $object;
+        }
+        $this->desconexion();
+        return null;
+    }
+    //Buscar Especialidad por profesion
+    public function buscarespecialidad($profesion){
+        $this->conexion();
+        $sql = "select especialidades.id as id, especialidades.codigo as codigo, especialidades.nombre as nombre from especialidades, profesiones where especialidades.id = profesiones.especialidad and profesiones.id = $profesion";
+        $result = $this->mi->query($sql);
+        if($rs = mysqli_fetch_array($result)){ 
+            $id = $rs['id']; 
+            $codigo = $rs['codigo'];
+            $nombre = $rs['nombre'];
+            $object = new Objects($id, $codigo, $nombre);
             $this->desconexion();
             return $object;
         }
@@ -4150,6 +4166,20 @@ class Controller{
         }
         $this->desconexion();
         return $lista;
+    }
+
+    //Buscar ID Paciente en reserva
+    function buscaridpacientereserva($id){
+        $this->conexion();
+        $sql = "select paciente from atenciones where id = $id";
+        $result = $this->mi->query($sql);
+        if($rs = mysqli_fetch_array($result)){
+            $paciente = $rs["paciente"];
+            $this->desconexion();
+            return $paciente;
+        }
+        $this->desconexion();
+        return null;
     }
     
             

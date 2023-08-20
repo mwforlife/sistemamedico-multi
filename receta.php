@@ -1,3 +1,151 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+session_start();
+require 'php/controller.php';
+$c = new Controller();
+$empresa = null;
+if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
+	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+	$empresa = $c->buscarEmpresa($enterprise);
+} else {
+	header("Location: index.php");
+}
+$comite = null;
+// Obtener la URL de la página anterior (si está disponible)
+$previous_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+$id = 0;
+$reserva=0;
+if (isset($_GET['r']) && isset($_GET['p'])) {
+	$reserva = $_GET['r'];
+	$reserva = $c->decrypt($reserva, "thechallengeofcoding");
+	
+	$paciente = $_GET['p'];
+	$paciente = $c->decrypt($paciente, "thechallengeofcoding");
+	$pa = $c->buscarpaciente($paciente);
+	if ($pa == null) {
+		// Redireccionar a la página anterior
+		header("Location: $previous_page");
+		exit();
+	}
+} else {
+	//Redireccionar a la página anterior
+	header("Location: $previous_page");
+	exit();
+}
+$sig = $c->buscarsignovital($id);
+$med = $c->buscarmedidaantropometrica($id);
+$inscripcion = $c->listarinscripcionprevision($id);
+$ubicacion = $c->listardatosubicacion($id);
+$peso = "";
+$talla = "";
+$supcop = "";
+$ficha = "";
+$admision = "";
+$prevision = "";
+$comuna = "";
+$establecimiento = "";
+
+if ($med != null) {
+	$peso = $med->getPeso();
+	$talla = $med->getTalla();
+	$supcop = $c->calculateBSA($talla, $peso);
+}
+if ($inscripcion != null) {
+	$ficha = $inscripcion->getFicha();
+	$admision = date("d-m-Y", strtotime($inscripcion->getFechaadmision()));
+	$tipoprevision = $inscripcion->getTipoprevision();
+	$tipoprevision = $c->buscartipoprevision($tipoprevision);
+	$prevision = $tipoprevision->getCodigo();
+	$tipoprevision = $tipoprevision->getNombre();
+	$prevision = $c->buscarprevision($prevision);
+	$prevision = $prevision->getNombre() . " " . $tipoprevision;
+	$establecimiento = $inscripcion->getInscrito();
+}
+if ($ubicacion != null) {
+	$comuna = $ubicacion->getComuna();
+	$comuna = $c->buscarencomuna($comuna);
+	$comuna = $comuna->getNombre();
+}
+$rut = $pa->getRut();
+$nombre = $pa->getNombre();
+$apellido1 = $pa->getApellido1();
+$apellido2 = $pa->getApellido2();
+$estadocivil = $pa->getEstadocivil();
+$estadocivil = $c->buscarnombreestadocivil($estadocivil);
+
+//Fecha de nacimiento en texto
+$dia = date("d", strtotime($pa->getFechanacimiento()));
+$mes = date("m", strtotime($pa->getFechanacimiento()));
+$mestexto = "";
+$ano = date("Y", strtotime($pa->getFechanacimiento()));
+
+//Mes en texto
+switch ($mes) {
+	case 1:
+		$mestexto = "Enero";
+		break;
+	case 2:
+		$mestexto = "Febrero";
+		break;
+	case 3:
+		$mestexto = "Marzo";
+		break;
+	case 4:
+		$mestexto = "Abril";
+		break;
+	case 5:
+		$mestexto = "Mayo";
+		break;
+	case 6:
+		$mestexto = "Junio";
+		break;
+	case 7:
+		$mestexto = "Julio";
+		break;
+	case 8:
+		$mestexto = "Agosto";
+		break;
+	case 9:
+		$mestexto = "Septiembre";
+		break;
+	case 10:
+		$mestexto = "Octubre";
+		break;
+	case 11:
+		$mestexto = "Noviembre";
+		break;
+	case 12:
+		$mestexto = "Diciembre";
+		break;
+}
+$nacimiento = $dia . " de " . $mestexto . " de " . $ano;
+
+$ano_actual = date("Y");
+$mes_actual = date("m");
+$dia_actual = date("d");
+$edad = $ano_actual - $ano;
+if ($mes_actual < $mes) {
+	$edad--;
+} else {
+	if ($mes_actual == $mes) {
+		if ($dia_actual < $dia) {
+			$edad--;
+		}
+	}
+}
+if (!isset($_SESSION['USER_ID'])) {
+	header("Location: signin.php");
+} else {
+	$valid  = $c->validarsesion($_SESSION['USER_ID'], $_SESSION['USER_TOKEN']);
+	if ($valid == false) {
+		header("Location: lockscreen.php");
+	}
+}
+$id = $_SESSION['USER_ID'];
+$object = $c->buscarenUsuario1($id);
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -13,7 +161,7 @@
 	<link rel="icon" href="assets/img/brand/favicon.ico" type="image/x-icon" />
 
 	<!-- Title -->
-	<title>OncoWay</title>
+	<title>OncoWay | Registrar Informe</title>
 
 	<!-- Bootstrap css-->
 	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -66,8 +214,6 @@
 
 	<!-- Page -->
 	<div class="page">
-
-
 		<!-- Sidemenu -->
 		<div class="main-sidebar main-sidebar-sticky side-menu">
 			<div class="sidemenu-logo">
@@ -237,7 +383,7 @@
 						<div class="mt-0">
 							<form class="form-inline">
 								<div class="search-element">
-									<input type="search" class="form-control header-search text-dark" readonly value="<?php echo $empresa->getRazonSocial();?>" aria-label="Search" tabindex="1">
+									<input type="search" class="form-control header-search text-dark" readonly value="<?php echo $empresa->getRazonSocial(); ?>" aria-label="Search" tabindex="1">
 									<button class="btn" type="submit">
 										<i class="fa fa-"></i>
 									</button>
@@ -266,7 +412,7 @@
 						<div class="dropdown-menu">
 							<div class="header-navheading">
 								<h6 class="main-notification-title">
-									Administrador</h6>
+									<?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
 							</div>
 							<a class="dropdown-item" href="close.php">
 								<i class="fe fe-power"></i> Cerrar Sesíon
@@ -303,7 +449,7 @@
 							</a>
 							<div class="dropdown-menu">
 								<div class="header-navheading">
-									<h6 class="main-notification-title">Administrador</h6>
+									<h6 class="main-notification-title"><?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
 								</div>
 
 								<a class="dropdown-item" href="close.php">
@@ -327,220 +473,43 @@
 					<!-- Page Header -->
 					<div class="page-header">
 						<div class="page-header-1">
-							<h1 class="main-content-title tx-30">Registro de Atención</h1>
+							<h1 class="main-content-title tx-30">Paciente Atenciones</h1>
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
 							</ol>
+
 						</div>
 					</div>
 
+					<!-- Row -->
 					<div class="row">
-						<div class="col-xl-12 col-lg-12 col-md-12">
-							<div class="card transcation-crypto1" id="transcation-crypto1">
+						<!--Información Paciente -->
+						<div class="col-md-12">
+							<div class="card">
 								<div class="card-body">
 									<div class="row">
-										<div class="col-md-12 d-flex justify-content-between">
-											<h3>Atención y Diagnostico</h3>
-											<h3>Paciente: Juan Perez</h3>
+										<div class="col-lg-4">
+											<h5 class="card-title">Paciente: <?php echo $pa->getNombre() . " " . $pa->getApellido1() . " " . $pa->getApellido2(); ?></h5>
+											<p>
+												Rut: <?php echo $pa->getRut(); ?><br />
+												Edad: <?php echo $edad ?> Años<br />
+											</p>
 										</div>
-									</div>
-									<div class="row mt-2">
-										<div class="col-md-4">
-											<label for="">Diagnostico CIEO</label>
-											<button class="btn btn-outline-primary btn-sm"><i class="fa fa-search"></i></button>
-											<input type="text" class="form-control">
-										</div>
-										<div class="col-md-4">
-											<label for="">Diagnostico CIE10</label>
-											<button class="btn btn-outline-primary btn-sm"><i class="fa fa-search"></i></button>
-											<input type="text" class="form-control">
-										</div>
-										<div class="col-md-4">
-											<label for="">Ecog</label>
-											<select name="" id="" class="form-control select2"></select>
-										</div>
-										<div class="col-md-4">
-											<label for="">Tipo de atención</label>
-											<select name="" id="" class="form-control select2"></select>
-										</div>
-										<div class="col-md-2">
-											<label for="">Generar Receta</label><br />
-											<input type="checkbox">
-										</div>
-										<div class="col-md-2">
-											<label for="">Diagnostico desde atención</label><br />
-											<input type="checkbox">
-										</div>
-										<div class="col-md-2">
-											<label for="">Primer Ingreso</label><br />
-											<input type="checkbox">
-										</div>
-										<div class="col-md-2">
-											<label for="">Estado de atención</label>
-											<select name="" id="" class="form-control select2">
-												<option>Atendido</option>
-											</select>
-										</div>
-
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+
 					<div class="row">
-						<div class="col-md-12">
-
+						<div class="col-lg-12">
 							<div class="card">
 								<div class="card-body">
-									<div aria-multiselectable="true" class="accordion" id="accordion" role="tablist">
-
-										<div class="card">
-											<div class="card-header" id="family" role="tab">
-												<a aria-controls="collapseOne" aria-expanded="true" data-toggle="collapse" href="#familia">Anamnesis y examen fisico</a>
-											</div>
-											<div aria-labelledby="family" class="collapse " data-parent="#accordion" id="familia" role="tabpanel">
-												<div class="card-body">
-													<div class="row">
-													<div class="col-md-12">
-														<textarea class="form-control" name="" id="" cols="30" rows="10"></textarea>
-													</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="card">
-											<div class="card-header" id="fichasocial" role="tab">
-												<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#ficha">Estudios Complementarios</a>
-											</div>
-											<div aria-labelledby="fichasocial" class="collapse" data-parent="#accordion" id="ficha" role="tabpanel">
-												<div class="card-body">
-														<textarea class="form-control" name="" id="" cols="30" rows="10"></textarea>
-												</div>
-											</div>
-										</div>
-										<div class="card">
-											<div class="card-header" id="plan" role="tab">
-												<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#plani">Plan de tratamiento</a>
-											</div>
-											<div aria-labelledby="plan" class="collapse" data-parent="#accordion" id="plani" role="tabpanel">
-												<div class="card-body">
-														<textarea class="form-control" name="" id="" cols="30" rows="10"></textarea>
-												</div>
-											</div>
-										</div>
-									</div><!-- accordion -->
-								</div>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="card">
-								<div class="card-body">
-									<div class="text-wrap">
-										<div class="example">
-											<div class="border">
-												<div class="bg-light-1 nav-bg">
-													<nav class="nav nav-tabs">
-														<a class="nav-link active" data-toggle="tab" href="#tabCont3">Historial de atenciones</a>
-														<a class="nav-link " data-toggle="tab" href="#tabCont1">Signos Vitales</a>
-														<a class="nav-link" data-toggle="tab" href="#tabCont2">Medidas Antropométricas</a>
-													</nav>
-												</div>
-
-												<div class="card-body tab-content">
-													<div class="tab-pane active show" id="tabCont3">
-														<div class="table-responsive">
-															<table class="table w-100 text-nowrap" id="example1">
-																<thead class="border-top text-center">
-																	<tr>
-																		<th class="bg-transparent">Fecha</th>
-																		<th class="bg-transparent text-center">Hora</th>
-																		<th class="bg-transparent text-center">Folio</th>
-																		<th class="bg-transparent text-center">Nombre Completo</th>
-																		<th class="bg-transparent text-center">Especialidad</th>
-																		<th class="bg-transparent text-center">Tipo de atención</th>
-																		<th class="bg-transparent text-center">Numero de receta</th>
-																		<th class="bg-transparent text-center">Copia de receta</th>
-																		<th class="bg-transparent text-center">Visualizar Atencion</th>
-																	</tr>
-																</thead>
-																<tbody class="text-center">
-																	<tr>
-																		<td>23-04-2023</td>
-																		<td>08:30</td>
-																		<td>12121</td>
-																		<td>Oncologia</td>
-																		<td>Tipo</td>
-																		<td>32541</td>
-																		<td>No</td>
-																		<td>No</td>
-																		<td><button class="btn btn-outline-info btn-sm"><i class="fa fa-eye"></i></button></td>
-																	</tr>
-																</tbody>
-															</table>
-														</div>
-													</div>
-													<div class="tab-pane" id="tabCont1">
-														<div class="table-responsive">
-															<table class="table w-100 text-nowrap" id="example2">
-																<thead class="border-top text-center">
-																	<tr>
-																		<th class="bg-transparent">Fecha</th>
-																		<th class="bg-transparent">f Resp</th>
-																		<th class="bg-transparent text-center">P. Sist</th>
-																		<th class="bg-transparent text-center">P. Dias</th>
-																		<th class="bg-transparent text-center">% Sat 02</th>
-																		<th class="bg-transparent text-center">FC</th>
-																		<th class="bg-transparent text-center">T. Axilar</th>
-																		<th class="bg-transparent text-center">T. Rect</th>
-																		<th class="bg-transparent text-center">T. Otra</th>
-																		<th class="bg-transparent text-center">HGT</th>
-																		<th class="bg-transparent text-center">PESO</th>
-																		<th class="bg-transparent text-center">ID</th>
-																	</tr>
-																</thead>
-																<tbody class="text-center">
-
-																</tbody>
-															</table>
-														</div>
-													</div>
-													<div class="tab-pane" id="tabCont2">
-														<div class="table-responsive">
-															<table class="table w-100 text-nowrap" id="example3">
-																<thead class="border-top text-center">
-																	<tr>
-																		<th class="bg-transparent">Fecha</th>
-																		<th class="bg-transparent">peso</th>
-																		<th class="bg-transparent text-center">Estatura</th>
-																		<th class="bg-transparent text-center">PCe/e</th>
-																		<th class="bg-transparent text-center">P/E</th>
-																		<th class="bg-transparent text-center">P/T</th>
-																		<th class="bg-transparent text-center">T/E</th>
-																		<th class="bg-transparent text-center">IMC</th>
-																		<th class="bg-transparent text-center">Clasif. IMC</th>
-																		<th class="bg-transparent text-center">PC/E</th>
-																		<th class="bg-transparent text-center">Clasif P. Cintura</th>
-																		<th class="bg-transparent text-center">ID</th>
-																	</tr>
-																</thead>
-																<tbody class="text-center">
-
-																</tbody>
-															</table>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
+									
 								</div>
 							</div>
 						</div>
 					</div>
-
-
-
-
 
 				</div>
 			</div>
@@ -558,28 +527,6 @@
 			</div>
 		</div>
 		<!--End Footer-->
-
-
-
-		<!-- Edit Modal -->
-		<div class="modal fade" id="modaledit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="staticBackdropLabel">Edición</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="content">
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
 	</div>
 	<!-- End Page -->
 
@@ -635,6 +582,114 @@
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
 	<script src="JsFunctions/function.js"></script>
+	<script src="JsFunctions/informe.js"></script>
+	<script>
+		//Cargar Tabla
+		$(document).ready(function() {
+			cargarsignos();
+			cargarmedidas();
+		});
+
+		$('#tablegeneral').DataTable({
+			language: {
+				searchPlaceholder: 'Buscar..',
+				sSearch: '',
+				lengthMenu: '_MENU_ datos/página',
+				zeroRecords: 'No se encontraron resultados',
+				info: 'Mostrando página _PAGE_ de _PAGES_',
+				infoEmpty: 'No hay datos disponibles',
+				infoFiltered: '(filtrado de _MAX_ datos totales)',
+				paginate: {
+					first: 'Primero',
+					previous: 'Anterior',
+					next: 'Siguiente',
+					last: 'Último'
+				},
+			},
+			"paging": true,
+			"lengthChange": true,
+			"searching": true,
+			"ordering": true,
+			"info": true,
+			"autoWidth": true,
+			"responsive": true
+		});
+
+		$('#tablecieo1').DataTable({
+			language: {
+				searchPlaceholder: 'Buscar..',
+				sSearch: '',
+				lengthMenu: '_MENU_ datos/página',
+				zeroRecords: 'No se encontraron resultados',
+				info: 'Mostrando página _PAGE_ de _PAGES_',
+				infoEmpty: 'No hay datos disponibles',
+				infoFiltered: '(filtrado de _MAX_ datos totales)',
+				paginate: {
+					first: 'Primero',
+					previous: 'Anterior',
+					next: 'Siguiente',
+					last: 'Último'
+				},
+			},
+			"paging": true,
+			"lengthChange": true,
+			"searching": true,
+			"ordering": true,
+			"info": true,
+			"autoWidth": true,
+			"responsive": true
+		});
+
+		$('#tablecieo2').DataTable({
+			language: {
+				searchPlaceholder: 'Buscar..',
+				sSearch: '',
+				lengthMenu: '_MENU_ datos/página',
+				zeroRecords: 'No se encontraron resultados',
+				info: 'Mostrando página _PAGE_ de _PAGES_',
+				infoEmpty: 'No hay datos disponibles',
+				infoFiltered: '(filtrado de _MAX_ datos totales)',
+				paginate: {
+					first: 'Primero',
+					previous: 'Anterior',
+					next: 'Siguiente',
+					last: 'Último'
+				},
+			},
+			"paging": true,
+			"lengthChange": true,
+			"searching": true,
+			"ordering": true,
+			"info": true,
+			"autoWidth": true,
+			"responsive": true
+		});
+
+		$('#tablecie10').DataTable({
+			language: {
+				searchPlaceholder: 'Buscar..',
+				sSearch: '',
+				lengthMenu: '_MENU_ datos/página',
+				zeroRecords: 'No se encontraron resultados',
+				info: 'Mostrando página _PAGE_ de _PAGES_',
+				infoEmpty: 'No hay datos disponibles',
+				infoFiltered: '(filtrado de _MAX_ datos totales)',
+				paginate: {
+					first: 'Primero',
+					previous: 'Anterior',
+					next: 'Siguiente',
+					last: 'Último'
+				},
+			},
+			"paging": true,
+			"lengthChange": true,
+			"searching": true,
+			"ordering": true,
+			"info": true,
+			"autoWidth": true,
+			"responsive": true
+		});
+	</script>
 
 
 

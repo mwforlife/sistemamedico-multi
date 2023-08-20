@@ -30,15 +30,20 @@ function atender(id){
 
 function atencion(id){
     $.ajax({
-        url: "php/update/atencion.php",
+        url: "php/charge/atencion.php",
         type: "POST",
         data: {id: id},
         success: function(data){
-            if(data == 1){
-                ToastifySuccess("Atendida");
-                setTimeout(function(){location.reload();}, 1500);
-            }else{
-                ToastifyError("Error al atender");
+            //Comporbar si es un json
+            try{
+                var json = JSON.parse(data);
+                if(json.error==false){
+                    window.location.href = "detallepaciente.php?r="+json.id+"&p="+json.paciente;
+                }else{
+                    ToastifyError(json.mensaje);
+                }
+            }catch{
+                ToastifyError("Error al cargar");
             }
         }
     });
