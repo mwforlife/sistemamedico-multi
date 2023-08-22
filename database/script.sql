@@ -820,3 +820,14 @@ create table atenciones(
     estado int not null default 1,
     registro datetime not null default current_timestamp
 );
+
+/***************Medicamentos***************/
+create table medicamentos(
+    id int not null auto_increment primary key,
+    codigo varchar(20) not null,
+    descripcion text not null,
+    laboratorio varchar(200) not null,
+    division varchar(200) not null,
+    categoria varchar(200) not null,
+    registro datetime not null default current_timestamp
+);

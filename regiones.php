@@ -4,6 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require 'php/controller.php';
 $c = new Controller();
+session_start();
 $empresa = null;
 if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
@@ -12,7 +13,6 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
     header("Location: index.php");
 }
 
-session_start();
 
 if (!isset($_SESSION['USER_ID'])) {
 	header("Location: signin.php");
@@ -154,7 +154,7 @@ $object = $c->buscarenUsuario1($id);
 										<a class="nav-sub-link" href="especialidad.php">Especialidad</a>
 									</li>
 									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="causaltermino.html">CAUSAL TERMINO CONTRATO</a>
+										<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
 									</li>
 									<li class="nav-sub-item">
 										<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>

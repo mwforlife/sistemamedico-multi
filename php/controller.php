@@ -28,6 +28,7 @@ require 'Class/DiasFeriados.php';
 require 'Class/Disponibilidad.php';
 require 'Class/Horario.php';
 require 'Class/Atencion.php';
+require 'Class/Medicamento.php';
 
 class Controller{
     private $mi;
@@ -4180,6 +4181,117 @@ class Controller{
         }
         $this->desconexion();
         return null;
+    }
+
+    //Registrar Medicamentos
+    public function registrarmedicamentos($codigo, $descripcion, $laboratorio, $division, $categoria){
+        $this->conexion();
+        $sql = "insert into medicamentos values(null, '$codigo', '$descripcion', '$laboratorio', '$division', '$categoria', now())";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Listar Medicamentos
+    public function listarmedicamentos(){
+        $this->conexion();
+        $sql = "select * from medicamentos";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while($rs = mysqli_fetch_array($result)){
+            $id = $rs["id"];
+            $codigo = $rs["codigo"];
+            $descripcion = $rs["descripcion"];
+            $laboratorio = $rs["laboratorio"];
+            $division = $rs["division"];
+            $categoria = $rs["categoria"];
+            $registro = $rs["registro"];
+            $medicamento = new Medicamento($id, $codigo, $descripcion, $laboratorio, $division, $categoria, $registro);
+            $lista[] = $medicamento;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Buscar Medicamento
+    public function buscarmedicamento($id){
+        $this->conexion();
+        $sql = "select * from medicamentos where id = $id";
+        $result = $this->mi->query($sql);
+        if($rs = mysqli_fetch_array($result)){
+            $id = $rs["id"];
+            $codigo = $rs["codigo"];
+            $descripcion = $rs["descripcion"];
+            $laboratorio = $rs["laboratorio"];
+            $division = $rs["division"];
+            $categoria = $rs["categoria"];
+            $registro = $rs["registro"];
+            $medicamento = new Medicamento($id, $codigo, $descripcion, $laboratorio, $division, $categoria, $registro);
+            $this->desconexion();
+            return $medicamento;
+        }
+        $this->desconexion();
+        return null;
+    }
+
+    //Buscar Medicamento por Categoria
+    public function buscarmedicamentocategoria($categoria){
+        $this->conexion();
+        $sql = "select * from medicamentos where categoria = $categoria";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while($rs = mysqli_fetch_array($result)){
+            $id = $rs["id"];
+            $codigo = $rs["codigo"];
+            $descripcion = $rs["descripcion"];
+            $laboratorio = $rs["laboratorio"];
+            $division = $rs["division"];
+            $categoria = $rs["categoria"];
+            $registro = $rs["registro"];
+            $medicamento = new Medicamento($id, $codigo, $descripcion, $laboratorio, $division, $categoria, $registro);
+            $lista[] = $medicamento;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Buscar Medicamento por Laboratorio
+    public function buscarmedicamentolaboratorio($laboratorio){
+        $this->conexion();
+        $sql = "select * from medicamentos where laboratorio = $laboratorio";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while($rs = mysqli_fetch_array($result)){
+            $id = $rs["id"];
+            $codigo = $rs["codigo"];
+            $descripcion = $rs["descripcion"];
+            $laboratorio = $rs["laboratorio"];
+            $division = $rs["division"];
+            $categoria = $rs["categoria"];
+            $registro = $rs["registro"];
+            $medicamento = new Medicamento($id, $codigo, $descripcion, $laboratorio, $division, $categoria, $registro);
+            $lista[] = $medicamento;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Eliminar Medicamento
+    public function eliminarmedicamento($id){
+        $this->conexion();
+        $sql = "delete from medicamentos where id = $id";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Actualizar Medicamento
+    public function actualizarmedicamento($id, $codigo, $descripcion, $laboratorio, $division, $categoria){
+        $this->conexion();
+        $sql = "update medicamentos set codigo = '$codigo', descripcion = '$descripcion', laboratorio = '$laboratorio', division = '$division', categoria = '$categoria' where id = $id";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
     }
     
             

@@ -2691,3 +2691,218 @@ function habilitarcomite(id){
         }
     });
 }
+
+/*******************Registrar medicamentos */
+$(document).ready(function () {
+    $("#medicamentosform").on("submit", function (event) {
+        event.preventDefault();
+        var datos = new FormData(this);
+        $.ajax({
+            type: "POST",
+            url: "php/insert/medicamentos.php",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data == 1 || data == "1") {
+                    ToastifySuccess("Datos registrados con exito");
+                    //Recargar pagina en 1 segundo
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1500);
+                } else if (data == 0 || data == "0") {
+                    ToastifyError("Hubo un error con el registro");
+                } else {
+                    ToastifyError(data);
+                }
+            }
+        })
+    }
+    );
+    $("#formmededit").on("submit", function (event) {
+        event.preventDefault();
+        var datos = new FormData(this);
+        $.ajax({
+            type: "POST",
+            url: "php/update/medicamentos.php",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data == 1 || data == "1") {
+                    ToastifySuccess("Datos Actualizados con exito");
+                    //Recargar pagina en 1 segundo
+                    setTimeout(function () {
+                       location.reload();
+                    }, 1500);
+                } else if (data == 0 || data == "0") {
+                    ToastifyError("Hubo un error con el registro");
+                } else {
+                    ToastifyError(data);
+                }
+            }
+        })
+    });
+});
+
+//Eliminar medicamento
+function EliminarMedicamento(id) {
+    swal.fire({
+        title: '¿Estas seguro de eliminar este registro?',
+        text: "No podras revertir esta accion!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+
+        //Texto del boton de confirmacion
+        confirmButtonText: 'Si, eliminar!',
+        //Texto del boton cancelar
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "POST",
+                url: "php/delete/medicamentos.php",
+                data: { id: id },
+                success: function (data) {
+                    if (data == 1 || data == "1") {
+                        ToastifySuccess("Datos eliminados con exito");
+                        //Recargar pagina en 1 segundo
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    } else if (data == 0 || data == "0") {
+                        ToastifyError("Hubo un error con la eliminacion");
+                    } else {
+                        ToastifyError(data);
+                    }
+                }
+            });
+        } else {
+            ToastifyError("Accion cancelada");
+        }
+    });
+}
+
+//Cargar mas datos
+function cargarMedicamento(id) {
+    $.ajax({
+        type: "POST",
+        url: "php/charge/medicamentos.php",
+        data: { id: id },
+        success: function (data) {
+            $(".content").html(data);
+        }
+    });
+}
+
+/******************Esquema */
+$(document).ready(function () {
+    $("#esquemaform").on("submit", function (event) {
+        event.preventDefault();
+        var datos = new FormData(this);
+        $.ajax({
+            type: "POST",
+            url: "php/insert/esquema.php",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data == 1 || data == "1") {
+                    ToastifySuccess("Datos registrados con exito");
+                    //Recargar pagina en 1 segundo
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1500);
+                } else if (data == 0 || data == "0") {
+                    ToastifyError("Hubo un error con el registro");
+                } else {
+                    ToastifyError(data);
+                }
+            }
+        })
+    });
+    $("#formesquemaedit").on("submit", function (event) {
+        event.preventDefault();
+        var datos = new FormData(this);
+        $.ajax({
+            type: "POST",
+            url: "php/update/esquema.php",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data == 1 || data == "1") {
+                    ToastifySuccess("Datos Actualizados con exito");
+                    //Recargar pagina en 1 segundo
+                    setTimeout(function () {
+                       location.reload();
+                    }, 1500);
+                } else if (data == 0 || data == "0") {
+                    ToastifyError("Hubo un error con el registro");
+                } else {
+                    ToastifyError(data);
+                }
+            }
+        })
+    });
+});
+
+//Eliminar esquema
+function EliminarEsquema(id) {
+    swal.fire({
+        title: '¿Estas seguro de eliminar este registro?',
+        text: "No podras revertir esta accion!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+
+        //Texto del boton de confirmacion
+        confirmButtonText: 'Si, eliminar!',
+        //Texto del boton cancelar
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "POST",
+                url: "php/delete/esquema.php",
+                data: { id: id },
+                success: function (data) {
+                    if (data == 1 || data == "1") {
+                        ToastifySuccess("Datos eliminados con exito");
+                        //Recargar pagina en 1 segundo
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    } else if (data == 0 || data == "0") {
+                        ToastifyError("Hubo un error con la eliminacion");
+                    } else {
+                        ToastifyError(data);
+                    }
+                }
+            });
+        } else {
+            ToastifyError("Accion cancelada");
+        }
+    });
+}
+
+//Cargar mas datos
+function cargarEsquema(id) {
+    $.ajax({
+        type: "POST",
+        url: "php/charge/esquema.php",
+        data: { id: id },
+        success: function (data) {
+            $(".content").html(data);
+        }
+    });
+}
+
+//Agregar medicamento

@@ -184,7 +184,10 @@ if (isset($_GET['code'])) {
 								<a class="nav-sub-link" href="especialidad.php">Especialidad</a>
 							</li>
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="causaltermino.html">CAUSAL TERMINO CONTRATO</a>
+								<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="esquema.php">Esquema</a>
 							</li>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>

@@ -4,9 +4,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require 'php/controller.php';
 $c = new Controller();
-
-session_start();
 $empresa = null;
+session_start();
 if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
 	$empresa = $c->buscarEmpresa($enterprise);
@@ -14,10 +13,10 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
     header("Location: index.php");
 }
 
+
 if (!isset($_SESSION['USER_ID'])) {
 	header("Location: signin.php");
 } else {
-	
 	$valid  = $c->validarsesion($_SESSION['USER_ID'], $_SESSION['USER_TOKEN']);
 	if ($valid == false) {
 		header("Location: lockscreen.php");
@@ -41,7 +40,7 @@ $object = $c->buscarenUsuario1($id);
 	<link rel="icon" href="assets/img/brand/favicon.ico" type="image/x-icon" />
 
 	<!-- Title -->
-	<title>OncoWay | Diagnosticos CIE10</title>
+	<title>OncoWay | Medicamentos</title>
 
 	<!-- Bootstrap css-->
 	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -156,6 +155,9 @@ $object = $c->buscarenUsuario1($id);
 									</li>
 									<li class="nav-sub-item">
 										<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="esquema.php">Esquema</a>
 									</li>
 									<li class="nav-sub-item">
 										<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
@@ -353,7 +355,7 @@ $object = $c->buscarenUsuario1($id);
 					<!-- Page Header -->
 					<div class="page-header">
 						<div class="page-header-1">
-							<h1 class="main-content-title tx-30">Registro de Diagnosticos CIE10</h1>
+							<h1 class="main-content-title tx-30">Registro de Medicamentos</h1>
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
 							</ol>
@@ -365,87 +367,39 @@ $object = $c->buscarenUsuario1($id);
 							<div class="card orverflow-hidden">
 								<div class="card-body">
 									<div>
-										<h6 class="main-content-label mb-1">Registro de Diagnosticos CIE10</h6>
+										<h6 class="main-content-label mb-1">Registro de Medicamentos</h6>
 										<p class="text-mutted card-sub-title"></p>
 									</div>
-									<form id="diagcie10form" name="diagcieoform" class="needs-validation was-validated">
+									<form id="medicamentosform" name="medicamentosform" class="needs-validation was-validated">
 										<div class="row">
-											<div class="col-lg-4">
+											<div class="col-lg-6">
 												<div class="form-group has-success mg-b-0">
-													<label>Codigo</label>
+													<label>Codigo (SKU)</label>
 													<input class="form-control" id="Codigo" name="Codigo" placeholder="Codigo" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-6">
 												<div class="form-group has-success mg-b-0">
 													<label>Descripcion</label>
-													<input class="form-control" id="Nombre" name="Nombre" placeholder="Descripcion" required="" type="text" value="">
+													<input class="form-control" id="descripcion" name="descripcion" placeholder="Descipción Medicamento" required="" type="text" value="">
 												</div>
 											</div>
-											<div class="col-lg-2">
+											<div class="col-lg-6">
 												<div class="form-group has-success mg-b-0">
-													<label>Nodo Final</label>
-													<input class="form-control" id="nodofinal" name="nodofinal" placeholder="Nodo Final" required="" type="number" value="0">
+													<label>Laboratorio</label>
+													<input class="form-control" id="laboratorio" name="laboratorio" placeholder="Nombre Laboratorio" required="" type="text" value="">
 												</div>
 											</div>
-											<div class="col-lg-2">
+											<div class="col-lg-6">
 												<div class="form-group has-success mg-b-0">
-													<label>Manifestación No DP</label>
-													<input class="form-control" id="manifestacion" name="manifestacion" placeholder="Manifestación No DP"  type="number" >
+													<label>División</label>
+													<input class="form-control" id="division" name="division" placeholder="División" required="" type="text" value="">
 												</div>
 											</div>
-											<div class="col-lg-2">
+											<div class="col-lg-6">
 												<div class="form-group has-success mg-b-0">
-													<label>Perinatal</label>
-													<input class="form-control" id="perinatal" name="perinatal" placeholder="Perinatal"  type="number" >
-												</div>
-											</div>
-											<div class="col-lg-2">
-												<div class="form-group has-success mg-b-0">
-													<label>Pediatríco</label>
-													<input class="form-control" id="pediatrico" name="pediatrico" placeholder="Pediatrico"  type="number" >
-												</div>
-											</div>
-											<div class="col-lg-2">
-												<div class="form-group has-success mg-b-0">
-													<label>Obstétrico</label>
-													<input class="form-control" id="obstetrico" name="obstetrico" placeholder="Obstétrico"  type="number" >
-												</div>
-											</div>
-											<div class="col-lg-2">
-												<div class="form-group has-success mg-b-0">
-													<label>Adulto</label>
-													<input class="form-control" id="adulto" name="adulto" placeholder="Adulto"  type="number" >
-												</div>
-											</div>
-											<div class="col-lg-2">
-												<div class="form-group has-success mg-b-0">
-													<label>Mujer</label>
-													<input class="form-control" id="mujer" name="mujer" placeholder="Mujer"  type="number" >
-												</div>
-											</div>
-											<div class="col-lg-2">
-												<div class="form-group has-success mg-b-0">
-													<label>Hombre</label>
-													<input class="form-control" id="hombre" name="hombre" placeholder="Hombre"  type="number" >
-												</div>
-											</div>
-											<div class="col-lg-2">
-												<div class="form-group has-success mg-b-0">
-													<label>Poa Exempto</label>
-													<input class="form-control" id="poaexento" name="poaexento" placeholder="Poa Exempto"  type="number" >
-												</div>
-											</div>
-											<div class="col-lg-2">
-												<div class="form-group has-success mg-b-0">
-													<label>DP No Principal</label>
-													<input class="form-control" id="dpnoprincipal" name="dpnoprincipal" placeholder="DP No Principal"  type="number" >
-												</div>
-											</div>
-											<div class="col-lg-2">
-												<div class="form-group has-success mg-b-0">
-													<label>VCDP</label>
-													<input class="form-control" id="vcdp" name="vcdp" placeholder="VCDP"  type="number" >
+													<label>Categoría</label>
+													<input class="form-control" id="categoria" name="categoria" placeholder="Categoria" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-md-12 mt-3 text-right">
@@ -463,54 +417,41 @@ $object = $c->buscarenUsuario1($id);
 						<div class="col-xl-12 col-lg-12 col-md-12">
 							<div class="card transcation-crypto1" id="transcation-crypto1">
 								<div class="card-header bd-b-0">
-									<h4 class="card-title font-weight-semibold mb-0">Listado de Diagnosticos CIE10</h4>
+									<h4 class="card-title font-weight-semibold mb-0">Listado De Medicamentos</h4>
 								</div>
 								<div class="card-body">
 									<div class="">
 										<div class="table-responsive">
-											<table class="table w-100 text-wrap" id="example1">
+											<table class="table w-100 text-nowrap" id="example1">
 												<thead class="border-top text-center">
 													<tr>
-														<th class="bg-transparent">Codigo</th>
-														<th class="bg-transparent">Descripcion</th>
-														<th class="bg-transparent">Nodo Final</th>
-														<th class="bg-transparent">Manifestación No DP</th>
-														<th class="bg-transparent">Perinatal</th>
-														<th class="bg-transparent">Pediatríco</th>
-														<th class="bg-transparent">Obstétrico</th>
-														<th class="bg-transparent">Adulto</th>
-														<th class="bg-transparent">Mujer</th>
-														<th class="bg-transparent">Hombre</th>
-														<th class="bg-transparent">Poa Exempto</th>
-														<th class="bg-transparent">DP No Principal</th>
-														<th class="bg-transparent">VCDP</th>
-														<th class="bg-transparent">Acciones</th>
+														<th class="bg-transparent">Codigo (SKU)</th>
+														<th class="bg-transparent">Descripción</th>
+														<th class="bg-transparent">Laboratorio</th>
+														<th class="bg-transparent">División</th>
+														<th class="bg-transparent">Categoría</th>
+														<th class="bg-transparent text-center">Accion</th>
 													</tr>
 												</thead>
 												<tbody class="text-center">
 													<?php
-													 $lista = $c->listarDiagnosticosCIE10();
-													 foreach ($lista as $object) {
-														echo "<tr>";
-														echo "<td>".$object->getCodigo()."</td>";
-														echo "<td>".$object->getDescripcion()."</td>";
-														echo "<td>".$object->getNodoFinal()."</td>";
-														echo "<td>".$object->getManifestacionNoDP()."</td>";
-														echo "<td>".$object->getPerinatal()."</td>";
-														echo "<td>".$object->getPediatrico()."</td>";
-														echo "<td>".$object->getObstetrico()."</td>";
-														echo "<td>".$object->getAdulto()."</td>";
-														echo "<td>".$object->getMujer()."</td>";
-														echo "<td>".$object->getHombre()."</td>";
-														echo "<td>".$object->getPoaExempto()."</td>";
-														echo "<td>".$object->getDPNoPrincipal()."</td>";
-														echo "<td>".$object->getVCDP()."</td>";
-														echo "<td class='text-center'>";
-														echo "<a href='#' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#modaledit' onclick='cargardiagnosticocie10(".$object->getId().")'><i class='fa fa-edit'></i></a>";
-														echo "<a href='#' class='btn btn-danger btn-sm' onclick='Eliminardiagnosticocie10(".$object->getId().")'><i class='fas fa-trash-alt'></i></a>";
-														echo "</td>";
-														echo "</tr>";
-													 }
+													$lista = $c->listarmedicamentos();
+													if (count($lista) > 0) {
+														foreach ($lista as $object) {
+															echo "<tr>
+															<td>" . $object->getCodigo() . "</td>
+															<td>" . $object->getDescripcion() . "</td>
+																		<td>" . $object->getLaboratorio() . "</td>
+																		<td>" . $object->getDivision() . "</td>
+																		<td>" . $object->getCategoria() . "</td>
+																		<td class='text-center'>
+																			<a href='javascript:void(0)' class='btn btn-sm btn-primary' data-toggle='modal' data-target='#modaledit' onclick='cargarMedicamento(" . $object->getId() . ")'><i class='fa fa-edit'></i></a>
+																			<a href='javascript:void(0)' class='btn btn-sm btn-danger' onclick='EliminarMedicamento(" . $object->getId() . ")'><i class='fas fa-trash-alt'></i></a>
+																		</td>
+																	</tr>";
+														}
+													}
+
 													?>
 												</tbody>
 											</table>
@@ -553,9 +494,12 @@ $object = $c->buscarenUsuario1($id);
 						</button>
 					</div>
 					<div class="modal-body">
+						<form id="formmededit" name="formmededit">
 						<div class="content">
 
 						</div>
+
+						</form>
 					</div>
 				</div>
 			</div>
