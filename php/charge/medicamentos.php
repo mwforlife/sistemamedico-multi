@@ -8,32 +8,70 @@ if (isset($_POST['id'])) {
 		echo "<div class='row'>";
 		echo "<div class='col-md-6'>";
 		echo "<div class='form-group'>";
-		echo "<label for='diagnostico'>Código(SKU)</label>";
-		echo "<input type='text' class='form-control' id='codigoedit' name='codigoedit' value='" . $object->getCodigo() . "' required>";
+		echo "<label for='diagnostico'>Nombre</label>";
+		echo "<input type='text' class='form-control' id='nombreedit' name='nombreedit' value='" . $object->getNombre() . "' required>";
 		echo "</div>";
 		echo "</div>";
 		echo "<div class='col-md-6'>";
 		echo "<div class='form-group'>";
-		echo "<label for='diagnostico'>Descripción</label>";
-		echo "<input type='text' class='form-control' id='descripcionedit' name='descripcionedit' value='" . $object->getDescripcion() . "' required>";
+		echo "<label for='diagnostico'>Presentacion</label>";
+		$presentaciones = $c->listarpresentaciones();
+		echo "<select class='form-control' id='presentacionedit' name='presentacionedit'>";
+		foreach ($presentaciones as $presentacion) {
+			if ($presentacion->getId() == $object->getPresentacion()) {
+				echo "<option value='" . $presentacion->getId() . "' selected>" . $presentacion->getNombre() . "</option>";
+			} else {
+				echo "<option value='" . $presentacion->getId() . "'>" . $presentacion->getNombre() . "</option>";
+			}
+		}
+		echo "</select>";
 		echo "</div>";
 		echo "</div>";
 		echo "<div class='col-md-6'>";
 		echo "<div class='form-group'>";
-		echo "<label for='diagnostico'>Laboratorio</label>";
-		echo "<input type='text' class='form-control' id='laboratorioedit' name='laboratorioedit' value='" . $object->getLaboratorio() . "' required>";
+		echo "<label for='diagnostico'>Cantidad</label>";
+		if($object->getCantidad()==0){
+			echo "<input type='text' class='form-control' id='cantidadedit' name='cantidadedit' value='' required>";
+		}else{
+		echo "<input type='text' class='form-control' id='cantidadedit' name='cantidadedit' value='" . $object->getCantidad() . "' required>";
+		}
 		echo "</div>";
 		echo "</div>";
 		echo "<div class='col-md-6'>";
 		echo "<div class='form-group'>";
-		echo "<label for='diagnostico'>División</label>";
-		echo "<input type='text' class='form-control' id='division' name='division' value='" . $object->getDescripcion() . "' required>";
+		echo "<label for='diagnostico'>Medida</label>";
+		
+		$presentaciones = $c->listarmedidas();
+		echo "<select class='form-control' id='medidasedit' name='medidasedit'>";
+		foreach ($presentaciones as $presentacion) {
+			if ($presentacion->getId() == $object->getMedida()) {
+				echo "<option value='" . $presentacion->getId() . "' selected>" . $presentacion->getNombre() . "</option>";
+			} else {
+				echo "<option value='" . $presentacion->getId() . "'>" . $presentacion->getNombre() . "</option>";
+			}
+		}
+		echo "</select>";
 		echo "</div>";
 		echo "</div>";
-		echo "<div class='col-md-6'>";
+		echo "<div class='col-md-12'>";
 		echo "<div class='form-group'>";
-		echo "<label for='diagnostico'>Categoría</label>";
-		echo "<input type='text' class='form-control' id='categoriaedit' name='categoriaedit' value='" . $object->getDescripcion() . "' required>";
+		echo "<label for='diagnostico'>Vias de Administración</label><br/>";
+		$viasob = $object->getViasdeadministracion();
+		//Separar las vias por ;
+		$viaso = explode(";", $viasob);
+		$cantidad = count($viaso);
+		$vias = $c->listarviasadministracion();
+		foreach ($vias as $via) {
+			echo "<input type='checkbox' id='viaedit" . $via->getId() . "' name='viaedit" . $via->getId() . "' value='" . $via->getNombre() . "'";
+			if($cantidad> 0){
+				foreach ($viaso as $viao) {
+					if ($via->getNombre() == $viao) {
+						echo " checked";
+					} 
+				}
+			}
+			echo "> " . $via->getNombre() . " ";
+		}
 		echo "</div>";
 		echo "</div>";
 		echo "<div class='col-md-6'>";

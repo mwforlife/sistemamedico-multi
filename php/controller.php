@@ -4183,10 +4183,58 @@ class Controller{
         return null;
     }
 
-    //Registrar Medicamentos
-    public function registrarmedicamentos($codigo, $descripcion, $laboratorio, $division, $categoria){
+    //Listar Presentacion
+    function listarpresentaciones(){
         $this->conexion();
-        $sql = "insert into medicamentos values(null, '$codigo', '$descripcion', '$laboratorio', '$division', '$categoria', now())";
+        $sql = "select * from presentacion";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while($rs = mysqli_fetch_array($result)){
+            $id = $rs["id"];
+            $nombre = $rs["nombre"];
+            $presentacion = new Objects($id, $id, $nombre);
+            $lista[] = $presentacion;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Listar Medida
+    function listarmedidas(){
+        $this->conexion();
+        $sql = "select * from medidas";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while($rs = mysqli_fetch_array($result)){
+            $id = $rs["id"];
+            $nombre = $rs["nombre"];
+            $medida = new Objects($id, $id, $nombre);
+            $lista[] = $medida;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Listar vias de administracion
+    function listarviasadministracion(){
+        $this->conexion();
+        $sql = "select * from viaadministracion";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while($rs = mysqli_fetch_array($result)){
+            $id = $rs["id"];
+            $nombre = $rs["nombre"];
+            $via = new Objects($id, $id, $nombre);
+            $lista[] = $via;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Registrar Medicamentos
+    public function registrarmedicamentos($nombre, $presentacion, $cantidad, $medida, $via){
+        $this->conexion();
+        $sql = "insert into medicamentos values(null, '$nombre', $presentacion, $cantidad, $medida, '$via', now())";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
@@ -4195,18 +4243,32 @@ class Controller{
     //Listar Medicamentos
     public function listarmedicamentos(){
         $this->conexion();
-        $sql = "select * from medicamentos";
+        $sql = "select medicamentos.id as id, medicamentos.nombre as nombre, presentacion.nombre as presentacion, medicamentos.cantidad as cantidad, medidas.nombre as medida, viaadministracion as via, medicamentos.registro as registro from medicamentos, presentacion, medidas where medicamentos.presentacion = presentacion.id and medicamentos.medida = medidas.id;";
         $result = $this->mi->query($sql);
         $lista = array();
         while($rs = mysqli_fetch_array($result)){
             $id = $rs["id"];
-            $codigo = $rs["codigo"];
-            $descripcion = $rs["descripcion"];
-            $laboratorio = $rs["laboratorio"];
-            $division = $rs["division"];
-            $categoria = $rs["categoria"];
+            $nombre = $rs["nombre"];
+            $presentacion = $rs["presentacion"];
+            $cant = $rs["cantidad"];
+            $medida = $rs["medida"];
+            $via = $rs["via"];
+            $viaadministracion ="";
+            //Separar las vias dividas por ;
+            $via = explode(";", $via);
+            $cantidad = count($via);
+            $i = 0;
+            if($cantidad>0)
+                foreach($via as $v){
+                    if($i == $cantidad-1){
+                        $viaadministracion .= $v . " ";
+                    }else{
+                    $viaadministracion .= $v.", ";
+                    }
+                }
+             
             $registro = $rs["registro"];
-            $medicamento = new Medicamento($id, $codigo, $descripcion, $laboratorio, $division, $categoria, $registro);
+            $medicamento = new Medicamento($id, $nombre, $presentacion, $cant, $medida, $viaadministracion, $registro);
             $lista[] = $medicamento;
         }
         $this->desconexion();
@@ -4220,60 +4282,18 @@ class Controller{
         $result = $this->mi->query($sql);
         if($rs = mysqli_fetch_array($result)){
             $id = $rs["id"];
-            $codigo = $rs["codigo"];
-            $descripcion = $rs["descripcion"];
-            $laboratorio = $rs["laboratorio"];
-            $division = $rs["division"];
-            $categoria = $rs["categoria"];
+            $nombre = $rs["nombre"];
+            $presentacion = $rs["presentacion"];
+            $cantidad = $rs["cantidad"];
+            $medida = $rs["medida"];
+            $via = $rs["viaadministracion"];
             $registro = $rs["registro"];
-            $medicamento = new Medicamento($id, $codigo, $descripcion, $laboratorio, $division, $categoria, $registro);
+            $medicamento = new Medicamento($id, $nombre, $presentacion, $cantidad, $medida, $via, $registro);
             $this->desconexion();
             return $medicamento;
         }
         $this->desconexion();
         return null;
-    }
-
-    //Buscar Medicamento por Categoria
-    public function buscarmedicamentocategoria($categoria){
-        $this->conexion();
-        $sql = "select * from medicamentos where categoria = $categoria";
-        $result = $this->mi->query($sql);
-        $lista = array();
-        while($rs = mysqli_fetch_array($result)){
-            $id = $rs["id"];
-            $codigo = $rs["codigo"];
-            $descripcion = $rs["descripcion"];
-            $laboratorio = $rs["laboratorio"];
-            $division = $rs["division"];
-            $categoria = $rs["categoria"];
-            $registro = $rs["registro"];
-            $medicamento = new Medicamento($id, $codigo, $descripcion, $laboratorio, $division, $categoria, $registro);
-            $lista[] = $medicamento;
-        }
-        $this->desconexion();
-        return $lista;
-    }
-
-    //Buscar Medicamento por Laboratorio
-    public function buscarmedicamentolaboratorio($laboratorio){
-        $this->conexion();
-        $sql = "select * from medicamentos where laboratorio = $laboratorio";
-        $result = $this->mi->query($sql);
-        $lista = array();
-        while($rs = mysqli_fetch_array($result)){
-            $id = $rs["id"];
-            $codigo = $rs["codigo"];
-            $descripcion = $rs["descripcion"];
-            $laboratorio = $rs["laboratorio"];
-            $division = $rs["division"];
-            $categoria = $rs["categoria"];
-            $registro = $rs["registro"];
-            $medicamento = new Medicamento($id, $codigo, $descripcion, $laboratorio, $division, $categoria, $registro);
-            $lista[] = $medicamento;
-        }
-        $this->desconexion();
-        return $lista;
     }
 
     //Eliminar Medicamento
@@ -4286,9 +4306,70 @@ class Controller{
     }
 
     //Actualizar Medicamento
-    public function actualizarmedicamento($id, $codigo, $descripcion, $laboratorio, $division, $categoria){
+    public function actualizarmedicamento($id, $nombre, $presentacion, $cantidad, $medida, $via){
         $this->conexion();
-        $sql = "update medicamentos set codigo = '$codigo', descripcion = '$descripcion', laboratorio = '$laboratorio', division = '$division', categoria = '$categoria' where id = $id";
+        $sql = "update medicamentos set nombre = '$nombre', presentacion = $presentacion, cantidad = $cantidad, medida = $medida, viaadministracion = '$via' where id = $id";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Registrar Esquema
+    public function registraresquema($codigo, $nombre, $empresa){
+        $this->conexion();
+        $sql = "insert into esquemas values(null, '$codigo', '$nombre',$empresa,now())";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Listar Esquema
+    public function listaresquemas($empresa){
+        $this->conexion();
+        $sql = "select * from esquemas where empresa=$empresa order by nombre asc";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while($rs = mysqli_fetch_array($result)){
+            $id = $rs['id'];
+            $codigo = $rs['codigo'];
+            $nombre = $rs['nombre'];
+            $object = new Objects($id, $codigo, $nombre);
+            $lista[] = $object;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Buscar Esquema
+    public function buscarenesquema($id){
+        $this->conexion();
+        $sql = "select * from esquemas where id = $id";
+        $result = $this->mi->query($sql);
+        if($rs = mysqli_fetch_array($result)){
+            $id = $rs['id'];
+            $codigo = $rs['codigo'];
+            $nombre = $rs['nombre'];
+            $object = new Objects($id, $codigo, $nombre);
+            $this->desconexion();
+            return $object;
+        }
+        $this->desconexion();
+        return null;
+    }
+
+    //Actualizar Esquema
+    public function actualizaresquema($id, $codigo, $nombre){
+        $this->conexion();
+        $sql = "update esquemas set codigo = '$codigo', nombre = '$nombre' where id = $id";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Eliminar Esquema
+    public function eliminaresquema($id){
+        $this->conexion();
+        $sql = "delete from esquemas where id = $id";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);

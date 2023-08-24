@@ -1,23 +1,37 @@
 <?php
 require '../controller.php';
 $c = new controller();
-if(isset($_POST['Codigo']) && isset($_POST['descripcion']) && isset($_POST['laboratorio']) && isset($_POST['division']) && isset($_POST['categoria'])){
-    $codigo = $_POST['Codigo'];
-    $descripcion = $_POST['descripcion'];
-    $laboratorio = $_POST['laboratorio'];
-    $division = $_POST['division'];
-    $categoria = $_POST['categoria'];
+if(isset($_POST['nombre']) && isset($_POST['presentacion']) && isset($_POST['cantidad']) && isset($_POST['medida'])){
+    $nombre = $_POST['nombre'];
+    $presentacion = $_POST['presentacion'];
+    $cantidad = $_POST['cantidad'];
+    $medida = $_POST['medida'];
 
-    if(strlen($codigo) > 0 && strlen($descripcion) > 0 && strlen($laboratorio) > 0 && strlen($division) > 0 && strlen($categoria) > 0){
-        $result = $c->registrarmedicamentos($codigo,$descripcion,$laboratorio,$division,$categoria);
-         if($result==true){
-            echo 1;
-         }else{
-            echo 0;
-         }
-        }else{
-            echo 0;
+    if(strlen($cantidad)==0){
+        $cantidad = 0;
+    }else if(!is_numeric($cantidad)){
+        $cantidad = 0;
+    }   
+
+
+
+    if(strlen($nombre)==0){
+        echo json_encode(array('error' => true, 'message' => 'El nombre no puede estar vacio'));
+    }
+    $via ="";
+    $vias = $c->listarviasadministracion();
+    foreach($vias as $v){
+        if(isset($_POST['via'.$v->getId()])){ //Si esta seteado el checkbox 'via1
+            $via .= $v->getNombre().";";
         }
+    }
+
+    $result = $c->registrarmedicamentos($nombre, $presentacion, $cantidad, $medida, $via);
+    if($result==true){
+        echo json_encode(array('error' => false, 'message' => 'Medicamento registrado correctamente'));
+    }else{
+        echo json_encode(array('error' => true, 'message' => 'Error al registrar el medicamento'));
+    }
 }else{
-    echo 0;
+    echo json_encode(array('error' => true, 'message' => 'Error al registrar el medicamento'));
 }

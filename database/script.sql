@@ -822,12 +822,60 @@ create table atenciones(
 );
 
 /***************Medicamentos***************/
+create table presentacion(
+    id int not null auto_increment primary key,
+    nombre varchar(200) not null,
+    registro datetime not null default current_timestamp
+);
+
+insert into presentacion values(1,"Ampolla",now());
+insert into presentacion values(2,"Fraco Ampolla",now());
+insert into presentacion values(3,"Jerinaga Prellenada",now());
+insert into presentacion values(4,"Comprimidos",now());
+
+
+create table medidas(
+    id int not null auto_increment primary key,
+    nombre varchar(200) not null,
+    registro datetime not null default current_timestamp
+);
+
+insert into medidas values(1,"Miligramos (mg)",now());
+insert into medidas values(2,"Gramos (gr)",now());
+insert into medidas values(3,"Microgramos (ucg)",now());
+insert into medidas values(4,"Mililitros (ml)",now());
+insert into medidas values(5,"mg/ml",now());
+insert into medidas values(6,"gr/ml",now());
+insert into medidas values(7,"ucg/ml",now());
+insert into medidas values(8,"Microgramo (ug/ml)",now());
+
+create table viaadministracion(
+    id int not null auto_increment primary key,
+    nombre varchar(200) not null,
+    registro datetime not null default current_timestamp
+);
+
+
+insert into viaadministracion values(1,"Intravenosa (IV)",now());
+insert into viaadministracion values(2,"Intramuscular (IM)",now());
+insert into viaadministracion values(3,"Subcutanea (SC)",now());
+insert into viaadministracion values(4,"Oral (VO)",now());
+insert into viaadministracion values(5,"Intratecal (IT)",now());
+
 create table medicamentos(
     id int not null auto_increment primary key,
+    nombre text not null,
+    presentacion int not null references presentacion(id),
+    cantidad int null default 0,
+    medida int not null references medidas(id),
+    viaadministracion text null,
+    registro datetime not null default current_timestamp
+);
+
+create table esquemas(
+    id int not null auto_increment primary key,
     codigo varchar(20) not null,
-    descripcion text not null,
-    laboratorio varchar(200) not null,
-    division varchar(200) not null,
-    categoria varchar(200) not null,
+    nombre varchar(400) not null,
+    empresa int not null references empresa(id),
     registro datetime not null default current_timestamp
 );

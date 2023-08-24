@@ -1,20 +1,20 @@
 <?php
 class Medicamento{
     private $id;
-    private $codigo;
-    private $descripcion;
-    private $laboratorio;
-    private $division;
-    private $categoria;
+    private $nombre;
+    private $presentacion;
+    private $cantidad;
+    private $medida;
+    private $viasdeadministracion;
     private $registro;
 
-    public function __construct($id, $codigo, $descripcion, $laboratorio, $division, $categoria, $registro){
+    public function __construct($id, $nombre, $presentacion, $cantidad, $medida, $viasdeadministracion, $registro){
         $this->id = $id;
-        $this->codigo = $codigo;
-        $this->descripcion = $descripcion;
-        $this->laboratorio = $laboratorio;
-        $this->division = $division;
-        $this->categoria = $categoria;
+        $this->nombre = $nombre;
+        $this->presentacion = $presentacion;
+        $this->cantidad = $cantidad;
+        $this->medida = $medida;
+        $this->viasdeadministracion = $viasdeadministracion;
         $this->registro = $registro;
     }
 
@@ -22,27 +22,28 @@ class Medicamento{
         return $this->id;
     }
 
-    public function getCodigo(){
-        return $this->codigo;
+    public function getNombre(){
+        return $this->nombre;
     }
 
-    public function getDescripcion(){
-        return $this->descripcion;
+    public function getPresentacion(){
+        return $this->presentacion;
     }
 
-    public function getLaboratorio(){
-        return $this->laboratorio;
+    public function getCantidad(){
+        return $this->cantidad;
     }
 
-    public function getDivision(){
-        return $this->division;
+    public function getMedida(){
+        return $this->medida;
     }
 
-    public function getCategoria(){
-        return $this->categoria;
+    public function getViasdeadministracion(){
+        return $this->viasdeadministracion;
     }
 
     public function getRegistro(){
         return $this->registro;
     }
+
 }

@@ -4,16 +4,31 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require 'php/controller.php';
 $c = new Controller();
-$empresa = null;
 session_start();
+$empresa = null;
 if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
 	$empresa = $c->buscarEmpresa($enterprise);
 }else{
     header("Location: index.php");
 }
-
-
+$espema = null;
+if(isset($_GET['c'])){
+	$code = $_GET['c'];
+	$code = $c->decrypt($code, "thechallengeofcoding");
+	if(is_numeric($code)){
+		if($code>0){
+			$esquema = $c->buscarenesquema($code);
+			if($esquema==null){
+				header("Location: esquemas.php");
+			}
+		}else{ 
+			header("Location: esquemas.php");
+		}
+	}else{
+		header("Location: esquemas.php");
+	}
+}
 if (!isset($_SESSION['USER_ID'])) {
 	header("Location: signin.php");
 } else {
@@ -40,7 +55,7 @@ $object = $c->buscarenUsuario1($id);
 	<link rel="icon" href="assets/img/brand/favicon.ico" type="image/x-icon" />
 
 	<!-- Title -->
-	<title>OncoWay | Medicamentos</title>
+	<title>OncoWay | Esquemas</title>
 
 	<!-- Bootstrap css-->
 	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -155,9 +170,6 @@ $object = $c->buscarenUsuario1($id);
 									</li>
 									<li class="nav-sub-item">
 										<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="esquema.php">Esquema</a>
 									</li>
 									<li class="nav-sub-item">
 										<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
@@ -355,7 +367,7 @@ $object = $c->buscarenUsuario1($id);
 					<!-- Page Header -->
 					<div class="page-header">
 						<div class="page-header-1">
-							<h1 class="main-content-title tx-30">Registro de Medicamentos</h1>
+							<h1 class="main-content-title tx-30">Registro de Esquema</h1>
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
 							</ol>
@@ -366,88 +378,24 @@ $object = $c->buscarenUsuario1($id);
 						<div class="col-lg-12">
 							<div class="card orverflow-hidden">
 								<div class="card-body">
-									<div>
-										<h6 class="main-content-label mb-1">Registro de Medicamentos</h6>
-										<p class="text-mutted card-sub-title"></p>
+									<div class="d-flex justify-content-between">
+										<h6 class="main-content-label mb-1">Definición de Esquema</h6>
+										
+										<p class="text-mutted card-sub-title">
+										<?php
+											$esquema = $c->buscarenesquema($code);
+											echo "Esquema: ". $esquema->getNombre();
+										?>
+										</p>
 									</div>
-									<form id="medicamentosform" name="medicamentosform" class="needs-validation was-validated">
-										<div class="row">
-											<div class="col-lg-6">
-												<div class="form-group has-success mg-b-0">
-													<label>Nombre</label>
-													<input class="form-control" id="nombre" name="nombre" placeholder="Nombre del Medicamento" required="" type="text" value="">
-												</div>
-											</div>
-											<div class="col-lg-6">
-												<div class="form-group has-success mg-b-0">
-													<label>Presentacion</label>
-													<select name="presentacion" id="presentacion" class="form-control select2">
-														<?php
-															$presentaciones = $c->listarpresentaciones();
-															if (count($presentaciones) > 0) {
-																foreach ($presentaciones as $object) {
-																	echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
-																}
-															}
-														?>
-													</select>
-												</div>
-											</div>
-											<div class="col-lg-6">
-												<div class="form-group has-success mg-b-0">
-													<label>Cantidad</label>
-													<input class="form-control" id="cantidad" name="cantidad" placeholder="Cantidad"  type="number" value="">
-												</div>
-											</div>
-											<div class="col-lg-6">
-												<div class="form-group has-success mg-b-0">
-													<label>Medida</label>
-													<select name="medida" id="medida" class="form-control select2">
-														<?php
-															$medidas = $c->listarmedidas();
-															if (count($medidas) > 0) {
-																foreach ($medidas as $object) {
-																	echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
-																}
-															}
-														?>
-													</select>
-												</div>
-											</div>
-											<div class="col-lg-6">
-												<div class="form-group has-success-mg-b-0">
-													<label for="">Vias de Administración</label><br>
-													<?php
-														$vias = $c->listarviasadministracion();
-														if (count($vias) > 0) {
-															foreach ($vias as $object) {
-																echo "<input type='checkbox' value='" . $object->getId() . "' id='via" . $object->getId() . "' name='via" . $object->getId() . "'><span> " . $object->getNombre() . "</span>";
-															}
-														}
-													?>
-												</div>
-											</div>
-											<div class="col-md-12 mt-3 text-right">
-												<button type="reset" href="#" class="btn btn-warning btn-md"> <i class="fa fa-refresh"></i> Restablecer</button>
-												<button type="submit" href="#" class="btn btn-primary btn-md"> <i class="fa fa-save"></i> Registrar</button>
-											</div>
+									<div class="row">
+										<div class="col-md-12 text-right m-2">
+											<button class="btn btn-outline-success" data-toggle='modal' data-target='#modaledit'><i class="fa fa-plus"></i> Agregar </button>
+										
 										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- ROW-4 opened -->
-					<div class="row">
-						<div class="col-xl-12 col-lg-12 col-md-12">
-							<div class="card transcation-crypto1" id="transcation-crypto1">
-								<div class="card-header bd-b-0">
-									<h4 class="card-title font-weight-semibold mb-0">Listado De Medicamentos</h4>
-								</div>
-								<div class="card-body">
-									<div class="">
+										<div class="col-md-12">
 										<div class="table-responsive">
-											<table class="table w-100 text-nowrap" id="example1">
+											<table class="table w-100 text-nowrap" id="">
 												<thead class="border-top text-center">
 													<tr>
 														<th class="bg-transparent">ID</th>
@@ -456,45 +404,19 @@ $object = $c->buscarenUsuario1($id);
 														<th class="bg-transparent">Cantidad</th>
 														<th class="bg-transparent">Medida</th>
 														<th class="bg-transparent">Vias de administración</th>
-														<th class="bg-transparent text-center">Accion</th>
 													</tr>
 												</thead>
 												<tbody class="text-center">
-													<?php
-													$lista = $c->listarmedicamentos();
-													if (count($lista) > 0) {
-														foreach ($lista as $object) {
-															echo "<tr>
-															<td>" . $object->getId() . "</td>
-															<td>" . $object->getNombre() . "</td>
-																		<td>" . $object->getPresentacion() . "</td>
-																		<td>"; 
-																		if($object->getCantidad() == 0){
-																			echo "";
-																		}else{
-																			echo $object->getCantidad();
-																		}
-															echo "</td>
-																		<td>" . $object->getMedida() . "</td>
-																		<td>" . $object->getViasdeadministracion() . "</td>
-																		<td class='text-center'>
-																			<a href='javascript:void(0)' class='btn btn-sm btn-primary' data-toggle='modal' data-target='#modaledit' onclick='cargarMedicamento(" . $object->getId() . ")'><i class='fa fa-edit'></i></a>
-																			<a href='javascript:void(0)' class='btn btn-sm btn-danger' onclick='EliminarMedicamento(" . $object->getId() . ")'><i class='fas fa-trash-alt'></i></a>
-																		</td>
-																	</tr>";
-														}
-													}
-
-													?>
 												</tbody>
 											</table>
+										</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<!-- ROW-4 END -->
+					
 
 
 				</div>
@@ -518,7 +440,7 @@ $object = $c->buscarenUsuario1($id);
 
 		<!-- Edit Modal -->
 		<div class="modal fade" id="modaledit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
+			<div class="modal-dialog modal-xl">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="staticBackdropLabel">Edición</h5>
@@ -527,12 +449,50 @@ $object = $c->buscarenUsuario1($id);
 						</button>
 					</div>
 					<div class="modal-body">
-						<form id="formmededit" name="formmededit">
-						<div class="content">
+						<div class="row">
+						<div class="col-md-12">
+										<div class="table-responsive">
+											<table class="table w-100 text-nowrap" id="example1">
+												<thead class="border-top text-center">
+													<tr>
+														<th class="bg-transparent">ID</th>
+														<th class="bg-transparent">Nombre</th>
+														<th class="bg-transparent">Presentación</th>
+														<th class="bg-transparent">Cantidad</th>
+														<th class="bg-transparent">Medida</th>
+														<th class="bg-transparent">Vias de administración</th>
+														<th class="bg-transparent">Agregar</th>
+													</tr>
+												</thead>
+												<tbody class="text-center">
+													<?php
+													$lista = $c->listarmedicamentos();
+													if (count($lista) > 0) {
+														foreach ($lista as $object) {
+															echo "<tr>
+															<td>" . $object->getId() . "</td>
+															<td>" . $object->getNombre() . "</td>
+																		<td>" . $object->getPresentacion() . "</td>
+																		<td>"; 
+																		if($object->getCantidad() == 0){
+																			echo "";
+																		}else{
+																			echo $object->getCantidad();
+																		}
+															echo "</td>
+																		<td>" . $object->getMedida() . "</td>
+																		<td>" . $object->getViasdeadministracion() . "</td>";
+															echo "<td><button class='btn btn-outline-success' onclick='agregarmedicamento(" . $object->getId() . ")'><i class='fa fa-plus'></i></button></td>
+																	</tr>";
+														}
+													}
 
+													?>
+												</tbody>
+											</table>
+										</div>
+										</div>
 						</div>
-
-						</form>
 					</div>
 				</div>
 			</div>

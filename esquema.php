@@ -40,7 +40,7 @@ $object = $c->buscarenUsuario1($id);
 	<link rel="icon" href="assets/img/brand/favicon.ico" type="image/x-icon" />
 
 	<!-- Title -->
-	<title>OncoWay | Regiones</title>
+	<title>OncoWay | Esquemas</title>
 
 	<!-- Bootstrap css-->
 	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -378,9 +378,10 @@ $object = $c->buscarenUsuario1($id);
 											<div class="col-lg-6">
 												<div class="form-group has-success mg-b-0">
 													<label>Nombre</label>
-													<input class="form-control" id="Nombre" name="Nombre" placeholder="Nombre Profesión" required="" type="text" value="">
+													<input class="form-control" id="Nombre" name="Nombre" placeholder="Nombre del Esquema" required="" type="text" value="">
 												</div>
 											</div>
+											<input type="hidden" id="empresa" name="empresa" value="<?php echo $empresa->getId();?>">
 											<div class="col-md-12 mt-3 text-right">
 												<button type="reset" href="#" class="btn btn-warning btn-md"> <i class="fa fa-refresh"></i> Restablecer</button>
 												<button type="submit" href="#" class="btn btn-primary btn-md"> <i class="fa fa-save"></i> Registrar</button>
@@ -412,7 +413,7 @@ $object = $c->buscarenUsuario1($id);
 												</thead>
 												<tbody class="text-center">
 													<?php
-													$lista = $c->listarregion();
+													$lista = $c->listaresquemas($empresa->getId());
 													if (count($lista) > 0) {
 														foreach ($lista as $object) {
 															$code = $c->encrypt($object->getId(), "thechallengeofcoding");
@@ -423,8 +424,8 @@ $object = $c->buscarenUsuario1($id);
 																			<a href='medicamentoesquema.php?c=" . $code . "' class='btn btn-sm btn-success' ><i class='fa fa-file'></i></a>
 																		</td>
 																		<td class='text-center'>
-																			<a href='javascript:void(0)' class='btn btn-sm btn-primary' data-toggle='modal' data-target='#modaledit' onclick='cargarRegiones(" . $object->getId() . ")'><i class='fa fa-edit'></i></a>
-																			<a href='javascript:void(0)' class='btn btn-sm btn-danger' onclick='EliminarRegiones(" . $object->getId() . ")'><i class='fas fa-trash-alt'></i></a>
+																			<a href='javascript:void(0)' class='btn btn-sm btn-primary' data-toggle='modal' data-target='#modaledit' onclick='cargarEsquema(" . $object->getId() . ")'><i class='fa fa-edit'></i></a>
+																			<a href='javascript:void(0)' class='btn btn-sm btn-danger' onclick='EliminarEsquema(" . $object->getId() . ")'><i class='fas fa-trash-alt'></i></a>
 																		</td>
 																	</tr>";
 														}
@@ -472,9 +473,12 @@ $object = $c->buscarenUsuario1($id);
 						</button>
 					</div>
 					<div class="modal-body">
+						<form action="" id="formesquemaedit">
+
 						<div class="content">
 
 						</div>
+						</form>
 					</div>
 				</div>
 			</div>

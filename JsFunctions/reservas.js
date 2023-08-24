@@ -61,8 +61,6 @@ function buscarpacienterun(element) {
                 type: "POST",
                 data: { action: 'buscarpacienterun', run: run },
                 success: function (data) {
-                    //Recorrer el array de datos
-                    /*{"error":false,"mensaje":"Se encontraron pacientes con el rut ingresado","pacientes":{"id":"1","tipoidentificacion":"1","rut":"25.484.361-K","identificacion":"123456789-0","nacionalidad":"1","paisorigen":"1","email":"juan.perez@example.com","nombre":"Juan","apellido1":"P\u00e9rez","apellido2":"G\u00f3mez","genero":"1","estadocivil":"1","fechanacimiento":"1985-05-10","horanacimiento":"08:30:00","fonomovil":"+56912345678","fonofijo":"+56298765432","nombresocial":"Juanito","funcionario":"1","discapacidad":"1","reciennacido":"1","hijode":"","pesodenacimiento":null,"tallanacimiento":null,"tipoparto":"1","rol":null,"fechafallecimiento":"2023-07-12","horafaallecimiento":null,"estado":"1","registro":"0000-00-00 00:00:00"}}*/
                     var datos = JSON.parse(data);
                     if (datos.error == false) {
                         var paciente = "";

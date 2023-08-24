@@ -2705,16 +2705,22 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (data) {
-                if (data == 1 || data == "1") {
-                    ToastifySuccess("Datos registrados con exito");
-                    //Recargar pagina en 1 segundo
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1500);
-                } else if (data == 0 || data == "0") {
-                    ToastifyError("Hubo un error con el registro");
-                } else {
+                //Recibir el JSON
+                try{
+                    var medicamento = JSON.parse(data);
+                    //si el elemento error = true, mostrar error
+                    if(medicamento.error == true){
+                        ToastifyError(medicamento.message);
+                    }else if(medicamento.error == false){
+                        ToastifySuccess(medicamento.message);
+                        //Recargar pagina en 1 segundo
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    }
+                }catch(error){
                     ToastifyError(data);
+
                 }
             }
         })
@@ -2731,16 +2737,22 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (data) {
-                if (data == 1 || data == "1") {
-                    ToastifySuccess("Datos Actualizados con exito");
-                    //Recargar pagina en 1 segundo
-                    setTimeout(function () {
-                       location.reload();
-                    }, 1500);
-                } else if (data == 0 || data == "0") {
-                    ToastifyError("Hubo un error con el registro");
-                } else {
+                //Recibir el JSON
+                try{
+                    var medicamento = JSON.parse(data);
+                    //si el elemento error = true, mostrar error
+                    if(medicamento.error == true){
+                        ToastifyError(medicamento.message);
+                    }else if(medicamento.error == false){
+                        ToastifySuccess(medicamento.message);
+                        //Recargar pagina en 1 segundo
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    }
+                }catch(error){
                     ToastifyError(data);
+
                 }
             }
         })
