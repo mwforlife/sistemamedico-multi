@@ -2918,3 +2918,9 @@ function cargarEsquema(id) {
 }
 
 //Agregar medicamento
+function agregarmedicamento(id, medicamento){
+    $("#modaledit").modal("hide");
+    $("#medicamentoid").val(id);
+    $("#med").html("Medicamento: "+medicamento);
+    $("#modaladd").modal("show");
+}
