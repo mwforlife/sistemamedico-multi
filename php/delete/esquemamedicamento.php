@@ -4,7 +4,6 @@ $c = new Controller();
 
 if(isset($_POST['id'])){
 	$id = $_POST['id'];
-	$c->eliminarmedicamentoesquemaesquema($id);
-	$c->eliminaresquema($id);
+	$c->eliminarmedicamentoesquema($id);
 	echo 1;
 }

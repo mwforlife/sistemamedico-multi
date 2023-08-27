@@ -5,11 +5,14 @@ $c = new Controller();
 /*Codigo: sdfs
 Nombre: fdsf*/
 
-if(isset($_POST['Codigo']) && isset($_POST['Nombre']) && isset($_POST['empresa'])){
+if(isset($_POST['Codigo']) && isset($_POST['Nombre']) && isset($_POST['empresa'])  && isset($_POST['diagnostico']) && isset($_POST['libro'])){
     $codigo = $_POST['Codigo'];
     $nombre = $_POST['Nombre'];
     $empresa = $_POST['empresa'];
-    if(strlen($codigo) > 0 && strlen($nombre) > 0 && strlen($empresa) > 0){
+    $diagnostico = $_POST['diagnostico'];
+    $libro = $_POST['libro'];
+    //Validar que no esten vacios
+    if(strlen($codigo) > 0 && strlen($nombre) > 0 && strlen($empresa) > 0 && strlen($diagnostico) > 0 && strlen($libro) > 0){
         $codigo = $c->escapeString($codigo);
         $nombre = $c->escapeString($nombre);
         $empresa = $c->escapeString($empresa);
@@ -17,7 +20,7 @@ if(isset($_POST['Codigo']) && isset($_POST['Nombre']) && isset($_POST['empresa']
         $nombre = strtoupper($nombre);
         $codigo = strtoupper($codigo);
         $empresa = strtoupper($empresa);
-        $result = $c->registraresquema($codigo, $nombre, $empresa);
+        $result = $c->registraresquema($codigo, $nombre, $diagnostico, $libro, $empresa);
         if($result==true){
             echo "1";
         }else{

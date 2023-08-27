@@ -29,6 +29,8 @@ require 'Class/Disponibilidad.php';
 require 'Class/Horario.php';
 require 'Class/Atencion.php';
 require 'Class/Medicamento.php';
+require 'Class/Medicamentoesquema.php';
+require 'Class/Esquema.php';
 
 class Controller{
     private $mi;
@@ -4314,10 +4316,27 @@ class Controller{
         return json_encode($result);
     }
 
-    //Registrar Esquema
-    public function registraresquema($codigo, $nombre, $empresa){
+    //Listar libros
+    public function listarlibros(){
         $this->conexion();
-        $sql = "insert into esquemas values(null, '$codigo', '$nombre',$empresa,now())";
+        $sql = "select * from libros order by nombre asc";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while($rs = mysqli_fetch_array($result)){
+            $id = $rs["id"];
+            $codigo = $rs["codigo"];
+            $nombre = $rs["nombre"];
+            $libro = new Objects($id, $codigo, $nombre);
+            $lista[] = $libro;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Registrar Esquema
+    public function registraresquema($codigo, $nombre,$diagnostico, $libro, $empresa){
+        $this->conexion();
+        $sql = "insert into esquemas values(null, '$codigo', '$nombre',$diagnostico, $libro,$empresa,now())";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
@@ -4326,14 +4345,18 @@ class Controller{
     //Listar Esquema
     public function listaresquemas($empresa){
         $this->conexion();
-        $sql = "select * from esquemas where empresa=$empresa order by nombre asc";
+        $sql = "select esquemas.id as id, esquemas.codigo as codigo, esquemas.nombre as nombre, diagnosticos.nombre as diagnostico, libros.nombre as libro, esquemas.empresa as empresa, esquemas.registro as registro from esquemas, diagnosticos, libros where esquemas.diagnostico = diagnosticos.id and esquemas.libro = libros.id and esquemas.empresa = $empresa order by esquemas.nombre asc";
         $result = $this->mi->query($sql);
         $lista = array();
         while($rs = mysqli_fetch_array($result)){
             $id = $rs['id'];
             $codigo = $rs['codigo'];
             $nombre = $rs['nombre'];
-            $object = new Objects($id, $codigo, $nombre);
+            $diagnostico = $rs['diagnostico'];
+            $libro = $rs['libro'];
+            $empresa = $rs['empresa'];
+            $registro = $rs['registro'];
+            $object = new Esquema($id, $codigo, $nombre, $diagnostico, $libro,$empresa, $registro);
             $lista[] = $object;
         }
         $this->desconexion();
@@ -4349,7 +4372,11 @@ class Controller{
             $id = $rs['id'];
             $codigo = $rs['codigo'];
             $nombre = $rs['nombre'];
-            $object = new Objects($id, $codigo, $nombre);
+            $diagnostico = $rs['diagnostico'];
+            $libro = $rs['libro'];
+            $empresa = $rs['empresa'];
+            $registro = $rs['registro'];
+            $object = new Esquema($id, $codigo, $nombre, $diagnostico, $libro,$empresa, $registro);
             $this->desconexion();
             return $object;
         }
@@ -4358,9 +4385,9 @@ class Controller{
     }
 
     //Actualizar Esquema
-    public function actualizaresquema($id, $codigo, $nombre){
+    public function actualizaresquema($id, $codigo, $nombre, $diagnostico, $libro){
         $this->conexion();
-        $sql = "update esquemas set codigo = '$codigo', nombre = '$nombre' where id = $id";
+        $sql = "update esquemas set codigo = '$codigo', nombre = '$nombre' , diagnostico = $diagnostico, libro = $libro where id = $id";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
@@ -4374,7 +4401,92 @@ class Controller{
         $this->desconexion();
         return json_encode($result);
     }
-    
+
+    //Medicamentos Esquema
+    function registrarmedicamentosesquemas($esquema, $medicamento, $dosis, $carboplatino){
+        $this->conexion();
+        $sql = "insert into medicamentoesquema values(null, $esquema, $medicamento, $dosis, $carboplatino, now())";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Validar Medicamento Esquema
+    function validarmedicamentoesquema($esquema, $medicamento){
+        $this->conexion();
+        $sql = "select * from medicamentoesquema where esquema = $esquema and medicamento = $medicamento";
+        $result = $this->mi->query($sql);
+        if($rs = mysqli_fetch_array($result)){
+            $this->desconexion();
+            return true;
+        }
+        $this->desconexion();
+        return false;
+    }
+
+    //Listar Medicamentos Esquema
+    function listarmedicamentosesquemas($esquema){
+        $this->conexion();
+        $sql = "select medicamentoesquema.id as id, medicamentos.nombre as medicamento, medicamentoesquema.dosis as dosis,medidas.nombre as medida, medicamentoesquema.carboplatino as carboplatino, medicamentoesquema.registro as registro from medicamentoesquema, medicamentos, medidas where medicamentoesquema.medicamento = medicamentos.id and medicamentos.medida = medidas.id and medicamentoesquema.esquema =$esquema order by medicamento asc";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while($rs = mysqli_fetch_array($result)){
+            $id = $rs['id'];
+            $medicamento = $rs['medicamento'];
+            $dosis = $rs['dosis'];
+            $medida = $rs['medida'];
+            $carboplatino = $rs['carboplatino'];
+            $registro = $rs['registro'];
+            $object = new MedicamentoEsquema($id, $medicamento, $dosis,$medida, $carboplatino, $registro);
+            $lista[] = $object;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Eliminar Medicamento Esquema
+    function eliminarmedicamentoesquema($id){
+        $this->conexion();
+        $sql = "delete from medicamentoesquema where id = $id";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Eliminar Medicamento Esquema por Esquema
+    function eliminarmedicamentoesquemaesquema($esquema){
+        $this->conexion();
+        $sql = "delete from medicamentoesquema where esquema = $esquema";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Eliminar Medicamento Esquema por Medicamento
+    function eliminarmedicamentoesquemamedicamento($medicamento){
+        $this->conexion();
+        $sql = "delete from medicamentoesquema where medicamento = $medicamento";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Listar Premedicacion
+    function listarpremedicacion(){
+        $this->conexion();
+        $sql = "select * from premedicacion order by medicamento asc";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while($rs = mysqli_fetch_array($result)){
+           $id = $rs["id"];
+           $dosis = $rs["dosis"];
+           $nombre = $rs["medicamento"];
+           $premedicacion = new Objects($id, $dosis, $nombre);
+           $lista[] = $premedicacion;
+        }
+        $this->desconexion();
+        return $lista;
+    }
             
 }
 ?>

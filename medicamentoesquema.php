@@ -20,13 +20,13 @@ if (isset($_GET['c'])) {
 		if ($code > 0) {
 			$esquema = $c->buscarenesquema($code);
 			if ($esquema == null) {
-				header("Location: esquemas.php");
+				header("Location: esquema.php");
 			}
 		} else {
-			header("Location: esquemas.php");
+			header("Location: esquema.php");
 		}
 	} else {
-		header("Location: esquemas.php");
+		header("Location: esquema.php");
 	}
 }
 if (!isset($_SESSION['USER_ID'])) {
@@ -433,14 +433,19 @@ $object = $c->buscarenUsuario1($id);
 															<th class="bg-transparent">ID</th>
 															<th class="bg-transparent">Medicamento</th>
 															<th class="bg-transparent">Dosis</th>
+															<th class="bg-transparent">Medición</th>
 															<th class="bg-transparent">Carboplatino</th>
-															<th class="bg-transparent">Acci
+															<th class="bg-transparent">Eliminar</th>
 														</tr>
 													</thead>
-													<tbody class="text-center">
+													<tbody class="text-center" id="listamedicamentos">
 													</tbody>
 												</table>
 											</div>
+										</div>
+										<div class="col-md-12 text-right m-2">
+											<a href="esquema.php" class="btn btn-outline-danger"><i
+													class="fa fa-arrow-left"></i> Volver</a>
 										</div>
 									</div>
 								</div>
@@ -541,10 +546,11 @@ $object = $c->buscarenUsuario1($id);
 						</button>
 					</div>
 					<div class="modal-body">
-						<form action="">
+						<form id="formesmed">
 						<div class="row">
 							<div class="col-md-12">
-								<input type="hidden" id="medicamentoid">
+								<input type="hidden" id="medicamentoid" name="medicamentoid">
+								<input type="hidden" id="esquemaid" name="esquemaid" value="<?php echo $esquema->getId()?>">
 								<p id="med"></p>
 								<div class="row">
 									<div class="col-md-12">
@@ -558,25 +564,14 @@ $object = $c->buscarenUsuario1($id);
 										<div class="form-group">
 											<label for="carboplatino">Carboplatino</label>
 											<select class="form-control" id="carboplatino" name="carboplatino">
-												<option value="0">No</option>
-												<option value="1">Si</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<label for="auc">AUC</label>
-											<select class="form-control" id="auc" name="auc">
-												<option value="0">No</option>
+												<option value="2">No</option>
 												<option value="1">Si</option>
 											</select>
 										</div>
 									</div>
 									<div class="col-md-12 text-right">
-										<button class="btn btn-outline-danger" onclick="cancelar()"><i
-												class="fa fa-times"></i> Cerrar</button>
-										<button class="btn btn-outline-success" onclick="agregaresquema()"><i
-												class="fa fa-plus"></i> Agregar</button>
+										<button class="btn btn-outline-danger" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+										<button class="btn btn-outline-success" type="submit"><i class="fa fa-plus"></i> Agregar</button>
 									</div>
 								</div>
 							</div>
@@ -642,6 +637,11 @@ $object = $c->buscarenUsuario1($id);
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
 	<script src="JsFunctions/function.js"></script>
+	<script>
+		$(document).ready(function(){
+			listarMedicamentos();
+		});
+	</script>
 
 
 

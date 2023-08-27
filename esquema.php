@@ -381,6 +381,32 @@ $object = $c->buscarenUsuario1($id);
 													<input class="form-control" id="Nombre" name="Nombre" placeholder="Nombre del Esquema" required="" type="text" value="">
 												</div>
 											</div>
+											<div class="col-lg-6">
+												<div class="form-group has-success mg-b-0">
+													<label>Diagnostico</label>
+													<select name="diagnostico" id="diagnostico" class="form-control select2">
+														<?php
+															$diagnosticos = $c->listarDiagnosticos();
+															foreach ($diagnosticos as $diagnostico) {
+																echo "<option value='" . $diagnostico->getId() . "'>" . $diagnostico->getNombre() . "</option>";
+															}
+														?>
+													</select>
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group has-success mg-b-0">
+													<label>Libros</label>
+													<select name="libro" id="libro" class="form-control select2">
+														<?php
+															$diagnosticos = $c->listarlibros();
+															foreach ($diagnosticos as $diagnostico) {
+																echo "<option value='" . $diagnostico->getId() . "'>" . $diagnostico->getNombre() . "</option>";
+															}
+														?>
+													</select>
+												</div>
+											</div>
 											<input type="hidden" id="empresa" name="empresa" value="<?php echo $empresa->getId();?>">
 											<div class="col-md-12 mt-3 text-right">
 												<button type="reset" href="#" class="btn btn-warning btn-md"> <i class="fa fa-refresh"></i> Restablecer</button>
@@ -407,6 +433,8 @@ $object = $c->buscarenUsuario1($id);
 													<tr>
 														<th class="bg-transparent">Codigo</th>
 														<th class="bg-transparent">Nombre</th>
+														<th class="bg-transparent">Diagnostico</th>
+														<th class="bg-transparent">Libros</th>
 														<th class="bg-transparent">Medicamentos</th>
 														<th class="bg-transparent text-center">Accion</th>
 													</tr>
@@ -420,6 +448,8 @@ $object = $c->buscarenUsuario1($id);
 															echo "<tr>
 																		<td>" . $object->getCodigo() . "</td>
 																		<td>" . $object->getNombre() . "</td>
+																		<td>" . $object->getDiagnostico() . "</td>
+																		<td>" . $object->getLibros() . "</td>
 																		<td class='text-center'>
 																			<a href='medicamentoesquema.php?c=" . $code . "' class='btn btn-sm btn-success' ><i class='fa fa-file'></i></a>
 																		</td>

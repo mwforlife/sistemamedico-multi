@@ -31,9 +31,9 @@ if (isset($_POST['id'])) {
 		echo "<div class='form-group'>";
 		echo "<label for='diagnostico'>Cantidad</label>";
 		if($object->getCantidad()==0){
-			echo "<input type='text' class='form-control' id='cantidadedit' name='cantidadedit' value='' required>";
+			echo "<input type='text' class='form-control' id='cantidadedit' name='cantidadedit' value=''>";
 		}else{
-		echo "<input type='text' class='form-control' id='cantidadedit' name='cantidadedit' value='" . $object->getCantidad() . "' required>";
+		echo "<input type='text' class='form-control' id='cantidadedit' name='cantidadedit' value='" . $object->getCantidad() . "' >";
 		}
 		echo "</div>";
 		echo "</div>";

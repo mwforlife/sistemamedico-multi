@@ -16,11 +16,11 @@ $comite = null;
 // Obtener la URL de la página anterior (si está disponible)
 $previous_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 $id = 0;
-$reserva=0;
+$reserva = 0;
 if (isset($_GET['r']) && isset($_GET['p'])) {
 	$reserva = $_GET['r'];
 	$reserva = $c->decrypt($reserva, "thechallengeofcoding");
-	
+
 	$paciente = $_GET['p'];
 	$paciente = $c->decrypt($paciente, "thechallengeofcoding");
 	$pa = $c->buscarpaciente($paciente);
@@ -491,12 +491,14 @@ $object = $c->buscarenUsuario1($id);
 							<div class="card">
 								<div class="card-body">
 									<div class="row">
-										<div class="col-lg-4">
-											<h5 class="card-title">Paciente: <?php echo $pa->getNombre() . " " . $pa->getApellido1() . " " . $pa->getApellido2(); ?></h5>
-											<p>
-												Rut: <?php echo $pa->getRut(); ?><br />
-												Edad: <?php echo $edad ?> Años<br />
-											</p>
+										<div class="col-lg-12 d-flex gap-2">
+											<h5 class="card-title">Paciente: <?php echo $pa->getNombre() . " " . $pa->getApellido1() . " " . $pa->getApellido2(); ?></h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<h5>
+												Rut: <?php echo $pa->getRut(); ?>
+												<!--Tabulador html-->
+												&nbsp;&nbsp;&nbsp;&nbsp;
+												Edad: <?php echo $edad ?> Años
+											</h5>
 										</div>
 									</div>
 								</div>
@@ -508,7 +510,255 @@ $object = $c->buscarenUsuario1($id);
 						<div class="col-lg-12">
 							<div class="card">
 								<div class="card-body">
-									
+									<h5>Diagnostico</h5>
+									<div class="row">
+										<div class="col-md-12 mt-4">
+											<div class="card">
+												<div class="card-body">
+													<h6 class="main-content-label mb-1">Información Paciente</h6>
+													<div class="row">
+														<div class="col-md-2">
+															<label for="">Estadio</label>
+															<select name="estadio" id="estadio" class="form-control">
+																<option value="1">I</option>
+																<option value="2">II</option>
+																<option value="3">III</option>
+																<option value="4">IV</option>
+															</select>
+														</div>
+														<div class="col-md-2">
+															<label for="">Nivel</label>
+															<select name="nivel" id="nivel" class="form-control">
+																<option value="1">A</option>
+																<option value="2">A1</option>
+																<option value="3">A2</option>
+																<option value="4">A3</option>
+																<option value="5">B</option>
+																<option value="6">B1</option>
+																<option value="7">B2</option>
+																<option value="8">B3</option>
+																<option value="9">C</option>
+																<option value="10">C1</option>
+																<option value="11">C2</option>
+																<option value="12">C3</option>
+															</select>
+														</div>
+														<div class="col-md-2">
+															<label for="">GES</label>
+															<select name="ges" id="ges" class="form-control">
+																<option value="1">Si</option>
+																<option value="2">No</option>
+															</select>
+														</div>
+														<div class="col-md-2">
+															<label for="">Peso</label>
+															<input type="text" name="peso" id="peso" class="form-control" step="1.01" placeholder="Peso">
+														</div>
+														<div class="col-md-2">
+															<label for="">Talla</label>
+															<input type="text" name="talla" id="talla" class="form-control" step="1.01" placeholder="Talla">
+														</div>
+														<div class="col-md-2">
+															<label for="">S. Corporal</label>
+															<input type="text" name="scorporal" id="scorporal" class="form-control" step="1.01" value="0" readonly>
+														</div>
+														<div class="col-md-2">
+															<label for="">Creatinina</label>
+															<input type="text" name="creatinina" id="creatinina" class="form-control" step="1.01" placeholder="Creatinina">
+														</div>
+														<div class="col-md-2">
+															<label for="">AUC</label>
+															<input type="text" name="auc" id="auc" class="form-control" step="1.01" placeholder="AUC">
+														</div>
+														<div class="col-md-2">
+															<label for="">Fecha de Administración</label>
+															<input type="date" name="fechaadmin" id="fechaadmin" class="form-control">
+														</div>
+														<div class="col-md-2">
+															<label for="">Examen Pendiente</label>
+															<select name="examen" id="examen" class="form-control">
+																<option value="1">Si</option>
+																<option value="2">No</option>
+															</select>
+														</div>
+														<div class="col-md-2">
+															<label for="">N° Ciclio</label>
+															<input type="text" name="ciclo" id="ciclo" class="form-control" placeholder="N° Ciclo">
+														</div>
+														<div class="col-md-2">
+															<label for="">Anticipada</label>
+															<select name="anticipada" id="anticipada" class="form-control">
+																<option value="2">No</option>
+																<option value="1">Si</option>
+															</select>
+														</div>
+
+													</div>
+													<div class="row mt-2">
+														<div class="col-md-2">
+															<input type="checkbox" name="curativo" id="curativo" value="1"><span>Curativo</span><br />
+															<input type="checkbox" name="paliativo" id="paliativo" value="1"><span>Paliativo</span><br />
+															<input type="checkbox" name="adyuvante" id="adyuvante" value="1"><span>Adyuvante</span><br />
+															<input type="checkbox" name="concomitante" id="concomitante" value="1"><span>Concomitante</span><br />
+															<input type="checkbox" name="neoadyuvante" id="neoadyuvante" value="1"><span>Neoadyuvante</span>
+														</div>
+														<div class="col-md-2">
+															<input type="checkbox" name="primera" id="primera" value="1"><span>Primer Ingreso</span><br />
+															<input type="checkbox" name="traemedicamementos" id="traemedicamementos" value="1"><span>Trae Medicamentos</span><br />
+															<input type="checkbox" name="diabetes" id="diabetes" value="1"><span>Diabetes</span><br />
+															<input type="checkbox" name="hipertension" id="hipertension" value="1"><span>Hipertensión Arterial</span><br />
+															<input type="checkbox" name="alergia" id="alergia" value="1"><span>Alergia</span><br />
+
+														</div>
+														<div class="col-md-2">
+															<label for="">Alergia Detalle</label>
+															<input type="text" name="alergiadetalle" id="alergiadetalle" class="form-control" placeholder="Alergia Detalle">
+														</div>
+														<div class="col-md-6">
+															<div class="row justify-content-end">
+																<div class="col-md-4">
+																	<label for="">Receta Urgente</label>
+																	<select name="receta" id="receta" class="form-control">
+																		<option value="2">No</option>
+																		<option value="1">Si</option>
+																	</select>
+
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="card">
+												<div class="card-body">
+
+													<div class="col-md-12">
+														<label for="">Seleccionar Esquema:</label>
+														<select name="esquema" id="esquema" class="form-control select2">
+															<?php
+															$esquema = $c->listaresquemas($empresa->getId());
+															foreach ($esquema as $esquemas) {
+																echo "<option value='" . $esquemas->getId() . "'>" . $esquemas->getNombre() . "</option>";
+															}
+															?>
+														</select>
+													</div>
+													<table class="table w-100">
+														<thead>
+															<tr>
+																<th></th>
+																<th>Medicamento</th>
+																<th class="text-center">%</th>
+																<th>Dosis MG</th>
+																<th>Carboplatino</th>
+																<th>Dosis Total MG</th>
+																<th>Oral</th>
+																<th>EV</th>
+																<th>SC</th>
+																<th>IT</th>
+																<th>BICCAD</th>
+																<th>Observación</th>
+															</tr>
+														</thead>
+														<tbody>
+															<?php
+															$medicamentos = $c->listarmedicamentos();
+															foreach ($medicamentos as $medicamento) {
+																echo "<tr class='m-0' >";
+																echo "<td class='m-0'><input type='checkbox' name='medicamento" . $medicamento->getId() . "' id='medicamento" . $medicamento->getId() . "' value='" . $medicamento->getId() . "'></td>";
+																echo "<td  class='m-0'> <span>" . $medicamento->getNombre() . "</span></td>";
+																echo "<td class='m-0'>";
+																echo "<select name='porcentaje" . $medicamento->getId() . "' id='porcentaje" . $medicamento->getId() . "' class='form-control' onchange='calc(" . $medicamento->getId() . ")'>";
+																echo "<option value='1'>100%</option>";
+																echo "<option value='2'>90%</option>";
+																echo "<option value='3'>80%</option>";
+																echo "<option value='4'>70%</option>";
+																echo "<option value='5'>60%</option>";
+																echo "<option value='6'>50%</option>";
+																echo "<option value='7'>40%</option>";
+																echo "<option value='8'>30%</option>";
+																echo "<option value='9'>20%</option>";
+																echo "<option value='10'>10%</option>";
+																echo "<option value='11'>0%</option>";
+																echo "</select>";
+																echo "</td>";
+
+																echo "<td class='m-0'><input type='text' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedida() . "'></td>";
+																echo "<td class='m-0'><input type='text' class='form-control' name='carboplatino" . $medicamento->getId() . "' id='carboplatino" . $medicamento->getId() . "' ></td>";
+																echo "<td class='m-0'><input type='text' name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG'></td>";
+																echo "<td class='m-0'><input type='checkbox' name='oral" . $medicamento->getId() . "' id='oral" . $medicamento->getId() . "' value='1'></td>";
+																echo "<td class='m-0'><input type='checkbox' name='ev" . $medicamento->getId() . "' id='ev" . $medicamento->getId() . "' value='1'></td>";
+																echo "<td class='m-0'><input type='checkbox' name='sc" . $medicamento->getId() . "' id='sc" . $medicamento->getId() . "' value='1'></td>";
+																echo "<td class='m-0'><input type='checkbox' name='it" . $medicamento->getId() . "' id='it" . $medicamento->getId() . "' value='1'></td>";
+																echo "<td class='m-0'><input type='checkbox' name='biccad" . $medicamento->getId() . "' id='biccad" . $medicamento->getId() . "' value='1'></td>";
+																echo "<td class='m-0'><input type='text' name='observacion" . $medicamento->getId() . "' id='observacion" . $medicamento->getId() . "' class='form-control' placeholder='Observación'></td>";
+																echo "</tr>";
+															}
+															?>
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<div class="card mt-3">
+												<div class="card-body">
+													<div>
+														<h6 class="main-content-label mb-1">Medicamentos</h6>
+													</div>
+													<div class="text-wrap">
+														<div class="example">
+															<div class="border">
+																<div class="bg-light-1 nav-bg">
+																	<nav class="nav nav-tabs">
+																		<a class="nav-link active" data-toggle="tab" href="#tabCont1">Premedicación</a>
+																		<a class="nav-link" data-toggle="tab" href="#tabCont3">Estimulador</a>
+																		<a class="nav-link" data-toggle="tab" href="#tabCont4">Observación General</a>
+																	</nav>
+																</div>
+																<div class="card-body tab-content">
+																	<div class="tab-pane active show" id="tabCont1">
+																		<table class="table w-100">
+																			<thead>
+																				<tr>
+																					<th>Medicamento</th>
+																					<th>Dosis MG</th>
+																					<th>Oral</th>
+																					<th>EV</th>
+																					<th>SC</th>
+																					<th>Observación</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<?php
+																				$premedicacion = $c->listarpremedicacion();
+																				foreach ($premedicacion as $premedicaciones) {
+																					echo "<tr class='m-0' >";
+																					echo "<td  class='m-0'>" . $premedicaciones->getNombre() . "</td>";
+																					echo "<td class='m-0'><input type='text' name='dosismg' id='dosismg' class='form-control' placeholder='" . $premedicaciones->getCodigo() . "'></td>";
+																					echo "<td class='m-0'><input type='checkbox' name='oral" . $premedicaciones->getId() . "' id='oral" . $premedicaciones->getId() . "' value='1'></td>";
+																					echo "<td class='m-0'><input type='checkbox' name='ev" . $premedicaciones->getId() . "' id='ev" . $premedicaciones->getId() . "' value='1'></td>";
+																					echo "<td class='m-0'><input type='checkbox' name='sc' id='sc' value='1'></td>";
+																					echo "<td class='m-0'><input type='text' name='observacion' id='observacion' class='form-control' placeholder='Observación'></td>";
+																					echo "</tr>";
+																				}
+																				?>
+																			</tbody>
+																		</table>
+																	</div>
+																	<div class="tab-pane" id="tabCont3">
+																		Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
+																	</div>
+																	<div class="tab-pane" id="tabCont4">
+																		Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

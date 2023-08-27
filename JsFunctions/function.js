@@ -2924,3 +2924,89 @@ function agregarmedicamento(id, medicamento){
     $("#med").html("Medicamento: "+medicamento);
     $("#modaladd").modal("show");
 }
+
+$(document).ready(function () {
+    $("#formesmed").on("submit", function (event) {
+        event.preventDefault();
+        var datos = new FormData(this);
+        $.ajax({
+            type: "POST",
+            url: "php/insert/esquemamedicamento.php",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                //Recibir el JSON
+                try{
+                    var medicamento = JSON.parse(data);
+                    //si el elemento error = true, mostrar error
+                    if(medicamento.error == true){
+                        ToastifyError(medicamento.message);
+                    }else if(medicamento.error == false){
+                        ToastifySuccess(medicamento.message);
+                        //Recargar pagina en 1 segundo
+                        listarMedicamentos();
+                        $("#modaladd").modal("hide");
+                        $("#modaledit").modal("show");                          
+                        $("#formesmed")[0].reset();                 
+                    }
+                }catch(error){
+                    ToastifyError(data);
+
+                }
+            }
+        })
+    });
+});
+
+//Eliminar medicamento
+function EliminarMedicamentoEsquema(id) {
+    swal.fire({
+        title: '¿Estas seguro de eliminar este registro?',
+        text: "No podras revertir esta accion!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+
+        //Texto del boton de confirmacion
+        confirmButtonText: 'Si, eliminar!',
+        //Texto del boton cancelar
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "POST",
+                url: "php/delete/esquemamedicamento.php",
+                data: { id: id },
+                success: function (data) {
+                    if (data == 1 || data == "1") {
+                        ToastifySuccess("Datos eliminados con exito");
+                        //Recargar pagina en 1 segundo
+                        listarMedicamentos();
+                    } else if (data == 0 || data == "0") {
+                        ToastifyError("Hubo un error con la eliminacion");
+                    } else {
+                        ToastifyError(data);
+                    }
+                }
+            });
+        } else {
+            ToastifyError("Accion cancelada");
+        }
+    });
+}
+
+//Listar medicamentos
+function listarMedicamentos(){
+    var id = $("#esquemaid").val();
+    $.ajax({
+        type: "POST",
+        url: "php/charge/esquemamedicamento.php",
+        data: { id: id },
+        success: function (data) {
+            $("#listamedicamentos").html(data);
+        }
+    });
+}

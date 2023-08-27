@@ -872,10 +872,74 @@ create table medicamentos(
     registro datetime not null default current_timestamp
 );
 
+create table libros(
+    id int not null auto_increment primary key,
+    codigo varchar(200) not null,
+    nombre text not null,
+    registro datetime not null default current_timestamp
+);
+
+insert into libros values(1,"1","Esquema de Quimioteapia NCCN",now());
+insert into libros values(2,"2","Esquema de Quimioteapia MOC",now());
+insert into libros values(3,"3","Esquema de Quimioteapia PANDA",now());
+insert into libros values(4,"4","Protocolo de Quimioteapia",now());
+
+
 create table esquemas(
     id int not null auto_increment primary key,
     codigo varchar(20) not null,
     nombre varchar(400) not null,
+    diagnostico int not null references diagnosticos(id),
+    libro int not null references libros(id),
     empresa int not null references empresa(id),
     registro datetime not null default current_timestamp
 );
+
+create table carboplatino(
+    id int not null auto_increment primary key,
+    nombre varchar(400) not null
+);
+
+insert into carboplatino values(1, "Si");
+insert into carboplatino values(2, "No");
+
+
+create table medicamentoesquema(
+    id int not null auto_increment primary key,
+    esquema int not null references esquemas(id),
+    medicamento int not null references medicamentos(id),
+    dosis float not null,
+    carboplatino int not null references carboplatino(id),
+    registro datetime not null default current_timestamp
+);
+
+/*Premedicacion*/
+create table premedicacion(
+    id int not null auto_increment primary key,
+    medicamento text not null,
+    dosis float not null,
+    registro  datetime not null default current_timestamp
+);
+
+insert into premedicacion values(1,"ATROPINA",0,now());
+insert into premedicacion values(2,"BETAMETASONA",4.0,now());
+insert into premedicacion values(3,"CALCIO  GLUCONATO",0,now());
+insert into premedicacion values(4,"CAPTOPRIL",0,now());        
+insert into premedicacion values(5,"CLORFENAMINA",10.0,now());
+insert into premedicacion values(6,"CLORURO DE POTASIO",0,now());
+insert into premedicacion values(7,"DEXAMETASONA",0.0,now());
+insert into premedicacion values(8,"DOMPER IDONA",0.0,now());
+insert into premedicacion values(9,"ESCOPOLOMINA",0.0,now());
+insert into premedicacion values(10,"HIDROCORTISONA100",0.0,now());
+insert into premedicacion values(11,"HIDROCORTISONASOO",0.0,now());
+insert into premedicacion values(12,"KETOROLACO",0.0,now());
+insert into premedicacion values(13,"LOPERAMIDA",2.0,now());
+insert into premedicacion values(14,"MAGNESIO",0.0,now());
+insert into premedicacion values(15,"METAMIZOL",0.0,now());
+insert into premedicacion values(16,"METOCLOPRAMIDA",0.0,now());
+insert into premedicacion values(17,"ONDASENTRON",0.0,now());
+insert into premedicacion values(18,"PARACETAMOL",0.0,now());
+insert into premedicacion values(19,"PARGEVERINA",0.0,now());
+insert into premedicacion values(20,"PREDNISONA",20.0,now());
+insert into premedicacion values(21,"PREDNISONASMG",0.0,now());
+insert into premedicacion values(22,"RANITIDINA",50.0,now());
