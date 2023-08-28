@@ -720,6 +720,7 @@ $object = $c->buscarenUsuario1($id);
 																		<table class="table w-100">
 																			<thead>
 																				<tr>
+																					<th></th>
 																					<th>Medicamento</th>
 																					<th>Dosis MG</th>
 																					<th>Oral</th>
@@ -733,8 +734,9 @@ $object = $c->buscarenUsuario1($id);
 																				$premedicacion = $c->listarpremedicacion();
 																				foreach ($premedicacion as $premedicaciones) {
 																					echo "<tr class='m-0' >";
+																					echo "<td class='m-0'><input type='checkbox' name='premedicacion" . $premedicaciones->getId() . "' id='premedicacion" . $premedicaciones->getId() . "' value='" . $premedicaciones->getId() . "'></td>";
 																					echo "<td  class='m-0'>" . $premedicaciones->getNombre() . "</td>";
-																					echo "<td class='m-0'><input type='text' name='dosismg' id='dosismg' class='form-control' placeholder='" . $premedicaciones->getCodigo() . "'></td>";
+																					echo "<td class='m-0'><input type='text' name='dosismg" . $premedicaciones->getId() . "' id='dosismg" . $premedicaciones->getId() . "' class='form-control' placeholder='Dosis MG'></td>";
 																					echo "<td class='m-0'><input type='checkbox' name='oral" . $premedicaciones->getId() . "' id='oral" . $premedicaciones->getId() . "' value='1'></td>";
 																					echo "<td class='m-0'><input type='checkbox' name='ev" . $premedicaciones->getId() . "' id='ev" . $premedicaciones->getId() . "' value='1'></td>";
 																					echo "<td class='m-0'><input type='checkbox' name='sc' id='sc' value='1'></td>";
@@ -746,10 +748,36 @@ $object = $c->buscarenUsuario1($id);
 																		</table>
 																	</div>
 																	<div class="tab-pane" id="tabCont3">
-																		Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
+																		<table class="table">
+																			<thead>
+																				<tr>
+																					<th></th>
+																					<th>Medicamento</th>
+																					<th>Cantidad</th>
+																					<th>Rango de dias</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<tr>
+																					<td><input type="checkbox" name="estimulador" id="estimulador"></td>
+																					<td>FILGRASTIM</td>
+																					<td><input type="number" name="" id="" class="form-control"></td>
+																					<td><input type="number" name="" id="" class="form-control"></td>
+																				</tr>
+																			</tbody>
+																		</table>
 																	</div>
 																	<div class="tab-pane" id="tabCont4">
-																		Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
+																		<div class="row">
+																			<div class="col-md-6">
+																				<label for="">Anamesis</label>
+																				<textarea name="anamnesis" id="anamnesis" cols="30" rows="10" class="form-control"></textarea>
+																			</div>
+																			<div class="col-md-6">
+																				<label for="">Observación</label>
+																				<textarea name="observacion" id="observacion" cols="30" rows="10" class="form-control"></textarea>
+																			</div>
+																		</div>
 																	</div>
 																</div>
 															</div>
