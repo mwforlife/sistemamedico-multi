@@ -4171,6 +4171,33 @@ class Controller{
         return $lista;
     }
 
+    //Buscar Reserva por id
+    public function buscarreservaporid($id){
+        $this->conexion();
+        $sql = "select atenciones.id as id, pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and atenciones.id = $id group by id order by horarios.horainicio asc";
+        $result = $this->mi->query($sql);
+        if($rs = mysqli_fetch_array($result)){
+            $id = $rs["id"];
+            $tipo = $rs["tipo"];
+            $rut = $rs["rut"];
+            $nombre = $rs["nombre"]." ". $rs["apellido1"] ." ".$rs["apellido2"];
+            $nombremedico = $rs["nombremedico"]." ". $rs["ape1medico"] ." ".$rs["ape2medico"];
+            $profesion = $rs["profesion"];
+            $fecha = $rs["fecha"];
+            $horainicio = $rs["horainicio"];
+            $horafin = $rs["horafin"];
+            $intervalo = $rs["intervalo"];
+            $observacion = $rs["observacion"];
+            $estado = $rs["estado"];
+            $registro = $rs["registro"];
+            $reserva = new Atencion($id,  $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $registro);
+            $this->desconexion();
+            return $reserva;
+        }
+        $this->desconexion();
+        return null;
+    }
+
     //Buscar ID Paciente en reserva
     function buscaridpacientereserva($id){
         $this->conexion();
@@ -4442,6 +4469,19 @@ class Controller{
         }
         $this->desconexion();
         return $lista;
+    }
+
+    //Buscar si en la esquema hay carboplatino
+    function buscarcarboplatino($esquema){
+        $this->conexion();
+        $sql = "select * from medicamentoesquema where esquema = $esquema and carboplatino = 1";
+        $result = $this->mi->query($sql);
+        if($rs = mysqli_fetch_array($result)){
+            $this->desconexion();
+            return true;
+        }
+        $this->desconexion();
+        return false;
     }
 
     //Eliminar Medicamento Esquema

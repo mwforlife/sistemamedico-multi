@@ -943,3 +943,176 @@ insert into premedicacion values(19,"PARGEVERINA",0.0,now());
 insert into premedicacion values(20,"PREDNISONA",20.0,now());
 insert into premedicacion values(21,"PREDNISONASMG",0.0,now());
 insert into premedicacion values(22,"RANITIDINA",50.0,now());
+
+
+/**Generacion de la atencion*/
+create table consultas(
+    id int not null auto_increment primary key,
+    paciente int not null references pacientes(id),
+    usuario int not null references usuarios(id),
+    empresa int not null references empresa(id),
+    atencion int not null references atenciones(id),
+    folio varchar(200) not null,
+    diagnostico int not null,
+    diagnosticotexto text not null,
+    diagnosticocie10 int not null,
+    diagnosticocie10texto text not null,
+    tipodeatencion texto not null,
+    ecog int not null,
+    ecogtexto text not null,
+    ingreso int not null,
+    receta int not null,
+    reingreso int not null,
+    anamesis text not null,
+    estudiocomplementarios text not null,
+    plantratamiento text not null,
+    tipoatencion int not null,
+    registro datetime not null default current_timestamp
+);
+
+
+/*Generacion de recetas*/
+create table estadio(
+    id int not null auto_increment primary key,
+    nombre varchar(200) not null,
+    registro datetime not null default current_timestamp
+);
+
+insert into estadio values(1,"I",now());
+insert into estadio values(2,"II",now());
+insert into estadio values(3,"III",now());
+insert into estadio values(4,"IV",now());
+
+create table nivel(
+    id int not null auto_increment primary key,
+    nombre varchar(200) not null,
+    registro datetime not null default current_timestamp
+);
+
+insert into nivel values(1,"A",now());
+insert into nivel values(2,"A1",now());
+insert into nivel values(3,"A2",now());
+insert into nivel values(4,"A3",now());
+insert into nivel values(5,"B",now());
+insert into nivel values(6,"B1",now());
+insert into nivel values(7,"B2",now());
+insert into nivel values(8,"B3",now());
+insert into nivel values(9,"C",now());
+insert into nivel values(10,"C1",now());
+insert into nivel values(11,"C2",now());
+insert into nivel values(12,"C3",now());
+
+create table ges(
+    id int not null auto_increment primary key,
+    nombre varchar(200) not null,
+    registro datetime not null default current_timestamp
+);
+
+insert into ges values(1,"Si",now());
+insert into ges values(2,"No",now());
+
+create table pendiente(
+    id int not null auto_increment primary key,
+    nombre varchar(200) not null,
+    registro datetime not null default current_timestamp
+);
+
+insert into pendiente values(1,"Si",now());
+insert into pendiente values(2,"No",now());
+
+create table anticipada(
+    id int not null auto_increment primary key,
+    nombre varchar(200) not null,
+    registro datetime not null default current_timestamp
+);
+
+insert into anticipada values(1,"Si",now());
+insert into anticipada values(2,"No",now());
+
+create table urgente(
+    id int not null auto_increment primary key,
+    nombre varchar(200) not null,
+    registro datetime not null default current_timestamp
+);
+
+insert into urgente values(1,"Si",now());
+insert into urgente values(2,"No",now());
+
+
+
+create table recetas(
+    id int not null auto_increment primary key,
+    paciente int not null references pacientes(id),
+    usuario int not null references usuarios(id),
+    empresa int not null references empresa(id),
+    consulta int not null references consultas(id),
+    fecha date not null,
+    folio varchar(200) not null,
+    estadio int not null references estadio(id),
+    nivel int not null references nivel(id),
+    ges int not null references ges(id),
+    peso float not null,
+    talla float not null,
+    scorporal float not null,
+    creatinina float null default 0,
+    auc float null default 0,
+    fechaadministracion date null,
+    pendiente int not null references pendiente(id),
+    nciclo int not null,
+    anticipada int not null references anticipada(id),
+    curativo int not null,
+    paliativo int not null,
+    adyuvante int not null,
+    concomitante int not null,
+    noeadyuvante int not null,
+    primeringreso int not null,
+    traemedicamentos int not null,
+    diabetes int not null,
+    hipertension int not null,
+    alergias int not null,
+    detallealergias text null,
+    urgente int not null references urgente(id),
+    esquema int not null references esquemas(id),
+    anamesis text not null,
+    observacion text not null,
+    registro datetime not null default current_timestamp
+);
+
+create table recetapremedicacion(
+    id int not null auto_increment primary key,
+    receta int not null references recetas(id),
+    premedicacion int not null references premedicacion(id),
+    dosis float not null,
+    oral int not null,
+    ev int not null,
+    sc int not null,
+    observacion text null,
+    registro datetime not null default current_timestamp
+);
+
+create table recetamedicamentos(
+    id int not null auto_increment primary key,
+    receta int not null references recetas(id),
+    medicamento int not null references medicamentos(id),
+    procenjate int null default 0,
+    dosis float not null,
+    carboplatino float null default 0,
+    oral int not null,
+    ev int not null,
+    sc int not null,
+    it int not null,
+    biccad int not null,
+    observacion text null,
+    registro datetime not null default current_timestamp
+);
+
+create table estimulador(
+    id int not null auto_increment primary key,
+    receta int not null references recetas(id),
+    nombre varchar(200) not null,
+    cantidad int not null,
+    rangodias int not null,
+    registro datetime not null default current_timestamp
+);
+
+

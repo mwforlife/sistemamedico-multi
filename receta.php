@@ -635,7 +635,7 @@ $object = $c->buscarenUsuario1($id);
 
 													<div class="col-md-12">
 														<label for="">Seleccionar Esquema:</label>
-														<select name="esquema" id="esquema" class="form-control select2">
+														<select name="esquema" id="esquema" class="form-control select2" onchange="cargarMedicamentoesquema()">
 															<?php
 															$esquema = $c->listaresquemas($empresa->getId());
 															foreach ($esquema as $esquemas) {
@@ -644,60 +644,9 @@ $object = $c->buscarenUsuario1($id);
 															?>
 														</select>
 													</div>
-													<table class="table w-100">
-														<thead>
-															<tr>
-																<th></th>
-																<th>Medicamento</th>
-																<th class="text-center">%</th>
-																<th>Dosis MG</th>
-																<th>Carboplatino</th>
-																<th>Dosis Total MG</th>
-																<th>Oral</th>
-																<th>EV</th>
-																<th>SC</th>
-																<th>IT</th>
-																<th>BICCAD</th>
-																<th>Observación</th>
-															</tr>
-														</thead>
-														<tbody>
-															<?php
-															$medicamentos = $c->listarmedicamentos();
-															foreach ($medicamentos as $medicamento) {
-																echo "<tr class='m-0' >";
-																echo "<td class='m-0'><input type='checkbox' name='medicamento" . $medicamento->getId() . "' id='medicamento" . $medicamento->getId() . "' value='" . $medicamento->getId() . "'></td>";
-																echo "<td  class='m-0'> <span>" . $medicamento->getNombre() . "</span></td>";
-																echo "<td class='m-0'>";
-																echo "<select name='porcentaje" . $medicamento->getId() . "' id='porcentaje" . $medicamento->getId() . "' class='form-control' onchange='calc(" . $medicamento->getId() . ")'>";
-																echo "<option value='1'>100%</option>";
-																echo "<option value='2'>90%</option>";
-																echo "<option value='3'>80%</option>";
-																echo "<option value='4'>70%</option>";
-																echo "<option value='5'>60%</option>";
-																echo "<option value='6'>50%</option>";
-																echo "<option value='7'>40%</option>";
-																echo "<option value='8'>30%</option>";
-																echo "<option value='9'>20%</option>";
-																echo "<option value='10'>10%</option>";
-																echo "<option value='11'>0%</option>";
-																echo "</select>";
-																echo "</td>";
+													<div class="col-md-12 mt-4" id="medi">
 
-																echo "<td class='m-0'><input type='text' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedida() . "'></td>";
-																echo "<td class='m-0'><input type='text' class='form-control' name='carboplatino" . $medicamento->getId() . "' id='carboplatino" . $medicamento->getId() . "' ></td>";
-																echo "<td class='m-0'><input type='text' name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG'></td>";
-																echo "<td class='m-0'><input type='checkbox' name='oral" . $medicamento->getId() . "' id='oral" . $medicamento->getId() . "' value='1'></td>";
-																echo "<td class='m-0'><input type='checkbox' name='ev" . $medicamento->getId() . "' id='ev" . $medicamento->getId() . "' value='1'></td>";
-																echo "<td class='m-0'><input type='checkbox' name='sc" . $medicamento->getId() . "' id='sc" . $medicamento->getId() . "' value='1'></td>";
-																echo "<td class='m-0'><input type='checkbox' name='it" . $medicamento->getId() . "' id='it" . $medicamento->getId() . "' value='1'></td>";
-																echo "<td class='m-0'><input type='checkbox' name='biccad" . $medicamento->getId() . "' id='biccad" . $medicamento->getId() . "' value='1'></td>";
-																echo "<td class='m-0'><input type='text' name='observacion" . $medicamento->getId() . "' id='observacion" . $medicamento->getId() . "' class='form-control' placeholder='Observación'></td>";
-																echo "</tr>";
-															}
-															?>
-														</tbody>
-													</table>
+													</div>
 												</div>
 											</div>
 											<div class="card mt-3">
@@ -869,6 +818,7 @@ $object = $c->buscarenUsuario1($id);
 		$(document).ready(function() {
 			cargarsignos();
 			cargarmedidas();
+			cargarMedicamentoesquema();
 		});
 
 		$('#tablegeneral').DataTable({

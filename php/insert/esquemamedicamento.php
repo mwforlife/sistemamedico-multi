@@ -8,8 +8,19 @@ if(isset($_POST['medicamentoid']) && isset($_POST['dosis']) && isset($_POST['car
     $esquemaid = $_POST['esquemaid'];
 
     //Validate if the data is not empty
-    if(empty($medicamentoid) || empty($dosis) || empty($carboplatino) || empty($esquemaid)){
+    if(empty($medicamentoid) ||  empty($carboplatino) || empty($esquemaid)){
         echo json_encode(array('error' => true, 'message' => 'Se deben llenar todos los campos'));
+        return;
+    }
+
+    //Validate Dosis
+    if(is_numeric($dosis) == false){
+        echo json_encode(array('error' => true, 'message' => 'La dosis debe ser un numero'));
+        return;
+    }
+    
+    if($dosis < 0){
+        echo json_encode(array('error' => true, 'message' => 'La dosis debe ser mayor o igual a 0'));
         return;
     }
 

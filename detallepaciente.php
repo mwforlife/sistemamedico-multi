@@ -16,11 +16,23 @@ $comite = null;
 // Obtener la URL de la página anterior (si está disponible)
 $previous_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 $id = 0;
-$reserva=0;
+$reservaid=0;
 if (isset($_GET['r']) && isset($_GET['p'])) {
-	$reserva = $_GET['r'];
-	$reserva = $c->decrypt($reserva, "thechallengeofcoding");
-	
+	$reservaid = $_GET['r'];
+	$reservaid = $c->decrypt($reservaid, "thechallengeofcoding");
+	if(is_numeric($reservaid)){
+		$reservaid = intval($reservaid);
+		if($reservaid<=0){
+			// Redireccionar a la página anterior
+			header("Location: $previous_page&error=upps");
+			exit();
+		}
+	}else{
+		// Redireccionar a la página anterior
+		header("Location: $previous_page&error=$reservaid");
+		exit();
+	}
+
 	$paciente = $_GET['p'];
 	$paciente = $c->decrypt($paciente, "thechallengeofcoding");
 	$pa = $c->buscarpaciente($paciente);
@@ -502,7 +514,7 @@ $object = $c->buscarenUsuario1($id);
 											<?php
 											$key = "thechallengeofcoding";
 											$pacienteid = $c->encrypt($id, $key);
-											$atencionid = $c->encrypt($reserva, $key);
+											$atencionid = $c->encrypt($reservaid, $key);
 											?>
 											<a href="atencionpaciente.php?p=<?php echo $pacienteid; ?>&r=<?php echo $atencionid; ?>" class="btn btn-success mt-2">Generar Atención<i class="fe fe-arrow-right ml-2"></i></a>
 											<a href="receta.php?p=<?php echo $pacienteid; ?>&r=<?php echo $atencionid; ?>" class="btn btn-success mt-2">Generar Receta<i class="fe fe-arrow-right ml-2"></i></a>

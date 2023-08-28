@@ -3010,3 +3010,48 @@ function listarMedicamentos(){
         }
     });
 }
+
+function cargarMedicamentoesquema(){
+    var id = $("#esquema").val();
+    $.ajax({
+        type: "POST",
+        url: "php/charge/cargaresquemamed.php",
+        data: { id: id },
+        success: function (data) {
+            $("#medi").html(data);
+        }
+    });
+}
+
+function registraratencion(paciente, empresa, medico, reserva){
+    console.log("Paciente: "+paciente);
+    console.log("Empresa: "+empresa);
+    console.log("Medico: "+medico);
+    console.log("Reserva: "+reserva);
+    var diagnosticoid = $("#iddiag").val();
+    var diagnosticotext = $("#diagnostico").val();
+    var cieo10 = $("#idcie10").val();
+    var cieo10text = $("#cie10").val();
+    var tipoatencion = $("#tipoatencion").val();
+    var ecog = $("#ecog").val();
+    //Capturar el texto del select
+    var ecogtext = $("#ecog option:selected").text();
+    var ingreso =0;
+    if($("#ingreso").is(':checked')){
+        ingreso = 1;
+    }
+    var receta =0;
+    if($("#receta").is(':checked')){
+        receta = 1;
+    }
+    var reingreso =0;
+    if($("#reingreso").is(':checked')){
+        reingreso = 1;
+    }
+    var anamnesis = $("#anamnesis").val();
+    var procedimientotext = $("#procedimientotext").val();
+    var resolucion = $("#resolucion").val();
+    var estadoatencion = $("#estadoatencion").val();
+
+    //Validar datos
+}

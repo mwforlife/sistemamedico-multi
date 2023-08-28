@@ -19,15 +19,36 @@ $id = 0;
 $comite = 0;
 $idcomite = 0;
 $dipaciente = 0;
+$reserva = null;
 if (isset($_GET['r']) && isset($_GET['p'])) {
-	$reserva = $_GET['r'];
-	$reserva = $c->decrypt($reserva, "thechallengeofcoding");
+	$reservaid = $_GET['r'];
+	$reservaid = $c->decrypt($reservaid, "thechallengeofcoding");
 	$paciente = $_GET['p'];
 	$paciente = $c->decrypt($paciente, "thechallengeofcoding");
 	$pa = $c->buscarpaciente($paciente);
 	if ($pa == null) {
 		// Redireccionar a la página anterior
 		header("Location: $previous_page");
+		exit();
+	}
+
+	if(is_numeric($reservaid)){
+		$reservaid = intval($reservaid);
+		if($reservaid<=0){
+			// Redireccionar a la página anterior
+			header("Location: $previous_page&error=upps");
+			exit();
+		}
+	}else{
+		// Redireccionar a la página anterior
+		header("Location: $previous_page");
+		exit();
+	}
+
+	$reserva = $c->buscarreservaporid($reservaid);
+	if($reserva==null){
+		// Redireccionar a la página anterior
+		header("Location: $previous_page" );
 		exit();
 	}
 } else {
@@ -165,7 +186,7 @@ if($empresa!=null)
 	<link rel="icon" href="assets/img/brand/favicon.ico" type="image/x-icon" />
 
 	<!-- Title -->
-	<title>OncoWay | Registrar Informe</title>
+	<title>OncoWay | Generar Consulta</title>
 
 	<!-- Bootstrap css-->
 	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -506,7 +527,7 @@ if($empresa!=null)
 										</div>
 										<div class="col-lg-3">
 											<label for="">Estado Atención</label>
-											<select name="" id="" class="form-control">
+											<select name="estadoatencion" id="estadoatencion" class="form-control">
 												<option value="4">En Atención</option>
 												<option value="5" selected>Atendido</option>
 												<option value="7">Paciente No se Presenta</option>
@@ -617,7 +638,7 @@ if($empresa!=null)
 																	</div>
 																	<div aria-labelledby="procedimiento" class="collapse" data-parent="#accordion" id="procedimientos" role="tabpanel">
 																		<div class="card-body">
-																			<textarea style="height: 200;" name="anamnesis" class="form-control" id="anamnesis" cols="10" rows="10"></textarea>
+																			<textarea style="height: 200;" name="procedimientotext" class="form-control" id="procedimientotext" cols="10" rows="10"></textarea>
 
 																		</div>
 																	</div>
@@ -639,7 +660,7 @@ if($empresa!=null)
 													<div class="row mt-4">
 														<div class="col-md-12 text-right">
 															<a class="btn btn-danger" href="<?php echo $previous_page; ?>"> <i class="fa fa-arrow-left"></i> Volver</a>
-															<button class="btn btn-success" onclick="registraratencion(<?php echo $pa->getId() ?>)"> <i class="fa fa-save"></i> Registrar</button>
+															<button type="button" class="btn btn-success" onclick="registraratencion(<?php echo $pa->getId();?>,<?php echo $empresa->getId();?>,<?php echo $object->getId(); ?>,<?php echo $reserva->getId();?>)"> <i class="fa fa-save"></i> Registrar</button>
 														</div>
 													</div>
 												</div>
