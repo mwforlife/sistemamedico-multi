@@ -1075,6 +1075,7 @@ create table recetas(
     esquema int not null references esquemas(id),
     anamesis text not null,
     observacion text not null,
+    estado int not null default 1,
     registro datetime not null default current_timestamp
 );
 

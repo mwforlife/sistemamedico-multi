@@ -34,6 +34,7 @@ class Receta {
     public $esquema;
     public $anamnesis;
     public $observacion;
+    public $estado;
     public $registro;
     
     public function __construct($data) {
@@ -60,7 +61,7 @@ class Receta {
         $this->paliativo = $data['paliativo'];
         $this->adyuvante = $data['adyuvante'];
         $this->concomitante = $data['concomitante'];
-        $this->noeadyuvante = $data['noeadyuvante'];
+        $this->noeadyuvante = $data['neoadyuvante'];
         $this->primeringreso = $data['primeringreso'];
         $this->traemedicamentos = $data['traemedicamentos'];
         $this->diabetes = $data['diabetes'];
@@ -71,6 +72,7 @@ class Receta {
         $this->esquema = $data['esquema'];
         $this->anamnesis = $data['anamesis'];
         $this->observacion = $data['observacion'];
+        $this->estado = $data['estado'];
         $this->registro = $data['registro'];
     }
 
@@ -208,6 +210,10 @@ class Receta {
 
     public function getObservacion() {
         return $this->observacion;
+    }
+
+    public function getEstado() {
+        return $this->estado;
     }
 
     public function getRegistro() {

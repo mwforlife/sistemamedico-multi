@@ -24,12 +24,12 @@ if (isset($_GET['r']) && isset($_GET['p'])) {
 		$reservaid = intval($reservaid);
 		if ($reservaid <= 0) {
 			// Redireccionar a la página anterior
-			header("Location: $previous_page&error=upps");
+			header("Location: $previous_page");
 			exit();
 		}
 	} else {
 		// Redireccionar a la página anterior
-		header("Location: $previous_page&error=$reservaid");
+		header("Location: $previous_page");
 		exit();
 	}
 
@@ -150,7 +150,7 @@ if ($mes_actual < $mes) {
 if (!isset($_SESSION['USER_ID'])) {
 	header("Location: signin.php");
 } else {
-	$valid  = $c->validarsesion($_SESSION['USER_ID'], $_SESSION['USER_TOKEN']);
+	$valid = $c->validarsesion($_SESSION['USER_ID'], $_SESSION['USER_TOKEN']);
 	if ($valid == false) {
 		header("Location: lockscreen.php");
 	}
@@ -232,7 +232,8 @@ $object = $c->buscarenUsuario1($id);
 				<a class="main-logo" href="index.php">
 					<img src="assets/img/brand/logo.png" class="header-brand-img desktop-logo" alt="logo">
 					<img src="assets/img/brand/icon.png" class="header-brand-img icon-logo" alt="logo">
-					<img src="assets/img/brand/dark-logo.png" class="header-brand-img desktop-logo theme-logo" alt="logo">
+					<img src="assets/img/brand/dark-logo.png" class="header-brand-img desktop-logo theme-logo"
+						alt="logo">
 					<img src="assets/img/brand/icon.png" class="header-brand-img icon-logo theme-logo" alt="logo">
 				</a>
 			</div>
@@ -240,7 +241,9 @@ $object = $c->buscarenUsuario1($id);
 				<ul class="nav">
 					<li class="nav-header"><span class="nav-label">Dashboard</span></li>
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span
+								class="sidemenu-label">Definiciones de Comité</span><i
+								class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
@@ -269,7 +272,9 @@ $object = $c->buscarenUsuario1($id);
 						</ul>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span
+								class="sidemenu-label">Definiciones Generales</span><i
+								class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="regiones.php">Regiones</a>
@@ -299,10 +304,12 @@ $object = $c->buscarenUsuario1($id);
 					</li>
 					<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
 					<li class="nav-item">
-						<a class="nav-link" href="tipodocumento.html"><i class="fe fe-grid sidemenu-icon"></i><span class="sidemenu-label">Redactar documentos</span></a>
+						<a class="nav-link" href="tipodocumento.html"><i class="fe fe-grid sidemenu-icon"></i><span
+								class="sidemenu-label">Redactar documentos</span></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span
+								class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="empresas.html">Registro de Empresas</a>
@@ -313,7 +320,8 @@ $object = $c->buscarenUsuario1($id);
 						</ul>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span
+								class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="auditoria.php">Auditoria</a>
@@ -321,7 +329,8 @@ $object = $c->buscarenUsuario1($id);
 						</ul>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span
+								class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="pacientes.php">Ficha Pacientes</a>
@@ -336,7 +345,8 @@ $object = $c->buscarenUsuario1($id);
 						</ul>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span
+								class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="pacientesmedico.html">Ficha Pacientes</a>
@@ -350,7 +360,8 @@ $object = $c->buscarenUsuario1($id);
 						</ul>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span
+								class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="comite.php">Crear Comité</a>
@@ -364,7 +375,9 @@ $object = $c->buscarenUsuario1($id);
 						</ul>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span
+								class="sidemenu-label">Gestion de Usuarios</span><i
+								class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
@@ -391,14 +404,18 @@ $object = $c->buscarenUsuario1($id);
 				</div>
 				<div class="main-header-center">
 					<div class="responsive-logo">
-						<a href="index.php"><img src="assets/img/brand/dark-logo.png" class="mobile-logo" alt="logo"></a>
-						<a href="index.php"><img src="assets/img/brand/logo.png" class="mobile-logo-dark" alt="logo"></a>
+						<a href="index.php"><img src="assets/img/brand/dark-logo.png" class="mobile-logo"
+								alt="logo"></a>
+						<a href="index.php"><img src="assets/img/brand/logo.png" class="mobile-logo-dark"
+								alt="logo"></a>
 					</div>
 					<div class="input-group">
 						<div class="mt-0">
 							<form class="form-inline">
 								<div class="search-element">
-									<input type="search" class="form-control header-search text-dark" readonly value="<?php echo $empresa->getRazonSocial(); ?>" aria-label="Search" tabindex="1">
+									<input type="search" class="form-control header-search text-dark" readonly
+										value="<?php echo $empresa->getRazonSocial(); ?>" aria-label="Search"
+										tabindex="1">
 									<button class="btn" type="submit">
 										<i class="fa fa-"></i>
 									</button>
@@ -410,13 +427,17 @@ $object = $c->buscarenUsuario1($id);
 				<div class="main-header-right">
 					<div class="dropdown d-md-flex">
 						<a class="nav-link icon full-screen-link fullscreen-button" href="">
-							<i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+							<i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+									viewBox="0 0 24 24" width="24">
 									<path d="M0 0h24v24H0V0z" fill="none" />
-									<path d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+									<path
+										d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
 								</svg></i>
-							<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+							<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+									viewBox="0 0 24 24" width="24">
 									<path d="M0 0h24v24H0V0z" fill="none" />
-									<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
+									<path
+										d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
 								</svg></i>
 						</a>
 					</div>
@@ -427,14 +448,17 @@ $object = $c->buscarenUsuario1($id);
 						<div class="dropdown-menu">
 							<div class="header-navheading">
 								<h6 class="main-notification-title">
-									<?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
+									<?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?>
+								</h6>
 							</div>
 							<a class="dropdown-item" href="close.php">
 								<i class="fe fe-power"></i> Cerrar Sesíon
 							</a>
 						</div>
 					</div>
-					<button class="navbar-toggler navresponsive-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
+					<button class="navbar-toggler navresponsive-toggler" type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4"
+						aria-expanded="false" aria-label="Toggle navigation">
 						<i class="fe fe-more-vertical header-icons navbar-toggler-icon"></i>
 					</button><!-- Navresponsive closed -->
 				</div>
@@ -448,13 +472,18 @@ $object = $c->buscarenUsuario1($id);
 				<div class="collapse navbar-collapse" id="navbarSupportedContent-4">
 					<div class="d-flex order-lg-2 ml-auto">
 						<div class="dropdown">
-							<a class="nav-link icon full-screen-link fullscreen-button" href=""><i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+							<a class="nav-link icon full-screen-link fullscreen-button" href=""><i
+									class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+										viewBox="0 0 24 24" width="24">
 										<path d="M0 0h24v24H0V0z" fill="none" />
-										<path d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+										<path
+											d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
 									</svg></i>
-								<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+								<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+										viewBox="0 0 24 24" width="24">
 										<path d="M0 0h24v24H0V0z" fill="none" />
-										<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
+										<path
+											d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
 									</svg></i>
 							</a>
 						</div>
@@ -464,7 +493,9 @@ $object = $c->buscarenUsuario1($id);
 							</a>
 							<div class="dropdown-menu">
 								<div class="header-navheading">
-									<h6 class="main-notification-title"><?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
+									<h6 class="main-notification-title">
+										<?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?>
+									</h6>
 								</div>
 
 								<a class="dropdown-item" href="close.php">
@@ -504,30 +535,39 @@ $object = $c->buscarenUsuario1($id);
 								<div class="card-body">
 									<div class="row">
 										<div class="col-lg-4">
-											<h5 class="card-title">Paciente: <?php echo $pa->getNombre() . " " . $pa->getApellido1() . " " . $pa->getApellido2(); ?></h5>
+											<h5 class="card-title">Paciente:
+												<?php echo $pa->getNombre() . " " . $pa->getApellido1() . " " . $pa->getApellido2(); ?>
+											</h5>
 											<p>
-												Rut: <?php echo $pa->getRut(); ?><br />
-												Edad: <?php echo $edad ?> Años<br />
+												Rut:
+												<?php echo $pa->getRut(); ?><br />
+												Edad:
+												<?php echo $edad ?> Años<br />
 											</p>
 										</div>
 										<div class="col-lg-8 text-right">
 											<?php
 											$key = "thechallengeofcoding";
-											$pacienteid = $c->encrypt($id, $key);
+											$pacienteid = $c->encrypt($pa->getId(), $key);
 											$atencionid = $c->encrypt($reservaid, $key);
 											$consulta = $c->buscarconsulta($reservaid);
 											if ($consulta != null) {
 												if ($consulta->getReceta() == 1) {
 													$consultaid = $consulta->getId();
+
 													$consultaid = $c->encrypt($consultaid, $key);
-											?>
-													<a href="receta.php?p=<?php echo $pacienteid; ?>&c=<?php echo $consultaid; ?>" class="btn btn-success mt-2">Generar Receta<i class="fe fe-arrow-right ml-2"></i></a>
-												<?php
+													?>
+													<a href="receta.php?p=<?php echo $pacienteid; ?>&c=<?php echo $consultaid; ?>"
+														class="btn btn-success mt-2">Generar Receta<i
+															class="fe fe-arrow-right ml-2"></i></a>
+													<?php
 												}
 											} else {
 												?>
-												<a href="atencionpaciente.php?p=<?php echo $pacienteid; ?>&r=<?php echo $atencionid; ?>" class="btn btn-success mt-2">Generar Atención<i class="fe fe-arrow-right ml-2"></i></a>
-											<?php
+												<a href="atencionpaciente.php?p=<?php echo $pacienteid; ?>&r=<?php echo $atencionid; ?>"
+													class="btn btn-success mt-2">Generar Atención<i
+														class="fe fe-arrow-right ml-2"></i></a>
+												<?php
 											}
 											?>
 
@@ -545,36 +585,78 @@ $object = $c->buscarenUsuario1($id);
 								<div class="col-lg-12">
 									<div class="card">
 										<div class="card-body">
-											<div aria-multiselectable="true" class="accordion" id="accordion" role="tablist">
+											<div aria-multiselectable="true" class="accordion" id="accordion"
+												role="tablist">
 												<!--Diagnosticos-->
 												<div class="card">
 													<div class="card-header" id="diagnostic" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#atedia">Atención del Día</a>
+														<a aria-controls="collapseTwo" aria-expanded="false"
+															class="collapsed" data-toggle="collapse"
+															href="#atedia">Atención del Día</a>
 													</div>
-													<div aria-labelledby="diagnostico" class="collapse" data-parent="#accordion" id="atedia" role="tabpanel">
+													<div aria-labelledby="diagnostico" class="collapse"
+														data-parent="#accordion" id="atedia" role="tabpanel">
 														<div class="card-body">
-															<table class="table w-100">
-																<thead>
-																	<tr>
-																		<th>Fecha</th>
-																		<th>Hora</th>
-																		<th>Primer Ingreso</th>
-																		<th>Reingreso</th>
-																		<th>Genera Receta</th>
-																		<th>Acción</th>
-																	</tr>
-																</thead>
-															</table>
+															<div class="table-responsive">
+																<table class="table w-100" id="example2">
+																	<thead>
+																		<tr>
+																			<th>Fecha</th>
+																			<th>Hora</th>
+																			<th>Primer Ingreso</th>
+																			<th>Reingreso</th>
+																			<th>Genera Receta</th>
+																			<th>Acción</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<?php
+																		if ($consulta != null) {
+																			$consultaid = $consulta->getId();
+																			$consultaid = $c->encrypt($consultaid, $key);
+																			echo "<tr>";
+																			echo "<td>" . date("d-m-Y", strtotime($consulta->getRegistro())) . "</td>";
+																			echo "<td>" . date("H:i", strtotime($consulta->getRegistro())) . "</td>";
+																			if ($consulta->getIngreso() == 1) {
+																				echo "<td>Si</td>";
+																			} else {
+																				echo "<td>No</td>";
+																			}
+																			if ($consulta->getReingreso() == 1) {
+																				echo "<td>Si</td>";
+																			} else {
+																				echo "<td>No</td>";
+																			}
+																			if ($consulta->getReceta() == 1) {
+																				echo "<td>Si</td>";
+																			} else {
+																				echo "<td>No</td>";
+																			}
+																			if ($consulta->getReceta() == 1) {
+																				echo "<td><a title='Generar Receta' href='receta.php?p=$pacienteid&c=$consultaid' class='btn btn-success'><i class='fe fe-file'></i></a></td>";
+																			} else {
+																				echo "<td><a href='atencionpaciente.php?p=$pacienteid&r=$atencionid' class='btn btn-success'>Generar Atención</a></td>";
+																			}
+																			echo "</tr>";
+																		}
+																		?>
+																	</tbody>
+																</table>
+															</div>
+
 														</div>
 													</div>
 												</div>
 												<div class="card">
 													<div class="card-header" id="diagnostic" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#recet">Recetas</a>
+														<a aria-controls="collapseTwo" aria-expanded="false"
+															class="collapsed" data-toggle="collapse"
+															href="#recet">Recetas</a>
 													</div>
-													<div aria-labelledby="diagnostico" class="collapse" data-parent="#accordion" id="recet" role="tabpanel">
+													<div aria-labelledby="diagnostico" class="collapse"
+														data-parent="#accordion" id="recet" role="tabpanel">
 														<div class="card-body">
-															<table class="table w-100">
+															<table class="table w-100" id="example3">
 																<thead>
 																	<tr>
 																		<th>Fecha</th>
@@ -584,6 +666,30 @@ $object = $c->buscarenUsuario1($id);
 																		<th>Documento</th>
 																	</tr>
 																</thead>
+																<tbody>
+																	<?php
+																	$recetas = $c->recetalist($pa->getId());
+																	if (count($recetas) > 0) {
+																		foreach ($recetas as $r) {
+																			$recetaid = $r->getId();
+																			$recetaid = $c->encrypt($recetaid, $key);
+																			echo "<tr>";
+																			echo "<td>" . date("d-m-Y", strtotime($r->getFecha())) . "</td>";
+																			if ($r->getEstado() == 1) {
+																				echo "<td>Pendiente</td>";
+																			} else {
+																				echo "<td>Confirmado</td>";
+																			}
+																			$idreceta = $c->encrypt($r->getId(), $key);
+																			echo "<td>" . $r->getFolio() . "</td>";
+																			echo "<td>" . $r->getConsulta() . "</td>";
+																			echo "<td><a target='_blank' href='php/reporte/receta.php?r=$idreceta' class='btn btn-success'><i class='fe fe-file'></i></a></td>";
+																			echo "</tr>";
+																		}
+																	}
+																	?>
+
+																</tbody>
 															</table>
 														</div>
 													</div>
@@ -591,9 +697,12 @@ $object = $c->buscarenUsuario1($id);
 												<!--Intervenciones Quirurgicas-->
 												<div class="card">
 													<div class="card-header" id="intervencion" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#diagnost">Diagnosticos</a>
+														<a aria-controls="collapseTwo" aria-expanded="false"
+															class="collapsed" data-toggle="collapse"
+															href="#diagnost">Diagnosticos</a>
 													</div>
-													<div aria-labelledby="intervencion" class="collapse" data-parent="#accordion" id="diagnost" role="tabpanel">
+													<div aria-labelledby="intervencion" class="collapse"
+														data-parent="#accordion" id="diagnost" role="tabpanel">
 														<div class="card-body">
 															<table class="table w-100">
 																<thead>
@@ -616,9 +725,12 @@ $object = $c->buscarenUsuario1($id);
 												<!--Hospitalizaciones-->
 												<div class="card">
 													<div class="card-header" id="hospitalizacion" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#hospitalizaciones">Quimioterapia</a>
+														<a aria-controls="collapseTwo" aria-expanded="false"
+															class="collapsed" data-toggle="collapse"
+															href="#hospitalizaciones">Quimioterapia</a>
 													</div>
-													<div aria-labelledby="hospitalizacion" class="collapse" data-parent="#accordion" id="hospitalizaciones" role="tabpanel">
+													<div aria-labelledby="hospitalizacion" class="collapse"
+														data-parent="#accordion" id="hospitalizaciones" role="tabpanel">
 														<div class="card-body">
 															<table class="table w-100">
 																<thead>
@@ -641,83 +753,138 @@ $object = $c->buscarenUsuario1($id);
 												<!--Signos Vitales-->
 												<div class="card">
 													<div class="card-header" id="atencion" role="tab">
-														<a aria-controls="collapseOne" aria-expanded="true" data-toggle="collapse" href="#sig">Signos Vitales</a>
+														<a aria-controls="collapseOne" aria-expanded="true"
+															data-toggle="collapse" href="#sig">Signos Vitales</a>
 													</div>
-													<div aria-labelledby="atencion" class="collapse" data-parent="#accordion" id="sig" role="tabpanel">
+													<div aria-labelledby="atencion" class="collapse"
+														data-parent="#accordion" id="sig" role="tabpanel">
 														<div class="card-body">
 															<form id="formsignos">
 																<div class="row">
-																	<input type="hidden" name="idpac" value="<?php echo $dipaciente; ?>">
+																	<input type="hidden" name="idpac"
+																		value="<?php echo $dipaciente; ?>">
 																	<div class="col-md-1">
 																		<label>F RESP</label>
-																		<input type="number" class="form-control" min="1" id="sfresp" name="sfresp" required step="0.01">
+																		<input type="number" class="form-control"
+																			min="1" id="sfresp" name="sfresp" required
+																			step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>P SIST</label>
-																		<input type="number" class="form-control" min="1" id="spsist" name="spsist" required step="0.01">
+																		<input type="number" class="form-control"
+																			min="1" id="spsist" name="spsist" required
+																			step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>P DIAS</label>
-																		<input type="number" class="form-control" min="1" id="spdias" name="spdias" required step="0.01">
+																		<input type="number" class="form-control"
+																			min="1" id="spdias" name="spdias" required
+																			step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>% STAT 02</label>
-																		<input type="number" class="form-control" min="1" id="ssat" name="ssat" required step="0.01">
+																		<input type="number" class="form-control"
+																			min="1" id="ssat" name="ssat" required
+																			step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>FC</label>
-																		<input type="number" class="form-control" min="1" id="sfc" name="sfc" required step="0.01">
+																		<input type="number" class="form-control"
+																			min="1" id="sfc" name="sfc" required
+																			step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>T. AUXILIAR</label>
-																		<input type="number" class="form-control" min="1" id="staux" name="staux" required step="0.01">
+																		<input type="number" class="form-control"
+																			min="1" id="staux" name="staux" required
+																			step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>T. RECT</label>
-																		<input type="number" class="form-control" min="1" id="strect" name="strect" required step="0.01">
+																		<input type="number" class="form-control"
+																			min="1" id="strect" name="strect" required
+																			step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>T. OTRA</label>
-																		<input type="text" class="form-control" min="1" id="stotra" name="stotra" required>
+																		<input type="text" class="form-control" min="1"
+																			id="stotra" name="stotra" required>
 																	</div>
 																	<div class="col-md-1">
 																		<label>HGT</label>
-																		<input type="number" class="form-control" min="1" id="shgt" name="shgt" required step="0.01">
+																		<input type="number" class="form-control"
+																			min="1" id="shgt" name="shgt" required
+																			step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>PESO</label>
-																		<input type="number" class="form-control" min="1" id="speso" name="speso" required step="0.01">
+																		<input type="number" class="form-control"
+																			min="1" id="speso" name="speso" required
+																			step="0.01">
 																	</div>
 																	<div class="col-md-1 d-flex align-items-end">
-																		<button class="btn btn-outline-success" type="submit"><i class="fa fa-save"></i> Registrar</button>
+																		<button class="btn btn-outline-success"
+																			type="submit"><i class="fa fa-save"></i>
+																			Registrar</button>
 																	</div>
 																</div>
 															</form>
 															<div class="row mt-4">
 																<div class="col-xl-12 col-lg-12 col-md-12">
-																	<div class="card transcation-crypto1" id="transcation-crypto1">
+																	<div class="card transcation-crypto1"
+																		id="transcation-crypto1">
 																		<div class="card-body">
 																			<div class="">
 																				<div class="table-responsive">
-																					<table class="table w-100 text-nowrap" id="">
-																						<thead class="border-top text-center">
+																					<table
+																						class="table w-100 text-nowrap"
+																						id="">
+																						<thead
+																							class="border-top text-center">
 																							<tr>
-																								<th class="bg-transparent">Fecha</th>
-																								<th class="bg-transparent">f Resp</th>
-																								<th class="bg-transparent text-center">P. Sist</th>
-																								<th class="bg-transparent text-center">P. Dias</th>
-																								<th class="bg-transparent text-center">% Sat 02</th>
-																								<th class="bg-transparent text-center">FC</th>
-																								<th class="bg-transparent text-center">T. Axilar</th>
-																								<th class="bg-transparent text-center">T. Rect</th>
-																								<th class="bg-transparent text-center">T. Otra</th>
-																								<th class="bg-transparent text-center">HGT</th>
-																								<th class="bg-transparent text-center">PESO</th>
-																								<th class="bg-transparent text-center">ID</th>
+																								<th
+																									class="bg-transparent">
+																									Fecha</th>
+																								<th
+																									class="bg-transparent">
+																									f Resp</th>
+																								<th
+																									class="bg-transparent text-center">
+																									P. Sist</th>
+																								<th
+																									class="bg-transparent text-center">
+																									P. Dias</th>
+																								<th
+																									class="bg-transparent text-center">
+																									% Sat 02</th>
+																								<th
+																									class="bg-transparent text-center">
+																									FC</th>
+																								<th
+																									class="bg-transparent text-center">
+																									T. Axilar</th>
+																								<th
+																									class="bg-transparent text-center">
+																									T. Rect</th>
+																								<th
+																									class="bg-transparent text-center">
+																									T. Otra</th>
+																								<th
+																									class="bg-transparent text-center">
+																									HGT</th>
+																								<th
+																									class="bg-transparent text-center">
+																									PESO</th>
+																								<th
+																									class="bg-transparent text-center">
+																									ID</th>
 																							</tr>
 																						</thead>
-																						<input type="hidden" id="pacienteid" value="<?php echo $pa->getId(); ?>">
-																						<tbody class="text-center" id="signos">
+																						<input type="hidden"
+																							id="pacienteid"
+																							value="<?php echo $pa->getId(); ?>">
+																						<tbody class="text-center"
+																							id="signos">
 																						</tbody>
 																					</table>
 																				</div>
@@ -732,30 +899,41 @@ $object = $c->buscarenUsuario1($id);
 												<!--Medidas Antropometricas-->
 												<div class="card">
 													<div class="card-header" id="atros" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#atro">Antropométrica</a>
+														<a aria-controls="collapseTwo" aria-expanded="false"
+															class="collapsed" data-toggle="collapse"
+															href="#atro">Antropométrica</a>
 													</div>
-													<div aria-labelledby="procedimiento" class="collapse" data-parent="#accordion" id="atro" role="tabpanel">
+													<div aria-labelledby="procedimiento" class="collapse"
+														data-parent="#accordion" id="atro" role="tabpanel">
 														<div class="card-body">
 															<!--Row-->
 															<form id="formmedidas">
 																<div class="row">
-																	<input type="hidden" name="idpac" value="<?php echo $pa->getId(); ?>">
+																	<input type="hidden" name="idpac"
+																		value="<?php echo $pa->getId(); ?>">
 																	<div class="col-md-1">
 																		<label>Peso</label>
 																		<!--Valores Hasta con 2 decimales-->
-																		<input type="number" class="form-control" min="1" id="peso" name="peso" required step="0.01">
+																		<input type="number" class="form-control"
+																			min="1" id="peso" name="peso" required
+																			step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>Estatura</label>
-																		<input type="number" class="form-control" min="1" id="estatura" name="estatura" required step="0.01">
+																		<input type="number" class="form-control"
+																			min="1" id="estatura" name="estatura"
+																			required step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>PCe/E</label>
-																		<input type="number" class="form-control" min="1" id="pce" name="pce" required step="0.01">
+																		<input type="number" class="form-control"
+																			min="1" id="pce" name="pce" required
+																			step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>P/E</label>
-																		<select type="number" class="form-control" id="pe" name="pe" required>
+																		<select type="number" class="form-control"
+																			id="pe" name="pe" required>
 																			<option value="1">Normal</option>
 																			<option value="2">Desnutrición</option>
 																			<option value="3">Sobrepeso</option>
@@ -764,7 +942,8 @@ $object = $c->buscarenUsuario1($id);
 																	</div>
 																	<div class="col-md-1">
 																		<label>P/T</label>
-																		<select type="number" class="form-control" id="pt" name="pt" required>
+																		<select type="number" class="form-control"
+																			id="pt" name="pt" required>
 																			<option value="1">Normal</option>
 																			<option value="2">Desnutrición</option>
 																			<option value="3">Sobrepeso</option>
@@ -773,7 +952,8 @@ $object = $c->buscarenUsuario1($id);
 																	</div>
 																	<div class="col-md-1">
 																		<label>T/E</label>
-																		<select type="number" class="form-control" id="te" name="te" required>
+																		<select type="number" class="form-control"
+																			id="te" name="te" required>
 																			<option value="1">Normal</option>
 																			<option value="2">Desnutrición</option>
 																			<option value="3">Sobrepeso</option>
@@ -782,53 +962,93 @@ $object = $c->buscarenUsuario1($id);
 																	</div>
 																	<div class="col-md-1">
 																		<label>IMC</label>
-																		<input type="number" class="form-control" min="1" id="imc" name="imc" required step="0.01">
+																		<input type="number" class="form-control"
+																			min="1" id="imc" name="imc" required
+																			step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>Clasif. IMC</label>
-																		<input type="text" class="form-control" min="1" id="clasifimc" name="clasifimc" required>
+																		<input type="text" class="form-control" min="1"
+																			id="clasifimc" name="clasifimc" required>
 																	</div>
 																	<div class="col-md-1">
 																		<label>PC/E</label>
-																		<input type="number" class="form-control" min="1" id="pc" name="pc" required step="0.01">
+																		<input type="number" class="form-control"
+																			min="1" id="pc" name="pc" required
+																			step="0.01">
 																	</div>
 																	<div class="col-md-2">
 																		<label>Clasif P.Cintura</label>
-																		<select type="number" class="form-control" id="cpc" name="cpc" required>
+																		<select type="number" class="form-control"
+																			id="cpc" name="cpc" required>
 																			<option value="1">Normal</option>
-																			<option value="2">Riesgo Obésidad abdominal</option>
-																			<option value="3">Obesidad abdominal</option>
+																			<option value="2">Riesgo Obésidad abdominal
+																			</option>
+																			<option value="3">Obesidad abdominal
+																			</option>
 																		</select>
 																	</div>
 																	<div class="col-md-1 d-flex align-items-end">
-																		<button class="btn btn-outline-success" type="submit"><i class="fa fa-save"></i> Registrar</button>
+																		<button class="btn btn-outline-success"
+																			type="submit"><i class="fa fa-save"></i>
+																			Registrar</button>
 																	</div>
 																</div>
 															</form>
 															<div class="row mt-4">
 																<div class="col-xl-12 col-lg-12 col-md-12">
-																	<div class="card transcation-crypto1" id="transcation-crypto1">
+																	<div class="card transcation-crypto1"
+																		id="transcation-crypto1">
 																		<div class="card-body">
 																			<div class="">
 																				<div class="table-responsive">
-																					<table class="table w-100 text-nowrap" id="">
-																						<thead class="border-top text-center">
+																					<table
+																						class="table w-100 text-nowrap"
+																						id="">
+																						<thead
+																							class="border-top text-center">
 																							<tr>
-																								<th class="bg-transparent">Fecha</th>
-																								<th class="bg-transparent">peso</th>
-																								<th class="bg-transparent text-center">Estatura</th>
-																								<th class="bg-transparent text-center">PCe/e</th>
-																								<th class="bg-transparent text-center">P/E</th>
-																								<th class="bg-transparent text-center">P/T</th>
-																								<th class="bg-transparent text-center">T/E</th>
-																								<th class="bg-transparent text-center">IMC</th>
-																								<th class="bg-transparent text-center">Clasif. IMC</th>
-																								<th class="bg-transparent text-center">PC/E</th>
-																								<th class="bg-transparent text-center">Clasif P. Cintura</th>
-																								<th class="bg-transparent text-center">ID</th>
+																								<th
+																									class="bg-transparent">
+																									Fecha</th>
+																								<th
+																									class="bg-transparent">
+																									peso</th>
+																								<th
+																									class="bg-transparent text-center">
+																									Estatura</th>
+																								<th
+																									class="bg-transparent text-center">
+																									PCe/e</th>
+																								<th
+																									class="bg-transparent text-center">
+																									P/E</th>
+																								<th
+																									class="bg-transparent text-center">
+																									P/T</th>
+																								<th
+																									class="bg-transparent text-center">
+																									T/E</th>
+																								<th
+																									class="bg-transparent text-center">
+																									IMC</th>
+																								<th
+																									class="bg-transparent text-center">
+																									Clasif. IMC</th>
+																								<th
+																									class="bg-transparent text-center">
+																									PC/E</th>
+																								<th
+																									class="bg-transparent text-center">
+																									Clasif P. Cintura
+																								</th>
+																								<th
+																									class="bg-transparent text-center">
+																									ID</th>
 																							</tr>
 																						</thead>
-																						<tbody class="text-center" id="medidas">
+																						<tbody class="text-center"
+																							id="medidas">
 
 																						</tbody>
 																					</table>
@@ -844,26 +1064,48 @@ $object = $c->buscarenUsuario1($id);
 												<!--Historial Clinico-->
 												<div class="card">
 													<div class="card-header" id="interconsulta" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#histo">Historial Clinico</a>
+														<a aria-controls="collapseTwo" aria-expanded="false"
+															class="collapsed" data-toggle="collapse"
+															href="#histo">Historial Clinico</a>
 													</div>
-													<div aria-labelledby="interconsulta" class="collapse" data-parent="#accordion" id="histo" role="tabpanel">
+													<div aria-labelledby="interconsulta" class="collapse"
+														data-parent="#accordion" id="histo" role="tabpanel">
 														<div class="card-body">
 															<div class="row">
 																<div class="col-xl-12 col-lg-12 col-md-12">
-																	<div class="card transcation-crypto1" id="transcation-crypto1">
+																	<div class="card transcation-crypto1"
+																		id="transcation-crypto1">
 																		<div class="card-body">
 																			<div class="">
 																				<div class="table-responsive">
-																					<table class="table w-100 text-nowrap" id="example1">
-																						<thead class="border-top text-center">
+																					<table
+																						class="table w-100 text-nowrap"
+																						id="example1">
+																						<thead
+																							class="border-top text-center">
 																							<tr>
-																								<th class="bg-transparent">Estado de Atencion</th>
-																								<th class="bg-transparent">Fecha Cita</th>
-																								<th class="bg-transparent text-center">Fecha Registro</th>
-																								<th class="bg-transparent text-center">Profesional</th>
-																								<th class="bg-transparent text-center">Atención</th>
-																								<th class="bg-transparent text-center">Detalle</th>
-																								<th class="bg-transparent text-center">Reporte</th>
+																								<th
+																									class="bg-transparent">
+																									Estado de Atencion
+																								</th>
+																								<th
+																									class="bg-transparent">
+																									Fecha Cita</th>
+																								<th
+																									class="bg-transparent text-center">
+																									Fecha Registro</th>
+																								<th
+																									class="bg-transparent text-center">
+																									Profesional</th>
+																								<th
+																									class="bg-transparent text-center">
+																									Atención</th>
+																								<th
+																									class="bg-transparent text-center">
+																									Detalle</th>
+																								<th
+																									class="bg-transparent text-center">
+																									Reporte</th>
 																							</tr>
 																						</thead>
 																						<tbody class="text-center">
@@ -916,9 +1158,12 @@ $object = $c->buscarenUsuario1($id);
 												<!--Adjuntos-->
 												<div class="card">
 													<div class="card-header" id="medicamento" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#medicamentos">Archivos Adjuntos</a>
+														<a aria-controls="collapseTwo" aria-expanded="false"
+															class="collapsed" data-toggle="collapse"
+															href="#medicamentos">Archivos Adjuntos</a>
 													</div>
-													<div aria-labelledby="medicamento" class="collapse" data-parent="#accordion" id="medicamentos" role="tabpanel">
+													<div aria-labelledby="medicamento" class="collapse"
+														data-parent="#accordion" id="medicamentos" role="tabpanel">
 														<div class="card-body">
 															Informacion Aqui
 														</div>
@@ -1006,12 +1251,12 @@ $object = $c->buscarenUsuario1($id);
 	<script src="JsFunctions/informe.js"></script>
 	<script>
 		//Cargar Tabla
-		$(document).ready(function() {
+		$(document).ready(function () {
 			cargarsignos();
 			cargarmedidas();
 		});
 
-		$('#tablegeneral').DataTable({
+		$("#tableatencion").DataTable({
 			language: {
 				searchPlaceholder: 'Buscar..',
 				sSearch: '',
@@ -1027,86 +1272,11 @@ $object = $c->buscarenUsuario1($id);
 					last: 'Último'
 				},
 			},
-			"paging": true,
-			"lengthChange": true,
-			"searching": true,
-			"ordering": true,
-			"info": true,
-			"autoWidth": true,
-			"responsive": true
-		});
-
-		$('#tablecieo1').DataTable({
-			language: {
-				searchPlaceholder: 'Buscar..',
-				sSearch: '',
-				lengthMenu: '_MENU_ datos/página',
-				zeroRecords: 'No se encontraron resultados',
-				info: 'Mostrando página _PAGE_ de _PAGES_',
-				infoEmpty: 'No hay datos disponibles',
-				infoFiltered: '(filtrado de _MAX_ datos totales)',
-				paginate: {
-					first: 'Primero',
-					previous: 'Anterior',
-					next: 'Siguiente',
-					last: 'Último'
-				},
-			},
-			"paging": true,
-			"lengthChange": true,
-			"searching": true,
-			"ordering": true,
-			"info": true,
-			"autoWidth": true,
-			"responsive": true
-		});
-
-		$('#tablecieo2').DataTable({
-			language: {
-				searchPlaceholder: 'Buscar..',
-				sSearch: '',
-				lengthMenu: '_MENU_ datos/página',
-				zeroRecords: 'No se encontraron resultados',
-				info: 'Mostrando página _PAGE_ de _PAGES_',
-				infoEmpty: 'No hay datos disponibles',
-				infoFiltered: '(filtrado de _MAX_ datos totales)',
-				paginate: {
-					first: 'Primero',
-					previous: 'Anterior',
-					next: 'Siguiente',
-					last: 'Último'
-				},
-			},
-			"paging": true,
-			"lengthChange": true,
-			"searching": true,
-			"ordering": true,
-			"info": true,
-			"autoWidth": true,
-			"responsive": true
-		});
-
-		$('#tablecie10').DataTable({
-			language: {
-				searchPlaceholder: 'Buscar..',
-				sSearch: '',
-				lengthMenu: '_MENU_ datos/página',
-				zeroRecords: 'No se encontraron resultados',
-				info: 'Mostrando página _PAGE_ de _PAGES_',
-				infoEmpty: 'No hay datos disponibles',
-				infoFiltered: '(filtrado de _MAX_ datos totales)',
-				paginate: {
-					first: 'Primero',
-					previous: 'Anterior',
-					next: 'Siguiente',
-					last: 'Último'
-				},
-			},
-			"paging": true,
-			"lengthChange": true,
-			"searching": true,
-			"ordering": true,
-			"info": true,
+			"paging": false,
+			"lengthChange": false,
+			"searching": false,
+			"ordering": false,
+			"info": false,
 			"autoWidth": true,
 			"responsive": true
 		});

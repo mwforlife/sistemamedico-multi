@@ -3128,6 +3128,14 @@ function calculateBSA(Height, Weight) {
     return BSA.toFixed(2);
 }
 
+function detailsrecet(element){
+    if(element.checked){
+        $(".resetdetails").removeClass("d-none");
+    }else{
+        $(".resetdetails").addClass("d-none");
+    }
+}
+
 function generarreceta(paciente, medico, empresa, consulta){
     var previo = $("#previo").val();
     console.log("Paciente: "+paciente);

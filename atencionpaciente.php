@@ -701,7 +701,7 @@ if($empresa!=null)
 														</div>
 													</div>
 												</div>
-												<!--Intervenciones Quirurgicas-->
+												<!--Diagnosticos-->
 												<div class="card">
 													<div class="card-header" id="intervencion" role="tab">
 														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#diagnost">Diagnosticos</a>

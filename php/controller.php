@@ -42,7 +42,7 @@ class Controller
     private $mi;
 
     private $host = "localhost";
-    /*Variables*/
+    /*Variables
     private $user = "root";
     private $pass = "";
     private $bd = "oncoway";
@@ -52,7 +52,7 @@ class Controller
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server
+    /*Variables BD Server*/
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
@@ -4901,7 +4901,7 @@ class Controller
     function registrarReceta($paciente, $usuario, $empresa, $consulta, $fecha, $folio, $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, $fechaadministracion, $pendiente, $nciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primeringreso, $traemedicamentos, $diabetes, $hipertension, $alergias, $detallealergias, $urgente, $esquema, $anamnesis, $observacion)
     {
         $this->conexion();
-        $sql = "INSERT INTO recetas (paciente, usuario, empresa, consulta, fecha, folio, estadio, nivel, ges, peso, talla, scorporal, creatinina, auc, fechaadministracion, pendiente, nciclo, anticipada, curativo, paliativo, adyuvante, concomitante, noeadyuvante, primeringreso, traemedicamentos, diabetes, hipertension, alergias, detallealergias, urgente, esquema, anamesis, observacion) VALUES ($paciente, $usuario, $empresa, $consulta, '$fecha', '$folio', $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, '$fechaadministracion', $pendiente, $nciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primeringreso, $traemedicamentos, $diabetes, $hipertension, $alergias, '$detallealergias', $urgente, $esquema, '$anamnesis', '$observacion');";
+        $sql = "INSERT INTO recetas (paciente, usuario, empresa, consulta, fecha, folio, estadio, nivel, ges, peso, talla, scorporal, creatinina, auc, fechaadministracion, pendiente, nciclo, anticipada, curativo, paliativo, adyuvante, concomitante, noeadyuvante, primeringreso, traemedicamentos, diabetes, hipertension, alergias, detallealergias, urgente, esquema, anamesis, observacion, estado) VALUES ($paciente, $usuario, $empresa, $consulta, '$fecha', '$folio', $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, '$fechaadministracion', $pendiente, $nciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primeringreso, $traemedicamentos, $diabetes, $hipertension, $alergias, '$detallealergias', $urgente, $esquema, '$anamnesis', '$observacion',1);";
         $result = $this->mi->query($sql);
         // Obtener el ID de la receta recién registrada
         $recetaId = $this->mi->insert_id;
@@ -4977,5 +4977,57 @@ class Controller
     }
 
     //Listar Recetas por pacientes
+    function recetalist($paciente){
+        $this->conexion();
+        $sql = "select recetas.id as id, recetas.paciente as paciente, usuarios.nombre, usuarios.apellido1, usuarios.apellido2, consultas.tipodeatencion, recetas.empresa as empresa, recetas.consulta as consulta, recetas.fecha as fecha, recetas.folio as folio, recetas.estadio as estadio, recetas.nivel as nivel, recetas.ges as ges, recetas.peso as peso, recetas.talla as talla, recetas.scorporal as scorporal, recetas.creatinina as creatinina, recetas.auc as auc, recetas.fechaadministracion as fechaadministracion, recetas.pendiente as pendiente, recetas.nciclo as nciclo, recetas.anticipada as anticipada, recetas.curativo as curativo, recetas.paliativo as paliativo, recetas.adyuvante as adyuvante, recetas.concomitante as concomitante, recetas.noeadyuvante as noeadyuvante, recetas.primeringreso as primeringreso, recetas.traemedicamentos as traemedicamentos, recetas.diabetes as diabetes, recetas.hipertension as hipertension, recetas.alergias as alergias, recetas.detallealergias as detallealergias, recetas.urgente as urgente, recetas.esquema as esquema, recetas.anamesis as anamesis, recetas.observacion as observacion,recetas.estado as estado, recetas.registro as registro from recetas, usuarios, consultas where recetas.paciente = $paciente and recetas.usuario = usuarios.id and recetas.consulta = consultas.id order by recetas.folio desc";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs['id'];
+            $paciente = $rs['paciente'];
+            $medico = $rs['nombre'] . " " . $rs['apellido1'] . " " . $rs['apellido2'];
+            $tipodeatencion = $rs['tipodeatencion'];
+            $empresa = $rs['empresa'];
+            $consulta = $rs['consulta'];
+            $fecha = $rs['fecha'];
+            $folio = $rs['folio'];
+            $estadio = $rs['estadio'];
+            $nivel = $rs['nivel'];
+            $ges = $rs['ges'];
+            $peso = $rs['peso'];
+            $talla = $rs['talla'];
+            $scorporal = $rs['scorporal'];
+            $creatinina = $rs['creatinina'];
+            $auc = $rs['auc'];
+            $fechaadministracion = $rs['fechaadministracion'];
+            $pendiente = $rs['pendiente'];
+            $nciclo = $rs['nciclo'];
+            $anticipada = $rs['anticipada'];
+            $curativo = $rs['curativo'];
+            $paliativo = $rs['paliativo'];
+            $adyuvante = $rs['adyuvante'];
+            $concomitante = $rs['concomitante'];
+            $neoadyuvante = $rs['noeadyuvante'];
+            $primeringreso = $rs['primeringreso'];
+            $traemedicamentos = $rs['traemedicamentos'];
+            $diabetes = $rs['diabetes'];
+            $hipertension = $rs['hipertension'];
+            $alergias = $rs['alergias'];
+            $detallealergias = $rs['detallealergias'];
+            $urgente = $rs['urgente'];
+            $esquema = $rs['esquema'];
+            $anamesis = $rs['anamesis'];
+            $observacion = $rs['observacion'];
+            $estado = $rs['estado'];
+            $registro = $rs['registro'];
+            
+            $receta = array("id" => $id, "paciente" => $paciente, "usuario" => $medico, "empresa" => $empresa, "consulta" => $tipodeatencion, "fecha" => $fecha, "folio" => $folio, "estadio" => $estadio, "nivel" => $nivel, "ges" => $ges, "peso" => $peso, "talla" => $talla, "scorporal" => $scorporal, "creatinina" => $creatinina, "auc" => $auc, "fechaadministracion" => $fechaadministracion, "pendiente" => $pendiente, "nciclo" => $nciclo, "anticipada" => $anticipada, "curativo" => $curativo, "paliativo" => $paliativo, "adyuvante" => $adyuvante, "concomitante" => $concomitante, "neoadyuvante" => $neoadyuvante, "primeringreso" => $primeringreso, "traemedicamentos" => $traemedicamentos, "diabetes" => $diabetes, "hipertension" => $hipertension, "alergias" => $alergias, "detallealergias" => $detallealergias, "urgente" => $urgente, "esquema" => $esquema, "anamesis" => $anamesis, "observacion" => $observacion, "estado" => $estado, "registro" => $registro);
+            $receta = new Receta($receta);
+            $lista[] = $receta;
+        }
+        $this->desconexion();
+        return $lista;
+
+    }
 
 }

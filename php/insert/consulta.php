@@ -37,6 +37,9 @@ if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medic
 
     if($response==true){
         $c->cambiarestadoreserva($reserva,$estadoatencion);
+        echo json_encode(array('error' => false, 'message' => 'Consulta registrada correctamente'));
+    }else{
+        echo json_encode(array('error' => true, 'message' => 'Error al registrar la consulta'));
     }
 
 }else{
