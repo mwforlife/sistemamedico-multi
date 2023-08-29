@@ -16,18 +16,18 @@ $comite = null;
 // Obtener la URL de la página anterior (si está disponible)
 $previous_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 $id = 0;
-$reservaid=0;
+$reservaid = 0;
 if (isset($_GET['r']) && isset($_GET['p'])) {
 	$reservaid = $_GET['r'];
 	$reservaid = $c->decrypt($reservaid, "thechallengeofcoding");
-	if(is_numeric($reservaid)){
+	if (is_numeric($reservaid)) {
 		$reservaid = intval($reservaid);
-		if($reservaid<=0){
+		if ($reservaid <= 0) {
 			// Redireccionar a la página anterior
 			header("Location: $previous_page&error=upps");
 			exit();
 		}
-	}else{
+	} else {
 		// Redireccionar a la página anterior
 		header("Location: $previous_page&error=$reservaid");
 		exit();
@@ -515,9 +515,23 @@ $object = $c->buscarenUsuario1($id);
 											$key = "thechallengeofcoding";
 											$pacienteid = $c->encrypt($id, $key);
 											$atencionid = $c->encrypt($reservaid, $key);
+											$consulta = $c->buscarconsulta($reservaid);
+											if ($consulta != null) {
+												if ($consulta->getReceta() == 1) {
+													$consultaid = $consulta->getId();
+													$consultaid = $c->encrypt($consultaid, $key);
 											?>
-											<a href="atencionpaciente.php?p=<?php echo $pacienteid; ?>&r=<?php echo $atencionid; ?>" class="btn btn-success mt-2">Generar Atención<i class="fe fe-arrow-right ml-2"></i></a>
-											<a href="receta.php?p=<?php echo $pacienteid; ?>&r=<?php echo $atencionid; ?>" class="btn btn-success mt-2">Generar Receta<i class="fe fe-arrow-right ml-2"></i></a>
+													<a href="receta.php?p=<?php echo $pacienteid; ?>&c=<?php echo $consultaid; ?>" class="btn btn-success mt-2">Generar Receta<i class="fe fe-arrow-right ml-2"></i></a>
+												<?php
+												}
+											} else {
+												?>
+												<a href="atencionpaciente.php?p=<?php echo $pacienteid; ?>&r=<?php echo $atencionid; ?>" class="btn btn-success mt-2">Generar Atención<i class="fe fe-arrow-right ml-2"></i></a>
+											<?php
+											}
+											?>
+
+
 										</div>
 									</div>
 								</div>
@@ -581,7 +595,7 @@ $object = $c->buscarenUsuario1($id);
 													</div>
 													<div aria-labelledby="intervencion" class="collapse" data-parent="#accordion" id="diagnost" role="tabpanel">
 														<div class="card-body">
-															<table  class="table w-100">
+															<table class="table w-100">
 																<thead>
 																	<tr>
 																		<th>Folio</th>
@@ -606,7 +620,7 @@ $object = $c->buscarenUsuario1($id);
 													</div>
 													<div aria-labelledby="hospitalizacion" class="collapse" data-parent="#accordion" id="hospitalizaciones" role="tabpanel">
 														<div class="card-body">
-															<table  class="table w-100">
+															<table class="table w-100">
 																<thead>
 																	<tr>
 																		<th>Fecha</th>
@@ -854,37 +868,37 @@ $object = $c->buscarenUsuario1($id);
 																						</thead>
 																						<tbody class="text-center">
 																							<?php
-																								$atenciones = $c->buscarreservaspaciente($pa->getId());
-																								foreach ($atenciones as $at){
-																									echo "<tr>";
-																									if($at->getEstado() == 1){
-																										//Pendiente Atencion
-																										echo "<td class='bg-transparent'><span class='badge badge-warning'><i class='fa fa-clock-o'></i> Pendiente</span></td>";
-																									}else if($at->getEstado() == 2){
-																										//Confirmado
-																										echo "<td class='bg-transparent'><span class='badge badge-success'><i class='fa fa-check'></i> Confirmado</span></td>";
-																									}else if($at->getEstado() == 3){
-																										//En Sala de Espera
-																										echo "<td class='bg-transparent'><span class='badge badge-info'><i class='fa fa-clock-o'></i> En Sala de Espera</span></td>";
-																									}else if($at->getEstado() == 5){
-																										//Atendido
-																										echo "<td class='bg-transparent'><span class='badge badge-success'><i class='fa fa-user-check'></i>Atendido</span></td>";
-																									}else if($at->getEstado() == 7){
-																										//Paciente no se Presenta
-																										echo "<td class='bg-transparent'><span class='badge badge-danger'><i class='fa fa-clock-o'></i> Paciente no se Presenta</span></td>";
-																									}else{
-																										//Cancelado
-																										echo "<td class='bg-transparent'><span class='badge badge-danger'><i class='fa fa-clock-o'></i> Cancelado</span></td>";
-																									}
-																									echo "<td class='bg-transparent'>".$at->getFecha()."</td>";
-																									echo "<td class='bg-transparent text-center'>".$at->getRegistro()."</td>";
-																									echo "<td class='bg-transparent text-center'>".$at->getProfesional()."</td>";
-																									echo "<td class='bg-transparent text-center'><a href='atencion.php?id=".$at->getId()."'><i class='fa fa-eye'></i></a></td>";
-																									echo "<td class='bg-transparent text-center'><a href='reporte.php?id=".$at->getId()."'><i class='fa fa-eye'></i></a></td>";
-																									echo "<td class='bg-transparent text-center'><a href='reporte.php?id=".$at->getId()."'><i class='fa fa-file-pdf-o'></i></a></td>";
-																									
-																									echo "</tr>";
+																							$atenciones = $c->buscarreservaspaciente($pa->getId());
+																							foreach ($atenciones as $at) {
+																								echo "<tr>";
+																								if ($at->getEstado() == 1) {
+																									//Pendiente Atencion
+																									echo "<td class='bg-transparent'><span class='badge badge-warning'><i class='fa fa-clock-o'></i> Pendiente</span></td>";
+																								} else if ($at->getEstado() == 2) {
+																									//Confirmado
+																									echo "<td class='bg-transparent'><span class='badge badge-success'><i class='fa fa-check'></i> Confirmado</span></td>";
+																								} else if ($at->getEstado() == 3) {
+																									//En Sala de Espera
+																									echo "<td class='bg-transparent'><span class='badge badge-info'><i class='fa fa-clock-o'></i> En Sala de Espera</span></td>";
+																								} else if ($at->getEstado() == 5) {
+																									//Atendido
+																									echo "<td class='bg-transparent'><span class='badge badge-success'><i class='fa fa-user-check'></i>Atendido</span></td>";
+																								} else if ($at->getEstado() == 7) {
+																									//Paciente no se Presenta
+																									echo "<td class='bg-transparent'><span class='badge badge-danger'><i class='fa fa-clock-o'></i> Paciente no se Presenta</span></td>";
+																								} else {
+																									//Cancelado
+																									echo "<td class='bg-transparent'><span class='badge badge-danger'><i class='fa fa-clock-o'></i> Cancelado</span></td>";
 																								}
+																								echo "<td class='bg-transparent'>" . $at->getFecha() . "</td>";
+																								echo "<td class='bg-transparent text-center'>" . $at->getRegistro() . "</td>";
+																								echo "<td class='bg-transparent text-center'>" . $at->getProfesional() . "</td>";
+																								echo "<td class='bg-transparent text-center'><a href='atencion.php?id=" . $at->getId() . "'><i class='fa fa-eye'></i></a></td>";
+																								echo "<td class='bg-transparent text-center'><a href='reporte.php?id=" . $at->getId() . "'><i class='fa fa-eye'></i></a></td>";
+																								echo "<td class='bg-transparent text-center'><a href='reporte.php?id=" . $at->getId() . "'><i class='fa fa-file-pdf-o'></i></a></td>";
+
+																								echo "</tr>";
+																							}
 																							?>
 
 																						</tbody>
@@ -898,7 +912,7 @@ $object = $c->buscarenUsuario1($id);
 														</div>
 													</div>
 												</div>
-												
+
 												<!--Adjuntos-->
 												<div class="card">
 													<div class="card-header" id="medicamento" role="tab">

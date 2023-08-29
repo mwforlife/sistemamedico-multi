@@ -16,10 +16,18 @@ $comite = null;
 // Obtener la URL de la página anterior (si está disponible)
 $previous_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 $id = 0;
-$reserva = 0;
-if (isset($_GET['r']) && isset($_GET['p'])) {
-	$reserva = $_GET['r'];
-	$reserva = $c->decrypt($reserva, "thechallengeofcoding");
+$consultaid = 0;
+$consulta = null;
+if (isset($_GET['c']) && isset($_GET['p'])) {
+	$consultaid = $_GET['c'];
+	$consultaid = $c->decrypt($consultaid, "thechallengeofcoding");
+
+	$consulta = $c->buscarconsultaporid($consultaid);
+	if ($consulta == null) {
+		// Redireccionar a la página anterior
+		header("Location: $previous_page");
+		exit();
+	}
 
 	$paciente = $_GET['p'];
 	$paciente = $c->decrypt($paciente, "thechallengeofcoding");
@@ -29,6 +37,7 @@ if (isset($_GET['r']) && isset($_GET['p'])) {
 		header("Location: $previous_page");
 		exit();
 	}
+	$id = $pa->getId();
 } else {
 	//Redireccionar a la página anterior
 	header("Location: $previous_page");
@@ -161,7 +170,7 @@ $object = $c->buscarenUsuario1($id);
 	<link rel="icon" href="assets/img/brand/favicon.ico" type="image/x-icon" />
 
 	<!-- Title -->
-	<title>OncoWay | Registrar Informe</title>
+	<title>OncoWay | Receta</title>
 
 	<!-- Bootstrap css-->
 	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -510,7 +519,12 @@ $object = $c->buscarenUsuario1($id);
 						<div class="col-lg-12">
 							<div class="card">
 								<div class="card-body">
-									<h5>Diagnostico</h5>
+									<div class="row justify-content-between">
+									<h5>Diagnostico: <?php echo $consulta->getDiagnosticotexto();?></h5>
+									<button class="btn btn-outline-success" onclick="generarreceta(<?php echo $pa->getId();?>,<?php echo $object->getId();?>,<?php echo $empresa->getId();?>,<?php echo $consulta->getId();?>)"><i class="fa fa-save"></i> Generar Receta</button>
+
+									<input type="hidden" id="previo" value="<?php echo $previous_page; ?>">
+									</div>
 									<div class="row">
 										<div class="col-md-12 mt-4">
 											<div class="card">
@@ -552,23 +566,23 @@ $object = $c->buscarenUsuario1($id);
 														</div>
 														<div class="col-md-2">
 															<label for="">Peso</label>
-															<input type="text" name="peso" id="peso" class="form-control" step="1.01" placeholder="Peso">
+															<input type="number" name="peso" id="peso" class="form-control" step="1.01" placeholder="Peso" value="<?php echo $peso;?>" onkeyup="calcularBSA()">
 														</div>
 														<div class="col-md-2">
 															<label for="">Talla</label>
-															<input type="text" name="talla" id="talla" class="form-control" step="1.01" placeholder="Talla">
+															<input type="number" name="talla" id="talla" class="form-control" step="1.01" placeholder="Talla" value="<?php echo $talla;?>" onkeyup="calcularBSA()">
 														</div>
 														<div class="col-md-2">
 															<label for="">S. Corporal</label>
-															<input type="text" name="scorporal" id="scorporal" class="form-control" step="1.01" value="0" readonly>
+															<input type="number" name="scorporal" id="scorporal" class="form-control" step="1.01"  readonly value="<?php echo $supcop;?>" >
 														</div>
 														<div class="col-md-2">
 															<label for="">Creatinina</label>
-															<input type="text" name="creatinina" id="creatinina" class="form-control" step="1.01" placeholder="Creatinina">
+															<input type="number" name="creatinina" id="creatinina" class="form-control" step="1.01" placeholder="Creatinina">
 														</div>
 														<div class="col-md-2">
 															<label for="">AUC</label>
-															<input type="text" name="auc" id="auc" class="form-control" step="1.01" placeholder="AUC">
+															<input type="number" name="auc" id="auc" class="form-control" step="1.01" placeholder="AUC">
 														</div>
 														<div class="col-md-2">
 															<label for="">Fecha de Administración</label>
@@ -583,7 +597,7 @@ $object = $c->buscarenUsuario1($id);
 														</div>
 														<div class="col-md-2">
 															<label for="">N° Ciclio</label>
-															<input type="text" name="ciclo" id="ciclo" class="form-control" placeholder="N° Ciclo">
+															<input type="number" name="ciclo" id="ciclo" class="form-control" placeholder="N° Ciclo">
 														</div>
 														<div class="col-md-2">
 															<label for="">Anticipada</label>
@@ -596,18 +610,18 @@ $object = $c->buscarenUsuario1($id);
 													</div>
 													<div class="row mt-2">
 														<div class="col-md-2">
-															<input type="checkbox" name="curativo" id="curativo" value="1"><span>Curativo</span><br />
-															<input type="checkbox" name="paliativo" id="paliativo" value="1"><span>Paliativo</span><br />
-															<input type="checkbox" name="adyuvante" id="adyuvante" value="1"><span>Adyuvante</span><br />
-															<input type="checkbox" name="concomitante" id="concomitante" value="1"><span>Concomitante</span><br />
-															<input type="checkbox" name="neoadyuvante" id="neoadyuvante" value="1"><span>Neoadyuvante</span>
+															<input type="checkbox" name="curativo" id="curativo" value="1"><span> Curativo</span><br />
+															<input type="checkbox" name="paliativo" id="paliativo" value="1"><span> Paliativo</span><br />
+															<input type="checkbox" name="adyuvante" id="adyuvante" value="1"><span> Adyuvante</span><br />
+															<input type="checkbox" name="concomitante" id="concomitante" value="1"><span> Concomitante</span><br />
+															<input type="checkbox" name="neoadyuvante" id="neoadyuvante" value="1"><span> Neoadyuvante</span>
 														</div>
 														<div class="col-md-2">
-															<input type="checkbox" name="primera" id="primera" value="1"><span>Primer Ingreso</span><br />
-															<input type="checkbox" name="traemedicamementos" id="traemedicamementos" value="1"><span>Trae Medicamentos</span><br />
-															<input type="checkbox" name="diabetes" id="diabetes" value="1"><span>Diabetes</span><br />
-															<input type="checkbox" name="hipertension" id="hipertension" value="1"><span>Hipertensión Arterial</span><br />
-															<input type="checkbox" name="alergia" id="alergia" value="1"><span>Alergia</span><br />
+															<input type="checkbox" name="primera" id="primera" value="1"><span> Primer Ingreso</span><br />
+															<input type="checkbox" name="traemedicamementos" id="traemedicamementos" value="1"><span> Trae Medicamentos</span><br />
+															<input type="checkbox" name="diabetes" id="diabetes" value="1"><span> Diabetes</span><br />
+															<input type="checkbox" name="hipertension" id="hipertension" value="1"><span> Hipertensión Arterial</span><br />
+															<input type="checkbox" name="alergia" id="alergia" value="1"><span> Alergia</span><br />
 
 														</div>
 														<div class="col-md-2">
@@ -618,7 +632,7 @@ $object = $c->buscarenUsuario1($id);
 															<div class="row justify-content-end">
 																<div class="col-md-4">
 																	<label for="">Receta Urgente</label>
-																	<select name="receta" id="receta" class="form-control">
+																	<select name="urgente" id="urgente" class="form-control">
 																		<option value="2">No</option>
 																		<option value="1">Si</option>
 																	</select>
@@ -637,7 +651,7 @@ $object = $c->buscarenUsuario1($id);
 														<label for="">Seleccionar Esquema:</label>
 														<select name="esquema" id="esquema" class="form-control select2" onchange="cargarMedicamentoesquema()">
 															<?php
-															$esquema = $c->listaresquemas($empresa->getId());
+															$esquema = $c->listaresquemasdiagnostico($empresa->getId(), $consulta->getDiagnostico());
 															foreach ($esquema as $esquemas) {
 																echo "<option value='" . $esquemas->getId() . "'>" . $esquemas->getNombre() . "</option>";
 															}
@@ -678,18 +692,18 @@ $object = $c->buscarenUsuario1($id);
 																					<th>Observación</th>
 																				</tr>
 																			</thead>
-																			<tbody>
+																			<tbody id="premedicamentoscharge">
 																				<?php
 																				$premedicacion = $c->listarpremedicacion();
 																				foreach ($premedicacion as $premedicaciones) {
 																					echo "<tr class='m-0' >";
 																					echo "<td class='m-0'><input type='checkbox' name='premedicacion" . $premedicaciones->getId() . "' id='premedicacion" . $premedicaciones->getId() . "' value='" . $premedicaciones->getId() . "'></td>";
 																					echo "<td  class='m-0'>" . $premedicaciones->getNombre() . "</td>";
-																					echo "<td class='m-0'><input type='text' name='dosismg" . $premedicaciones->getId() . "' id='dosismg" . $premedicaciones->getId() . "' class='form-control' placeholder='Dosis MG'></td>";
+																					echo "<td class='m-0'><input type='number' name='dosismg" . $premedicaciones->getId() . "' id='dosismg" . $premedicaciones->getId() . "' class='form-control' placeholder='Dosis MG'></td>";
 																					echo "<td class='m-0'><input type='checkbox' name='oral" . $premedicaciones->getId() . "' id='oral" . $premedicaciones->getId() . "' value='1'></td>";
 																					echo "<td class='m-0'><input type='checkbox' name='ev" . $premedicaciones->getId() . "' id='ev" . $premedicaciones->getId() . "' value='1'></td>";
-																					echo "<td class='m-0'><input type='checkbox' name='sc' id='sc' value='1'></td>";
-																					echo "<td class='m-0'><input type='text' name='observacion' id='observacion' class='form-control' placeholder='Observación'></td>";
+																					echo "<td class='m-0'><input type='checkbox' name='sc" . $premedicaciones->getId() . "' id='sc" . $premedicaciones->getId() . "' value='1'></td>";
+																					echo "<td class='m-0'><input type='text' name='observacion" . $premedicaciones->getId() . "' id='observacion" . $premedicaciones->getId() . "' class='form-control' placeholder='Observación'></td>";
 																					echo "</tr>";
 																				}
 																				?>
@@ -710,8 +724,8 @@ $object = $c->buscarenUsuario1($id);
 																				<tr>
 																					<td><input type="checkbox" name="estimulador" id="estimulador"></td>
 																					<td>FILGRASTIM</td>
-																					<td><input type="number" name="" id="" class="form-control"></td>
-																					<td><input type="number" name="" id="" class="form-control"></td>
+																					<td><input type="number" name="cantidades" id="cantidades" class="form-control"></td>
+																					<td><input type="number" name="rango" id="rango" class="form-control"></td>
 																				</tr>
 																			</tbody>
 																		</table>

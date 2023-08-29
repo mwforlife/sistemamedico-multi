@@ -659,6 +659,7 @@ if($empresa!=null)
 													</div>
 													<div class="row mt-4">
 														<div class="col-md-12 text-right">
+															<input type="hidden" id="previo" value="<?php echo $previous_page; ?>">
 															<a class="btn btn-danger" href="<?php echo $previous_page; ?>"> <i class="fa fa-arrow-left"></i> Volver</a>
 															<button type="button" class="btn btn-success" onclick="registraratencion(<?php echo $pa->getId();?>,<?php echo $empresa->getId();?>,<?php echo $object->getId(); ?>,<?php echo $reserva->getId();?>)"> <i class="fa fa-save"></i> Registrar</button>
 														</div>

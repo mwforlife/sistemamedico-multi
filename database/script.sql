@@ -957,7 +957,7 @@ create table consultas(
     diagnosticotexto text not null,
     diagnosticocie10 int not null,
     diagnosticocie10texto text not null,
-    tipodeatencion texto not null,
+    tipodeatencion text not null,
     ecog int not null,
     ecogtexto text not null,
     ingreso int not null,
@@ -966,7 +966,7 @@ create table consultas(
     anamesis text not null,
     estudiocomplementarios text not null,
     plantratamiento text not null,
-    tipoatencion int not null,
+    modalidad int not null,
     registro datetime not null default current_timestamp
 );
 

@@ -20,6 +20,7 @@ if($carbo == true){
     echo "<th>BICCAD</th>";
     echo "<th>OBSERVACION</th>";
     echo "</tr>";
+    echo "<tbody id='medicamentoscharge'>";
     if(count($medidasant)>0){
         foreach ($medidasant as $medicamento) {
             echo "<tr class='m-0' >";
@@ -27,23 +28,23 @@ if($carbo == true){
             echo "<td  class='m-0'> <span>" . $medicamento->getMedicamento() . "</span></td>";
             echo "<td class='m-0'>";
             echo "<select name='porcentaje" . $medicamento->getId() . "' id='porcentaje" . $medicamento->getId() . "' class='form-control' onchange='calc(" . $medicamento->getId() . ")'>";
-            echo "<option value='1'>100%</option>";
-            echo "<option value='2'>90%</option>";
-            echo "<option value='3'>80%</option>";
-            echo "<option value='4'>70%</option>";
-            echo "<option value='5'>60%</option>";
-            echo "<option value='6'>50%</option>";
-            echo "<option value='7'>40%</option>";
-            echo "<option value='8'>30%</option>";
-            echo "<option value='9'>20%</option>";
+            echo "<option value='100'>100%</option>";
+            echo "<option value='90'>90%</option>";
+            echo "<option value='80'>80%</option>";
+            echo "<option value='70'>70%</option>";
+            echo "<option value='60'>60%</option>";
+            echo "<option value='50'>50%</option>";
+            echo "<option value='40'>40%</option>";
+            echo "<option value='30'>30%</option>";
+            echo "<option value='20'>20%</option>";
             echo "<option value='10'>10%</option>";
-            echo "<option value='11'>0%</option>";
+            echo "<option value='0'>0%</option>";
             echo "</select>";
             echo "</td>";
 
-            echo "<td class='m-0'><input type='text' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedicion() . "'></td>";
-            echo "<td class='m-0'><input type='text' class='form-control' name='carboplatino" . $medicamento->getId() . "' id='carboplatino" . $medicamento->getId() . "' ></td>";
-            echo "<td class='m-0'><input type='text' name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG'></td>";
+            echo "<td class='m-0'><input type='number' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedicion() . "'></td>";
+            echo "<td class='m-0'><input type='number' class='form-control' name='carboplatino" . $medicamento->getId() . "' id='carboplatino" . $medicamento->getId() . "' ></td>";
+            echo "<td class='m-0'><input type='number' name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG'></td>";
             echo "<td class='m-0'><input type='checkbox' name='oral" . $medicamento->getId() . "' id='oral" . $medicamento->getId() . "' value='1'></td>";
             echo "<td class='m-0'><input type='checkbox' name='ev" . $medicamento->getId() . "' id='ev" . $medicamento->getId() . "' value='1'></td>";
             echo "<td class='m-0'><input type='checkbox' name='sc" . $medicamento->getId() . "' id='sc" . $medicamento->getId() . "' value='1'></td>";
@@ -57,6 +58,7 @@ if($carbo == true){
         echo "<td colspan='13'>No hay medicamentos en el esquema</td>";
         echo "</tr>";
     }
+    echo "</tbody>";
     echo "</table>";
 
 }else{
@@ -74,7 +76,7 @@ if($carbo == true){
     echo "<th>BICCAD</th>";
     echo "<th>OBSERVACION</th>";
     echo "</tr>";
-
+    echo "<tbody id='medicamentoscharge'>";
     if(count($medidasant)>0){
         foreach ($medidasant as $medicamento) {
             echo "<tr class='m-0' >";
@@ -82,22 +84,22 @@ if($carbo == true){
             echo "<td  class='m-0'> <span>" . $medicamento->getMedicamento() . "</span></td>";
             echo "<td class='m-0'>";
             echo "<select name='porcentaje" . $medicamento->getId() . "' id='porcentaje" . $medicamento->getId() . "' class='form-control' onchange='calc(" . $medicamento->getId() . ")'>";
-            echo "<option value='1'>100%</option>";
-            echo "<option value='2'>90%</option>";
-            echo "<option value='3'>80%</option>";
-            echo "<option value='4'>70%</option>";
-            echo "<option value='5'>60%</option>";
-            echo "<option value='6'>50%</option>";
-            echo "<option value='7'>40%</option>";
-            echo "<option value='8'>30%</option>";
-            echo "<option value='9'>20%</option>";
+            echo "<option value='100'>100%</option>";
+            echo "<option value='90'>90%</option>";
+            echo "<option value='80'>80%</option>";
+            echo "<option value='70'>70%</option>";
+            echo "<option value='60'>60%</option>";
+            echo "<option value='50'>50%</option>";
+            echo "<option value='40'>40%</option>";
+            echo "<option value='30'>30%</option>";
+            echo "<option value='20'>20%</option>";
             echo "<option value='10'>10%</option>";
-            echo "<option value='11'>0%</option>";
+            echo "<option value='0'>0%</option>";
             echo "</select>";
             echo "</td>";
 
-            echo "<td class='m-0'><input type='text' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedicion() . "'></td>";
-            echo "<td class='m-0'><input type='text' name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG'></td>";
+            echo "<td class='m-0'><input type='number' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedicion() . "'></td>";
+            echo "<td class='m-0'><input type='number' name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG'></td>";
             echo "<td class='m-0'><input type='checkbox' name='oral" . $medicamento->getId() . "' id='oral" . $medicamento->getId() . "' value='1'></td>";
             echo "<td class='m-0'><input type='checkbox' name='ev" . $medicamento->getId() . "' id='ev" . $medicamento->getId() . "' value='1'></td>";
             echo "<td class='m-0'><input type='checkbox' name='sc" . $medicamento->getId() . "' id='sc" . $medicamento->getId() . "' value='1'></td>";
@@ -111,4 +113,6 @@ if($carbo == true){
         echo "<td colspan='12'>No hay medicamentos en el esquema</td>";
         echo "</tr>";
     }
+    echo "</tbody>";
+    echo "</table>";
 }
