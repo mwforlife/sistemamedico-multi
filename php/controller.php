@@ -39,6 +39,8 @@ require 'Class/RecetaPremedicacion.php';
 
 class Controller
 {
+    
+    
     private $mi;
 
     private $host = "localhost";
@@ -52,7 +54,7 @@ class Controller
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server*/
+    /*Variables BD Server */
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
@@ -98,7 +100,7 @@ class Controller
         return round($BSA, 2);
     }
 
-    //Encriptar datos
+    //Encriptar datos con AES-256-CBC
     function encrypt($data, $clave_secreta)
     {
         $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
@@ -113,6 +115,20 @@ class Controller
         $iv = substr($data, 0, openssl_cipher_iv_length('aes-256-cbc'));
         $datos_desencriptados = openssl_decrypt(substr($data, openssl_cipher_iv_length('aes-256-cbc')), 'aes-256-cbc', $clave_secreta, 0, $iv);
         return $datos_desencriptados;
+    }
+
+    //Encriptar datos con RSA
+    function encryptRSA($data, $publicKey)
+    {
+        openssl_public_encrypt($data, $encrypted, $publicKey);
+        return base64_encode($encrypted);
+    }
+
+    //Desencriptar datos con RSA
+    function decryptRSA($data, $privateKey)
+    {
+        openssl_private_decrypt(base64_decode($data), $decrypted, $privateKey);
+        return $decrypted;
     }
 
 
@@ -5028,6 +5044,71 @@ class Controller
         $this->desconexion();
         return $lista;
 
+    }
+
+    //Buscar Receta por ID
+    function buscarrecetabyID($id){
+        $this->conexion();
+        $sql = "select * from recetas where id=$id";
+        $result = $this->mi->query($sql);
+        if($rs = mysqli_fetch_array($result)){
+            $id = $rs['id'];
+            $paciente = $rs['paciente'];
+            $usuario = $rs['usuario'];
+            $empresa = $rs['empresa'];
+            $consulta = $rs['consulta'];
+            $fecha = $rs['fecha'];
+            $folio = $rs['folio'];
+            $estadio = $rs['estadio'];
+            $nivel = $rs['nivel'];
+            $ges = $rs['ges'];
+            $peso = $rs['peso'];
+            $talla = $rs['talla'];
+            $scorporal = $rs['scorporal'];
+            $creatinina = $rs['creatinina'];
+            $auc = $rs['auc'];
+            $fechaadministracion = $rs['fechaadministracion'];
+            $pendiente = $rs['pendiente'];
+            $nciclo = $rs['nciclo'];
+            $anticipada = $rs['anticipada'];
+            $curativo = $rs['curativo'];
+            $paliativo = $rs['paliativo'];
+            $adyuvante = $rs['adyuvante'];
+            $concomitante = $rs['concomitante'];
+            $neoadyuvante = $rs['noeadyuvante'];
+            $primeringreso = $rs['primeringreso'];
+            $traemedicamentos = $rs['traemedicamentos'];
+            $diabetes = $rs['diabetes'];
+            $hipertension = $rs['hipertension'];
+            $alergias = $rs['alergias'];
+            $detallealergias = $rs['detallealergias'];
+            $urgente = $rs['urgente'];
+            $esquema = $rs['esquema'];
+            $anamesis = $rs['anamesis'];
+            $observacion = $rs['observacion'];
+            $estado = $rs['estado'];
+            $registro = $rs['registro'];
+            
+            $receta = array("id" => $id, "paciente" => $paciente, "usuario" => $usuario, "empresa" => $empresa, "consulta" => $consulta, "fecha" => $fecha, "folio" => $folio, "estadio" => $estadio, "nivel" => $nivel, "ges" => $ges, "peso" => $peso, "talla" => $talla, "scorporal" => $scorporal, "creatinina" => $creatinina, "auc" => $auc, "fechaadministracion" => $fechaadministracion, "pendiente" => $pendiente, "nciclo" => $nciclo, "anticipada" => $anticipada, "curativo" => $curativo, "paliativo" => $paliativo, "adyuvante" => $adyuvante, "concomitante" => $concomitante, "neoadyuvante" => $neoadyuvante, "primeringreso" => $primeringreso, "traemedicamentos" => $traemedicamentos, "diabetes" => $diabetes, "hipertension" => $hipertension, "alergias" => $alergias, "detallealergias" => $detallealergias, "urgente" => $urgente, "esquema" => $esquema, "anamesis" => $anamesis, "observacion" => $observacion, "estado" => $estado, "registro" => $registro);
+            $receta = new Receta($receta);
+            $this->desconexion();
+            return $receta;
+        }
+        $this->desconexion();
+        return null;
+    }
+
+    //Verificar si en la ultima receta del paciente es GES
+    function esges($paciente){
+        $this->conexion();
+        $sql = "select * from recetas where paciente = $paciente and ges = 1 order by id desc limit 1";
+        $result = $this->mi->query($sql);
+        if($rs = mysqli_fetch_array($result)){
+            $this->desconexion();
+            return true;
+        }
+        $this->desconexion();
+        return false;
     }
 
 }

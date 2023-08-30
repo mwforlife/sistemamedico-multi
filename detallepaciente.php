@@ -19,7 +19,6 @@ $id = 0;
 $reservaid = 0;
 if (isset($_GET['r']) && isset($_GET['p'])) {
 	$reservaid = $_GET['r'];
-	$reservaid = $c->decrypt($reservaid, "thechallengeofcoding");
 	if (is_numeric($reservaid)) {
 		$reservaid = intval($reservaid);
 		if ($reservaid <= 0) {
@@ -34,7 +33,6 @@ if (isset($_GET['r']) && isset($_GET['p'])) {
 	}
 
 	$paciente = $_GET['p'];
-	$paciente = $c->decrypt($paciente, "thechallengeofcoding");
 	$pa = $c->buscarpaciente($paciente);
 	if ($pa == null) {
 		// Redireccionar a la página anterior
@@ -548,14 +546,12 @@ $object = $c->buscarenUsuario1($id);
 										<div class="col-lg-8 text-right">
 											<?php
 											$key = "thechallengeofcoding";
-											$pacienteid = $c->encrypt($pa->getId(), $key);
-											$atencionid = $c->encrypt($reservaid, $key);
+											$pacienteid = $pa->getId();
+											$atencionid = $reservaid;
 											$consulta = $c->buscarconsulta($reservaid);
 											if ($consulta != null) {
 												if ($consulta->getReceta() == 1) {
 													$consultaid = $consulta->getId();
-
-													$consultaid = $c->encrypt($consultaid, $key);
 													?>
 													<a href="receta.php?p=<?php echo $pacienteid; ?>&c=<?php echo $consultaid; ?>"
 														class="btn btn-success mt-2">Generar Receta<i
@@ -606,6 +602,7 @@ $object = $c->buscarenUsuario1($id);
 																			<th>Primer Ingreso</th>
 																			<th>Reingreso</th>
 																			<th>Genera Receta</th>
+																			<th>Atención</th>
 																			<th>Acción</th>
 																		</tr>
 																	</thead>
@@ -613,7 +610,6 @@ $object = $c->buscarenUsuario1($id);
 																		<?php
 																		if ($consulta != null) {
 																			$consultaid = $consulta->getId();
-																			$consultaid = $c->encrypt($consultaid, $key);
 																			echo "<tr>";
 																			echo "<td>" . date("d-m-Y", strtotime($consulta->getRegistro())) . "</td>";
 																			echo "<td>" . date("H:i", strtotime($consulta->getRegistro())) . "</td>";
@@ -632,6 +628,7 @@ $object = $c->buscarenUsuario1($id);
 																			} else {
 																				echo "<td>No</td>";
 																			}
+																			echo "<td><a target='_blank' title='Ver Atención' href='php/reporte/consulta.php?c=$consultaid' class='btn btn-success'><i class='fe fe-file'></i></a></td>";
 																			if ($consulta->getReceta() == 1) {
 																				echo "<td><a title='Generar Receta' href='receta.php?p=$pacienteid&c=$consultaid' class='btn btn-success'><i class='fe fe-file'></i></a></td>";
 																			} else {
@@ -671,8 +668,6 @@ $object = $c->buscarenUsuario1($id);
 																	$recetas = $c->recetalist($pa->getId());
 																	if (count($recetas) > 0) {
 																		foreach ($recetas as $r) {
-																			$recetaid = $r->getId();
-																			$recetaid = $c->encrypt($recetaid, $key);
 																			echo "<tr>";
 																			echo "<td>" . date("d-m-Y", strtotime($r->getFecha())) . "</td>";
 																			if ($r->getEstado() == 1) {
@@ -680,7 +675,7 @@ $object = $c->buscarenUsuario1($id);
 																			} else {
 																				echo "<td>Confirmado</td>";
 																			}
-																			$idreceta = $c->encrypt($r->getId(), $key);
+																			$idreceta = $r->getId();
 																			echo "<td>" . $r->getFolio() . "</td>";
 																			echo "<td>" . $r->getConsulta() . "</td>";
 																			echo "<td><a target='_blank' href='php/reporte/receta.php?r=$idreceta' class='btn btn-success'><i class='fe fe-file'></i></a></td>";

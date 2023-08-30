@@ -8,32 +8,31 @@ $c = new Controller();
 session_start();
 
 $empresa = null;
-if(isset($_SESSION['CURRENT_ENTERPRISE'])){
+if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
 	$empresa = $c->buscarEmpresa($enterprise);
-}else{
-    header("Location: index.php");
+} else {
+	header("Location: index.php");
 }
 if (!isset($_SESSION['USER_ID'])) {
 	header("Location: signin.php");
 } else {
-	$valid  = $c->validarsesion($_SESSION['USER_ID'], $_SESSION['USER_TOKEN']);
+	$valid = $c->validarsesion($_SESSION['USER_ID'], $_SESSION['USER_TOKEN']);
 	if ($valid == false) {
 		header("Location: lockscreen.php");
 	}
 }
 $id = $_SESSION['USER_ID'];
-$object = $c->buscarenUsuario($id,$empresa->getId());
+$object = $c->buscarenUsuario($id, $empresa->getId());
 
-$pacienteid =0;
+$pacienteid = 0;
 $paciente = null;
 $inscripcion = null;
 $ubicacion = null;
 $otros = null;
 $responsable = null;
-if(isset($_GET['code'])){
+if (isset($_GET['code'])) {
 	$pacienteid = $_GET['code'];
-	$pacienteid = $c->decrypt($pacienteid,"thechallenge");
 	$pacienteid = $c->escapeString($pacienteid);
 
 	$paciente = $c->buscarpaciente($pacienteid);
@@ -378,7 +377,9 @@ if(isset($_GET['code'])){
 					</div>
 					<!-- End Page Header -->
 
-					<div class="row <?php if($paciente!=null){echo 'd-none';}?>">
+					<div class="row <?php if ($paciente != null) {
+						echo 'd-none';
+					} ?>">
 						<div class="col-lg-12">
 							<div class="card orverflow-hidden">
 								<div class="card-body">
@@ -510,7 +511,9 @@ if(isset($_GET['code'])){
 						</div>
 					</div>
 					<!-- ROW-4 opened -->
-					<div class="row fichapaciente <?php if($paciente==null){echo 'd-none';}?>">
+					<div class="row fichapaciente <?php if ($paciente == null) {
+						echo 'd-none';
+					} ?>">
 						<div class="col-xl-12 col-lg-12 col-md-12">
 							<div class="card" id="tab">
 								<div class="card-body">
@@ -540,7 +543,11 @@ if(isset($_GET['code'])){
 																					<div class="card-header" id="headingOne" role="tab">
 																						<a aria-controls="collapseOne" aria-expanded="true" data-toggle="collapse" href="#collapseOne">Datos Paciente</a>
 																					</div>
-																					<input type="hidden" id="idpaciente" name="idpaciente" value="<?php if($paciente!=null){ echo $paciente->getId();}else{echo 0;}?>">
+																					<input type="hidden" id="idpaciente" name="idpaciente" value="<?php if ($paciente != null) {
+																						echo $paciente->getId();
+																					} else {
+																						echo 0;
+																					} ?>">
 																					<div aria-labelledby="headingOne" class="collapse active show " data-parent="#accordion" id="collapseOne" role="tabpanel">
 																						<div class="card-body">
 																							<div class="row">
@@ -549,25 +556,47 @@ if(isset($_GET['code'])){
 																									<div class="form-group has-success mg-b-0">
 																										<label>Tipo Identificacion:</label>
 																										<select class="form-control" id="tipoidentificacion" onchange="checktipo(this)" name="tipoidentificacion" required="">
-																											<option value="1" <?php if($paciente!=null){ if($paciente->getTipoidentificacion()==1){echo 'selected';}}?>>RUN</option>
-																											<option value="2" <?php if($paciente!=null){ if($paciente->getTipoidentificacion()==2){echo 'selected';}}?>>Sin RUN</option>
-																											<option value="3" <?php if($paciente!=null){ if($paciente->getTipoidentificacion()==3){echo 'selected';}}?>>Pasaporte</option>
-																											<option value="4" <?php if($paciente!=null){ if($paciente->getTipoidentificacion()==4){echo 'selected';}}?>>Indentificación de Su País</option>
+																											<option value="1" <?php if ($paciente != null) {
+																												if ($paciente->getTipoidentificacion() == 1) {
+																													echo 'selected';
+																												}
+																											} ?>>RUN</option>
+																											<option value="2" <?php if ($paciente != null) {
+																												if ($paciente->getTipoidentificacion() == 2) {
+																													echo 'selected';
+																												}
+																											} ?>>Sin RUN</option>
+																											<option value="3" <?php if ($paciente != null) {
+																												if ($paciente->getTipoidentificacion() == 3) {
+																													echo 'selected';
+																												}
+																											} ?>>Pasaporte</option>
+																											<option value="4" <?php if ($paciente != null) {
+																												if ($paciente->getTipoidentificacion() == 4) {
+																													echo 'selected';
+																												}
+																											} ?>>Indentificación de Su País</option>
 																										</select>
 																									</div>
 																								</div>
 																								<!--Rut paciente-->
-																								<div class="col-lg-3 rut <?php if($paciente!=null){ if($paciente->getTipoidentificacion()!=1){echo 'd-none';}}?>">
+																								<div class="col-lg-3 rut <?php if ($paciente != null) {
+																									if ($paciente->getTipoidentificacion() != 1) {
+																										echo 'd-none';
+																									}
+																								} ?>">
 																									<div class="form-group has-success mg-b-0">
 																										<label>RUN Paciente:</label>
-																										<input class="form-control" id="rut" name="rut" onkeyup="formatRut(this)" placeholder="11.111.111-1" required="" type="text" value="<?php echo $paciente->getRut();?>">
+																										<input class="form-control" id="rut" name="rut" onkeyup="formatRut(this)" placeholder="11.111.111-1" required="" type="text" value="<?php echo $paciente->getRut(); ?>">
 																									</div>
 																								</div>
 																								<!--Pasaporte-->
-																								<div class="col-lg-3 idotro <?php if($paciente->getTipoidentificacion()==1){echo 'd-none';}?>">
+																								<div class="col-lg-3 idotro <?php if ($paciente->getTipoidentificacion() == 1) {
+																									echo 'd-none';
+																								} ?>">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Pasaporte/DNI/NIE:</label>
-																										<input class="form-control" id="documentoadd" name="documentoadd" placeholder="Pasaporte/DNI/NIE" type="text" value="<?php echo $paciente->getIdentificacion();?>">
+																										<input class="form-control" id="documentoadd" name="documentoadd" placeholder="Pasaporte/DNI/NIE" type="text" value="<?php echo $paciente->getIdentificacion(); ?>">
 																									</div>
 																								</div>
 																								<!--Nacionalidad-->
@@ -578,10 +607,10 @@ if(isset($_GET['code'])){
 																											<?php
 																											$lista = $c->listarnacionalidad();
 																											foreach ($lista as $object) {
-																												if($paciente->getNacionalidad()==$object->getId()){
+																												if ($paciente->getNacionalidad() == $object->getId()) {
 																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
 																											?>
@@ -596,10 +625,10 @@ if(isset($_GET['code'])){
 																											<?php
 																											$lista = $c->listarpaises();
 																											foreach ($lista as $object) {
-																												if($paciente->getPaisorigen()==$object->getId()){
+																												if ($paciente->getPaisorigen() == $object->getId()) {
 																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
 																											?>
@@ -610,28 +639,28 @@ if(isset($_GET['code'])){
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Correo Electronico:</label>
-																										<input class="form-control" id="email" name="email" placeholder="Correo Electronico" type="email" value="<?php echo $paciente->getEmail();?>">
+																										<input class="form-control" id="email" name="email" placeholder="Correo Electronico" type="email" value="<?php echo $paciente->getEmail(); ?>">
 																									</div>
 																								</div>
 																								<!--Nombre-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Nombre:</label>
-																										<input class="form-control" id="nombre" name="nombre" placeholder="Nombre" required="" type="text" value="<?php echo $paciente->getNombre();?>">
+																										<input class="form-control" id="nombre" name="nombre" placeholder="Nombre" required="" type="text" value="<?php echo $paciente->getNombre(); ?>">
 																									</div>
 																								</div>
 																								<!--Apellido Paterno-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Apellido Paterno:</label>
-																										<input class="form-control" id="apellido1" name="apellido1" placeholder="Apellido Paterno" required="" type="text" value="<?php echo $paciente->getApellido1();?>">
+																										<input class="form-control" id="apellido1" name="apellido1" placeholder="Apellido Paterno" required="" type="text" value="<?php echo $paciente->getApellido1(); ?>">
 																									</div>
 																								</div>
 																								<!--Apellido Materno-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Apellido Materno:</label>
-																										<input class="form-control" id="apellido2" name="apellido2" placeholder="Apellido Materno" type="text" value="<?php echo $paciente->getApellido2();?>">
+																										<input class="form-control" id="apellido2" name="apellido2" placeholder="Apellido Materno" type="text" value="<?php echo $paciente->getApellido2(); ?>">
 																									</div>
 																								</div>
 																								<!--Genero-->
@@ -642,10 +671,10 @@ if(isset($_GET['code'])){
 																											<?php
 																											$lista = $c->listargenero();
 																											foreach ($lista as $object) {
-																												if($paciente->getGenero()==$object->getId()){
+																												if ($paciente->getGenero() == $object->getId()) {
 																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
 																											?>
@@ -660,10 +689,10 @@ if(isset($_GET['code'])){
 																											<?php
 																											$lista = $c->listarestadocivil();
 																											foreach ($lista as $object) {
-																												if($paciente->getEstadocivil()==$object->getId()){
+																												if ($paciente->getEstadocivil() == $object->getId()) {
 																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
 																											?>
@@ -674,49 +703,53 @@ if(isset($_GET['code'])){
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Fecha Nacimiento:</label>
-																										<input class="form-control" id="fechanacimiento" name="fechanacimiento" placeholder="Fecha Nacimiento" required="" type="date" value="<?php echo $paciente->getFechanacimiento();?>">
+																										<input class="form-control" id="fechanacimiento" name="fechanacimiento" placeholder="Fecha Nacimiento" required="" type="date" value="<?php echo $paciente->getFechanacimiento(); ?>">
 																									</div>
 																								</div>
 																								<!--Hora Nacimiento-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Hora Nacimiento:</label>
-																										<input class="form-control" id="horanacimiento" name="horanacimiento" placeholder="Hora Nacimiento" type="time" value="<?php echo $paciente->getHoranacimiento();?>">
+																										<input class="form-control" id="horanacimiento" name="horanacimiento" placeholder="Hora Nacimiento" type="time" value="<?php echo $paciente->getHoranacimiento(); ?>">
 																									</div>
 																								</div>
 																								<!--Fono Movil-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Fono Movil:</label>
-																										<input class="form-control" id="fonomovil" name="fonomovil" placeholder="Fono Movil" required="" type="text" value="<?php echo $paciente->getFonomovil();?>">
+																										<input class="form-control" id="fonomovil" name="fonomovil" placeholder="Fono Movil" required="" type="text" value="<?php echo $paciente->getFonomovil(); ?>">
 																									</div>
 																								</div>
 																								<!--Fono Fijo-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Fono Fijo:</label>
-																										<input class="form-control" id="fonofijo" name="fonofijo" placeholder="Fono Fijo" type="text" value="<?php echo $paciente->getFonofijo();?>">
+																										<input class="form-control" id="fonofijo" name="fonofijo" placeholder="Fono Fijo" type="text" value="<?php echo $paciente->getFonofijo(); ?>">
 																									</div>
 																								</div>
 																								<!--Nombre Social-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Nombre Social:</label>
-																										<input class="form-control" id="nombresocial" name="nombresocial" placeholder="Nombre Social" type="text" value="<?php echo $paciente->getNombresocial();?>">
+																										<input class="form-control" id="nombresocial" name="nombresocial" placeholder="Nombre Social" type="text" value="<?php echo $paciente->getNombresocial(); ?>">
 																									</div>
 																								</div>
 																								<!--¿Funcionario?-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿Funcionario?:</label><br />
-																										<input id="funcionario" name="funcionario" type="checkbox" value="1" <?php if($paciente->getFuncionario()==1){ echo "checked";}?>>
+																										<input id="funcionario" name="funcionario" type="checkbox" value="1" <?php if ($paciente->getFuncionario() == 1) {
+																											echo "checked";
+																										} ?>>
 																									</div>
 																								</div>
 																								<!--¿Discapacidad?-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿Discapacidad?:</label><br />
-																										<input id="discapacidad" name="discapacidad" type="checkbox" value="1" <?php if($paciente->getDiscapacidad()==1){ echo "checked";}?>>
+																										<input id="discapacidad" name="discapacidad" type="checkbox" value="1" <?php if ($paciente->getDiscapacidad() == 1) {
+																											echo "checked";
+																										} ?>>
 																									</div>
 																								</div>
 																							</div>
@@ -728,28 +761,30 @@ if(isset($_GET['code'])){
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿Recien Nacido?:</label><br />
-																										<input id="reciennacido" name="reciennacido" type="checkbox" value="1" <?php if($paciente->getReciennacido()==1){ echo "checked";}?>>
+																										<input id="reciennacido" name="reciennacido" type="checkbox" value="1" <?php if ($paciente->getReciennacido() == 1) {
+																											echo "checked";
+																										} ?>>
 																									</div>
 																								</div>
 																								<!--Hijo de-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Hijo de:</label>
-																										<input class="form-control" id="hijode" name="hijode" placeholder="Hijo de" type="text" value="<?php echo $paciente->getHijode();?>">
+																										<input class="form-control" id="hijode" name="hijode" placeholder="Hijo de" type="text" value="<?php echo $paciente->getHijode(); ?>">
 																									</div>
 																								</div>
 																								<!--Peso de nacimiento-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Peso de nacimiento:</label>
-																										<input class="form-control" id="pesodenacimiento" name="pesodenacimiento" placeholder="Peso de nacimiento" type="text" value="<?php echo $paciente->getPesonacimiento();?>">
+																										<input class="form-control" id="pesodenacimiento" name="pesodenacimiento" placeholder="Peso de nacimiento" type="text" value="<?php echo $paciente->getPesonacimiento(); ?>">
 																									</div>
 																								</div>
 																								<!--Talla de nacimiento-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Talla de nacimiento (Centimetros):</label>
-																										<input class="form-control" id="talladenacimiento" name="talladenacimiento" placeholder="Talla de nacimiento" type="text" value="<?php echo $paciente->getTallanacimiento();?>">
+																										<input class="form-control" id="talladenacimiento" name="talladenacimiento" placeholder="Talla de nacimiento" type="text" value="<?php echo $paciente->getTallanacimiento(); ?>">
 																									</div>
 																								</div>
 																								<!--Tipo parto-->
@@ -760,10 +795,10 @@ if(isset($_GET['code'])){
 																											<?php
 																											$lista = $c->listartipoparto();
 																											foreach ($lista as $object) {
-																												if($paciente->getTipoparto()==$object->getId()){
+																												if ($paciente->getTipoparto() == $object->getId()) {
 																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
 																											?>
@@ -774,21 +809,21 @@ if(isset($_GET['code'])){
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Rol:</label>
-																										<input class="form-control" id="rol" name="rol" placeholder="Rol" type="text" value="<?php echo $paciente->getRol();?>">
+																										<input class="form-control" id="rol" name="rol" placeholder="Rol" type="text" value="<?php echo $paciente->getRol(); ?>">
 																									</div>
 																								</div>
 																								<!--Fecha Fallecimiento-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Fecha Fallecimiento:</label>
-																										<input class="form-control" id="fechafallecimiento" name="fechafallecimiento" placeholder="Fecha Fallecimiento" required="" type="date" value="<?php echo $paciente->getFechafallecimiento();?>">
+																										<input class="form-control" id="fechafallecimiento" name="fechafallecimiento" placeholder="Fecha Fallecimiento" required="" type="date" value="<?php echo $paciente->getFechafallecimiento(); ?>">
 																									</div>
 																								</div>
 																								<!--Hora Fallecimiento-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Hora Fallecimiento:</label>
-																										<input class="form-control" id="horafallecimiento" name="horafallecimiento" placeholder="Hora Fallecimiento" required="" type="text" value="<?php echo $paciente->getHorafallecimiento();?>">
+																										<input class="form-control" id="horafallecimiento" name="horafallecimiento" placeholder="Hora Fallecimiento" required="" type="text" value="<?php echo $paciente->getHorafallecimiento(); ?>">
 																									</div>
 																								</div>
 																							</div>
@@ -800,36 +835,36 @@ if(isset($_GET['code'])){
 																						<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#collapseTwo">Ficha, Inscipción y prevision</a>
 																					</div>
 																					<?php
-																					$fichaid =0;
-																					$fichanum ="";
-																					$fechaadmision ="";
-																					$familia ="";
-																					$inscrito ="";
-																					$sector ="";
-																					$prevision =0;
-																					$tipoprevision =0;
-																					$estadoafiliacion =0;
-																					$chilesolidario =0;
-																					$prais =0;
-																					$sename =0;
-																					$ubicacionficha ="";
-																					$fichasaludmental ="";
-																					if($inscripcion!=null){
-																						$fichaid =$inscripcion->getId();
-																						$fichanum =$inscripcion->getFicha();
-																						$fechaadmision =$inscripcion->getFechaadmision();
-																						$familia =$inscripcion->getAdmision();
-																						$inscrito =$inscripcion->getInscrito();
-																						$sector =$inscripcion->getSector();
-																						$tipoprevision =$inscripcion->getTipoprevision();
+																					$fichaid = 0;
+																					$fichanum = "";
+																					$fechaadmision = "";
+																					$familia = "";
+																					$inscrito = "";
+																					$sector = "";
+																					$prevision = 0;
+																					$tipoprevision = 0;
+																					$estadoafiliacion = 0;
+																					$chilesolidario = 0;
+																					$prais = 0;
+																					$sename = 0;
+																					$ubicacionficha = "";
+																					$fichasaludmental = "";
+																					if ($inscripcion != null) {
+																						$fichaid = $inscripcion->getId();
+																						$fichanum = $inscripcion->getFicha();
+																						$fechaadmision = $inscripcion->getFechaadmision();
+																						$familia = $inscripcion->getAdmision();
+																						$inscrito = $inscripcion->getInscrito();
+																						$sector = $inscripcion->getSector();
+																						$tipoprevision = $inscripcion->getTipoprevision();
 																						$prevision = $c->buscartipoprevision($tipoprevision);
-																						$prevision =$prevision->getCodigo();
-																						$estadoafiliacion =$inscripcion->getEstadoafiliar();
-																						$chilesolidario =$inscripcion->getChilesolidario();
-																						$prais =$inscripcion->getPais();
-																						$sename =$inscripcion->getSename();
-																						$ubicacionficha =$inscripcion->getUbicacionficha();
-																						$fichasaludmental =$inscripcion->getSaludmental();
+																						$prevision = $prevision->getCodigo();
+																						$estadoafiliacion = $inscripcion->getEstadoafiliar();
+																						$chilesolidario = $inscripcion->getChilesolidario();
+																						$prais = $inscripcion->getPais();
+																						$sename = $inscripcion->getSename();
+																						$ubicacionficha = $inscripcion->getUbicacionficha();
+																						$fichasaludmental = $inscripcion->getSaludmental();
 																					}
 																					?>
 																					<div aria-labelledby="headingTwo" class="collapse" data-parent="#accordion" id="collapseTwo" role="tabpanel">
@@ -837,38 +872,38 @@ if(isset($_GET['code'])){
 																							<div class="row">
 																								<!--Ficha-->
 																								<div class="col-lg-3">
-																									<input class="form-control" id="fichaid" name="fichaid" type="hidden" value="<?php echo $fichaid;?>">
+																									<input class="form-control" id="fichaid" name="fichaid" type="hidden" value="<?php echo $fichaid; ?>">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Ficha:</label>
-																										<input class="form-control" id="ficha" name="ficha" placeholder="Ficha" type="text" value="<?php echo $fichanum;?>">
+																										<input class="form-control" id="ficha" name="ficha" placeholder="Ficha" type="text" value="<?php echo $fichanum; ?>">
 																									</div>
 																								</div>
 																								<!--Fecha Admision-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Fecha Admision:</label>
-																										<input class="form-control" id="fechaadmision" name="fechaadmision" placeholder="Fecha Admision" required="" type="date" value="<?php echo $fechaadmision;?>">
+																										<input class="form-control" id="fechaadmision" name="fechaadmision" placeholder="Fecha Admision" required="" type="date" value="<?php echo $fechaadmision; ?>">
 																									</div>
 																								</div>
 																								<!--Familia-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Familia:</label>
-																										<input class="form-control" id="familia" name="familia" placeholder="Familia" type="text" value="<?php echo $familia;?>">
+																										<input class="form-control" id="familia" name="familia" placeholder="Familia" type="text" value="<?php echo $familia; ?>">
 																									</div>
 																								</div>
 																								<!--Inscrito-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Inscrito:</label>
-																										<input class="form-control" id="inscrito" name="inscrito" placeholder="Inscrito" type="text" value="<?php echo $inscrito;?>">
+																										<input class="form-control" id="inscrito" name="inscrito" placeholder="Inscrito" type="text" value="<?php echo $inscrito; ?>">
 																									</div>
 																								</div>
 																								<!--Sector-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Sector:</label>
-																										<input class="form-control" id="sector" name="sector" placeholder="Sector" type="text" value="<?php echo $sector;?>">
+																										<input class="form-control" id="sector" name="sector" placeholder="Sector" type="text" value="<?php echo $sector; ?>">
 																									</div>
 																								</div>
 																								<!--Prevision-->
@@ -879,10 +914,10 @@ if(isset($_GET['code'])){
 																											<?php
 																											$lista = $c->listarprevision();
 																											foreach ($lista as $object) {
-																												if($prevision==$object->getId()){
+																												if ($prevision == $object->getId()) {
 																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
 																											?>
@@ -897,10 +932,10 @@ if(isset($_GET['code'])){
 																											<?php
 																											$lista = $c->listartipoprevision($prevision);
 																											foreach ($lista as $object) {
-																												if($tipoprevision==$object->getId()){
+																												if ($tipoprevision == $object->getId()) {
 																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
 																											?>
@@ -913,10 +948,14 @@ if(isset($_GET['code'])){
 																									<div class="form-group has-success mg-b-0">
 																										<label>Estado de afiliacion:</label>
 																										<select class="form-control" id="estadoafiliacion" name="estadoafiliacion" required>
-																											<option value="1" <?php if($estadoafiliacion==1){echo "selected";}?>>Activo</option>
+																											<option value="1" <?php if ($estadoafiliacion == 1) {
+																												echo "selected";
+																											} ?>>Activo</option>
 																												Activo
 																											</option>
-																											<option value="2" <?php if($estadoafiliacion==2){echo "selected";}?>>
+																											<option value="2" <?php if ($estadoafiliacion == 2) {
+																												echo "selected";
+																											} ?>>
 																												Inactivo
 																											</option>
 																										</select>
@@ -926,35 +965,43 @@ if(isset($_GET['code'])){
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿Chile Solidario?:</label><br />
-																										<input type="checkbox" name="chilesolidario" id="chilesolidario" value="1" <?php if($chilesolidario==1){echo "checked";}?>>
+																										<input type="checkbox" name="chilesolidario" id="chilesolidario" value="1" <?php if ($chilesolidario == 1) {
+																											echo "checked";
+																										} ?>>
 																									</div>
 																								</div>
 																								<!--¿Prais?-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿Prais?:</label><br />
-																										<input type="checkbox" name="prais" id="prais" value="1" <?php if($prais==1){echo "checked";}?>>
+																										<input type="checkbox" name="prais" id="prais" value="1" <?php if ($prais == 1) {
+																											echo "checked";
+																										} ?>>
 																									</div>
 																								</div>
 																								<!--¿SENAME?-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿SENAME?:</label><br />
-																										<input type="checkbox" name="sename" id="sename" value="1" <?php if($sename==1){echo "checked";}?>>
+																										<input type="checkbox" name="sename" id="sename" value="1" <?php if ($sename == 1) {
+																											echo "checked";
+																										} ?>>
 																									</div>
 																								</div>
 																								<!--Ubicacion Ficha-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Ubicacion Ficha:</label>
-																										<input class="form-control" id="ubicacionficha" name="ubicacionficha" placeholder="Ubicacion Ficha" type="text" value="<?php echo $ubicacionficha;?>">
+																										<input class="form-control" id="ubicacionficha" name="ubicacionficha" placeholder="Ubicacion Ficha" type="text" value="<?php echo $ubicacionficha; ?>">
 																									</div>
 																								</div>
 																								<!--¿Ficha salud mental?-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿Ficha salud mental?:</label><br />
-																										<input type="checkbox" name="fichasaludmental" id="fichasaludmental" value="1" <?php if($fichasaludmental==1){echo "checked";}?>>
+																										<input type="checkbox" name="fichasaludmental" id="fichasaludmental" value="1" <?php if ($fichasaludmental == 1) {
+																											echo "checked";
+																										} ?>>
 																									</div>
 																								</div>
 
@@ -968,42 +1015,42 @@ if(isset($_GET['code'])){
 																					</div>
 																					<div aria-labelledby="headingThree" class="collapse" data-parent="#accordion" id="collapseThree" role="tabpanel">
 																						<?php
-																							$ubicacionid =0;
-																							$regionid =0;
-																							$provinciaid =0;
-																							$comunaid =0;
-																							$ciudadid =0;
-																							$tipocalleid =0;
-																							$nombrecalle ="";
-																							$numerodireccion ="";
-																							$block ="";
-																							if($ubicacion!=null){
-																								$ubicacionid =$ubicacion->getId();
-																								$regionid =$ubicacion->getRegion();
-																								$provinciaid =$ubicacion->getProvincia();
-																								$comunaid =$ubicacion->getComuna();
-																								$ciudadid =$ubicacion->getCiudad();
-																								$tipocalleid =$ubicacion->getTipocalle();
-																								$nombrecalle =$ubicacion->getNombrecalle();
-																								$numerodireccion =$ubicacion->getNumerocalle();
-																								$block =$ubicacion->getRestodireccion();
-																							}
+																						$ubicacionid = 0;
+																						$regionid = 0;
+																						$provinciaid = 0;
+																						$comunaid = 0;
+																						$ciudadid = 0;
+																						$tipocalleid = 0;
+																						$nombrecalle = "";
+																						$numerodireccion = "";
+																						$block = "";
+																						if ($ubicacion != null) {
+																							$ubicacionid = $ubicacion->getId();
+																							$regionid = $ubicacion->getRegion();
+																							$provinciaid = $ubicacion->getProvincia();
+																							$comunaid = $ubicacion->getComuna();
+																							$ciudadid = $ubicacion->getCiudad();
+																							$tipocalleid = $ubicacion->getTipocalle();
+																							$nombrecalle = $ubicacion->getNombrecalle();
+																							$numerodireccion = $ubicacion->getNumerocalle();
+																							$block = $ubicacion->getRestodireccion();
+																						}
 																						?>
 																						<div class="card-body">
 																							<div class="row">
 																								<!--Region-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
-																										<input class="form-control" id="ubicacionid" name="ubicacionid" type="hidden" value="<?php echo $ubicacionid;?>">
+																										<input class="form-control" id="ubicacionid" name="ubicacionid" type="hidden" value="<?php echo $ubicacionid; ?>">
 																										<label>Region:</label>
 																										<select class="form-control select2" id="region" name="region" required onchange="listadoprovincias(this)">
 																											<?php
 																											$lista = $c->listarregion();
 																											foreach ($lista as $object) {
-																												if($regionid==$object->getId()){
+																												if ($regionid == $object->getId()) {
 																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
 																											?>
@@ -1016,15 +1063,15 @@ if(isset($_GET['code'])){
 																										<label>Provincia:</label>
 																										<select class="form-control provincias select2" required id="provincia" name="provincia" onchange="checklistados(this)">
 																										<?php
-																											$lista = $c->listarprovincia($regionid);
-																											foreach ($lista as $object) {
-																												if($provinciaid==$object->getId()){
-																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
+																										$lista = $c->listarprovincia($regionid);
+																										foreach ($lista as $object) {
+																											if ($provinciaid == $object->getId()) {
+																												echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
+																											} else {
 																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
-																												}
 																											}
-																										
+																										}
+
 																										?>
 
 																										</select>
@@ -1036,15 +1083,15 @@ if(isset($_GET['code'])){
 																										<label>Comuna:</label>
 																										<select class="form-control comunas select2" required id="comuna" name="comuna">
 																										<?php
-																											$lista = $c->listarcomuna($regionid);
-																											foreach ($lista as $object) {
-																												if($comunaid==$object->getId()){
-																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
+																										$lista = $c->listarcomuna($regionid);
+																										foreach ($lista as $object) {
+																											if ($comunaid == $object->getId()) {
+																												echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
+																											} else {
 																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
-																												}
 																											}
-																										
+																										}
+
 																										?>
 
 
@@ -1057,15 +1104,15 @@ if(isset($_GET['code'])){
 																										<label>Ciudad:</label>
 																										<select class="form-control ciudades select2" required id="ciudad" name="ciudad">
 																										<?php
-																											$lista = $c->listarciudad($regionid);
-																											foreach ($lista as $object) {
-																												if($ciudadid==$object->getId()){
-																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
+																										$lista = $c->listarciudad($regionid);
+																										foreach ($lista as $object) {
+																											if ($ciudadid == $object->getId()) {
+																												echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
+																											} else {
 																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
-																												}
 																											}
-																										
+																										}
+
 																										?>
 
 
@@ -1080,10 +1127,10 @@ if(isset($_GET['code'])){
 																											<?php
 																											$lista = $c->listartipocalle();
 																											foreach ($lista as $object) {
-																												if($tipocalleid==$object->getId()){
+																												if ($tipocalleid == $object->getId()) {
 																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
 																											?>
@@ -1094,21 +1141,21 @@ if(isset($_GET['code'])){
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Nombre Calle:</label>
-																										<input class="form-control" id="nombrecalle" required name="nombrecalle" placeholder="Nombre Calle" required="" type="text" value="<?php echo $nombrecalle;?>">
+																										<input class="form-control" id="nombrecalle" required name="nombrecalle" placeholder="Nombre Calle" required="" type="text" value="<?php echo $nombrecalle; ?>">
 																									</div>
 																								</div>
 																								<!--Numero Dirección-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Número Dirección:</label>
-																										<input class="form-control" id="numerodireccion" required name="numerodireccion" placeholder="Número Dirección" required="" type="text" value="<?php echo $numerodireccion;?>">
+																										<input class="form-control" id="numerodireccion" required name="numerodireccion" placeholder="Número Dirección" required="" type="text" value="<?php echo $numerodireccion; ?>">
 																									</div>
 																								</div>
 																								<!--Resto Direccion-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Block / Departamento / Casa:</label>
-																										<input class="form-control" id="block" name="block" placeholder="Block / Departamento / Casa" type="text" value="<?php echo $block;?>">
+																										<input class="form-control" id="block" name="block" placeholder="Block / Departamento / Casa" type="text" value="<?php echo $block; ?>">
 																									</div>
 																								</div>
 																							</div>
@@ -1122,35 +1169,35 @@ if(isset($_GET['code'])){
 																					<div aria-labelledby="headingFour" class="collapse" data-parent="#accordion" id="collapseFour" role="tabpanel">
 																						<div class="card-body">
 																							<?php
-																							$otrosid =0;
-																								$puebloid =0;
-																								$escolaridadid =0;
-																								$ocupacionid =0;
-																								$situacionlaboralid =0;
-																								$cursorepite ="";
-																								if($otros!=null){
-																									$otrosid =$otros->getId();
-																									$puebloid =$otros->getPueblooriginario();
-																									$escolaridadid =$otros->getEscolaridad();
-																									$ocupacionid =$otros->getOcupacion();
-																									$situacionlaboralid =$otros->getSituacionlaboral();
-																									$cursorepite =$otros->getCursorepite();
-																								}
+																							$otrosid = 0;
+																							$puebloid = 0;
+																							$escolaridadid = 0;
+																							$ocupacionid = 0;
+																							$situacionlaboralid = 0;
+																							$cursorepite = "";
+																							if ($otros != null) {
+																								$otrosid = $otros->getId();
+																								$puebloid = $otros->getPueblooriginario();
+																								$escolaridadid = $otros->getEscolaridad();
+																								$ocupacionid = $otros->getOcupacion();
+																								$situacionlaboralid = $otros->getSituacionlaboral();
+																								$cursorepite = $otros->getCursorepite();
+																							}
 																							?>
 																							<div class="row">
 																								<!--Pueblo Originario-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
-																										<input type="hidden" name="otrosid" id="otrosid" value="<?php echo $otrosid;?>">
+																										<input type="hidden" name="otrosid" id="otrosid" value="<?php echo $otrosid; ?>">
 																										<label>Pueblo Originario:</label>
 																										<select class="form-control select2" id="pueblooriginario" name="pueblooriginario">
 																											<?php
 																											$lista = $c->listarpueblooriginario();
 																											foreach ($lista as $object) {
-																												if($puebloid==$object->getId()){
+																												if ($puebloid == $object->getId()) {
 																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
 																											?>
@@ -1165,10 +1212,10 @@ if(isset($_GET['code'])){
 																											<?php
 																											$lista = $c->listarescolaridad();
 																											foreach ($lista as $object) {
-																												if($escolaridadid==$object->getId()){
+																												if ($escolaridadid == $object->getId()) {
 																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
 																											?>
@@ -1179,7 +1226,7 @@ if(isset($_GET['code'])){
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Curso Repite:</label>
-																										<input class="form-control" id="cursorepite" name="cursorepite" placeholder="Curso Repite" type="text" value="<?php echo $cursorepite;?>">
+																										<input class="form-control" id="cursorepite" name="cursorepite" placeholder="Curso Repite" type="text" value="<?php echo $cursorepite; ?>">
 																									</div>
 																								</div>
 																								<!--Situacion Laboral-->
@@ -1190,10 +1237,10 @@ if(isset($_GET['code'])){
 																											<?php
 																											$lista = $c->listarsituacionlaboral();
 																											foreach ($lista as $object) {
-																												if($situacionlaboralid==$object->getId()){
+																												if ($situacionlaboralid == $object->getId()) {
 																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
 																											?>
@@ -1208,10 +1255,10 @@ if(isset($_GET['code'])){
 																											<?php
 																											$lista = $c->listarocupacion();
 																											foreach ($lista as $object) {
-																												if($ocupacionid==$object->getId()){
+																												if ($ocupacionid == $object->getId()) {
 																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
 																											?>
@@ -1229,35 +1276,35 @@ if(isset($_GET['code'])){
 																					<div aria-labelledby="headingFive" class="collapse" data-parent="#accordion" id="collapseFive" role="tabpanel">
 																						<div class="card-body">
 																							<?php
-																							$idresponsable =0;
-																								$rutpersona ="";
-																								$nombrepersona ="";
-																								$relacionid =0;
-																								$telefonomovil ="";
-																								$direccion ="";
-																								if($responsable!=null){
-																									$idresponsable =$responsable->getId();
-																									$rutpersona =$responsable->getRut();
-																									$nombrepersona =$responsable->getNombre();
-																									$relacionid =$responsable->getRelacion();
-																									$telefonomovil =$responsable->getTelefono();
-																									$direccion =$responsable->getDireccion();
-																								}
+																							$idresponsable = 0;
+																							$rutpersona = "";
+																							$nombrepersona = "";
+																							$relacionid = 0;
+																							$telefonomovil = "";
+																							$direccion = "";
+																							if ($responsable != null) {
+																								$idresponsable = $responsable->getId();
+																								$rutpersona = $responsable->getRut();
+																								$nombrepersona = $responsable->getNombre();
+																								$relacionid = $responsable->getRelacion();
+																								$telefonomovil = $responsable->getTelefono();
+																								$direccion = $responsable->getDireccion();
+																							}
 																							?>
 																							<div class="row">
 																								<!--RUT Persona-->
 																								<div class="col-lg-3">
-																									<input type="hidden" id="idresponsable" name="idresponsable" value="<?php echo $id;?>">
+																									<input type="hidden" id="idresponsable" name="idresponsable" value="<?php echo $id; ?>">
 																									<div class="form-group has-success mg-b-0">
 																										<label>RUT Persona:</label>
-																										<input class="form-control" id="rutpersona" name="rutpersona" placeholder="RUT Persona" onkeyup="formatRut(this)" type="text" value="<?php echo $rutpersona;?>">
+																										<input class="form-control" id="rutpersona" name="rutpersona" placeholder="RUT Persona" onkeyup="formatRut(this)" type="text" value="<?php echo $rutpersona; ?>">
 																									</div>
 																								</div>
 																								<!--Nombre persona-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Nombre Persona:</label>
-																										<input class="form-control" id="nombrepersona" name="nombrepersona" placeholder="Nombre Persona" type="text" value="<?php echo $nombrepersona;?>">
+																										<input class="form-control" id="nombrepersona" name="nombrepersona" placeholder="Nombre Persona" type="text" value="<?php echo $nombrepersona; ?>">
 																									</div>
 																								</div>
 																								<!--Relación-->
@@ -1268,10 +1315,10 @@ if(isset($_GET['code'])){
 																											<?php
 																											$lista = $c->listarrelaciones();
 																											foreach ($lista as $object) {
-																												if($relacionid==$object->getId()){
+																												if ($relacionid == $object->getId()) {
 																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																												}else{
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
 																											?>
@@ -1282,14 +1329,14 @@ if(isset($_GET['code'])){
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Teléfono Móvil:</label>
-																										<input class="form-control" id="telefonomovil" name="telefonomovil" placeholder="Teléfono Móvil" type="text" value="<?php echo $telefonomovil;?>">
+																										<input class="form-control" id="telefonomovil" name="telefonomovil" placeholder="Teléfono Móvil" type="text" value="<?php echo $telefonomovil; ?>">
 																									</div>
 																								</div>
 																								<!--Direccion-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Dirección:</label>
-																										<input class="form-control" id="direccion" name="direccion" placeholder="Dirección" type="text" value="<?php echo $direccion;?>">
+																										<input class="form-control" id="direccion" name="direccion" placeholder="Dirección" type="text" value="<?php echo $direccion; ?>">
 																									</div>
 																								</div>
 																							</div>
@@ -1409,12 +1456,33 @@ if(isset($_GET['code'])){
 																														<th class="bg-transparent text-center">Fecha Registro</th>
 																														<th class="bg-transparent text-center">Profesional</th>
 																														<th class="bg-transparent text-center">Atención</th>
-																														<th class="bg-transparent text-center">Detalle</th>
 																														<th class="bg-transparent text-center">Reporte</th>
 																													</tr>
 																												</thead>
 																												<tbody class="text-center">
-
+																												<?php
+																												$recetas = $c->recetalist($paciente->getId());
+																												if (count($recetas) > 0) {
+																													foreach ($recetas as $r) {
+																														
+																														echo "<tr>";
+																														if ($r->getEstado() == 1) {
+																														echo "<td>Pendiente</td>";
+																													} else {
+																														echo "<td>Confirmado</td>";
+																													}
+																													echo "<td>" . date("d-m-Y", strtotime($r->getFecha())) . "</td>";
+																														echo "<td>" . date("d-m-Y H:i:s", strtotime($r->getRegistro())) . "</td>";
+																														$idreceta =$r->getId();
+																														echo "<td>" . $r->getUsuario();
+																														
+																														$idreceta = $r->getId();
+																														echo "<td>" . $r->getConsulta() . "</td>";
+																														echo "<td><a target='_blank' href='php/reporte/receta.php?r=$idreceta' class='btn btn-success'><i class='fe fe-file'></i></a></td>";
+																														echo "</tr>";
+																													}
+																												}
+																												?>
 																												</tbody>
 																											</table>
 																										</div>

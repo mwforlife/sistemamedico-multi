@@ -22,9 +22,7 @@ $dipaciente = 0;
 $reserva = null;
 if (isset($_GET['r']) && isset($_GET['p'])) {
 	$reservaid = $_GET['r'];
-	$reservaid = $c->decrypt($reservaid, "thechallengeofcoding");
 	$paciente = $_GET['p'];
-	$paciente = $c->decrypt($paciente, "thechallengeofcoding");
 	$pa = $c->buscarpaciente($paciente);
 	if ($pa == null) {
 		// Redireccionar a la página anterior

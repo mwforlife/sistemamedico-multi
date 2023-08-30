@@ -474,7 +474,7 @@ $object = $c->buscarenUsuario($id,$empresa->getId());
                                                         echo "<td>" . $r->getFonomovil() . "</td>";
                                                         echo "<td>" . $r->getEmail() . "</td>";
                                                         echo "<td class='text-center'>";
-														$id = $c->encrypt($r->getId(), "thechallenge");
+														$id = $r->getId();
                                                         echo "<a href='pacientes.php?code=".$id."' title='Ficha Paciente' class='btn btn-primary btn-sm'><i class='fa fa-eye'></i></a>";
                                                         echo "</td>";
                                                         echo "</tr>";

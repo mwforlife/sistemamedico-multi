@@ -20,7 +20,6 @@ $consultaid = 0;
 $consulta = null;
 if (isset($_GET['c']) && isset($_GET['p'])) {
 	$consultaid = $_GET['c'];
-	$consultaid = $c->decrypt($consultaid, "thechallengeofcoding");
 
 	$consulta = $c->buscarconsultaporid($consultaid);
 	if ($consulta == null) {
@@ -30,7 +29,6 @@ if (isset($_GET['c']) && isset($_GET['p'])) {
 	}
 
 	$paciente = $_GET['p'];
-	$paciente = $c->decrypt($paciente, "thechallengeofcoding");
 	$pa = $c->buscarpaciente($paciente);
 	if ($pa == null) {
 		// Redireccionar a la página anterior
