@@ -15,7 +15,6 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 $comite = null;
 if (isset($_GET['code'])) {
 	$code = $_GET['code'];
-	$code = $c->decrypt($code,"thechallengeofcoding");
 	$comite = $c->buscarcomiteIDvalores($code);
 	if ($comite == null) {
 		header("Location: listadocomite.php");
@@ -521,14 +520,12 @@ $object = $c->buscarenUsuario1($id);
 															echo "</td>";
 															echo "<td>";
 															if ($idinforme <= 0) {
-																$key = "thechallengeofcoding";
-																$idinf = $c->encrypt($id, $key);
-																$comfo = $c->encrypt($folio, $key);
+																$idinf = $id;
+																$comfo = $folio;
 																echo "<a href='informepaciente.php?comite=$comfo&code=$idinf'  title='Evaluar Paciente' class='btn btn-outline-success mr-1'><i class='fa fa-user-plus'></i></a>";
 															}
 															if ($idinforme > 0) {
-																$key = "thechallengeofcoding";
-																$id = $c->encrypt($idinforme, $key);
+																$id = $idinforme;
 																echo "<a href='editarinforme.php?id=$id'  title='Editar Evaluación' class='btn btn-outline-success mr-1'><i class='fa fa-edit'></i></a>";
 															}
 															if ($idinforme > 0) {

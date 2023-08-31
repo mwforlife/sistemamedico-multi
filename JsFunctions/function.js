@@ -3033,6 +3033,7 @@ function registraratencion(paciente, empresa, medico, reserva){
     var diagnosticoid = $("#iddiag").val();
     var diagnosticotext = $("#diagnostico").val();
     var cieo10 = $("#idcie10").val();
+    var diagnosticocie10 = $("#diagnosticocie10").val();
     var cieo10text = $("#cie10").val();
     var tipoatencion = $("#tipoatencion").val();
     var ecog = $("#ecog").val();
@@ -3089,7 +3090,7 @@ function registraratencion(paciente, empresa, medico, reserva){
     $.ajax({
         type: "POST",
         url: "php/insert/consulta.php",
-        data: { paciente: paciente, empresa: empresa, medico: medico, reserva: reserva, diagnosticoid: diagnosticoid, diagnosticotext: diagnosticotext, cieo10: cieo10, cieo10text: cieo10text, tipoatencion: tipoatencion, ecog: ecog, ecogtext: ecogtext, ingreso: ingreso, receta: receta, reingreso: reingreso, anamnesis: anamnesis, procedimientotext: procedimientotext, resolucion: resolucion, estadoatencion: estadoatencion },
+        data: { paciente: paciente, empresa: empresa, medico: medico, reserva: reserva, diagnosticoid: diagnosticoid, diagnosticotext: diagnosticotext, cieo10: cieo10, diagnosticocie10: diagnosticocie10, tipoatencion: tipoatencion, ecog: ecog, ecogtext: ecogtext, ingreso: ingreso, receta: receta, reingreso: reingreso, anamnesis: anamnesis, procedimientotext: procedimientotext, resolucion: resolucion, estadoatencion: estadoatencion },
         success: function (respuesta) {
             try{
                 var atencion = JSON.parse(respuesta);

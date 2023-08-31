@@ -21,11 +21,8 @@ $idcomite = 0;
 $dipaciente = 0;
 if (isset($_GET['code']) && isset($_GET['comite'])) {
 	$id = $_GET['code'];
-	$id = $c->decrypt($id,"thechallengeofcoding");
-	echo $id;
 	$dipaciente = $id;
 	$comite = $_GET['comite'];
-	$comite = $c->decrypt($comite,"thechallengeofcoding");
 	$r = $c->buscarpaciente($id);
 	$pacientecomite = $c->buscarpacientecomite($comite);
 	if ($r == null) {
@@ -577,17 +574,32 @@ $object = $c->buscarenUsuario1($id);
 													<div aria-labelledby="diagnostico" class="collapse" data-parent="#accordion" id="diagnosticos" role="tabpanel">
 														<div class="card-body">
 															<div class="row">
+																<?php
+																$ultimaconsulta = $c->buscarconsultapaciente($dipaciente);
+																$diagid = "";
+																$diagtext = "";
+																$diagcie10 = "";
+																$diagcie10text = "";
+																if($ultimaconsulta!=null){
+																	$diagid = $ultimaconsulta->getDiagnostico();
+																	$diagtext = $ultimaconsulta->getDiagnosticotexto();
+																	$diagcie10 = $ultimaconsulta->getDiagnosticocie10();
+																	$diagcie10text = $ultimaconsulta->getDiagnosticocie10texto();
+																}else{
+																	echo "<script>console.log('No hay consultas $dipaciente')</script>";
+																}
+																?>
 																<div class="col-md-4">
 																	<label for="">Diagnostico General</label>
 																	<button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modaldiagnosticos"><i class="fa fa-search"></i></button>
-																	<input type="text" class="form-control" id="diagnostico">
-																	<input type="hidden" class="form-control" id="iddiag">
+																	<input type="text" class="form-control" id="diagnostico" value="<?php echo $diagtext;?>">
+																	<input type="hidden" class="form-control" id="iddiag" value="<?php echo $diagid;?>">
 																</div>
 																<div class="col-md-4">
 																	<label for="">Diagnostico CIEO TOPOGRÁFICO</label>
 																	<button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modaldiagcieotop"><i class="fa fa-search"></i></button>
-																	<input type="text" class="form-control" id="diagnosticocieotop">
-																	<input type="hidden" class="form-control" id="idcieotop">
+																	<input type="text" class="form-control" id="diagnosticocieotop" value="<?php echo $diagcie10text;?>">
+																	<input type="hidden" class="form-control" id="idcieotop" value="<?php echo $diagcie10;?>">
 																</div>
 																<div class="col-md-4">
 																	<label for="">Diagnostico CIEO MORFOLOGICO</label>

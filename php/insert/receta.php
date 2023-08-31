@@ -172,7 +172,7 @@ if (
     }
 
     $fecha = date('Y-m-d');
-    $folio = $c->buscarultimofolioreceta($empresa) + 1;
+    $folio = $c->buscarultimofolioreceta($empresa,$medico) + 1;
 
     // Llama a la función para registrar la receta
     $recetaId = $c->registrarReceta($paciente, $medico, $empresa, $consulta,$fecha,$folio, $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, $fechaadmin, $examen, $ciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primera, $traemedicamentos, $diabetes, $hipertension, $alergia, $alergiadetalle, $urgente, $esquema, $anamnesis, $observaciones);

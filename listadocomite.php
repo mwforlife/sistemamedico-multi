@@ -385,7 +385,7 @@ $object = $c->buscarenUsuario1($id);
 													<?php
 														$lista = $c->listarcomitevaloresactivo($empresa->getId());
 														foreach($lista as $fila){
-															$id = $c->encrypt($fila->getId(),"thechallengeofcoding");
+															$id = $fila->getId();
 															echo "<tr>";
 															echo "<td>".$fila->getFolio()."</td>";
 															echo "<td>".$fila->getFecha()."</td>";

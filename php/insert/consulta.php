@@ -1,7 +1,7 @@
 <?php
 require '../controller.php';
 $c = new Controller();
-if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medico']) && isset($_POST['reserva']) && isset($_POST['diagnosticoid']) && isset($_POST['diagnosticotext']) && isset($_POST['cieo10']) && isset($_POST['tipoatencion']) && isset($_POST['ecog']) && isset($_POST['ecogtext']) && isset($_POST['ingreso']) && isset($_POST['receta']) && isset($_POST['reingreso']) && isset($_POST['anamnesis']) && isset($_POST['procedimientotext']) && isset($_POST['resolucion']) && isset($_POST['estadoatencion'])) {
+if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medico']) && isset($_POST['reserva']) && isset($_POST['diagnosticoid']) && isset($_POST['diagnosticotext']) && isset($_POST['cieo10']) && isset($_POST['diagnosticocie10']) && isset($_POST['tipoatencion']) && isset($_POST['ecog']) && isset($_POST['ecogtext']) && isset($_POST['ingreso']) && isset($_POST['receta']) && isset($_POST['reingreso']) && isset($_POST['anamnesis']) && isset($_POST['procedimientotext']) && isset($_POST['resolucion']) && isset($_POST['estadoatencion'])) {
     $paciente = $_POST['paciente'];
     $empresa = $_POST['empresa'];
     $medico = $_POST['medico'];
@@ -9,6 +9,7 @@ if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medic
     $diagnosticoid = $_POST['diagnosticoid'];
     $diagnosticotext = $_POST['diagnosticotext'];
     $cieo10 = $_POST['cieo10'];
+    $diagnosticocie10 = $_POST['diagnosticocie10'];
     $tipoatencion = $_POST['tipoatencion'];
     $ecog = $_POST['ecog'];
     $ecogtext = $_POST['ecogtext'];
@@ -33,7 +34,7 @@ if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medic
 
     $folio = $c->buscarultimofolio($empresa)+1;
 
-    $response = $c->registrarconsulta($paciente,$medico, $empresa, $reserva, $folio,$diagnosticoid, $diagnosticotext, $cieo10, $tipoatencion,$tipoatencion, $ecog, $ecogtext, $ingreso, $receta, $reingreso, $anamnesis, $procedimientotext, $resolucion,$modalidad);
+    $response = $c->registrarconsulta($paciente,$medico, $empresa, $reserva, $folio,$diagnosticoid, $diagnosticotext, $cieo10, $diagnosticocie10,$tipoatencion, $ecog, $ecogtext, $ingreso, $receta, $reingreso, $anamnesis, $procedimientotext, $resolucion,$modalidad);
 
     if($response==true){
         $c->cambiarestadoreserva($reserva,$estadoatencion);

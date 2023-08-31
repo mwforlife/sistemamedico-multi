@@ -44,7 +44,7 @@ class Controller
     private $mi;
 
     private $host = "localhost";
-    /*Variables
+    /*Variables*/
     private $user = "root";
     private $pass = "";
     private $bd = "oncoway";
@@ -54,7 +54,7 @@ class Controller
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server */
+    /*Variables BD Server 
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
@@ -4897,6 +4897,43 @@ class Controller
         return null;
     }
 
+    //Buscar ultima consulta de un paciente
+    
+    function buscarconsultapaciente($id)
+    {
+        $this->conexion();
+        $sql = "select * from consultas where paciente = $id order by id desc limit 1;";
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $paciente = $rs["paciente"];
+            $usuario = $rs["usuario"];
+            $empresa = $rs["empresa"];
+            $atencion = $rs["atencion"];
+            $folio = $rs["folio"];
+            $diagnostico = $rs["diagnostico"];
+            $diagnosticotexto = $rs["diagnosticotexto"];
+            $diagnosticocie10 = $rs["diagnosticocie10"];
+            $diagnosticocie10texto = $rs["diagnosticocie10texto"];
+            $tipodeatencion = $rs["tipodeatencion"];
+            $ecog = $rs["ecog"];
+            $ecogtexto = $rs["ecogtexto"];
+            $ingreso = $rs["ingreso"];
+            $receta = $rs["receta"];
+            $reingreso = $rs["reingreso"];
+            $anamesis = $rs["anamesis"];
+            $estudiocomplementarios = $rs["estudiocomplementarios"];
+            $plantratamiento = $rs["plantratamiento"];
+            $tipoatencion = $rs["modalidad"];
+            $registro = $rs["registro"];
+            $consulta = new Consulta($id, $paciente, $usuario, $empresa, $atencion, $folio, $diagnostico, $diagnosticotexto, $diagnosticocie10, $diagnosticocie10texto, $tipodeatencion, $ecog, $ecogtexto, $ingreso, $receta, $reingreso, $anamesis, $estudiocomplementarios, $plantratamiento, $tipoatencion, $registro);
+            $this->desconexion();
+            return $consulta;
+        }
+        $this->desconexion();
+        return null;
+    }
+
     //Buscar Ultimo folio
     function buscarultimofolio($empresa)
     {
@@ -4927,10 +4964,10 @@ class Controller
     }
 
     //Ultimo folio receta
-    function buscarultimofolioreceta($empresa)
+    function buscarultimofolioreceta($empresa, $usuario)
     {
         $this->conexion();
-        $sql = "select * from recetas where empresa = $empresa order by folio desc limit 1;";
+        $sql = "select * from recetas where empresa = $empresa and usuario = $usuario order by folio desc limit 1;";
         $result = $this->mi->query($sql);
         if ($rs = mysqli_fetch_array($result)) {
             $folio = $rs["folio"];
@@ -4958,6 +4995,30 @@ class Controller
         $this->desconexion();
     }
 
+    //Listar Premedicaciones por receta
+    function listarpremedicacionesreceta($receta)
+    {
+        $this->conexion();
+        $sql = "select recetapremedicacion.id as id, premedicacion.medicamento as medicamento, recetapremedicacion.dosis as dosis, recetapremedicacion.oral as oral, recetapremedicacion.ev as ev, recetapremedicacion.sc as sc, recetapremedicacion.observacion as observacion, recetapremedicacion.registro as registro from recetapremedicacion, premedicacion where recetapremedicacion.receta = $receta and recetapremedicacion.premedicacion = premedicacion.id;";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+
+            $id = $rs["id"];
+            $medicamento = $rs["medicamento"];
+            $dosis = $rs["dosis"];
+            $oral = $rs["oral"];
+            $ev = $rs["ev"];
+            $sc = $rs["sc"];
+            $observacion = $rs["observacion"];
+            $registro = $rs["registro"];
+            $premedicacion = new RecetaPremedicacion($id, $receta, $medicamento, $dosis, $oral, $ev, $sc, $observacion, $registro);
+            $lista[] = $premedicacion;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
     // Registrar Medicamentos relacionados con una receta
     function registrarMedicamentosreceta($recetaId, $medicamentos)
     {
@@ -4982,6 +5043,33 @@ class Controller
         $this->desconexion();
     }
 
+    //Listar Medicamentos por receta
+    function listarMedicamentosreceta($receta){
+        $this->conexion();
+        $sql = "select recetamedicamentos.id as id, medicamentos.nombre as medicamento, recetamedicamentos.procenjate as porcentaje, recetamedicamentos.dosis as dosis, recetamedicamentos.carboplatino as carboplatino, recetamedicamentos.oral as oral, recetamedicamentos.ev as ev, recetamedicamentos.sc as sc, recetamedicamentos.it as it, recetamedicamentos.biccad as biccad, recetamedicamentos.observacion as observacion, recetamedicamentos.registro as registro from recetamedicamentos, medicamentos where recetamedicamentos.receta = $receta and recetamedicamentos.medicamento = medicamentos.id;";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+
+            $id = $rs["id"];
+            $medicamento = $rs["medicamento"];
+            $porcentaje = $rs["porcentaje"];
+            $dosis = $rs["dosis"];
+            $carboplatino = $rs["carboplatino"];
+            $oral = $rs["oral"];
+            $ev = $rs["ev"];
+            $sc = $rs["sc"];
+            $it = $rs["it"];
+            $biccad = $rs["biccad"];
+            $observacion = $rs["observacion"];
+            $registro = $rs["registro"];
+            $medicamento = new RecetaMedicamentos($id, $receta, $medicamento, $porcentaje, $dosis, $carboplatino, $oral, $ev, $sc, $it, $biccad, $observacion, $registro);
+            $lista[] = $medicamento;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
     // Registrar Estimulador relacionado con una receta
     function registrarEstimulador($recetaId, $nombre, $cantidad, $rangodias)
     {
@@ -4991,6 +5079,26 @@ class Controller
         $this->desconexion();
         return $result;
     }
+
+    //Listar Estimuladores por receta
+    function listarEstimuladoresreceta($receta){
+        $this->conexion();
+        $sql = "select * from estimulador where receta = $receta;";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+
+            $id = $rs["id"];
+            $nombre = $rs["nombre"];
+            $cantidad = $rs["cantidad"];
+            $rangodias = $rs["rangodias"];
+            $registro = $rs["registro"];
+            $estimulador = new Estimulador($id, $receta, $nombre, $cantidad, $rangodias, $registro);
+            $lista[] = $estimulador;
+        }
+        $this->desconexion();
+        return $lista;
+    }   
 
     //Listar Recetas por pacientes
     function recetalist($paciente){
