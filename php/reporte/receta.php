@@ -17,7 +17,9 @@ if (isset($_GET['r'])) {
         return;
     }
     $receta = $c->buscarrecetabyID($id);
+    $consulta = $c->buscarconsultaporid($receta->getConsulta());
     $paciente = $c->buscarpaciente($receta->getPaciente());
+    $contacto = $c->listardatosubicacion($receta->getPaciente());
     $medico = $c->buscarenUsuario($receta->getUsuario(), $receta->getEmpresa());
     $edad = $c->calcularEdad($paciente->getFechaNacimiento());
     $especialidad = $c->buscarespecialidad($medico->getProfesion());
@@ -53,37 +55,35 @@ if (isset($_GET['r'])) {
             <h1>Receta Medica</h1>
         </td>
         <td width='30%' style='text-align: right;'>
-            <h3> FOLIO: " . $receta->getFolio() . "</h3>
+            <h3 style='font-size:9pt'> Fecha: " . date("d-m-Y", strtotime($receta->getRegistro())) . "</h3>
+            <h3 style='font-size:9pt'> FOLIO: " . $receta->getFolio() . "</h3>
         </td>
     </tr>
     </table>";
     $contenido .= "<hr>";
     $contenido .= "<table width='100%' border='0' cellspacing='0' cellpadding='0' >
     <tr>
-        <td width='40%' style='text-align: justify;'>
-            <h3 style='font-size:9pt'> Paciente: " . $paciente->getNombre() . " " . $paciente->getApellido1() . " " . $paciente->getApellido2() . "</h3>
+        <td width='25%' style='text-align: justify;'>
+            <h3 style='font-size:9pt'> Paciente: " . $paciente->getNombre() . " " . $paciente->getApellido1() . "</h3>
         </td>
-        <td width='40%' style='text-align: left;'>
+        <td width='30%' style='text-align: left;'>
             <h3 style='font-size:9pt'> Edad: " . $edad . "</h3>
         </td>
-        <td width='20%' style='text-align: left;'>
+        <td width='25%' style='text-align: center;'>
             <h3 style='font-size:9pt'> RUN: " . $paciente->getRUT() . "</h3>
+        </td>
+        <td width='20%' style='text-align: left;'>
+            <h3 style='font-size:9pt'> Telefono: " . $paciente->getFonomovil() . "</h3>
         </td>
     </tr>
     </table>";
-    $contenido .= "<hr style='margin:0; margin-top:10px; ' >";
+    $contenido .= "<hr style='margin-top:10px; ' >";
 
     //Informacion Medico
     $contenido .= "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-size:9pt'>
     <tr>
         <td width='100%' style='text-align: justify;'>
-            <h3 style='font-size:9pt'> Receta N°: " .
-        $receta->getId() . "</h3>
-        </td>
-    </tr>
-    <tr>
-        <td width='100%' style='text-align: justify;'>
-            <h3 style='font-size:9pt'> Fecha: " . date("d-m-Y", strtotime($receta->getRegistro())) . "</h3>
+            
         </td>
     </tr>
     <tr>
@@ -103,106 +103,163 @@ if (isset($_GET['r'])) {
         </td>
     </tr>
     </table>";
-    $contenido .= "<hr style='margin:0; margin-top:10px; ' >";
-
+    $contenido .= "<hr style='margin-top:10px; ' >";
+    $contenido .= "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-size:9pt'>
+    <tr>
+        <td width='100%' style='text-align: justify;'>
+            <h3 style='font-size:9pt'> Diagnostico: " . $consulta->getDiagnosticotexto() . "</h3>
+        </td>
+    </tr>";
+    $esquema = $c->buscarenesquema($receta->getEsquema());
+    $contenido .= "<tr>
+        <td width='100%' style='text-align: justify;'>
+        <h3 style='font-size:9pt'> Esquema: " . $esquema->getNombre() . "</h3>
+        </td>
+    </tr>
+    <tr>
+        <td width='100%' style='text-align: justify;'>
+        <h3 style='font-size:9pt'> Fecha Administración: " . date("d-m-Y", strtotime($receta->getFechaAdministracion())) . "</h3>
+        </td>
+    </tr>
+    </table>";
     //Informacion Receta
-    /* $contenido .= "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-size:9pt'>";
-     $contenido .= "<tr>";
-     if ($receta->getGes() == 1) {
-         $contenido .= "
+    $contenido .= "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-size:9pt'>";
+    $contenido .= "<tr>";
+    if ($receta->getGes() == 1) {
+        $contenido .= "
          <td width='' style='text-align: justify;'>
              <h3 style='font-size:9pt'> GES: Si</h3>
          </td>";
-     } else {
-         $contenido .= "
+    } else {
+        $contenido .= "
          <td width='' style='text-align: justify;'>
              <h3 style='font-size:9pt'> GES: No</h3>
          </td>";
-     }
+    }
 
-     $contenido .= "<td width='' style='text-align: justify;'>
+    $contenido .= "<td width='' style='text-align: justify;'>
              <h3 style='font-size:9pt'> Peso: " . $receta->getPeso() . " Kg</h3>
          </td>";
-     $contenido .= "<td width='' style='text-align: justify;'>
+    $contenido .= "<td width='' style='text-align: justify;'>
                  <h3 style='font-size:9pt'> Talla: " . $receta->getTalla() . " cm</h3>
              </td>";
-     $contenido .= "<td width='' style='text-align: justify;'>
+    $contenido .= "<td width='' style='text-align: justify;'>
                      <h3 style='font-size:9pt'> Superficie Corporal: " . $receta->getScorporal() . " m2</h3>
                  </td>";
-     $contenido .= "</tr>";
-     $contenido .= "</table>";
+    $contenido .= "</tr>";
+    $contenido .= "<tr>";
+    $contenido .= "<td width='' style='text-align: justify;'>";
+    switch ($receta->getEstadio()) {
+        case 1:
+            $contenido .= "<h3 style='font-size:9pt'> Estadio: I</h3>";
+            break;
+        case 2:
+            $contenido .= "<h3 style='font-size:9pt'> Estadio: II</h3>";
+            break;
+        case 3:
+            $contenido .= "<h3 style='font-size:9pt'> Estadio: III</h3>";
+            break;
+        case 4:
+            $contenido .= "<h3 style='font-size:9pt'> Estadio: IV</h3>";
+            break;
+    }
+    $contenido .= "</td>";
+    $contenido .= "<td width='' style='text-align: justify;'>";
+    switch ($receta->getNivel()) {
+        case 1:
+            $contenido .= "<h3 style='font-size:9pt'> Nivel: A</h3>";
+            break;
+        case 2:
+            $contenido .= "<h3 style='font-size:9pt'> Nivel: A1</h3>";
+            break;
+        case 3:
+            $contenido .= "<h3 style='font-size:9pt'> Nivel: A2</h3>";
+            break;
+        case 4:
+            $contenido .= "<h3 style='font-size:9pt'> Nivel: A3</h3>";
+            break;
+        case 5:
+            $contenido .= "<h3 style='font-size:9pt'> Nivel: B</h3>";
+            break;
+        case 6:
+            $contenido .= "<h3 style='font-size:9pt'> Nivel: B1</h3>";
+            break;
+        case 7:
+            $contenido .= "<h3 style='font-size:9pt'> Nivel: B2</h3>";
+            break;
+        case 8:
+            $contenido .= "<h3 style='font-size:9pt'> Nivel: B3</h3>";
+            break;
+        case 9:
+            $contenido .= "<h3 style='font-size:9pt'> Nivel: C</h3>";
+            break;
+        case 10:
+            $contenido .= "<h3 style='font-size:9pt'> Nivel: C1</h3>";
+            break;
+        case 11:
+            $contenido .= "<h3 style='font-size:9pt'> Nivel: C2</h3>";
+            break;
+        case 12:
+            $contenido .= "<h3 style='font-size:9pt'> Nivel: C3</h3>";
+            break;
+    }
+    $contenido .= "</td>";
+    $contenido .= "<td width='' style='text-align: justify;'>
+                                    <h3 style='font-size:9pt'> Creatinina: " . $receta->getCreatinina() . "</h3>
+                                </td>";
+    $contenido .= "<td width='' style='text-align: justify;'>
+                                                <h3 style='font-size:9pt'> AUC: " . $receta->getAuc() . "</h3>
+                                            </td>";
+    $contenido .= "</tr>";
+    $contenido .= "</table>";
 
-     $contenido .= "<h2 style='font-size:12pt; margin-top:10px;'>Intención de Tratar</h2>";
+    $contenido .= "<h2 style='font-size:12pt; margin-top:10px; margin-bottom:0px;'>Intención de Tratar</h2>";
 
-     $contenido .= "<div style='width:100%;display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;'>";
-     if($receta->getAdyuvante()==1){
-         $contenido .= "<div style='width: 25%;'>";
-         $contenido .= "<h3 style='font-size:9pt'> Adyuvante</h3>";
-         $contenido .= "</div>";
-     }
-     if($receta->getConcomitante()==1){
-         $contenido .= "<div style='width: 25%;'>";
-         $contenido .= "<h3 style='font-size:9pt'> Neoadyuvante</h3>";
-         $contenido .= "</div>";
-     }
-     if($receta->getCurativo()==1){
-         $contenido .= "<div style='width: 25%;'>";
-         $contenido .= "<h3 style='font-size:9pt'> Concomitante</h3>";
-         $contenido .= "</div>";
-     }
+    $contenido .= "<div style='width:100%;margin-top:2px;display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;'>";
+    if ($receta->getAdyuvante() == 1) {
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Adyuvante,</label>";
+    }
+    if ($receta->getConcomitante() == 1) {
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Neoadyuvante,</label>";
+    }
+    if ($receta->getCurativo() == 1) {
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Concomitante,</label>";
+    }
 
-     if($receta->getPaliativo()==1){
-         $contenido .= "<div style='width: 25%;'>";
-         $contenido .= "<h3 style='font-size:9pt'> Paliativo</h3>";
-         $contenido .= "</div>";
-     }
+    if ($receta->getPaliativo() == 1) {
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Paliativo,</label>";
+    }
 
-     if($receta->getNoeAdyuvante()==1){
-         $contenido .= "<div style='width: 25%;'>";
-         $contenido .= "<h3 style='font-size:9pt'> Preventivo</h3>";
-         $contenido .= "</div>";
-     }
+    if ($receta->getNoeAdyuvante() == 1) {
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Preventivo,</label>";
+    }
 
-     if($receta->getDiabetes()==1){
-         $contenido .= "<div style='width: 25%;'>";
-         $contenido .= "<h3 style='font-size:9pt'> Diabetes</h3>";
-         $contenido .= "</div>";
-     }
+    if ($receta->getDiabetes() == 1) {
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Diabetes,</label>";
+    }
 
-     if($receta->getHipertension()==1){
-         $contenido .= "<div style='width: 25%;'>";
-         $contenido .= "<h3 style='font-size:9pt'> Hipertensión</h3>";
-         $contenido .= "</div>";
-     }
+    if ($receta->getHipertension() == 1) {
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Hipertensión,</label>";
+    }
+    $contenido .= "<br/>";
+    if ($receta->getAnticipada() == 1) {
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Anticipada: Si.</label>";
+    } else {
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Anticipada: No.</label>";
+    }
 
-     if($receta->getAnticipada()==1){
-         $contenido .= "<div style='width: 25%;'>";
-         $contenido .= "<h3 style='font-size:9pt'> Anticipada: Si</h3>";
-         $contenido .= "</div>";
-     }else{
-         $contenido .= "<div style='width: 25%;'>";
-         $contenido .= "<h3 style='font-size:9pt'> Anticipada: No</h3>";
-         $contenido .= "</div>";
-     }
+    if ($receta->getAlergias() == 1) {
+        $contenido .= "<p style='margin:2px;'><label style='font-size:9pt'>Alergias: Si.</label>";
+        $contenido .= "<br/>- " . $receta->getDetalleAlergias() . "</p>";
+    } else {
+        $contenido .= "<label style='font-size:9pt'> Alergias: No.</label>";
+    }
 
-     if($receta->getAlergias()==1){
-         $contenido .= "<div style='width: 25%;'>";
-         $contenido .= "<h3 style='font-size:9pt'> Alergias: Si</h3>";
-         $contenido .= "<p>".$receta->getDetalleAlergias()."</p>";
-         $contenido .= "</div>";
-     }else{
-         $contenido .= "<div style='width: 25%;'>";
-         $contenido .= "<h3 style='font-size:9pt'> Alergias: No</h3>";
-         $contenido .= "</div>";
-     }
+    $contenido .= "<label style='font-size:9pt'>N° de Cliclio: " . $receta->getNciclo() . "</label>";
 
-     $contenido . "<div style='width: 25%;'>";
-     $contenido .= "<h3 style='font-size:9pt'>N° de Cliclio: " . $receta->getNciclo() . "</h3>";
-     $contenido .= "</div>";
+    $contenido .= "</div>";
 
-     $contenido .= "</div>";
-
-     $contenido .= "<hr style='margin:0; margin-top:10px; ' >";*/
+    $contenido .= "<hr style='margin:0; margin-top:10px; ' >";
     //Seccion Medicamentos
     $premedicamentos = $c->listarpremedicacionesreceta($receta->getId());
     if (count($premedicamentos) > 0) {
@@ -223,7 +280,7 @@ if (isset($_GET['r'])) {
         </td>
     </tr>";
         foreach ($premedicamentos as $premedicacion) {
-            $contenido .= "<tr>";
+            $contenido .= "<tr >";
             $contenido .= "<td width='10%' style='padding: 1px; text-align: left;'>
             <h3 style='font-size:9pt'>" . $premedicacion->getPremedicacion() . "</h3>
         </td>";
@@ -349,7 +406,7 @@ if (isset($_GET['r'])) {
     $contenido .= "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-size:9pt; '>
     <tr>
         <td width='50%' style='text-align: right;'>
-            <p style='font-size:9pt; padding-top:10px; width:300px; border-top:1px solid;'>" . $medico->getNombre() . " " . $medico->getApellido1() . " " . $medico->getApellido2() . " <br/> " . $medico->getRut(). "</p>
+            <p style='font-size:9pt; padding-top:10px; width:300px; border-top:1px solid;'>" . $medico->getNombre() . " " . $medico->getApellido1() . " " . $medico->getApellido2() . " <br/> " . $medico->getRut() . "</p>
         </td>
     </tr>";
     $contenido .= "</table>";

@@ -204,7 +204,7 @@ if(isset($_GET['c'])){
     </tr>";
     $contenido .= "<tr>
         <td width='100%' style='text-align: justify;'>
-            <p style='font-size:9pt; padding-top:10px;'>" . $consulta->getAnamesis() . "</p>
+            <p style='font-size:9pt; padding-top:10px;'></p>
         </td>
     </tr>";
     $contenido .= "</table>";

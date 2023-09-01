@@ -266,6 +266,16 @@ insert into roles(nombre,descripcion) values('Administrador Sistema','El Adminis
 insert into roles(nombre,descripcion) values('Administrador Empresa','El Administrador de la empresa tiene permiso para administrar la empresa que pertenece');
 insert into roles(nombre,descripcion) values('Supervisor','El Supervisor tiene permiso para administrar los usuarios de la empresa que pertenece');
 insert into roles(nombre,descripcion) values('Medico','El Medico tiene permiso para administrar los pacientes de la empresa que pertenece');
+insert into roles(nombre,descripcion) values('Definiciones Comité','El Usuario tiene permiso para administrar las definiciones de Comité');
+insert into roles(nombre,descripcion) values('Definiciones Generales','El Usuario tiene permiso para administrar las definiciones del sistema');
+insert into roles(nombre,descripcion) values('Definiciones Empresa','El Usuario tiene permiso para administrar las definiciones de la empresa');
+insert into roles(nombre,descripcion) values('Auditoria','El Usuario tiene permiso para administrar las auditorias del sistema');
+insert into roles(nombre,descripcion) values('Reservas','El Usuario tiene permiso para administrar las reservas del sistema');
+insert into roles(nombre,descripcion) values('Ficha Clinica','El Usuario tiene permiso para administrar las fichas clinicas del sistema');
+insert into roles(nombre,descripcion) values('Comité','El Usuario tiene permiso para administrar los comités del sistema');
+
+
+
 
 create table rolesusuarios(
     id int not null auto_increment primary key,
