@@ -1089,6 +1089,8 @@ create table recetas(
     registro datetime not null default current_timestamp
 );
 
+alter table recetas add column estadoorden int not null default 1 after estado;
+
 create table recetapremedicacion(
     id int not null auto_increment primary key,
     receta int not null references recetas(id),

@@ -7,6 +7,8 @@ $c = new Controller();
 
 session_start();
 
+// Obtener la URL de la página anterior (si está disponible)
+$previous_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 $empresa = null;
 if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
@@ -123,77 +125,77 @@ if (isset($_GET['code'])) {
 			<div class="main-sidebar-body">
 				<ul class="nav">
 					<li class="nav-header"><span class="nav-label">Dashboard</span></li>
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="diagnosticos1.php">Diagnosticos CIE10</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="ecog.php">Ecog</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="histologico.php">Histologico</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="invasiontumoral.php">Invasión Tumoral</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="tnmprimario.php">TNM-Primario clinico</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="tnmregionales.php">TNM-Regionales clinico</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="tnmdistancia.php">TNM-Distancia clinico</a>
-									</li>
-								</ul>
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="regiones.php">Regiones</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="comunas.php">Comunas</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="nacionalidad.php">Nacionalidades</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="generos.php">Generos</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="especialidad.php">Especialidad</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
-									</li>
-								</ul>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="diagnosticos1.php">Diagnosticos CIE10</a>
 							</li>
-							<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
-							<li class="nav-item">
-								<a class="nav-link" href="tipodocumento.html"><i class="fe fe-grid sidemenu-icon"></i><span class="sidemenu-label">Redactar documentos</span></a>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="ecog.php">Ecog</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="empresas.html">Registro de Empresas</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="centrocosto.html">Registro de Centro de Costo</a>
-									</li>
-								</ul>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="histologico.php">Histologico</a>
 							</li>
-							<li class="nav-item">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="invasiontumoral.php">Invasión Tumoral</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="tnmprimario.php">TNM-Primario clinico</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="tnmregionales.php">TNM-Regionales clinico</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="tnmdistancia.php">TNM-Distancia clinico</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="regiones.php">Regiones</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="comunas.php">Comunas</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="nacionalidad.php">Nacionalidades</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="generos.php">Generos</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="especialidad.php">Especialidad</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
+					<li class="nav-item">
+						<a class="nav-link" href="tipodocumento.html"><i class="fe fe-grid sidemenu-icon"></i><span class="sidemenu-label">Redactar documentos</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="empresas.html">Registro de Empresas</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="centrocosto.html">Registro de Centro de Costo</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
@@ -220,13 +222,13 @@ if (isset($_GET['code'])) {
 						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="pacientesmedico.html">Ficha Pacientes</a>
+								<a class="nav-sub-link" href="pacientesmedico.php">Ficha Pacientes</a>
 							</li>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="consultas.php">Consultas</a>
 							</li>
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="recetas.html">Recetas Emitidas</a>
+								<a class="nav-sub-link" href="recetasemitidas.php">Recetas Emitidas</a>
 							</li>
 						</ul>
 					</li>
@@ -244,21 +246,21 @@ if (isset($_GET['code'])) {
 							</li>
 						</ul>
 					</li>
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="usuarios.php">Registrar Usuarios</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="activacion.php">Activación de Usuarios</a>
-									</li>
-
-								</ul>
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
 							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="usuarios.php">Registrar Usuarios</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="activacion.php">Activación de Usuarios</a>
+							</li>
+
+						</ul>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -347,7 +349,7 @@ if (isset($_GET['code'])) {
 								<div class="header-navheading">
 									<h6 class="main-notification-title"><?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
 								</div>
-								
+
 								<a class="dropdown-item" href="close.php">
 									<i class="fe fe-power"></i> Cerrar Sesión
 								</a>
@@ -377,9 +379,9 @@ if (isset($_GET['code'])) {
 					</div>
 					<!-- End Page Header -->
 
-					<div class="row <?php if ($paciente != null) {
-						echo 'd-none';
-					} ?>">
+					<div class="row  <?php if ($paciente != null) {
+										echo 'd-none';
+									} ?>">
 						<div class="col-lg-12">
 							<div class="card orverflow-hidden">
 								<div class="card-body">
@@ -388,120 +390,112 @@ if (isset($_GET['code'])) {
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>RUT:</label>
-													<select class="form-control select2" id="rut1" onchange="buscarpaciente(this())" name="rut" required="">
-														<option value="">Digite el RUT</option>
-														<?php
-														$lista = $c->listarpacientes();
-														foreach ($lista as $row) {
-															echo "<option value='" . $row->getId() . "'>" . str_replace(".", "", $row->getRut()) . "</option>";
-														}
-														?>
-													</select>
+													<input class="form-control" id="rutsearch" onkeyup="formatRut(this), searchpaciente(this)" name="rutsearch" placeholder="11.111.111-1" type="text" maxlength="12">
 												</div>
 											</div>
 										</div>
-										<div class="row  fichapaciente" >
+										<div class="row  datospaciente d-none">
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Numero Ficha:</label>
-													<input class="form-control" id="numeroficha" name="numeroficha" placeholder="N° Ficha" required="" type="number" value="">
+													<input class="form-control" id="fichasearch" name="fichasearch" placeholder="N° Ficha" required="" type="number" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Ubicacion:</label>
-													<input class="form-control" id="ubicacion1" name="ubicacion" placeholder="Ubicacion" required="" type="text" value="">
+													<input class="form-control" id="ubicacionsearch" name="ubicacionsearch" placeholder="Ubicacion" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Pasaporte/DNI/NIE:</label>
-													<input class="form-control" id="documento1" name="documento" placeholder="Ubicacion" required="" type="text" value="">
+													<input class="form-control" id="documentsearch" name="documentsearch" placeholder="Pasaporte" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Nacionalidad:</label>
-													<input class="form-control" id="nacionalidad1" name="nacionalidad" placeholder="Nacionalidad" required="" type="text" value="">
+													<input class="form-control" id="nacionalidadsearch" name="nacionalidadsearch" placeholder="Nacionalidad" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Nombre:</label>
-													<input class="form-control" id="nombre1" name="nombre" placeholder="Nombre" required="" type="text" value="">
+													<input class="form-control" id="nombresearch" name="nombresearch" placeholder="Nombre" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Apellido Paterno:</label>
-													<input class="form-control" id="apepaterno1" name="apepaterno" placeholder="Apellido Materno" required="" type="text" value="">
+													<input class="form-control" id="apellidosearch" name="apellidosearch" placeholder="Primer Apellido" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Apellido Materno:</label>
-													<input class="form-control" id="apematerno1" name="apematerno" placeholder="Apellido Paterno" required="" type="text" value="">
+													<input class="form-control" id="apellido1search" name="apellido1search" placeholder="Segundo Apellido" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Nombre Social:</label>
-													<input class="form-control" id="nombresocial1" name="nombresocial" placeholder="Nombre Social" required="" type="text" value="">
+													<input class="form-control" id="nombresocialsearch" name="nombresocialsearch" placeholder="Nombre Social" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Edad:</label>
-													<input class="form-control" id="edad1" name="edad" placeholder="Edad" required="" type="text" value="">
+													<input class="form-control" id="edadsearch" name="edadsearch" placeholder="Edad" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Sexo:</label>
-													<input class="form-control" id="sexo1" name="sexo" placeholder="Sexo" required="" type="text" value="">
+													<input class="form-control" id="sexosearch" name="sexosearch" placeholder="Sexo" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Prevision:</label>
-													<input class="form-control" id="prevision1" name="prevision" placeholder="Prevision" required="" type="text" value="">
+													<input class="form-control" id="previsionsearch" name="previsionsearch" placeholder="Prevision" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Estado Afiliacion:</label>
-													<input class="form-control" id="estadoafiliacion1" name="estadoafiliacion" placeholder="Estado Afiliacion" required="" type="text" value="">
+													<input class="form-control" id="estadoafiliacionsearch" name="estadoafiliacionsearch" placeholder="Estado Afiliacion" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Dirección:</label>
-													<input class="form-control" id="direccion1" name="direccion" placeholder="Direccion" required="" type="text" value="">
+													<input class="form-control" id="direccionsearch" name="direccionsearch" placeholder="Direccion" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Fonos Contacto:</label>
-													<input class="form-control" id="fono1" name="fono" placeholder="Fono Contacto" required="" type="text" value="">
+													<input class="form-control" id="fonosearch" name="fonosearch" placeholder="Fono Contacto" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
-													<label>E-mail:</label>
-													<input class="form-control" id="sexo1" name="sexo" placeholder="Sexo" required="" type="text" value="">
+													<label>Correo Electronico:</label>
+													<input class="form-control" id="correosearch" name="correosearch" placeholder="Correo Electronico" required="" type="text" value="">
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
 													<label>Inscrito:</label>
-													<input class="form-control" id="inscrito1" name="inscrito1" placeholder="Inscrito" required="" type="text" value="">
+													<input class="form-control" id="inscritosearch" name="inscritosearch" placeholder="Inscrito" required="" type="text" value="">
 												</div>
 											</div>
-											<div class="col-lg-3">
-												<div class="form-group has-success mg-b-0">
-													<label>Categorización Crónico:</label>
-													<input class="form-control" id="catecronico1" name="catecronico" placeholder="Categorización Crónico" required="" type="text" value="">
-												</div>
+											<div class="col-md-12 text-right mt-3">
+												<hr>
+											<button class="btn btn-outline-success" onclick="searchother()" type="button"><i class="fa fa-search"></i> Buscar Otro</button>
+											<a href="pacientes.php?code=" class="btn btn-outline-success" id="btncargar"><i class="fa fa-user"></i> Cargar Ficha</a>
+
 											</div>
 
 										</div>
@@ -512,8 +506,8 @@ if (isset($_GET['code'])) {
 					</div>
 					<!-- ROW-4 opened -->
 					<div class="row fichapaciente <?php if ($paciente == null) {
-						echo 'd-none';
-					} ?>">
+														echo 'd-none';
+													} ?>">
 						<div class="col-xl-12 col-lg-12 col-md-12">
 							<div class="card" id="tab">
 								<div class="card-body">
@@ -544,10 +538,10 @@ if (isset($_GET['code'])) {
 																						<a aria-controls="collapseOne" aria-expanded="true" data-toggle="collapse" href="#collapseOne">Datos Paciente</a>
 																					</div>
 																					<input type="hidden" id="idpaciente" name="idpaciente" value="<?php if ($paciente != null) {
-																						echo $paciente->getId();
-																					} else {
-																						echo 0;
-																					} ?>">
+																																						echo $paciente->getId();
+																																					} else {
+																																						echo 0;
+																																					} ?>">
 																					<div aria-labelledby="headingOne" class="collapse active show " data-parent="#accordion" id="collapseOne" role="tabpanel">
 																						<div class="card-body">
 																							<div class="row">
@@ -557,46 +551,46 @@ if (isset($_GET['code'])) {
 																										<label>Tipo Identificacion:</label>
 																										<select class="form-control" id="tipoidentificacion" onchange="checktipo(this)" name="tipoidentificacion" required="">
 																											<option value="1" <?php if ($paciente != null) {
-																												if ($paciente->getTipoidentificacion() == 1) {
-																													echo 'selected';
-																												}
-																											} ?>>RUN</option>
+																																	if ($paciente->getTipoidentificacion() == 1) {
+																																		echo 'selected';
+																																	}
+																																} ?>>RUN</option>
 																											<option value="2" <?php if ($paciente != null) {
-																												if ($paciente->getTipoidentificacion() == 2) {
-																													echo 'selected';
-																												}
-																											} ?>>Sin RUN</option>
+																																	if ($paciente->getTipoidentificacion() == 2) {
+																																		echo 'selected';
+																																	}
+																																} ?>>Sin RUN</option>
 																											<option value="3" <?php if ($paciente != null) {
-																												if ($paciente->getTipoidentificacion() == 3) {
-																													echo 'selected';
-																												}
-																											} ?>>Pasaporte</option>
+																																	if ($paciente->getTipoidentificacion() == 3) {
+																																		echo 'selected';
+																																	}
+																																} ?>>Pasaporte</option>
 																											<option value="4" <?php if ($paciente != null) {
-																												if ($paciente->getTipoidentificacion() == 4) {
-																													echo 'selected';
-																												}
-																											} ?>>Indentificación de Su País</option>
+																																	if ($paciente->getTipoidentificacion() == 4) {
+																																		echo 'selected';
+																																	}
+																																} ?>>Indentificación de Su País</option>
 																										</select>
 																									</div>
 																								</div>
 																								<!--Rut paciente-->
 																								<div class="col-lg-3 rut <?php if ($paciente != null) {
-																									if ($paciente->getTipoidentificacion() != 1) {
-																										echo 'd-none';
-																									}
-																								} ?>">
+																																if ($paciente->getTipoidentificacion() != 1) {
+																																	echo 'd-none';
+																																}
+																															} ?>">
 																									<div class="form-group has-success mg-b-0">
 																										<label>RUN Paciente:</label>
-																										<input class="form-control" id="rut" name="rut" onkeyup="formatRut(this)" placeholder="11.111.111-1" required="" type="text" value="<?php echo $paciente->getRut(); ?>">
+																										<input class="form-control" id="rut" name="rut" onkeyup="formatRut(this)" placeholder="11.111.111-1" required="" type="text" value="<?php if ($paciente != null) { echo $paciente->getRut();}; ?>">
 																									</div>
 																								</div>
 																								<!--Pasaporte-->
-																								<div class="col-lg-3 idotro <?php if ($paciente->getTipoidentificacion() == 1) {
-																									echo 'd-none';
-																								} ?>">
+																								<div class="col-lg-3 idotro <?php if ($paciente != null) {if ($paciente->getTipoidentificacion() == 1) {
+																																echo 'd-none';
+																															}} ?>">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Pasaporte/DNI/NIE:</label>
-																										<input class="form-control" id="documentoadd" name="documentoadd" placeholder="Pasaporte/DNI/NIE" type="text" value="<?php echo $paciente->getIdentificacion(); ?>">
+																										<input class="form-control" id="documentoadd" name="documentoadd" placeholder="Pasaporte/DNI/NIE" type="text" value="<?php if ($paciente != null) {echo $paciente->getIdentificacion();} ?>">
 																									</div>
 																								</div>
 																								<!--Nacionalidad-->
@@ -605,6 +599,7 @@ if (isset($_GET['code'])) {
 																										<label>Nacionalidad:</label>
 																										<select class="form-control select2" id="nacionalidad" name="nacionalidad" required>
 																											<?php
+																											if ($paciente != null) {
 																											$lista = $c->listarnacionalidad();
 																											foreach ($lista as $object) {
 																												if ($paciente->getNacionalidad() == $object->getId()) {
@@ -613,6 +608,7 @@ if (isset($_GET['code'])) {
 																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
+																										}
 																											?>
 																										</select>
 																									</div>
@@ -623,6 +619,7 @@ if (isset($_GET['code'])) {
 																										<label>Pais Origen:</label>
 																										<select class="form-control select2" id="paisorigen" name="paisorigen" required>
 																											<?php
+																											if ($paciente != null) {
 																											$lista = $c->listarpaises();
 																											foreach ($lista as $object) {
 																												if ($paciente->getPaisorigen() == $object->getId()) {
@@ -631,6 +628,7 @@ if (isset($_GET['code'])) {
 																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
+																										}
 																											?>
 																										</select>
 																									</div>
@@ -639,28 +637,28 @@ if (isset($_GET['code'])) {
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Correo Electronico:</label>
-																										<input class="form-control" id="email" name="email" placeholder="Correo Electronico" type="email" value="<?php echo $paciente->getEmail(); ?>">
+																										<input class="form-control" id="email" name="email" placeholder="Correo Electronico" type="email" value="<?php if ($paciente != null) {echo $paciente->getEmail();} ?>">
 																									</div>
 																								</div>
 																								<!--Nombre-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Nombre:</label>
-																										<input class="form-control" id="nombre" name="nombre" placeholder="Nombre" required="" type="text" value="<?php echo $paciente->getNombre(); ?>">
+																										<input class="form-control" id="nombre" name="nombre" placeholder="Nombre" required="" type="text" value="<?php if ($paciente != null) {echo $paciente->getNombre();} ?>">
 																									</div>
 																								</div>
 																								<!--Apellido Paterno-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Apellido Paterno:</label>
-																										<input class="form-control" id="apellido1" name="apellido1" placeholder="Apellido Paterno" required="" type="text" value="<?php echo $paciente->getApellido1(); ?>">
+																										<input class="form-control" id="apellido1" name="apellido1" placeholder="Apellido Paterno" required="" type="text" value="<?php if ($paciente != null) {echo $paciente->getApellido1();}?>">
 																									</div>
 																								</div>
 																								<!--Apellido Materno-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Apellido Materno:</label>
-																										<input class="form-control" id="apellido2" name="apellido2" placeholder="Apellido Materno" type="text" value="<?php echo $paciente->getApellido2(); ?>">
+																										<input class="form-control" id="apellido2" name="apellido2" placeholder="Apellido Materno" type="text" value="<?php if ($paciente != null) {echo $paciente->getApellido2();} ?>">
 																									</div>
 																								</div>
 																								<!--Genero-->
@@ -669,6 +667,7 @@ if (isset($_GET['code'])) {
 																										<label>Genero:</label>
 																										<select class="form-control select2" id="genero" name="genero" required>
 																											<?php
+																											if ($paciente != null) {
 																											$lista = $c->listargenero();
 																											foreach ($lista as $object) {
 																												if ($paciente->getGenero() == $object->getId()) {
@@ -677,6 +676,7 @@ if (isset($_GET['code'])) {
 																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
+																										}
 																											?>
 																										</select>
 																									</div>
@@ -687,6 +687,7 @@ if (isset($_GET['code'])) {
 																										<label>Estado Civil:</label>
 																										<select class="form-control select2" id="estadocivil" name="estadocivil" required>
 																											<?php
+																											if ($paciente != null) {
 																											$lista = $c->listarestadocivil();
 																											foreach ($lista as $object) {
 																												if ($paciente->getEstadocivil() == $object->getId()) {
@@ -695,6 +696,7 @@ if (isset($_GET['code'])) {
 																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
 																											}
+																										}
 																											?>
 																										</select>
 																									</div>
@@ -703,53 +705,53 @@ if (isset($_GET['code'])) {
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Fecha Nacimiento:</label>
-																										<input class="form-control" id="fechanacimiento" name="fechanacimiento" placeholder="Fecha Nacimiento" required="" type="date" value="<?php echo $paciente->getFechanacimiento(); ?>">
+																										<input class="form-control" id="fechanacimiento" name="fechanacimiento" placeholder="Fecha Nacimiento" required="" type="date" value="<?php if ($paciente != null) {echo $paciente->getFechanacimiento();} ?>">
 																									</div>
 																								</div>
 																								<!--Hora Nacimiento-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Hora Nacimiento:</label>
-																										<input class="form-control" id="horanacimiento" name="horanacimiento" placeholder="Hora Nacimiento" type="time" value="<?php echo $paciente->getHoranacimiento(); ?>">
+																										<input class="form-control" id="horanacimiento" name="horanacimiento" placeholder="Hora Nacimiento" type="time" value="<?php if ($paciente != null) {echo $paciente->getHoranacimiento();} ?>">
 																									</div>
 																								</div>
 																								<!--Fono Movil-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Fono Movil:</label>
-																										<input class="form-control" id="fonomovil" name="fonomovil" placeholder="Fono Movil" required="" type="text" value="<?php echo $paciente->getFonomovil(); ?>">
+																										<input class="form-control" id="fonomovil" name="fonomovil" placeholder="Fono Movil" required="" type="text" value="<?php if ($paciente != null) {echo $paciente->getFonomovil();} ?>">
 																									</div>
 																								</div>
 																								<!--Fono Fijo-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Fono Fijo:</label>
-																										<input class="form-control" id="fonofijo" name="fonofijo" placeholder="Fono Fijo" type="text" value="<?php echo $paciente->getFonofijo(); ?>">
+																										<input class="form-control" id="fonofijo" name="fonofijo" placeholder="Fono Fijo" type="text" value="<?php if ($paciente != null) {echo $paciente->getFonofijo();} ?>">
 																									</div>
 																								</div>
 																								<!--Nombre Social-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Nombre Social:</label>
-																										<input class="form-control" id="nombresocial" name="nombresocial" placeholder="Nombre Social" type="text" value="<?php echo $paciente->getNombresocial(); ?>">
+																										<input class="form-control" id="nombresocial" name="nombresocial" placeholder="Nombre Social" type="text" value="<?php if ($paciente != null) {echo $paciente->getNombresocial();} ?>">
 																									</div>
 																								</div>
 																								<!--¿Funcionario?-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿Funcionario?:</label><br />
-																										<input id="funcionario" name="funcionario" type="checkbox" value="1" <?php if ($paciente->getFuncionario() == 1) {
-																											echo "checked";
-																										} ?>>
+																										<input id="funcionario" name="funcionario" type="checkbox" value="1" <?php if ($paciente != null) {if ($paciente->getFuncionario() == 1) {
+																																													echo "checked";
+																																												}} ?>>
 																									</div>
 																								</div>
 																								<!--¿Discapacidad?-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿Discapacidad?:</label><br />
-																										<input id="discapacidad" name="discapacidad" type="checkbox" value="1" <?php if ($paciente->getDiscapacidad() == 1) {
-																											echo "checked";
-																										} ?>>
+																										<input id="discapacidad" name="discapacidad" type="checkbox" value="1" <?php if ($paciente != null) {if ($paciente->getDiscapacidad() == 1) {
+																																													echo "checked";
+																																												} }?>>
 																									</div>
 																								</div>
 																							</div>
@@ -761,30 +763,30 @@ if (isset($_GET['code'])) {
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿Recien Nacido?:</label><br />
-																										<input id="reciennacido" name="reciennacido" type="checkbox" value="1" <?php if ($paciente->getReciennacido() == 1) {
-																											echo "checked";
-																										} ?>>
+																										<input id="reciennacido" name="reciennacido" type="checkbox" value="1" <?php if ($paciente != null) {if ($paciente->getReciennacido() == 1) {
+																																													echo "checked";
+																																												}} ?>>
 																									</div>
 																								</div>
 																								<!--Hijo de-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Hijo de:</label>
-																										<input class="form-control" id="hijode" name="hijode" placeholder="Hijo de" type="text" value="<?php echo $paciente->getHijode(); ?>">
+																										<input class="form-control" id="hijode" name="hijode" placeholder="Hijo de" type="text" value="<?php if ($paciente != null) {echo $paciente->getHijode();} ?>">
 																									</div>
 																								</div>
 																								<!--Peso de nacimiento-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Peso de nacimiento:</label>
-																										<input class="form-control" id="pesodenacimiento" name="pesodenacimiento" placeholder="Peso de nacimiento" type="text" value="<?php echo $paciente->getPesonacimiento(); ?>">
+																										<input class="form-control" id="pesodenacimiento" name="pesodenacimiento" placeholder="Peso de nacimiento" type="text" value="<?php if ($paciente != null) { echo $paciente->getPesonacimiento();} ?>">
 																									</div>
 																								</div>
 																								<!--Talla de nacimiento-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Talla de nacimiento (Centimetros):</label>
-																										<input class="form-control" id="talladenacimiento" name="talladenacimiento" placeholder="Talla de nacimiento" type="text" value="<?php echo $paciente->getTallanacimiento(); ?>">
+																										<input class="form-control" id="talladenacimiento" name="talladenacimiento" placeholder="Talla de nacimiento" type="text" value="<?php if ($paciente != null) {echo $paciente->getTallanacimiento();} ?>">
 																									</div>
 																								</div>
 																								<!--Tipo parto-->
@@ -793,6 +795,7 @@ if (isset($_GET['code'])) {
 																										<label>Tipo parto:</label>
 																										<select class="form-control" id="tipoparto" name="tipoparto">
 																											<?php
+																											if ($paciente != null) {
 																											$lista = $c->listartipoparto();
 																											foreach ($lista as $object) {
 																												if ($paciente->getTipoparto() == $object->getId()) {
@@ -800,7 +803,7 @@ if (isset($_GET['code'])) {
 																												} else {
 																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
 																												}
-																											}
+																											}}
 																											?>
 																										</select>
 																									</div>
@@ -809,21 +812,21 @@ if (isset($_GET['code'])) {
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Rol:</label>
-																										<input class="form-control" id="rol" name="rol" placeholder="Rol" type="text" value="<?php echo $paciente->getRol(); ?>">
+																										<input class="form-control" id="rol" name="rol" placeholder="Rol" type="text" value="<?php if ($paciente != null) {echo $paciente->getRol();} ?>">
 																									</div>
 																								</div>
 																								<!--Fecha Fallecimiento-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Fecha Fallecimiento:</label>
-																										<input class="form-control" id="fechafallecimiento" name="fechafallecimiento" placeholder="Fecha Fallecimiento" required="" type="date" value="<?php echo $paciente->getFechafallecimiento(); ?>">
+																										<input class="form-control" id="fechafallecimiento" name="fechafallecimiento" placeholder="Fecha Fallecimiento" required="" type="date" value="<?php if ($paciente != null) {echo $paciente->getFechafallecimiento();} ?>">
 																									</div>
 																								</div>
 																								<!--Hora Fallecimiento-->
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>Hora Fallecimiento:</label>
-																										<input class="form-control" id="horafallecimiento" name="horafallecimiento" placeholder="Hora Fallecimiento" required="" type="text" value="<?php echo $paciente->getHorafallecimiento(); ?>">
+																										<input class="form-control" id="horafallecimiento" name="horafallecimiento" placeholder="Hora Fallecimiento" required="" type="text" value="<?php if ($paciente != null) {echo $paciente->getHorafallecimiento();} ?>">
 																									</div>
 																								</div>
 																							</div>
@@ -949,13 +952,13 @@ if (isset($_GET['code'])) {
 																										<label>Estado de afiliacion:</label>
 																										<select class="form-control" id="estadoafiliacion" name="estadoafiliacion" required>
 																											<option value="1" <?php if ($estadoafiliacion == 1) {
-																												echo "selected";
-																											} ?>>Activo</option>
-																												Activo
+																																	echo "selected";
+																																} ?>>Activo</option>
+																											Activo
 																											</option>
 																											<option value="2" <?php if ($estadoafiliacion == 2) {
-																												echo "selected";
-																											} ?>>
+																																	echo "selected";
+																																} ?>>
 																												Inactivo
 																											</option>
 																										</select>
@@ -966,8 +969,8 @@ if (isset($_GET['code'])) {
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿Chile Solidario?:</label><br />
 																										<input type="checkbox" name="chilesolidario" id="chilesolidario" value="1" <?php if ($chilesolidario == 1) {
-																											echo "checked";
-																										} ?>>
+																																														echo "checked";
+																																													} ?>>
 																									</div>
 																								</div>
 																								<!--¿Prais?-->
@@ -975,8 +978,8 @@ if (isset($_GET['code'])) {
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿Prais?:</label><br />
 																										<input type="checkbox" name="prais" id="prais" value="1" <?php if ($prais == 1) {
-																											echo "checked";
-																										} ?>>
+																																										echo "checked";
+																																									} ?>>
 																									</div>
 																								</div>
 																								<!--¿SENAME?-->
@@ -984,8 +987,8 @@ if (isset($_GET['code'])) {
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿SENAME?:</label><br />
 																										<input type="checkbox" name="sename" id="sename" value="1" <?php if ($sename == 1) {
-																											echo "checked";
-																										} ?>>
+																																										echo "checked";
+																																									} ?>>
 																									</div>
 																								</div>
 																								<!--Ubicacion Ficha-->
@@ -1000,8 +1003,8 @@ if (isset($_GET['code'])) {
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿Ficha salud mental?:</label><br />
 																										<input type="checkbox" name="fichasaludmental" id="fichasaludmental" value="1" <?php if ($fichasaludmental == 1) {
-																											echo "checked";
-																										} ?>>
+																																															echo "checked";
+																																														} ?>>
 																									</div>
 																								</div>
 
@@ -1062,17 +1065,17 @@ if (isset($_GET['code'])) {
 																									<div class="form-group has-success mg-b-0">
 																										<label>Provincia:</label>
 																										<select class="form-control provincias select2" required id="provincia" name="provincia" onchange="checklistados(this)">
-																										<?php
-																										$lista = $c->listarprovincia($regionid);
-																										foreach ($lista as $object) {
-																											if ($provinciaid == $object->getId()) {
-																												echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																											} else {
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																											<?php
+																											$lista = $c->listarprovincia($regionid);
+																											foreach ($lista as $object) {
+																												if ($provinciaid == $object->getId()) {
+																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												}
 																											}
-																										}
 
-																										?>
+																											?>
 
 																										</select>
 																									</div>
@@ -1082,17 +1085,17 @@ if (isset($_GET['code'])) {
 																									<div class="form-group has-success mg-b-0">
 																										<label>Comuna:</label>
 																										<select class="form-control comunas select2" required id="comuna" name="comuna">
-																										<?php
-																										$lista = $c->listarcomuna($regionid);
-																										foreach ($lista as $object) {
-																											if ($comunaid == $object->getId()) {
-																												echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																											} else {
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																											<?php
+																											$lista = $c->listarcomuna($regionid);
+																											foreach ($lista as $object) {
+																												if ($comunaid == $object->getId()) {
+																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												}
 																											}
-																										}
 
-																										?>
+																											?>
 
 
 																										</select>
@@ -1103,17 +1106,17 @@ if (isset($_GET['code'])) {
 																									<div class="form-group has-success mg-b-0">
 																										<label>Ciudad:</label>
 																										<select class="form-control ciudades select2" required id="ciudad" name="ciudad">
-																										<?php
-																										$lista = $c->listarciudad($regionid);
-																										foreach ($lista as $object) {
-																											if ($ciudadid == $object->getId()) {
-																												echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
-																											} else {
-																												echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																											<?php
+																											$lista = $c->listarciudad($regionid);
+																											foreach ($lista as $object) {
+																												if ($ciudadid == $object->getId()) {
+																													echo "<option value='" . $object->getId() . "' selected>" . $object->getNombre() . "</option>";
+																												} else {
+																													echo "<option value='" . $object->getId() . "'>" . $object->getNombre() . "</option>";
+																												}
 																											}
-																										}
 
-																										?>
+																											?>
 
 
 																										</select>
@@ -1350,7 +1353,7 @@ if (isset($_GET['code'])) {
 																					<button type="button" id="btnactualizarpatient" class="btn btn-outline-success ml-2"><i class="fa fa-save"></i> Guardar</button>
 																					<!--Boton Imprimir Ficha completo-->
 																					<!--Boton Cerrar-->
-																					<a href="listadopacientes.php" class="btn btn-outline-danger ml-2"><i class="fa fa-close"></i> Volver</a>
+																					<a href="<?php echo $previous_page;?>" class="btn btn-outline-danger ml-2"><i class="fa fa-close"></i> Volver</a>
 																				</div>
 																			</div>
 																		</div>
@@ -1460,29 +1463,31 @@ if (isset($_GET['code'])) {
 																													</tr>
 																												</thead>
 																												<tbody class="text-center">
-																												<?php
-																												$recetas = $c->recetalist($paciente->getId());
-																												if (count($recetas) > 0) {
-																													foreach ($recetas as $r) {
-																														
-																														echo "<tr>";
-																														if ($r->getEstado() == 1) {
-																														echo "<td>Pendiente</td>";
-																													} else {
-																														echo "<td>Confirmado</td>";
-																													}
-																													echo "<td>" . date("d-m-Y", strtotime($r->getFecha())) . "</td>";
-																														echo "<td>" . date("d-m-Y H:i:s", strtotime($r->getRegistro())) . "</td>";
-																														$idreceta =$r->getId();
-																														echo "<td>" . $r->getUsuario();
-																														
-																														$idreceta = $r->getId();
-																														echo "<td>" . $r->getConsulta() . "</td>";
-																														echo "<td><a target='_blank' href='php/reporte/receta.php?r=$idreceta' class='btn btn-success'><i class='fe fe-file'></i></a></td>";
-																														echo "</tr>";
+																													<?php
+																													if ($paciente != null) {
+																													$recetas = $c->listarconsultaspaciente($paciente->getId());
+																													if (count($recetas) > 0) {
+																														foreach ($recetas as $r) {
+
+																															echo "<tr>";
+																															if ($r->getAtencion() == 5) {
+																																echo "<td><span class='badge badge-success'>Atendido <i class='fa fa-user-check'></i></span></td>";
+																															} else if($r->getAtencion() == 7){
+																																echo "<td><span class='badge badge-danger'>Cancelado <i class='fa fa-user-times'></i></span></td>";
+																															}
+																															echo "<td>" . date("d-m-Y", strtotime($r->getRegistro())) . "</td>";
+																															echo "<td>" . date("d-m-Y H:i:s", strtotime($r->getRegistro())) . "</td>";
+																															$idreceta = $r->getId();
+																															echo "<td>" . $r->getUsuario() . "</td>";
+
+																															$idreceta = $r->getId();
+																															echo "<td>" . $r->getTipodeatencion() . "</td>";
+																															echo "<td><a target='_blank' href='php/reporte/consulta.php?c=$idreceta' class='btn btn-success'><i class='fe fe-file'></i></a></td>";
+																															echo "</tr>";
+																														}
 																													}
 																												}
-																												?>
+																													?>
 																												</tbody>
 																											</table>
 																										</div>
@@ -1638,88 +1643,88 @@ if (isset($_GET['code'])) {
 															<div class="col-xl-12 col-lg-12 col-md-12">
 																<div class="card transcation-crypto1" id="transcation-crypto1">
 																	<div class="card-body">
-																		
-														<form id="formsignos">
-															<div class="row">
-																<input type="hidden" name="idpac" value="<?php echo $pacienteid; ?>">
-																<div class="col-md-1">
-																	<label>F RESP</label>
-																	<input type="number" class="form-control" min="1" id="sfresp" name="sfresp" required step="0.01">
-																</div>
-																<div class="col-md-1">
-																	<label>P SIST</label>
-																	<input type="number" class="form-control" min="1" id="spsist" name="spsist" required step="0.01">
-																</div>
-																<div class="col-md-1">
-																	<label>P DIAS</label>
-																	<input type="number" class="form-control" min="1" id="spdias" name="spdias" required step="0.01">
-																</div>
-																<div class="col-md-1">
-																	<label>% STAT 02</label>
-																	<input type="number" class="form-control" min="1" id="ssat" name="ssat" required step="0.01">
-																</div>
-																<div class="col-md-1">
-																	<label>FC</label>
-																	<input type="number" class="form-control" min="1" id="sfc" name="sfc" required step="0.01">
-																</div>
-																<div class="col-md-1">
-																	<label>T. AUXILIAR</label>
-																	<input type="number" class="form-control" min="1" id="staux" name="staux" required step="0.01">
-																</div>
-																<div class="col-md-1">
-																	<label>T. RECT</label>
-																	<input type="number" class="form-control" min="1" id="strect" name="strect" required step="0.01">
-																</div>
-																<div class="col-md-1">
-																	<label>T. OTRA</label>
-																	<input type="text" class="form-control" min="1" id="stotra" name="stotra" required>
-																</div>
-																<div class="col-md-1">
-																	<label>HGT</label>
-																	<input type="number" class="form-control" min="1" id="shgt" name="shgt" required step="0.01">
-																</div>
-																<div class="col-md-1">
-																	<label>PESO</label>
-																	<input type="number" class="form-control" min="1" id="speso" name="speso" required step="0.01">
-																</div>
-																<div class="col-md-1 d-flex align-items-end">
-																	<button class="btn btn-outline-success" type="submit"><i class="fa fa-save"></i> Registrar</button>
-																</div>
-															</div>
-														</form>
-														<div class="row mt-4">
-															<div class="col-xl-12 col-lg-12 col-md-12">
-																<div class="card transcation-crypto1" id="transcation-crypto1">
-																	<div class="card-body">
-																		<div class="">
-																			<div class="table-responsive">
-																				<table class="table w-100 text-nowrap" id="">
-																					<thead class="border-top text-center">
-																						<tr>
-																							<th class="bg-transparent">Fecha</th>
-																							<th class="bg-transparent">f Resp</th>
-																							<th class="bg-transparent text-center">P. Sist</th>
-																							<th class="bg-transparent text-center">P. Dias</th>
-																							<th class="bg-transparent text-center">% Sat 02</th>
-																							<th class="bg-transparent text-center">FC</th>
-																							<th class="bg-transparent text-center">T. Axilar</th>
-																							<th class="bg-transparent text-center">T. Rect</th>
-																							<th class="bg-transparent text-center">T. Otra</th>
-																							<th class="bg-transparent text-center">HGT</th>
-																							<th class="bg-transparent text-center">PESO</th>
-																							<th class="bg-transparent text-center">ID</th>
-																						</tr>
-																					</thead>
-																					<input type="hidden" id="pacienteid" value="<?php echo $pacienteid; ?>">
-																					<tbody class="text-center" id="signos">
-																					</tbody>
-																				</table>
+
+																		<form id="formsignos">
+																			<div class="row">
+																				<input type="hidden" name="idpac" value="<?php echo $pacienteid; ?>">
+																				<div class="col-md-1">
+																					<label>F RESP</label>
+																					<input type="number" class="form-control" min="1" id="sfresp" name="sfresp" required step="0.01">
+																				</div>
+																				<div class="col-md-1">
+																					<label>P SIST</label>
+																					<input type="number" class="form-control" min="1" id="spsist" name="spsist" required step="0.01">
+																				</div>
+																				<div class="col-md-1">
+																					<label>P DIAS</label>
+																					<input type="number" class="form-control" min="1" id="spdias" name="spdias" required step="0.01">
+																				</div>
+																				<div class="col-md-1">
+																					<label>% STAT 02</label>
+																					<input type="number" class="form-control" min="1" id="ssat" name="ssat" required step="0.01">
+																				</div>
+																				<div class="col-md-1">
+																					<label>FC</label>
+																					<input type="number" class="form-control" min="1" id="sfc" name="sfc" required step="0.01">
+																				</div>
+																				<div class="col-md-1">
+																					<label>T. AUXILIAR</label>
+																					<input type="number" class="form-control" min="1" id="staux" name="staux" required step="0.01">
+																				</div>
+																				<div class="col-md-1">
+																					<label>T. RECT</label>
+																					<input type="number" class="form-control" min="1" id="strect" name="strect" required step="0.01">
+																				</div>
+																				<div class="col-md-1">
+																					<label>T. OTRA</label>
+																					<input type="text" class="form-control" min="1" id="stotra" name="stotra" required>
+																				</div>
+																				<div class="col-md-1">
+																					<label>HGT</label>
+																					<input type="number" class="form-control" min="1" id="shgt" name="shgt" required step="0.01">
+																				</div>
+																				<div class="col-md-1">
+																					<label>PESO</label>
+																					<input type="number" class="form-control" min="1" id="speso" name="speso" required step="0.01">
+																				</div>
+																				<div class="col-md-1 d-flex align-items-end">
+																					<button class="btn btn-outline-success" type="submit"><i class="fa fa-save"></i> Registrar</button>
+																				</div>
+																			</div>
+																		</form>
+																		<div class="row mt-4">
+																			<div class="col-xl-12 col-lg-12 col-md-12">
+																				<div class="card transcation-crypto1" id="transcation-crypto1">
+																					<div class="card-body">
+																						<div class="">
+																							<div class="table-responsive">
+																								<table class="table w-100 text-nowrap" id="">
+																									<thead class="border-top text-center">
+																										<tr>
+																											<th class="bg-transparent">Fecha</th>
+																											<th class="bg-transparent">f Resp</th>
+																											<th class="bg-transparent text-center">P. Sist</th>
+																											<th class="bg-transparent text-center">P. Dias</th>
+																											<th class="bg-transparent text-center">% Sat 02</th>
+																											<th class="bg-transparent text-center">FC</th>
+																											<th class="bg-transparent text-center">T. Axilar</th>
+																											<th class="bg-transparent text-center">T. Rect</th>
+																											<th class="bg-transparent text-center">T. Otra</th>
+																											<th class="bg-transparent text-center">HGT</th>
+																											<th class="bg-transparent text-center">PESO</th>
+																											<th class="bg-transparent text-center">ID</th>
+																										</tr>
+																									</thead>
+																									<input type="hidden" id="pacienteid" value="<?php echo $pacienteid; ?>">
+																									<tbody class="text-center" id="signos">
+																									</tbody>
+																								</table>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
 																			</div>
 																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
 																	</div>
 																</div>
 															</div>

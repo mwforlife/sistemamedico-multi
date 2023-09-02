@@ -2190,6 +2190,25 @@ class Controller
         return null;
     }
 
+    //Buscar tipo prevision valores
+    public function buscartipoprevisionvalores($prevision)
+    {
+        $this->conexion();
+        $sql = "select tipoprevisiones.id as id, prevision.nombre as prevision, tipoprevisiones.codigo as codigo, tipoprevisiones.nombre as nombre from tipoprevisiones, prevision where tipoprevisiones.prevision = prevision.id and tipoprevisiones.id = $prevision";
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $id = $rs['id'];
+            $prevision = $rs['prevision'];
+            $codigo = $rs['codigo'];
+            $nombre = $rs['nombre'];
+            $object = new Objects($id, $prevision, $nombre);
+            $this->desconexion();
+            return $object;
+        }
+        $this->desconexion();
+        return null;
+    }
+
     //Listar tipo calle
     public function listartipocalle()
     {
@@ -2437,7 +2456,7 @@ class Controller
     public function buscarpacienterut1($rut)
     {
         $this->conexion();
-        $sql = "select * from pacientes where rut = '$rut'";
+        $sql = "select pacientes.id as id, pacientes.tipoidentificacion as tipoidentificacion, pacientes.rut as rut, pacientes.identificacion as identificacion, nacionalidades.nombre as nacionalidad, paises.nombre as paisorigen, pacientes.email as email, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, generos.nombre as genero, estadocivil.nombre as estadocivil, pacientes.fechanacimiento as fechanacimiento, pacientes.horanacimiento as horanacimiento, pacientes.fonomovil as fonomovil, pacientes.fonofijo as fonofijo, pacientes.nombresocial as nombresocial, pacientes.funcionario as funcionario, pacientes.discapacidad as discapacidad, pacientes.reciennacido as reciennacido, pacientes.hijode as hijode, pacientes.pesodenacimiento as pesodenacimiento, pacientes.tallanacimiento as tallanacimiento, tipopartos.nombre as tipoparto, pacientes.rol as rol, pacientes.fechafallecimiento as fechafallecimiento, pacientes.horafaallecimiento as horafaallecimiento, pacientes.estado as estado, pacientes.registro as registro from pacientes inner join nacionalidades on pacientes.nacionalidad = nacionalidades.id inner join paises on pacientes.paisorigen = paises.id inner join generos on pacientes.genero = generos.id inner join estadocivil on pacientes.estadocivil = estadocivil.id inner join tipopartos on pacientes.tipoparto = tipopartos.id where pacientes.rut = '$rut'";
         $result = $this->mi->query($sql);
         if ($rs = mysqli_fetch_array($result)) {
             $pacientes = array("id" => $rs['id'], "tipoidentificacion" => $rs['tipoidentificacion'], "rut" => $rs['rut'], "identificacion" => $rs['identificacion'], "nacionalidad" => $rs['nacionalidad'], "paisorigen" => $rs['paisorigen'], "email" => $rs['email'], "nombre" => $rs['nombre'], "apellido1" => $rs['apellido1'], "apellido2" => $rs['apellido2'], "genero" => $rs['genero'], "estadocivil" => $rs['estadocivil'], "fechanacimiento" => $rs['fechanacimiento'], "horanacimiento" => $rs['horanacimiento'], "fonomovil" => $rs['fonomovil'], "fonofijo" => $rs['fonofijo'], "nombresocial" => $rs['nombresocial'], "funcionario" => $rs['funcionario'], "discapacidad" => $rs['discapacidad'], "reciennacido" => $rs['reciennacido'], "hijode" => $rs['hijode'], "pesodenacimiento" => $rs['pesodenacimiento'], "tallanacimiento" => $rs['tallanacimiento'], "tipoparto" => $rs['tipoparto'], "rol" => $rs['rol'], "fechafallecimiento" => $rs['fechafallecimiento'], "horafaallecimiento" => $rs['horafaallecimiento'], "estado" => $rs['estado'], "registro" => $rs['registro']);
@@ -4934,6 +4953,43 @@ class Controller
         return null;
     }
 
+    //Listar Consultas por paciente
+    function listarconsultaspaciente($paciente)
+    {
+        $this->conexion();
+        $sql = "select consultas.id as id, consultas.paciente as paciente, consultas.empresa as empresa, usuarios.nombre as nombre, usuarios.apellido1 as apellido1, usuarios.apellido2 as apellido2, consultas.folio as folio, consultas.diagnostico as diagnostico, consultas.diagnosticotexto as diagnosticotexto, consultas.diagnosticocie10 as diagnosticocie10, consultas.diagnosticocie10texto as diagnosticocie10texto, consultas.tipodeatencion as tipodeatencion, consultas.ecog as ecog, consultas.ecogtexto as ecogtexto, consultas.ingreso as ingreso, consultas.receta as receta, consultas.reingreso as reingreso, consultas.anamesis as anamesis, consultas.estudiocomplementarios as estudiocomplementarios, consultas.plantratamiento as plantratamiento, consultas.modalidad as modalidad, consultas.registro as registro, atenciones.estado as estado from consultas, usuarios, atenciones where consultas.paciente = $paciente and consultas.usuario = usuarios.id and consultas.atencion = atenciones.id order by consultas.id desc;";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+
+            $id = $rs["id"];
+            $paciente = $rs["paciente"];
+            $usuario = $rs["nombre"] . " " . $rs["apellido1"] . " " . $rs["apellido2"];
+            $empresa = $rs["empresa"];
+            $atencion = $rs["estado"];
+            $folio = $rs["folio"];
+            $diagnostico = $rs["diagnostico"];
+            $diagnosticotexto = $rs["diagnosticotexto"];
+            $diagnosticocie10 = $rs["diagnosticocie10"];
+            $diagnosticocie10texto = $rs["diagnosticocie10texto"];
+            $tipodeatencion = $rs["tipodeatencion"];
+            $ecog = $rs["ecog"];
+            $ecogtexto = $rs["ecogtexto"];
+            $ingreso = $rs["ingreso"];
+            $receta = $rs["receta"];
+            $reingreso = $rs["reingreso"];
+            $anamesis = $rs["anamesis"];
+            $estudiocomplementarios = $rs["estudiocomplementarios"];
+            $plantratamiento = $rs["plantratamiento"];
+            $tipoatencion = $rs["modalidad"];
+            $registro = $rs["registro"];
+            $consulta = new Consulta($id, $paciente, $usuario, $empresa, $atencion, $folio, $diagnostico, $diagnosticotexto, $diagnosticocie10, $diagnosticocie10texto, $tipodeatencion, $ecog, $ecogtexto, $ingreso, $receta, $reingreso, $anamesis, $estudiocomplementarios, $plantratamiento, $tipoatencion, $registro);
+            $lista[] = $consulta;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
     //Buscar Ultimo folio
     function buscarultimofolio($empresa)
     {
@@ -5104,6 +5160,60 @@ class Controller
     function recetalist($paciente){
         $this->conexion();
         $sql = "select recetas.id as id, recetas.paciente as paciente, usuarios.nombre, usuarios.apellido1, usuarios.apellido2, consultas.tipodeatencion, recetas.empresa as empresa, recetas.consulta as consulta, recetas.fecha as fecha, recetas.folio as folio, recetas.estadio as estadio, recetas.nivel as nivel, recetas.ges as ges, recetas.peso as peso, recetas.talla as talla, recetas.scorporal as scorporal, recetas.creatinina as creatinina, recetas.auc as auc, recetas.fechaadministracion as fechaadministracion, recetas.pendiente as pendiente, recetas.nciclo as nciclo, recetas.anticipada as anticipada, recetas.curativo as curativo, recetas.paliativo as paliativo, recetas.adyuvante as adyuvante, recetas.concomitante as concomitante, recetas.noeadyuvante as noeadyuvante, recetas.primeringreso as primeringreso, recetas.traemedicamentos as traemedicamentos, recetas.diabetes as diabetes, recetas.hipertension as hipertension, recetas.alergias as alergias, recetas.detallealergias as detallealergias, recetas.urgente as urgente, recetas.esquema as esquema, recetas.anamesis as anamesis, recetas.observacion as observacion,recetas.estado as estado, recetas.registro as registro from recetas, usuarios, consultas where recetas.paciente = $paciente and recetas.usuario = usuarios.id and recetas.consulta = consultas.id order by recetas.folio desc";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs['id'];
+            $paciente = $rs['paciente'];
+            $medico = $rs['nombre'] . " " . $rs['apellido1'] . " " . $rs['apellido2'];
+            $tipodeatencion = $rs['tipodeatencion'];
+            $empresa = $rs['empresa'];
+            $consulta = $rs['consulta'];
+            $fecha = $rs['fecha'];
+            $folio = $rs['folio'];
+            $estadio = $rs['estadio'];
+            $nivel = $rs['nivel'];
+            $ges = $rs['ges'];
+            $peso = $rs['peso'];
+            $talla = $rs['talla'];
+            $scorporal = $rs['scorporal'];
+            $creatinina = $rs['creatinina'];
+            $auc = $rs['auc'];
+            $fechaadministracion = $rs['fechaadministracion'];
+            $pendiente = $rs['pendiente'];
+            $nciclo = $rs['nciclo'];
+            $anticipada = $rs['anticipada'];
+            $curativo = $rs['curativo'];
+            $paliativo = $rs['paliativo'];
+            $adyuvante = $rs['adyuvante'];
+            $concomitante = $rs['concomitante'];
+            $neoadyuvante = $rs['noeadyuvante'];
+            $primeringreso = $rs['primeringreso'];
+            $traemedicamentos = $rs['traemedicamentos'];
+            $diabetes = $rs['diabetes'];
+            $hipertension = $rs['hipertension'];
+            $alergias = $rs['alergias'];
+            $detallealergias = $rs['detallealergias'];
+            $urgente = $rs['urgente'];
+            $esquema = $rs['esquema'];
+            $anamesis = $rs['anamesis'];
+            $observacion = $rs['observacion'];
+            $estado = $rs['estado'];
+            $registro = $rs['registro'];
+            
+            $receta = array("id" => $id, "paciente" => $paciente, "usuario" => $medico, "empresa" => $empresa, "consulta" => $tipodeatencion, "fecha" => $fecha, "folio" => $folio, "estadio" => $estadio, "nivel" => $nivel, "ges" => $ges, "peso" => $peso, "talla" => $talla, "scorporal" => $scorporal, "creatinina" => $creatinina, "auc" => $auc, "fechaadministracion" => $fechaadministracion, "pendiente" => $pendiente, "nciclo" => $nciclo, "anticipada" => $anticipada, "curativo" => $curativo, "paliativo" => $paliativo, "adyuvante" => $adyuvante, "concomitante" => $concomitante, "neoadyuvante" => $neoadyuvante, "primeringreso" => $primeringreso, "traemedicamentos" => $traemedicamentos, "diabetes" => $diabetes, "hipertension" => $hipertension, "alergias" => $alergias, "detallealergias" => $detallealergias, "urgente" => $urgente, "esquema" => $esquema, "anamesis" => $anamesis, "observacion" => $observacion, "estado" => $estado, "registro" => $registro);
+            $receta = new Receta($receta);
+            $lista[] = $receta;
+        }
+        $this->desconexion();
+        return $lista;
+
+    }
+
+    //Listar Recetas por pacientes
+    function recetalistmedico($usuario, $empresa){
+        $this->conexion();
+        $sql = "select recetas.id as id, recetas.paciente as paciente, usuarios.nombre, usuarios.apellido1, usuarios.apellido2, consultas.tipodeatencion, recetas.empresa as empresa, recetas.consulta as consulta, recetas.fecha as fecha, recetas.folio as folio, recetas.estadio as estadio, recetas.nivel as nivel, recetas.ges as ges, recetas.peso as peso, recetas.talla as talla, recetas.scorporal as scorporal, recetas.creatinina as creatinina, recetas.auc as auc, recetas.fechaadministracion as fechaadministracion, recetas.pendiente as pendiente, recetas.nciclo as nciclo, recetas.anticipada as anticipada, recetas.curativo as curativo, recetas.paliativo as paliativo, recetas.adyuvante as adyuvante, recetas.concomitante as concomitante, recetas.noeadyuvante as noeadyuvante, recetas.primeringreso as primeringreso, recetas.traemedicamentos as traemedicamentos, recetas.diabetes as diabetes, recetas.hipertension as hipertension, recetas.alergias as alergias, recetas.detallealergias as detallealergias, recetas.urgente as urgente, recetas.esquema as esquema, recetas.anamesis as anamesis, recetas.observacion as observacion,recetas.estado as estado, recetas.registro as registro from recetas, usuarios, consultas where recetas.usuario = $usuario and recetas.empresa = $empresa and recetas.usuario = usuarios.id and recetas.consulta = consultas.id order by recetas.folio desc";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {

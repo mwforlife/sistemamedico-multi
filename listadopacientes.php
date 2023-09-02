@@ -24,6 +24,7 @@ if (!isset($_SESSION['USER_ID'])) {
 }
 $id = $_SESSION['USER_ID'];
 $object = $c->buscarenUsuario($id,$empresa->getId());
+$object1 = $c->buscarenUsuario1($id);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -203,13 +204,13 @@ $object = $c->buscarenUsuario($id,$empresa->getId());
 						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="pacientesmedico.html">Ficha Pacientes</a>
+								<a class="nav-sub-link" href="pacientesmedico.php">Ficha Pacientes</a>
 							</li>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="consultas.php">Consultas</a>
 							</li>
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="recetas.html">Recetas Emitidas</a>
+								<a class="nav-sub-link" href="recetasemitidas.php">Recetas Emitidas</a>
 							</li>
 						</ul>
 					</li>
@@ -291,7 +292,7 @@ $object = $c->buscarenUsuario($id,$empresa->getId());
 						<div class="dropdown-menu">
 							<div class="header-navheading">
 								<h6 class="main-notification-title">
-									<?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
+									<?php echo $object1->getNombre() . " " . $object1->getApellido1() . " " . $object1->getApellido2(); ?></h6>
 							</div>
 							<a class="dropdown-item" href="close.php">
 								<i class="fe fe-power"></i> Cerrar Sesíon
@@ -328,7 +329,7 @@ $object = $c->buscarenUsuario($id,$empresa->getId());
 							</a>
 							<div class="dropdown-menu">
 								<div class="header-navheading">
-									<h6 class="main-notification-title"><?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
+									<h6 class="main-notification-title"><?php echo $object1->getNombre() . " " . $object1->getApellido1() . " " . $object1->getApellido2(); ?></h6>
 								</div>
 								
 								<a class="dropdown-item" href="close.php">

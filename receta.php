@@ -344,13 +344,13 @@ $object = $c->buscarenUsuario1($id);
 								class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="pacientesmedico.html">Ficha Pacientes</a>
+								<a class="nav-sub-link" href="pacientesmedico.php">Ficha Pacientes</a>
 							</li>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="consultas.php">Consultas</a>
 							</li>
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="recetas.html">Recetas Emitidas</a>
+								<a class="nav-sub-link" href="recetasemitidas.php">Recetas Emitidas</a>
 							</li>
 						</ul>
 					</li>
@@ -659,6 +659,7 @@ $object = $c->buscarenUsuario1($id);
 													</div>
 													<div class="row mt-2">
 														<div class="col-md-2">
+															<h6>Intención a Tratar</h6>
 															<input type="checkbox" name="curativo" id="curativo"
 																value="1"><span> Curativo</span><br />
 															<input type="checkbox" name="paliativo" id="paliativo"
@@ -671,11 +672,7 @@ $object = $c->buscarenUsuario1($id);
 																value="1"><span> Neoadyuvante</span>
 														</div>
 														<div class="col-md-2">
-															<input type="checkbox" name="primera" id="primera"
-																value="1"><span> Primer Ingreso</span><br />
-															<input type="checkbox" name="traemedicamementos"
-																id="traemedicamementos" value="1"><span> Trae
-																Medicamentos</span><br />
+															<h6>Cormobilidades</h6>
 															<input type="checkbox" name="diabetes" id="diabetes"
 																value="1"><span> Diabetes</span><br />
 															<input type="checkbox" name="hipertension" id="hipertension"
@@ -683,9 +680,11 @@ $object = $c->buscarenUsuario1($id);
 															<input type="checkbox" onchange="detailsrecet(this)"
 																name="alergia" id="alergia" value="1"><span>
 																Alergia</span><br />
-
+															<input type="checkbox" onchange="detailscor(this)"
+																name="otrocor" id="otrocor" value="1"><span>
+																Otro</span><br />
 														</div>
-														<div class="col-md-4 ">
+														<div class="col-md-4">
 															<div class="resetdetails d-none">
 																<label for="">Alergia Detalle</label>
 																<textarea name="alergiadetalle" id="alergiadetalle"
@@ -693,8 +692,23 @@ $object = $c->buscarenUsuario1($id);
 																	placeholder="Alergia Detalle"></textarea>
 
 															</div>
+															<div class="cordetails d-none">
+																<label for="">Otra Cormobilidad</label>
+																<textarea name="otrcormo" id="otrcormo"
+																	class="form-control"
+																	placeholder="Especifique"></textarea>
+
+															</div>
 														</div>
-														<div class="col-md-4">
+														<div class="col-md-2">
+														<h6>Documento</h6>
+														<input type="checkbox" name="primera" id="primera"
+																value="1"><span> Primer Ingreso</span><br />
+															<input type="checkbox" name="traemedicamementos"
+																id="traemedicamementos" value="1"><span> Trae
+																Medicamentos</span><br />
+														</div>
+														<div class="col-md-2">
 															<div class="row justify-content-end">
 																<div class="col-md-6">
 																	<label for="">Receta Urgente</label>

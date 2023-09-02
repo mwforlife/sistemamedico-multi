@@ -2404,6 +2404,76 @@ $(document).ready(function () {
     });
 });
 
+function searchpaciente(element) {
+    var run = element.value;
+    console.log("Llego");
+    //VAlidar run
+    if (run.length > 9) {
+        if (validarRut(run)) {
+            $.ajax({
+                url: "php/charge/paciente1.php",
+                type: "POST",
+                data: { action: 'buscarpacienterun', run: run },
+                success: function (data) {
+                    var datos = JSON.parse(data);
+                    if (datos.error == false) {
+                        $(element).attr("disabled", true);
+                        $("#fichasearch").val(datos.paciente.ficha);
+                        $("#ubicacionsearch").val(datos.paciente.ubicacion);
+                        $("#documentsearch").val(datos.paciente.identificacion);
+                        $("#nacionalidadsearch").val(datos.paciente.nacionalidad);
+                        $("#nombresearch").val(datos.paciente.nombre);
+                        $("#apellidosearch").val(datos.paciente.apellido1);
+                        $("#apellido1search").val(datos.paciente.apellido2);
+                        $("#nombresocialsearch").val(datos.paciente.social);
+                        $("#edadsearch").val(datos.paciente.edad);
+                        $("#sexosearch").val(datos.paciente.genero);
+                        $("#previsionsearch").val(datos.paciente.prevision);
+                        $("#estadoafiliacionsearch").val(datos.paciente.estadoafiliacion);
+                        $("#direccionsearch").val(datos.paciente.direccion);
+                        $("#fonosearch").val(datos.paciente.fonomovil);
+                        $("#correosearch").val(datos.paciente.email);
+                        $("#inscritosearch").val(datos.paciente.inscrito);
+                        $("#btncargar").attr("href", "pacientes.php?code=" + datos.paciente.id);
+                        $(".datospaciente").removeClass("d-none");
+                        $(".datospaciente input").attr("readonly", true);
+                        $(".datospaciente input").css("background-color", "#fff");
+                        $(".datospaciente input").css("color", "#000");
+                    } else {
+
+                    }
+                },
+            });
+        } else {
+            console.log("El rut no es valido");
+        }
+    }
+}
+
+function searchother(){
+    $(".datospaciente").addClass("d-none");
+    $("#rutsearch").attr("disabled", false);
+    $("#rutsearch").focus();
+    $("#rutsearch").val("");
+    $("#rutsearch").val("");
+    $("#fichasearch").val("");
+    $("#ubicacionsearch").val("");
+    $("#documentsearch").val("");
+    $("#nacionalidadsearch").val("");
+    $("#nombresearch").val("");
+    $("#apellidosearch").val("");
+    $("#apellido1search").val("");
+    $("#nombresocialsearch").val("");
+    $("#edadsearch").val("");
+    $("#sexosearch").val("");
+    $("#previsionsearch").val("");
+    $("#estadoafiliacionsearch").val("");
+    $("#direccionsearch").val("");
+    $("#fonosearch").val("");
+    $("#correosearch").val("");
+    $("#inscritosearch").val("");
+    $("#btncargar").attr("href", "#");
+}
 
 //*************************************************************************************************************** */
 //Comité
@@ -3136,6 +3206,13 @@ function detailsrecet(element){
         $(".resetdetails").addClass("d-none");
     }
 }
+function detailscor(element){
+    if(element.checked){
+        $(".cordetails").removeClass("d-none");
+    }else{
+        $(".cordetails").addClass("d-none");
+    }
+}
 
 function generarreceta(paciente, medico, empresa, consulta){
     var previo = $("#previo").val();
@@ -3199,6 +3276,11 @@ function generarreceta(paciente, medico, empresa, consulta){
     var alergiadetalle = $("#alergiadetalle").val();
     var urgente = $("#urgente").val();
     var esquema = $("#esquema").val();
+
+    var otrcormo = "";
+    if($("#otrocor").is(':checked')){
+        otrcormo = $("#otrcormo").val();
+    }
 
     //Captura de medicamentos seleccionados
     const medicamentoscheck = [];
@@ -3455,7 +3537,7 @@ function generarreceta(paciente, medico, empresa, consulta){
     $.ajax({
         type: "POST",
         url: "php/insert/receta.php",
-        data: { paciente: paciente, medico: medico, empresa: empresa, consulta: consulta, estadio: estadio, nivel: nivel, ges: ges, peso: peso, talla: talla, scorporal: scorporal, creatinina: creatinina, auc: auc, fechaadmin: fechaadmin, examen: examen, ciclo: ciclo, anticipada: anticipada, curativo: curativo, paliativo: paliativo, adyuvante: adyuvante, concomitante: concomitante, neoadyuvante: neoadyuvante, primera: primera, traemedicamentos: traemedicamentos, diabetes: diabetes, hipertension: hipertension, alergia: alergia, alergiadetalle: alergiadetalle, urgente: urgente, esquema: esquema, medicamentoscheck: medicamentoscheck, premedicaciones: premedicaciones, estimulador: estimulador, cantidades: cantidades, rango: rango, anamnesis: anamnesis, observaciones: observaciones },
+        data: { paciente: paciente, medico: medico, empresa: empresa, consulta: consulta, estadio: estadio, nivel: nivel, ges: ges, peso: peso, talla: talla, scorporal: scorporal, creatinina: creatinina, auc: auc, fechaadmin: fechaadmin, examen: examen, ciclo: ciclo, anticipada: anticipada, curativo: curativo, paliativo: paliativo, adyuvante: adyuvante, concomitante: concomitante, neoadyuvante: neoadyuvante, primera: primera, traemedicamentos: traemedicamentos, diabetes: diabetes, hipertension: hipertension, alergia: alergia, alergiadetalle: alergiadetalle,otrcormo:otrcormo, urgente: urgente, esquema: esquema, medicamentoscheck: medicamentoscheck, premedicaciones: premedicaciones, estimulador: estimulador, cantidades: cantidades, rango: rango, anamnesis: anamnesis, observaciones: observaciones },
         success: function (respuesta) {
             try{
                 var receta = JSON.parse(respuesta);

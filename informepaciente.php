@@ -173,6 +173,7 @@ $object = $c->buscarenUsuario1($id);
 
 	<!-- Bootstrap css-->
 	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="assets/plugins/bootstrap/css/bootstrap.min.css.map" rel="stylesheet" />
 
 	<!-- Icons css-->
 	<link href="assets/css/icons.css" rel="stylesheet" />
@@ -335,13 +336,13 @@ $object = $c->buscarenUsuario1($id);
 						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="pacientesmedico.html">Ficha Pacientes</a>
+								<a class="nav-sub-link" href="pacientesmedico.php">Ficha Pacientes</a>
 							</li>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="consultas.php">Consultas</a>
 							</li>
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="recetas.html">Recetas Emitidas</a>
+								<a class="nav-sub-link" href="recetasemitidas.php">Recetas Emitidas</a>
 							</li>
 						</ul>
 					</li>
@@ -598,8 +599,8 @@ $object = $c->buscarenUsuario1($id);
 																<div class="col-md-4">
 																	<label for="">Diagnostico CIEO TOPOGRÁFICO</label>
 																	<button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modaldiagcieotop"><i class="fa fa-search"></i></button>
-																	<input type="text" class="form-control" id="diagnosticocieotop" value="<?php echo $diagcie10text;?>">
-																	<input type="hidden" class="form-control" id="idcieotop" value="<?php echo $diagcie10;?>">
+																	<input type="text" class="form-control" id="diagnosticocieotop" >
+																	<input type="hidden" class="form-control" id="idcieotop" >
 																</div>
 																<div class="col-md-4">
 																	<label for="">Diagnostico CIEO MORFOLOGICO</label>
@@ -610,8 +611,8 @@ $object = $c->buscarenUsuario1($id);
 																<div class="col-md-4">
 																	<label for="">Diagnostico CIE10</label>
 																	<button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modaldiagcie10"><i class="fa fa-search"></i></button>
-																	<input type="text" class="form-control" id="diagnosticocie10">
-																	<input type="hidden" class="form-control" id="idcie10">
+																	<input type="text" class="form-control" id="diagnosticocie10" value="<?php echo $diagcie10text;?>">
+																	<input type="hidden" class="form-control" id="idcie10" value="<?php echo $diagcie10;?>">
 																</div>
 																<div class="col-md-4">
 																	<label for="">Fecha de Biopsia</label>
@@ -1214,7 +1215,7 @@ $object = $c->buscarenUsuario1($id);
 														<thead class="border-top text-center">
 															<tr>
 																<th class="bg-transparent">Codigo</th>
-																<th class="bg-transparent">Descripcion</th>
+																<th class="bg-transparent text-wrap">Descripcion</th>
 																<th class="bg-transparent text-center">Agregar</th>
 															</tr>
 														</thead>
@@ -1224,7 +1225,7 @@ $object = $c->buscarenUsuario1($id);
 															foreach ($lista as $object) {
 																echo "<tr>";
 																echo "<td>" . $object->getCodigo() . "</td>";
-																echo "<td>" . $object->getNombre() . "</td>";
+																echo "<td class='text-wrap'>" . $object->getNombre() . "</td>";
 																echo "<td class='text-center'>";
 																echo "<a href='javascript:void(0)' class='btn btn-outline-primary btn-sm' onclick='agregarDiagnosticos(" . $object->getId() . ",\"" . $object->getNombre() . "\")'><i class='fa fa-plus'></i></a>";
 																echo "</td>";
@@ -1266,12 +1267,12 @@ $object = $c->buscarenUsuario1($id);
 										<div class="row">
 											<div class="col-md-12">
 
-												<div class="table-responsive">
+												<div class="table-">
 													<table class="table text-wrap w-100 " id="tablecieo1">
 														<thead class="border-top text-center">
 															<tr>
 																<th class="bg-transparent">Codigo</th>
-																<th class="bg-transparent">Descripcion Completo</th>
+																<th class="bg-transparent text-wrap">Descripcion Completo</th>
 																<th class="bg-transparent text-center">Agregar</th>
 															</tr>
 														</thead>
@@ -1281,7 +1282,7 @@ $object = $c->buscarenUsuario1($id);
 															foreach ($lista as $object) {
 																echo "<tr>";
 																echo "<td>" . $object->getCodigo() . "</td>";
-																echo "<td>" . $object->getDescripcionCompleto() . "</td>";
+																echo "<td class='text-wrap'>" . $object->getDescripcionCompleto() . "</td>";
 																echo "<td class='text-center'>";
 																echo "<a href='javascript:void(0)' class='btn btn-outline-primary btn-sm' onclick='agregarDiagnosticoCIEOmorfologicos(" . $object->getId() . ",\"" . $object->getDescripcionCompleto() . "\")'><i class='fa fa-plus'></i></a>";
 																echo "</td>";
@@ -1328,7 +1329,7 @@ $object = $c->buscarenUsuario1($id);
 														<thead class="border-top text-center">
 															<tr>
 																<th class="bg-transparent">Codigo</th>
-																<th class="bg-transparent">Descripcion Completo</th>
+																<th class="bg-transparent text-wrap">Descripcion Completo</th>
 																<th class="bg-transparent text-center">Agregar</th>
 															</tr>
 														</thead>
@@ -1338,7 +1339,7 @@ $object = $c->buscarenUsuario1($id);
 															foreach ($lista as $object) {
 																echo "<tr>";
 																echo "<td>" . $object->getCodigo() . "</td>";
-																echo "<td>" . $object->getDescripcionCompleto() . "</td>";
+																echo "<td class='text-wrap'>" . $object->getDescripcionCompleto() . "</td>";
 																echo "<td class='text-center'>";
 																echo "<a href='javascript:void(0)' class='btn btn-outline-primary btn-sm' onclick='agregarDiagnosticoCIEOtopograficos(" . $object->getId() . ",\"" . $object->getDescripcionCompleto() . "\")'><i class='fa fa-plus'></i></a>";
 																echo "</td>";
@@ -1385,7 +1386,7 @@ $object = $c->buscarenUsuario1($id);
 														<thead class="border-top text-center">
 															<tr>
 																<th class="bg-transparent">Codigo</th>
-																<th class="bg-transparent">Descripcion Completo</th>
+																<th class="bg-transparent text-wrap">Descripcion Completo</th>
 																<th class="bg-transparent text-center">Agregar</th>
 															</tr>
 														</thead>
@@ -1395,7 +1396,7 @@ $object = $c->buscarenUsuario1($id);
 															foreach ($lista as $object) {
 																echo "<tr>";
 																echo "<td>" . $object->getCodigo() . "</td>";
-																echo "<td>" . $object->getDescripcion() . "</td>";
+																echo "<td class='text-wrap'>" . $object->getDescripcion() . "</td>";
 																echo "<td class='text-center'>";
 																echo "<a href='javascript:void(0)' class='btn btn-outline-primary btn-sm' onclick='agregarDiagnosticoCIE10(" . $object->getId() . ",\"" . $object->getDescripcion() . "\")'><i class='fa fa-plus'></i></a>";
 																echo "</td>";
@@ -1526,7 +1527,13 @@ $object = $c->buscarenUsuario1($id);
 			"ordering": true,
 			"info": true,
 			"autoWidth": true,
-			"responsive": true
+			"responsive": true,
+			//Ajustar el texto al tamaño del contenedor
+			"columnDefs": [{
+				"className": "dt-center",
+				"targets": "_all"
+			}]
+
 		});
 
 		$('#tablecieo2').DataTable({

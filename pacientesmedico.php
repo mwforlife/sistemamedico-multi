@@ -4,24 +4,45 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require 'php/controller.php';
 $c = new Controller();
+
 session_start();
+
+// Obtener la URL de la página anterior (si está disponible)
+$previous_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 $empresa = null;
-if(isset($_SESSION['CURRENT_ENTERPRISE'])){
+if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
 	$empresa = $c->buscarEmpresa($enterprise);
-}else{
-    header("Location: index.php");
+} else {
+	header("Location: index.php");
 }
 if (!isset($_SESSION['USER_ID'])) {
 	header("Location: signin.php");
 } else {
-	$valid  = $c->validarsesion($_SESSION['USER_ID'], $_SESSION['USER_TOKEN']);
+	$valid = $c->validarsesion($_SESSION['USER_ID'], $_SESSION['USER_TOKEN']);
 	if ($valid == false) {
 		header("Location: lockscreen.php");
 	}
 }
 $id = $_SESSION['USER_ID'];
-$object = $c->buscarenUsuario1($id);
+$object = $c->buscarenUsuario($id, $empresa->getId());
+
+$pacienteid = 0;
+$paciente = null;
+$inscripcion = null;
+$ubicacion = null;
+$otros = null;
+$responsable = null;
+if (isset($_GET['code'])) {
+	$pacienteid = $_GET['code'];
+	$pacienteid = $c->escapeString($pacienteid);
+
+	$paciente = $c->buscarpaciente($pacienteid);
+	$inscripcion = $c->listarinscripcionprevision($pacienteid);
+	$ubicacion = $c->listardatosubicacion($pacienteid);
+	$otros = $c->listarotrosantecedentes($pacienteid);
+	$responsable = $c->listarresponsable($pacienteid);
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -38,7 +59,7 @@ $object = $c->buscarenUsuario1($id);
 	<link rel="icon" href="assets/img/brand/favicon.ico" type="image/x-icon" />
 
 	<!-- Title -->
-	<title>OncoWay | Diagnosticos CIEO</title>
+	<title>OncoWay | Paciente</title>
 
 	<!-- Bootstrap css-->
 	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -104,77 +125,77 @@ $object = $c->buscarenUsuario1($id);
 			<div class="main-sidebar-body">
 				<ul class="nav">
 					<li class="nav-header"><span class="nav-label">Dashboard</span></li>
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="diagnosticos1.php">Diagnosticos CIE10</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="ecog.php">Ecog</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="histologico.php">Histologico</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="invasiontumoral.php">Invasión Tumoral</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="tnmprimario.php">TNM-Primario clinico</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="tnmregionales.php">TNM-Regionales clinico</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="tnmdistancia.php">TNM-Distancia clinico</a>
-									</li>
-								</ul>
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="regiones.php">Regiones</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="comunas.php">Comunas</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="nacionalidad.php">Nacionalidades</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="generos.php">Generos</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="especialidad.php">Especialidad</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
-									</li>
-								</ul>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="diagnosticos1.php">Diagnosticos CIE10</a>
 							</li>
-							<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
-							<li class="nav-item">
-								<a class="nav-link" href="tipodocumento.html"><i class="fe fe-grid sidemenu-icon"></i><span class="sidemenu-label">Redactar documentos</span></a>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="ecog.php">Ecog</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="empresas.html">Registro de Empresas</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="centrocosto.html">Registro de Centro de Costo</a>
-									</li>
-								</ul>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="histologico.php">Histologico</a>
 							</li>
-							<li class="nav-item">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="invasiontumoral.php">Invasión Tumoral</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="tnmprimario.php">TNM-Primario clinico</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="tnmregionales.php">TNM-Regionales clinico</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="tnmdistancia.php">TNM-Distancia clinico</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="regiones.php">Regiones</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="comunas.php">Comunas</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="nacionalidad.php">Nacionalidades</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="generos.php">Generos</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="especialidad.php">Especialidad</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
+					<li class="nav-item">
+						<a class="nav-link" href="tipodocumento.html"><i class="fe fe-grid sidemenu-icon"></i><span class="sidemenu-label">Redactar documentos</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="empresas.html">Registro de Empresas</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="centrocosto.html">Registro de Centro de Costo</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
@@ -225,21 +246,21 @@ $object = $c->buscarenUsuario1($id);
 							</li>
 						</ul>
 					</li>
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="usuarios.php">Registrar Usuarios</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="activacion.php">Activación de Usuarios</a>
-									</li>
-
-								</ul>
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
 							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="usuarios.php">Registrar Usuarios</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="activacion.php">Activación de Usuarios</a>
+							</li>
+
+						</ul>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -260,9 +281,9 @@ $object = $c->buscarenUsuario1($id);
 						<div class="mt-0">
 							<form class="form-inline">
 								<div class="search-element">
-									<input type="search" class="form-control header-search text-dark" readonly value="<?php echo $empresa->getRazonSocial();?>" aria-label="Search" tabindex="1">
+									<input type="search" class="form-control header-search" placeholder="Search…" aria-label="Search" tabindex="1">
 									<button class="btn" type="submit">
-										<i class="fa fa-"></i>
+										<i class="fa fa-search"></i>
 									</button>
 								</div>
 							</form>
@@ -328,7 +349,7 @@ $object = $c->buscarenUsuario1($id);
 								<div class="header-navheading">
 									<h6 class="main-notification-title"><?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
 								</div>
-								
+
 								<a class="dropdown-item" href="close.php">
 									<i class="fe fe-power"></i> Cerrar Sesión
 								</a>
@@ -350,109 +371,139 @@ $object = $c->buscarenUsuario1($id);
 					<!-- Page Header -->
 					<div class="page-header">
 						<div class="page-header-1">
-							<h1 class="main-content-title tx-30">Registro de Diagnosticos CIEO</h1>
+							<h1 class="main-content-title tx-30">Ficha Pacientes</h1>
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
 							</ol>
 						</div>
 					</div>
 					<!-- End Page Header -->
-					<div class="row">
+
+					<div class="row  <?php if ($paciente != null) {
+										echo 'd-none';
+									} ?>">
 						<div class="col-lg-12">
 							<div class="card orverflow-hidden">
 								<div class="card-body">
-									<div>
-										<h6 class="main-content-label mb-1">Registro de Diagnosticos CIEO</h6>
-										<p class="text-mutted card-sub-title"></p>
-									</div>
 									<form id="diagcieoform" name="diagcieoform" class="needs-validation was-validated">
 										<div class="row">
-											<div class="col-lg-6">
+											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
-													<label>Codigo</label>
-													<input class="form-control" id="Codigo" name="Codigo" placeholder="Codigo" required="" type="text" value="">
+													<label>RUT:</label>
+													<input class="form-control" id="rutsearch" onkeyup="formatRut(this), searchpaciente(this)" name="rutsearch" placeholder="11.111.111-1" type="text" maxlength="12">
 												</div>
 											</div>
-											<div class="col-lg-6">
+										</div>
+										<div class="row  datospaciente d-none">
+											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
-													<label>Descripcion Completo</label>
-													<input class="form-control" id="Nombre" name="Nombre" placeholder="Descripcion Completo" required="" type="text" value="">
+													<label>Numero Ficha:</label>
+													<input class="form-control" id="fichasearch" name="fichasearch" placeholder="N° Ficha" required="" type="number" value="">
 												</div>
 											</div>
-											<div class="col-lg-6">
+											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
-													<label>Descripcion Abreviado</label>
-													<input class="form-control" id="Nombre1" name="Nombre1" placeholder="Descripcion Abreviado" required="" type="text" value="">
+													<label>Ubicacion:</label>
+													<input class="form-control" id="ubicacionsearch" name="ubicacionsearch" placeholder="Ubicacion" required="" type="text" value="">
 												</div>
 											</div>
-											<div class="col-lg-6">
+											<div class="col-lg-3">
 												<div class="form-group has-success mg-b-0">
-													<label>Tipo de Diagnostico</label>
-													<select class="form-control select2" id="tipo" name="tipo" required="">
-														<option value="1">Diagnostico Morfológico</option>
-														<option value="2">Diagnostico Topográfico</option>
-													</select>
+													<label>Pasaporte/DNI/NIE:</label>
+													<input class="form-control" id="documentsearch" name="documentsearch" placeholder="Pasaporte" required="" type="text" value="">
 												</div>
 											</div>
-											<div class="col-md-12 mt-3 text-right">
-												<button type="reset" href="#" class="btn btn-warning btn-md"> <i class="fa fa-refresh"></i> Restablecer</button>
-												<button type="submit" href="#" class="btn btn-primary btn-md"> <i class="fa fa-save"></i> Registrar</button>
+											<div class="col-lg-3">
+												<div class="form-group has-success mg-b-0">
+													<label>Nacionalidad:</label>
+													<input class="form-control" id="nacionalidadsearch" name="nacionalidadsearch" placeholder="Nacionalidad" required="" type="text" value="">
+												</div>
 											</div>
+											<div class="col-lg-3">
+												<div class="form-group has-success mg-b-0">
+													<label>Nombre:</label>
+													<input class="form-control" id="nombresearch" name="nombresearch" placeholder="Nombre" required="" type="text" value="">
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="form-group has-success mg-b-0">
+													<label>Apellido Paterno:</label>
+													<input class="form-control" id="apellidosearch" name="apellidosearch" placeholder="Primer Apellido" required="" type="text" value="">
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="form-group has-success mg-b-0">
+													<label>Apellido Materno:</label>
+													<input class="form-control" id="apellido1search" name="apellido1search" placeholder="Segundo Apellido" required="" type="text" value="">
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="form-group has-success mg-b-0">
+													<label>Nombre Social:</label>
+													<input class="form-control" id="nombresocialsearch" name="nombresocialsearch" placeholder="Nombre Social" required="" type="text" value="">
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="form-group has-success mg-b-0">
+													<label>Edad:</label>
+													<input class="form-control" id="edadsearch" name="edadsearch" placeholder="Edad" required="" type="text" value="">
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="form-group has-success mg-b-0">
+													<label>Sexo:</label>
+													<input class="form-control" id="sexosearch" name="sexosearch" placeholder="Sexo" required="" type="text" value="">
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="form-group has-success mg-b-0">
+													<label>Prevision:</label>
+													<input class="form-control" id="previsionsearch" name="previsionsearch" placeholder="Prevision" required="" type="text" value="">
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="form-group has-success mg-b-0">
+													<label>Estado Afiliacion:</label>
+													<input class="form-control" id="estadoafiliacionsearch" name="estadoafiliacionsearch" placeholder="Estado Afiliacion" required="" type="text" value="">
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="form-group has-success mg-b-0">
+													<label>Dirección:</label>
+													<input class="form-control" id="direccionsearch" name="direccionsearch" placeholder="Direccion" required="" type="text" value="">
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="form-group has-success mg-b-0">
+													<label>Fonos Contacto:</label>
+													<input class="form-control" id="fonosearch" name="fonosearch" placeholder="Fono Contacto" required="" type="text" value="">
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="form-group has-success mg-b-0">
+													<label>Correo Electronico:</label>
+													<input class="form-control" id="correosearch" name="correosearch" placeholder="Correo Electronico" required="" type="text" value="">
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="form-group has-success mg-b-0">
+													<label>Inscrito:</label>
+													<input class="form-control" id="inscritosearch" name="inscritosearch" placeholder="Inscrito" required="" type="text" value="">
+												</div>
+											</div>
+											<div class="col-md-12 text-right mt-3">
+												<hr>
+											<button class="btn btn-outline-success" onclick="searchother()" type="button"><i class="fa fa-search"></i> Buscar Otro</button>
+											<a href="pacientes.php?code=" class="btn btn-outline-success" id="btncargar"><i class="fa fa-user"></i> Cargar Ficha</a>
+
+											</div>
+
 										</div>
 									</form>
 								</div>
 							</div>
 						</div>
 					</div>
-					<!-- ROW-4 opened -->
-					<div class="row">
-						<div class="col-xl-12 col-lg-12 col-md-12">
-							<div class="card transcation-crypto1" id="transcation-crypto1">
-								<div class="card-header bd-b-0">
-									<h4 class="card-title font-weight-semibold mb-0">Listado de Diagnosticos CIEO</h4>
-								</div>
-								<div class="card-body">
-									<div class="">
-										<div class="table-responsive">
-											<table class="table w-100 text-nowrap" id="example1">
-												<thead class="border-top text-center">
-													<tr>
-														<th class="bg-transparent">Codigo</th>
-														<th class="bg-transparent">Descripcion Completo</th>
-														<th class="bg-transparent">Descripcion Abreviado</th>
-														<th class="bg-transparent">Tipo Diagnostico</th>
-														<th class="bg-transparent text-center">Accion</th>
-													</tr>
-												</thead>
-												<tbody class="text-center">
-													<?php
-													 $lista = $c->listarDiagnosticosCIEO();
-													 foreach ($lista as $object) {
-														echo "<tr>";
-														echo "<td>".$object->getCodigo()."</td>";
-														echo "<td>".$object->getDescripcionCompleto()."</td>";
-														echo "<td>".$object->getDescripcionAbreviado()."</td>";
-														if($object->getTipo() == 1)
-															echo "<td>Diagnostico Morfológico</td>";
-														else
-															echo "<td>Diagnostico Topográfico</td>";
-														echo "<td class='text-center'>";
-														echo "<a href='#' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#modaledit' onclick='cargardiagnostico(".$object->getId().")'><i class='fa fa-edit'></i></a>";
-														echo "<a href='#' class='btn btn-danger btn-sm' onclick='Eliminardiagnosticocieo(".$object->getId().")'><i class='fas fa-trash-alt'></i></a>";
-														echo "</td>";
-														echo "</tr>";
-													 }
-													?>
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- ROW-4 END -->
-
 
 				</div>
 			</div>
@@ -471,26 +522,6 @@ $object = $c->buscarenUsuario1($id);
 		</div>
 		<!--End Footer-->
 
-
-
-		<!-- Edit Modal -->
-		<div class="modal fade" id="modaledit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="staticBackdropLabel">Edición</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="content">
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 	<!-- End Page -->
 
@@ -522,6 +553,19 @@ $object = $c->buscarenUsuario1($id);
 	<script src="assets/plugins/datatable/fileexport/buttons.bootstrap4.min.js"></script>
 
 
+	<!-- Internal lightslider js-->
+	<script src="assets/plugins/lightslider/js/lightslider.min.js"></script>
+
+	<!-- Internal navigation js-->
+	<script src="assets/js/navigation.js"></script>
+
+	<!-- Internal Clipboard js-->
+	<script src="assets/plugins/clipboard/clipboard.min.js"></script>
+	<script src="assets/plugins/clipboard/clipboard.js"></script>
+
+	<!-- Internal Prism js-->
+	<script src="assets/plugins/prism/prism.js"></script>
+
 	<!-- Perfect-scrollbar js -->
 	<script src="assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 
@@ -534,6 +578,8 @@ $object = $c->buscarenUsuario1($id);
 
 	<!-- Sidebar js -->
 	<script src="assets/plugins/sidebar/sidebar.js"></script>
+	<!-- Custom js -->
+	<script src="assets/js/custom.js"></script>
 
 
 	<!-- Sticky js -->
@@ -545,8 +591,18 @@ $object = $c->buscarenUsuario1($id);
 	<script src="JsFunctions/Alert/toastify.js"></script>
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
+	<script src="JsFunctions/validation.js"></script>
 	<script src="JsFunctions/function.js"></script>
 
+	<script>
+		//Cargar Tabla
+		$(document).ready(function() {
+			cargarsignos();
+			cargarmedidas();
+            searchpaciente(document.getElementById('rutsearch'));
+            console.log("cargado");
+		});
+	</script>
 
 
 </body>

@@ -215,13 +215,13 @@ $object = $c->buscarenUsuario1($id);
 						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="pacientesmedico.html">Ficha Pacientes</a>
+								<a class="nav-sub-link" href="pacientesmedico.php">Ficha Pacientes</a>
 							</li>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="consultas.php">Consultas</a>
 							</li>
 							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="recetas.html">Recetas Emitidas</a>
+								<a class="nav-sub-link" href="recetasemitidas.php">Recetas Emitidas</a>
 							</li>
 						</ul>
 					</li>

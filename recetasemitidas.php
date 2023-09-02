@@ -361,7 +361,7 @@ $object = $c->buscarenUsuario1($id);
                     <!-- Page Header -->
                     <div class="page-header">
                         <div class="page-header-1">
-                            <h1 class="main-content-title tx-30">Atención Pacientes</h1>
+                            <h1 class="main-content-title tx-30">Recetas Emitidas</h1>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
                             </ol>
@@ -372,88 +372,42 @@ $object = $c->buscarenUsuario1($id);
                         <div class="col-xl-12 col-lg-12 col-md-12">
                             <div class="card tran">
                                 <div class="card-header bd-b-0">
-                                    <h4 class="card-title font-weight-semibold mb-0">Reservas del día</h4>
+                                    <h4 class="card-title font-weight-semibold mb-0">Recetas Emitidas</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="">
                                         <div class="table-responsive">
                                             <table class="table w-100 text-nowrap" id="example1">
-                                                <thead class="border-top">
-                                                    <tr class="">
-                                                        <th class="bg-transparent">Hora</th>
-                                                        <th class="bg-transparent">Identificación</th>
-                                                        <th class="bg-transparent">Nombre Paciente</th>
-                                                        <th class="bg-transparent">Profesional</th>
-                                                        <th class="bg-transparent">Profesión</th>
-                                                        <th class="bg-transparent">Intervalo</th>
-                                                        <th class="bg-transparent">Estado</th>
-                                                        <th class="bg-transparent">Fecha Reserva</th>
-                                                        <th class="bg-transparent">Acción</th>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Fecha</th>
+                                                        <th>Estado</th>
+                                                        <th>Folio</th>
+                                                        <th>Atención</th>
+                                                        <th>Documento</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                    $lista = $c->buscarreservashoy($empresa->getId());
-                                                    foreach ($lista as $l) {
-                                                        $id = $l->getId();
-                                                        $rut = $l->getRut();
-                                                        $paciente = $l->getPaciente();
-                                                        $profesional = $l->getProfesional();
-                                                        $profesion = $l->getProfesion();
-                                                        $fecha = $l->getFecha();
-                                                        $horainicio = $l->getHoraInicio();
-                                                        $horatermino = $l->getHoraTermino();
-                                                        $intervalo = $l->getIntervalo();
-                                                        $observacion = $l->getObservacion();
-                                                        $estado = $l->getEstado();
-                                                        $registro = $l->getRegistro();
-                                                        echo "<tr class='text-center'>";
-                                                        echo "<td class='bg-transparent'>" . date("H:i", strtotime($horainicio)) . " - " . date("H:i", strtotime($horatermino)) . "</td>";
-                                                        echo "<td class='bg-transparent'>" . $rut . "</td>";
-                                                        echo "<td class='bg-transparent'>" . $paciente . "</td>";
-                                                        echo "<td class='bg-transparent'>" . $profesional . "</td>";
-                                                        echo "<td class='bg-transparent'>" . $profesion . "</td>";
-                                                        echo "<td class='bg-transparent'>" . $intervalo . " minutos</td>";
-                                                        if ($estado == 1) {
-                                                            //Reservado
-                                                            echo "<td class='bg-transparent'><span class='badge badge-success'>Reservado</span></td>";
-                                                            echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-outline-primary btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-plus'></i></button></td>";
-                                                        } else if ($estado == 2) {
-                                                            //Confirmado
-                                                            echo "<td class='bg-transparent'><span class='badge badge-primary'>Confirmado</span></td>";
-                                                            echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-outline-primary btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-plus'></i></button></td>";
-                                                        } else if ($estado == 3) {
-                                                            //En Sala de Espera
-                                                            echo "<td class='bg-transparent'><span class='badge badge-warning'>En Sala de Espera</span></td>";
-                                                            echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-outline-warning btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-check'></i></button></td>";
-                                                        } else if ($estado == 4) {
-                                                            //En Atención
-                                                            echo "<td class='bg-transparent'><span class='badge badge-info'>En Atención</span></td>";
-                                                            echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-info btn-sm'><i class='fa fa-user-check'></i></button></td>";
-                                                        } else if ($estado == 5) {
-                                                            //Atendido(a)
-                                                            echo "<td class='bg-transparent'><span class='badge badge-success'>Atendido(a)</span></td>";
-                                                            echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-success btn-sm'><i class='fa fa-user-check'></i></button></td>";
-                                                        } else if ($estado == 6) {
-                                                            //Cancelado
-                                                            echo "<td class='bg-transparent'><span class='badge badge-danger'>Reserva Cancelada</span></td>";
-                                                            echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-danger btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-times'></i></button></td>";
-                                                        } else if ($estado == 7) {
-                                                            //Paciente No Asiste
-                                                            echo "<td class='bg-transparent'><span class='badge badge-danger'>Paciente No Asiste</span></td>";
-                                                            echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-danger btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-times'></i></button></td>";
+                                                    $recetas = $c->recetalistmedico($object->getId(), $empresa->getId());
+                                                    if (count($recetas) > 0) {
+                                                        foreach ($recetas as $r) {
+                                                            echo "<tr>";
+                                                            echo "<td>" . date("d-m-Y", strtotime($r->getFecha())) . "</td>";
+                                                            if ($r->getEstado() == 1) {
+                                                                echo "<td>Pendiente</td>";
+                                                            } else {
+                                                                echo "<td>Confirmado</td>";
+                                                            }
+                                                            $idreceta = $r->getId();
+                                                            echo "<td>" . $r->getFolio() . "</td>";
+                                                            echo "<td>" . $r->getConsulta() . "</td>";
+                                                            echo "<td><a target='_blank' href='php/reporte/receta.php?r=$idreceta' class='btn btn-success'><i class='fe fe-file'></i></a></td>";
+                                                            echo "</tr>";
                                                         }
-
-                                                        echo "</tr>";
                                                     }
                                                     ?>
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -484,40 +438,6 @@ $object = $c->buscarenUsuario1($id);
         </div>
         <!--End Footer-->
 
-
-        <div aria-hidden="true" class="modal main-modal-calendar-event" id="reserveeventmodal" role="dialog">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5>Atención Paciente</h5>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <input type="hidden" id="reserve-id">
-                            <div class="col-md-12">
-                                <label for="">Estado</label>
-                                <select name="estado" id="estado" class="form-control">
-                                    <option value="1">Reservado</option>
-                                    <option value="2">Confirmada</option>
-                                    <option value="3">En Sala de Espera</option>
-                                    <option value="6">Cancela Reserva</option>
-                                    <option value="7">Paciente no Asiste</option>
-                                </select>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="">Observación</label>
-                                <textarea name="observacion" id="observacion" cols="10" rows="10" class="form-control"></textarea>
-                            </div>
-                            <div class="col-md-12 d-flex justify-content-end gap-1 mt-3">
-                                <button class="btn btn-outline-success" id="reserveevent" type="button"><i class="fa fa-save"></i> Registrar</button>
-                                <a class="btn btn-secondary wd-80" data-dismiss="modal" href="">Cerrar</a>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
 
     </div>
     <!-- End Page -->
