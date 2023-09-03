@@ -29,7 +29,9 @@ class Receta {
     public $diabetes;
     public $hipertension;
     public $alergias;
+    public $otrocor;
     public $detallealergias;
+    public $otrcormo;
     public $urgente;
     public $esquema;
     public $anamnesis;
@@ -67,7 +69,9 @@ class Receta {
         $this->diabetes = $data['diabetes'];
         $this->hipertension = $data['hipertension'];
         $this->alergias = $data['alergias'];
+        $this->otrocor = $data['otrocor'];
         $this->detallealergias = $data['detallealergias'];
+        $this->otrcormo = $data['otrcormo'];
         $this->urgente = $data['urgente'];
         $this->esquema = $data['esquema'];
         $this->anamnesis = $data['anamesis'];
@@ -192,8 +196,16 @@ class Receta {
         return $this->alergias;
     }
 
+    public function getOtroCor() {
+        return $this->otrocor;
+    }
+
     public function getDetalleAlergias() {
         return $this->detallealergias;
+    }
+
+    public function getOtroCorMo() {
+        return $this->otrcormo;
     }
 
     public function getUrgente() {

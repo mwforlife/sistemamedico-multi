@@ -8,7 +8,7 @@ if (
     isset($_POST['fechaadmin']) && isset($_POST['examen']) && isset($_POST['ciclo']) && isset($_POST['anticipada']) &&
     isset($_POST['curativo']) && isset($_POST['paliativo']) && isset($_POST['adyuvante']) && isset($_POST['concomitante']) &&
     isset($_POST['neoadyuvante']) && isset($_POST['primera']) && isset($_POST['traemedicamentos']) && isset($_POST['diabetes']) &&
-    isset($_POST['hipertension']) && isset($_POST['alergia']) && isset($_POST['alergiadetalle']) && isset($_POST['urgente']) &&
+    isset($_POST['hipertension']) && isset($_POST['alergia']) && isset($_POST['otrocor']) && isset($_POST['alergiadetalle']) && isset($_POST['otrcormo']) && isset($_POST['urgente']) &&
     isset($_POST['esquema']) && isset($_POST['medicamentoscheck']) && isset($_POST['premedicaciones']) &&
     isset($_POST['estimulador']) && isset($_POST['cantidades']) && isset($_POST['rango']) && isset($_POST['anamnesis']) &&
     isset($_POST['observaciones'])
@@ -40,7 +40,9 @@ if (
     $diabetes = $_POST['diabetes'];
     $hipertension = $_POST['hipertension'];
     $alergia = $_POST['alergia'];
+    $otrocor = $_POST['otrocor'];
     $alergiadetalle = $_POST['alergiadetalle'];
+    $otrcormo = $_POST['otrcormo'];
     $urgente = $_POST['urgente'];
     $esquema = $_POST['esquema'];
 
@@ -131,6 +133,12 @@ if (
         return;
     }
 
+    // Validar otro cor
+    if ($otrocor == 1 && empty($otrcormo)) {
+        echo json_encode(array('error' => true, 'message' => 'Debe ingresar el detalle de otro cor'));
+        return;
+    }
+
     if ($esquema == 0) {
         echo json_encode(array('error' => true, 'message' => 'Seleccione un esquema'));
         return;
@@ -175,7 +183,7 @@ if (
     $folio = $c->buscarultimofolioreceta($empresa,$medico) + 1;
 
     // Llama a la función para registrar la receta
-    $recetaId = $c->registrarReceta($paciente, $medico, $empresa, $consulta,$fecha,$folio, $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, $fechaadmin, $examen, $ciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primera, $traemedicamentos, $diabetes, $hipertension, $alergia, $alergiadetalle, $urgente, $esquema, $anamnesis, $observaciones);
+    $recetaId = $c->registrarReceta($paciente, $medico, $empresa, $consulta,$fecha,$folio, $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, $fechaadmin, $examen, $ciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primera, $traemedicamentos, $diabetes, $hipertension, $alergia,$otrocor, $alergiadetalle,$otrcormo, $urgente, $esquema, $anamnesis, $observaciones);
 
 
     if ($recetaId > 0) {    

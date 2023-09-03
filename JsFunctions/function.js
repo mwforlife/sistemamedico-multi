@@ -3278,8 +3278,15 @@ function generarreceta(paciente, medico, empresa, consulta){
     var esquema = $("#esquema").val();
 
     var otrcormo = "";
+    var otrocor = 0;
     if($("#otrocor").is(':checked')){
+        otrocor = 1;
         otrcormo = $("#otrcormo").val();
+        if(otrcormo.trim().length == 0){
+            ToastifyError("Debe ingresar la otra comorbilidad");
+            $("#otrcormo").focus();
+            return false;
+        }
     }
 
     //Captura de medicamentos seleccionados
@@ -3537,7 +3544,7 @@ function generarreceta(paciente, medico, empresa, consulta){
     $.ajax({
         type: "POST",
         url: "php/insert/receta.php",
-        data: { paciente: paciente, medico: medico, empresa: empresa, consulta: consulta, estadio: estadio, nivel: nivel, ges: ges, peso: peso, talla: talla, scorporal: scorporal, creatinina: creatinina, auc: auc, fechaadmin: fechaadmin, examen: examen, ciclo: ciclo, anticipada: anticipada, curativo: curativo, paliativo: paliativo, adyuvante: adyuvante, concomitante: concomitante, neoadyuvante: neoadyuvante, primera: primera, traemedicamentos: traemedicamentos, diabetes: diabetes, hipertension: hipertension, alergia: alergia, alergiadetalle: alergiadetalle,otrcormo:otrcormo, urgente: urgente, esquema: esquema, medicamentoscheck: medicamentoscheck, premedicaciones: premedicaciones, estimulador: estimulador, cantidades: cantidades, rango: rango, anamnesis: anamnesis, observaciones: observaciones },
+        data: { paciente: paciente, medico: medico, empresa: empresa, consulta: consulta, estadio: estadio, nivel: nivel, ges: ges, peso: peso, talla: talla, scorporal: scorporal, creatinina: creatinina, auc: auc, fechaadmin: fechaadmin, examen: examen, ciclo: ciclo, anticipada: anticipada, curativo: curativo, paliativo: paliativo, adyuvante: adyuvante, concomitante: concomitante, neoadyuvante: neoadyuvante, primera: primera, traemedicamentos: traemedicamentos, diabetes: diabetes, hipertension: hipertension, alergia: alergia, alergiadetalle: alergiadetalle,otrocor:otrocor, otrcormo:otrcormo, urgente: urgente, esquema: esquema, medicamentoscheck: medicamentoscheck, premedicaciones: premedicaciones, estimulador: estimulador, cantidades: cantidades, rango: rango, anamnesis: anamnesis, observaciones: observaciones },
         success: function (respuesta) {
             try{
                 var receta = JSON.parse(respuesta);
