@@ -288,8 +288,10 @@ if (isset($_GET['r'])) {
     if ($receta->getAlergias() == 1) {
         $contenido .= "<p style='margin:2px;'><label style='font-size:9pt'>Alergias: Si.</label>";
         $contenido .= "<br/>- " . $receta->getDetalleAlergias() . "</p>";
-    } else {
-        $contenido .= "<label style='font-size:9pt'> Alergias: No.</label>";
+    }
+    if ($receta->getOtroCor() == 1) {
+        $contenido .= "<p style='margin:2px;'><label style='font-size:9pt'>Otras Cormobilidades.</label>";
+        $contenido .= "<br/>- " . $receta->getOtroCorMo() . "</p>";
     }
 
     $contenido .= "</div>";

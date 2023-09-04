@@ -385,7 +385,7 @@ $object = $c->buscarenUsuario1($id);
 											<?php
 												$lista = $c->listarusuario($empresa->getId());
 												foreach($lista as $r){
-													$id = $c->encrypt($r->getId(), "thechallengeofcoding");
+													$id = $r->getId();
 													echo "<tr class='text-center'>";
 													echo "<td>".$r->getRut()."</td>";
 													echo "<td>".$r->getNombre(). " " .$r->getApellido1(). " " .$r->getApellido2()."</td>";

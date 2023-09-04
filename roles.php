@@ -13,7 +13,6 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 }
 if(isset($_GET['code'])){
 	$code = $_GET['code'];
-	$code = $c->decrypt($code,"thechallengeofcoding");
 	if($code>=0){
 		$usuario = $c->buscarenUsuario($code, $empresa->getId());
 		if($usuario==null){

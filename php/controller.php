@@ -1494,7 +1494,7 @@ class Controller
     public function registrarusuario($rut, $nombre, $apellido1, $apellido2, $correo, $direccion, $region, $comuna, $telefono, $contrasena)
     {
         $this->conexion();
-        $sql = "insert into usuarios values(null, '$rut', '$nombre', '$apellido1', '$apellido2', '$correo', '$direccion', $region, $comuna, '$telefono', sha1('$contrasena'),1, now())";
+        $sql = "insert into usuarios values(null, '$rut', '$nombre', '$apellido1', '$apellido2', '$correo', '$direccion', $region, $comuna, '$telefono', sha1('$contrasena'), now())";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
@@ -5010,7 +5010,7 @@ class Controller
     function registrarReceta($paciente, $usuario, $empresa, $consulta, $fecha, $folio, $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, $fechaadministracion, $pendiente, $nciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primeringreso, $traemedicamentos, $diabetes, $hipertension, $alergias, $otrocor, $detallealergias,$otrcormo, $urgente, $esquema, $anamnesis, $observacion)
     {
         $this->conexion();
-        $sql = "INSERT INTO recetas (paciente, usuario, empresa, consulta, fecha, folio, estadio, nivel, ges, peso, talla, scorporal, creatinina, auc, fechaadministracion, pendiente, nciclo, anticipada, curativo, paliativo, adyuvante, concomitante, noeadyuvante, primeringreso, traemedicamentos, diabetes, hipertension, alergias,otrocor, detallealergias, otrcormo, urgente, esquema, anamesis, observacion, estado) VALUES ($paciente, $usuario, $empresa, $consulta, '$fecha', '$folio', $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, '$fechaadministracion', $pendiente, $nciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primeringreso, $traemedicamentos, $diabetes, $hipertension, $alergias,$otrocor, '$detallealergias','$otrcormo' $urgente, $esquema, '$anamnesis', '$observacion',1);";
+        $sql = "INSERT INTO recetas (paciente, usuario, empresa, consulta, fecha, folio, estadio, nivel, ges, peso, talla, scorporal, creatinina, auc, fechaadministracion, pendiente, nciclo, anticipada, curativo, paliativo, adyuvante, concomitante, noeadyuvante, primeringreso, traemedicamentos, diabetes, hipertension, alergias,otrocor, detallealergias, otrcormo, urgente, esquema, anamesis, observacion, estado) VALUES ($paciente, $usuario, $empresa, $consulta, '$fecha', '$folio', $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, '$fechaadministracion', $pendiente, $nciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primeringreso, $traemedicamentos, $diabetes, $hipertension, $alergias,$otrocor, '$detallealergias','$otrcormo', $urgente, $esquema, '$anamnesis', '$observacion',1);";
         $result = $this->mi->query($sql);
         // Obtener el ID de la receta recién registrada
         $recetaId = $this->mi->insert_id;
