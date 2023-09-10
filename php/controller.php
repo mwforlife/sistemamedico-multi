@@ -3997,7 +3997,24 @@ class Controller
         $sql = "select rolesusuarios.id as id, roles.nombre as nombre, roles.descripcion as descripcion from roles, rolesusuarios where roles.id = rolesusuarios.rol and rolesusuarios.usuario = $usuario and rolesusuarios.empresa = $empresa";
         $result = $this->mi->query($sql);
         $lista = array();
-        if ($rs = mysqli_fetch_array($result)) {
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs['id'];
+            $nombre = $rs['nombre'];
+            $descripcion = $rs['descripcion'];
+            $rol = new Objects($id, $nombre, $descripcion);
+            $lista[] = $rol;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+    //Buscar Roles Usuario Empresa
+    public function BuscarRolesUsuarioEmpresa1($empresa, $usuario)
+    {
+        $this->conexion();
+        $sql = "select rolesusuarios.id as id, roles.id as nombre, roles.descripcion as descripcion from roles, rolesusuarios where roles.id = rolesusuarios.rol and rolesusuarios.usuario = $usuario and rolesusuarios.empresa = $empresa";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
             $id = $rs['id'];
             $nombre = $rs['nombre'];
             $descripcion = $rs['descripcion'];
@@ -4016,6 +4033,20 @@ class Controller
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
+    }
+
+    //Validar Rol Usuario Empresa
+    public function ValidarRolUsuarioEmpresa($empresa, $usuario, $rol)
+    {
+        $this->conexion();
+        $sql = "select * from rolesusuarios where usuario = $usuario and empresa = $empresa and rol = $rol";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        if ($rs = mysqli_fetch_array($result)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     //Eliminar Rol Usuario Empresa

@@ -23,12 +23,70 @@ if (!isset($_SESSION['USER_ID'])) {
 }
 $id = $_SESSION['USER_ID'];
 $object = $c->buscarenUsuario1($id);
+
+$admingeneral = false;
+$adminempresa = false;
+$adminsistema = false;
+$auditoria = false;
+$comite = false;
+$definicionescomite = false;
+$definicionesempresa = false;
+$definicionesgenerales = false;
+$fichaclinica = false;
+$medico = false;
+$reservas = false;
+$suupervisor = false;
+$usuarios = false;
+if(isset($_SESSION['CURRENT_ENTERPRISE'])){
+	$idempresa = $_SESSION['CURRENT_ENTERPRISE'];
+	$roles = $c->BuscarRolesUsuarioEmpresa1($idempresa, $id);
+	foreach ($roles as $rol) {
+		if ($rol->getId() == 1) {
+			$admingeneral = true;
+		}
+		if ($rol->getId() == 2) {
+			$adminempresa = true;
+		}
+		if ($rol->getId() == 3) {
+			$adminsistema = true;
+		}
+		if ($rol->getId() == 4) {
+			$auditoria = true;
+		}
+		if ($rol->getId() == 5) {
+			$comite = true;
+		}
+		if ($rol->getId() == 6) {
+			$definicionescomite = true;
+		}
+		if ($rol->getId() == 7) {
+			$definicionesempresa = true;
+		}
+		if ($rol->getId() == 8) {
+			$definicionesgenerales = true;
+		}
+		if ($rol->getId() == 9) {
+			$fichaclinica = true;
+		}
+		if ($rol->getId() == 10) {
+			$medico = true;
+		}
+		if ($rol->getId() == 11) {
+			$reservas = true;
+		}
+		if ($rol->getId() == 12) {
+			$suupervisor = true;
+		}
+		if ($rol->getId() == 13) {
+			$usuarios = true;
+		}
+	}
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 	<meta name="description" content="">

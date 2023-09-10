@@ -710,7 +710,7 @@ $object = $c->buscarenUsuario1($id);
 														</div>
 														<div class="col-md-2">
 															<div class="row justify-content-end">
-																<div class="col-md-6">
+																<div class="col-md-12">
 																	<label for="">Receta Urgente</label>
 																	<select name="urgente" id="urgente"
 																		class="form-control">

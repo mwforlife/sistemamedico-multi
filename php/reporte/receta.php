@@ -119,15 +119,24 @@ if (isset($_GET['r'])) {
         </td>
     </tr>
     <tr>
-        <td width='100%' style='text-align: justify;'>
-            <h3 style='font-size:9pt'> Especialidad: " . $especialidad->getNombre() . "</h3>
+        <td width='50%' style='text-align: justify;'>
+            <h3 style='font-size:12pt'> Especialidad: " . $especialidad->getNombre() . "</h3>
         </td>
+        <td width='50%' style='text-align: right;'>";
+        if($receta->getAnticipada()==1){
+            $contenido .= "<h3 style='font-size:12pt'>Anticipada: Si</h3>";
+        }
+    $contenido .="</td>
     </tr>
     <tr>
-        <td width='100%' style='text-align: justify;'>
-            <h3 style='font-size:9pt'> Medico: " . $medico->getNombre() . " " . $medico->getApellido1() . " " . $medico->getApellido2() . "</h3>
-            
+        <td width='50%' style='text-align: justify;'>
+            <h3 style='font-size:12pt'> Medico: " . $medico->getNombre() . " " . $medico->getApellido1() . " " . $medico->getApellido2() . "</h3>
         </td>
+        <td width='50%' style='text-align: right;'>";
+            if($receta->getUrgente()==1){
+                $contenido .= "<h3 style='font-size:12pt'>Urgente: Si</h3>";
+            }
+        $contenido .="</td>
     </tr>
     </table>";
     $contenido .= "<hr style='margin-top:10px; ' >";
@@ -279,14 +288,6 @@ if (isset($_GET['r'])) {
         $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Hipertensión,</label>";
     }
 
-    if ($receta->getAnticipada() == 1) {
-        $contenido .= "<br/>";
-        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Anticipada: Si.</label>";
-    }
-    if ($receta->getUrgente() == 1) {
-        $contenido .= "<br/>";
-        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Urgente: Si.</label>";
-    }
 
     if ($receta->getAlergias() == 1) {
         $contenido .= "<p style='margin:2px;'><label style='font-size:9pt'>Alergias: Si.</label>";

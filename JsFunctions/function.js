@@ -1642,7 +1642,7 @@ $(document).ready(function () {
                         ToastifySuccess("Datos Actualizados con exito");
                         //Recargar pagina en 1 segundo
                         setTimeout(function () {
-                            location.reload();
+                            window.location.href = "usuarios.php";
                         }, 1000);
                     } else if (data == 0 || data == "0") {
                         ToastifyError("Hubo un error con el registro");

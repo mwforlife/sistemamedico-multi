@@ -11,6 +11,13 @@ if(isset($_POST['rol']) && isset($_POST['usuario']) && isset($_POST['empresa']))
         return;
     }
 
+    //Validar que el usuario no tenga ya el rol asignado
+    $result = $c->ValidarRolUsuarioEmpresa($empresa, $usuario,$rol);
+    if($result==true){
+        echo json_encode(array('error' => true, 'message' => 'El usuario ya tiene asignado el rol'));
+        return;
+    }
+
     $result = $c->RegistrarRolUsuarioEmpresa($empresa, $usuario,$rol);
     if($result){
         echo json_encode(array('error' => false, 'message' => 'Rol Asignado correctamente'));

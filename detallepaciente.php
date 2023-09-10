@@ -17,6 +17,7 @@ $comite = null;
 $previous_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 $id = 0;
 $reservaid = 0;
+$dipaciente = 0;
 if (isset($_GET['r']) && isset($_GET['p'])) {
 	$reservaid = $_GET['r'];
 	if (is_numeric($reservaid)) {
@@ -39,6 +40,7 @@ if (isset($_GET['r']) && isset($_GET['p'])) {
 		header("Location: $previous_page");
 		exit();
 	}
+	$dipaciente = $pa->getId();
 } else {
 	//Redireccionar a la página anterior
 	header("Location: $previous_page");
@@ -811,12 +813,9 @@ $object = $c->buscarenUsuario1($id);
 																			min="1" id="shgt" name="shgt" required
 																			step="0.01">
 																	</div>
-																	<div class="col-md-1">
-																		<label>PESO</label>
-																		<input type="number" class="form-control"
-																			min="1" id="speso" name="speso" required
-																			step="0.01">
-																	</div>
+																		<input type="hidden" class="form-control"
+																			min="0" id="speso" name="speso" required
+																			step="0.01" value="0">
 																	<div class="col-md-1 d-flex align-items-end">
 																		<button class="btn btn-outline-success"
 																			type="submit"><i class="fa fa-save"></i>
@@ -1243,7 +1242,6 @@ $object = $c->buscarenUsuario1($id);
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
 	<script src="JsFunctions/function.js"></script>
-	<script src="JsFunctions/informe.js"></script>
 	<script>
 		//Cargar Tabla
 		$(document).ready(function () {

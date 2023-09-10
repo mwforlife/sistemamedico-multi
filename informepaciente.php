@@ -1471,7 +1471,6 @@ $object = $c->buscarenUsuario1($id);
 	<script src="JsFunctions/Alert/toastify.js"></script>
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
-	<script src="JsFunctions/function.js"></script>
 	<script src="JsFunctions/informe.js"></script>
 	<script>
 		//Cargar Tabla
