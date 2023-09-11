@@ -64,7 +64,6 @@ if (isset($_POST['id']) && isset($_POST['UserRut']) && isset($_POST['UserNombre'
         echo "El usuario ya existe";
         return;
     }
-    $titulo = "Modificacion de datos de Usuario";
     $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha realizado una modificacion de datos personales de un usuario";
     $evento .= "<br/>";
     $evento .= "Datos Anteriores: ";
@@ -111,6 +110,7 @@ if (isset($_POST['id']) && isset($_POST['UserRut']) && isset($_POST['UserNombre'
 
     if ($result == true) {
         echo 1;
+        $titulo = "Modificacion de datos de Usuario";
         $c->registrarAuditoria($_SESSION['USER_ID'], 2, $titulo, $evento);
     } else {
         echo 0;

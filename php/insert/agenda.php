@@ -62,6 +62,10 @@ if (isset($_POST['fechas']) && isset($_POST['start']) && isset($_POST['end']) &&
         }
     }
     echo json_encode(array("error" => false, "mensaje" => "Se registró correctamente"));
+    $titulo = "Registro de disponibilidad";
+    $object = $c->buscarenUsuario1($idUsuario);
+    $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado nuevos horarios de disponibilidad";
+    $c->registrarAuditoria($_SESSION['USER_ID'], 2, $titulo, $evento);
 
 } else {
     echo json_encode(array("error" => true, "mensaje" => "No se recibieron los datos correctamente"));
