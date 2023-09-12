@@ -1,6 +1,7 @@
 <?php
 require '../controller.php';
 $c = new Controller();
+session_start();
 if (
     isset($_POST['paciente']) && isset($_POST['medico']) && isset($_POST['empresa']) && isset($_POST['consulta']) &&
     isset($_POST['estadio']) && isset($_POST['nivel']) && isset($_POST['ges']) && isset($_POST['peso']) &&
@@ -15,6 +16,7 @@ if (
 ) {
     // Capturar los datos del formulario
     $paciente = $_POST['paciente'];
+    $pacienteobject = $c->buscarpaciente($paciente);
     $medico = $_POST['medico'];
     $empresa = $_POST['empresa'];
     $consulta = $_POST['consulta'];
@@ -199,6 +201,15 @@ if (
         }
         // Todas las inserciones se realizaron correctamente
         echo json_encode(array('error' => false, 'message' => 'Receta registrada exitosamente.'));
+        
+        /***********Auditoria******************* */
+        $titulo = "Registro de Receta";
+        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado una nueva receta para el paciente " . $pacienteobject->getNombre() . " " . $pacienteobject->getApellido1() . " " . $pacienteobject->getApellido2() . "";
+        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+        /**************************************** */
     } else {
         // Hubo un error al registrar la receta
         echo json_encode(array('error' => true, 'message' => 'Error al registrar la receta.'));

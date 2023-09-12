@@ -185,30 +185,31 @@ class Controller
         return null;
     }
     //Auditoria
-    public function registrarAuditoria($usuario, $accion, $titulo, $evento)
+    public function registrarAuditoria($usuario,$empresa, $accion, $titulo, $evento)
     {
         $this->conexion();
-        $sql = "insert into auditoriaeventos values(null, $usuario, $accion, '$titulo', '$evento', now())";
+        $sql = "insert into auditoriaeventos values(null, $usuario,$empresa, $accion, '$titulo', '$evento', now())";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
     }
 
     //Listar Auditoria por usuario
-    public function listarAuditoria($usuario)
+    public function listarAuditoria($usuario, $empresa)
     {
         $this->conexion();
-        $sql = "select auditoriaeventos.id as id, usuarios.nombre as nombre, usuarios.apellido1 as apellido1, usuarios.apellido2 as apellido2, acciones.nombre as accion, auditoriaeventos.titulo as titulo, auditoriaeventos.evento as evento, auditoriaeventos.fecha as fecha from auditoriaeventos inner join usuarios on auditoriaeventos.usuario = usuarios.id inner join acciones on auditoriaeventos.accion = acciones.id where auditoriaeventos.usuario = $usuario order by auditoriaeventos.fecha desc";
+        $sql = "select auditoriaeventos.id as id, usuarios.nombre as nombre, usuarios.apellido1 as apellido1, usuarios.apellido2 as apellido2, auditoriaeventos.empresa as empresa, acciones.nombre as accion, auditoriaeventos.titulo as titulo, auditoriaeventos.evento as evento, auditoriaeventos.fecha as fecha from auditoriaeventos inner join usuarios on auditoriaeventos.usuario = usuarios.id inner join acciones on auditoriaeventos.accion = acciones.id where auditoriaeventos.usuario = $usuario order by auditoriaeventos.fecha desc";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {
             $id = $rs['id'];
             $usuario = $rs['nombre'] . " " . $rs['apellido1'] . " " . $rs['apellido2'];
+            $empresa = $rs['empresa'];
             $accion = $rs['accion'];
             $titulo = $rs['titulo'];
             $evento = $rs['evento'];
             $fecha = $rs['fecha'];
-            $auditoria = new Auditoria($id, $usuario, $accion, $titulo, $evento, $fecha);
+            $auditoria = new Auditoria($id, $usuario,$empresa, $accion, $titulo, $evento, $fecha);
             $lista[] = $auditoria;
         }
         $this->desconexion();
@@ -219,17 +220,18 @@ class Controller
     public function listarAuditoriaAccion($accion)
     {
         $this->conexion();
-        $sql = "select auditoriaeventos.id as id, usuarios.nombre as nombre, usuarios.apellido1 as apellido1, usuarios.apellido2 as apellido2, acciones.nombre as accion, auditoriaeventos.titulo as titulo, auditoriaeventos.evento as evento, auditoriaeventos.fecha as fecha from auditoriaeventos inner join usuarios on auditoriaeventos.usuario = usuarios.id inner join acciones on auditoriaeventos.accion = acciones.id where auditoriaeventos.accion = $accion order by auditoriaeventos.fecha desc";
+        $sql = "select auditoriaeventos.id as id, usuarios.nombre as nombre, usuarios.apellido1 as apellido1, usuarios.apellido2 as apellido2, auditoriaeventos.empresa as empresa, acciones.nombre as accion, auditoriaeventos.titulo as titulo, auditoriaeventos.evento as evento, auditoriaeventos.fecha as fecha from auditoriaeventos inner join usuarios on auditoriaeventos.usuario = usuarios.id inner join acciones on auditoriaeventos.accion = acciones.id where auditoriaeventos.accion = $accion order by auditoriaeventos.fecha desc";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {
             $id = $rs['id'];
             $usuario = $rs['nombre'] . " " . $rs['apellido1'] . " " . $rs['apellido2'];
+            $empresa = $rs['empresa'];
             $accion = $rs['accion'];
             $titulo = $rs['titulo'];
             $evento = $rs['evento'];
             $fecha = $rs['fecha'];
-            $auditoria = new Auditoria($id, $usuario, $accion, $titulo, $evento, $fecha);
+            $auditoria = new Auditoria($id, $usuario,$empresa, $accion, $titulo, $evento, $fecha);
             $lista[] = $auditoria;
         }
         $this->desconexion();
@@ -240,16 +242,17 @@ class Controller
     public function buscarAuditoria($id)
     {
         $this->conexion();
-        $sql = "select auditoriaeventos.id as id, usuarios.nombre as nombre, usuarios.apellido1 as apellido1, usuarios.apellido2 as apellido2, acciones.nombre as accion, auditoriaeventos.titulo as titulo, auditoriaeventos.evento as evento, auditoriaeventos.fecha as fecha from auditoriaeventos inner join usuarios on auditoriaeventos.usuario = usuarios.id inner join acciones on auditoriaeventos.accion = acciones.id where auditoriaeventos.id = $id";
+        $sql = "select auditoriaeventos.id as id, usuarios.nombre as nombre, usuarios.apellido1 as apellido1, usuarios.apellido2 as apellido2, auditoriaeventos.empresa as empresa, acciones.nombre as accion, auditoriaeventos.titulo as titulo, auditoriaeventos.evento as evento, auditoriaeventos.fecha as fecha from auditoriaeventos inner join usuarios on auditoriaeventos.usuario = usuarios.id inner join acciones on auditoriaeventos.accion = acciones.id where auditoriaeventos.id = $id";
         $result = $this->mi->query($sql);
         if ($rs = mysqli_fetch_array($result)) {
             $id = $rs['id'];
             $usuario = $rs['nombre'] . " " . $rs['apellido1'] . " " . $rs['apellido2'];
+            $empresa = $rs['empresa'];
             $accion = $rs['accion'];
             $titulo = $rs['titulo'];
             $evento = $rs['evento'];
             $fecha = $rs['fecha'];
-            $auditoria = new Auditoria($id, $usuario, $accion, $titulo, $evento, $fecha);
+            $auditoria = new Auditoria($id, $usuario, $empresa, $accion, $titulo, $evento, $fecha);
             $this->desconexion();
             return $auditoria;
         }
@@ -4205,6 +4208,30 @@ class Controller
         }
         $this->desconexion();
         return $lista;
+    }
+
+    //Buscar Disponibilidad by id
+    function buscardisponibilidadid($id)
+    {
+        $this->conexion();
+        $sql = "select * from disponibilidad where id = $id";
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $usuario = $rs["usuario"];
+            $empresa = $rs["empresa"];
+            $fecha = $rs["fecha"];
+            $horainicio = $rs["horainicio"];
+            $horafinal = $rs["horafin"];
+            $intervalo = $rs["intervalo"];
+            $estado = $rs["estado"];
+            $registro = $rs["registro"];
+            $disponibilidad = new Disponibilidad($id, $usuario, $empresa, $fecha, $horainicio, $horafinal, $intervalo, $estado, $registro);
+            $this->desconexion();
+            return $disponibilidad;
+        }
+        $this->desconexion();
+        return null;
     }
 
     //Buscar Horario desde la fecha de hoy

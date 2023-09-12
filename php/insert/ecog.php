@@ -1,9 +1,7 @@
 <?php
 require '../controller.php';
 $c = new Controller();
-
-/*Codigo: sdfs
-Nombre: fdsf*/
+session_start();
 
 if(isset($_POST['Codigo']) && isset($_POST['Nombre'])){
     $codigo = $_POST['Codigo'];
@@ -18,11 +16,14 @@ if(isset($_POST['Codigo']) && isset($_POST['Nombre'])){
         if($result==true){
             echo "1";
 
-            $idUsuario = $_SESSION['USER_ID'];
-            $titulo = "Registro de ECOG";
-            $object = $c->buscarenUsuario1($idUsuario);
-            $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo ECOG";
-            $c->registrarAuditoria($_SESSION['USER_ID'], 1, $titulo, $evento);
+        /***********Auditoria******************* */
+        $titulo = "Registro de ECOG";
+        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo ECOG con el nombre de " . $nombre . " y codigo " . $codigo . "";
+        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+        /**************************************** */
         }else{
             echo "0";
         }

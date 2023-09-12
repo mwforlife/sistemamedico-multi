@@ -1,11 +1,14 @@
 <?php
 require '../controller.php';
 $c = new controller();
+session_start();
 if(isset($_POST['medicamentoid']) && isset($_POST['dosis']) && isset($_POST['carboplatino']) && isset($_POST['esquemaid'])){
     $medicamentoid = $_POST['medicamentoid'];
     $dosis = $_POST['dosis'];
     $carboplatino = $_POST['carboplatino'];
     $esquemaid = $_POST['esquemaid'];
+
+    $esquema = $c->buscarenesquema($esquemaid);
 
     //Validate if the data is not empty
     if(empty($medicamentoid) ||  empty($carboplatino) || empty($esquemaid)){
@@ -34,6 +37,15 @@ if(isset($_POST['medicamentoid']) && isset($_POST['dosis']) && isset($_POST['car
     $object = $c->registrarmedicamentosesquemas($esquemaid,$medicamentoid, $dosis, $carboplatino);
     if ($object ==true) {
         echo json_encode(array('error' => false, 'message' => 'Esquema de medicamento insertado correctamente'));
+        
+        /***********Auditoria******************* */
+        $titulo = "Asignación de Medicamento a Esquema";
+        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo medicamento en el esquema con el nombre de " . $esquema->getNombre() . " y codigo " . $esquema->getCodigo() . "";
+        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+        /**************************************** */
     } else {
         echo json_encode(array('error' => true, 'message' => 'Error al insertar el esquema de medicamento'));
     }

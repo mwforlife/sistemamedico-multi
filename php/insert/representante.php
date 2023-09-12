@@ -20,6 +20,14 @@ if (isset($_POST['RepresentanteRut']) && isset($_POST['RepresentanteNombre']) &&
         $result = $c->RegistrarRepresentanteLegal($rut, $nombre, $apellido1, $apellido2, $empresa);
         if ($result == true) {
             echo 1;
+            /***********Auditoria******************* */
+            $titulo = "Registro de Representante Legal";
+            $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+            $idUsuario = $_SESSION['USER_ID'];
+            $object = $c->buscarenUsuario1($idUsuario);
+            $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo Representante Legal con el nombre de " . $nombre . " " . $apellido1 . " " . $apellido2 . " y rut " . $rut . "";
+            $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+            /**************************************** */
         } else {
             echo 0;
         }
@@ -43,6 +51,14 @@ if (isset($_POST['RepresentanteRut']) && isset($_POST['RepresentanteNombre']) &&
         $result = $c->RegistrarRepresentanteLegal($rut, $nombre, $apellido1, $apellido2, $empresa);
         if ($result == true) {
             echo 1;
+            /***********Auditoria******************* */
+            $titulo = "Registro de Representante Legal";
+            $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+            $idUsuario = $_SESSION['USER_ID'];
+            $object = $c->buscarenUsuario1($idUsuario);
+            $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo Representante Legal con el nombre de " . $nombre . " " . $apellido1 . " " . $apellido2 . " y rut " . $rut . "";
+            $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+            /**************************************** */
         } else {
             echo 0;
         }

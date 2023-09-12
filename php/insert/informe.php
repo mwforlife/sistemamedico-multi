@@ -1,15 +1,21 @@
 <?php
 require '../controller.php';
 $c = new Controller();
+session_start();
 // Verificar si se enviaron los datos por POST
 if (isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagnostico']) && isset($_POST['diagnosticotext']) && isset($_POST['diagnosticocieomor']) && isset($_POST['diagnosticocieomortext']) && isset($_POST['diagnosticocieotop']) && isset($_POST['diagnosticocieotoptext']) && isset($_POST['diagnosticocie10']) && isset($_POST['diagnosticocie10text']) && isset($_POST['fechabiopsia']) && isset($_POST['reingreso']) && isset($_POST['ecog']) && isset($_POST['ecogtext']) && isset($_POST['histologico']) && isset($_POST['histologicotext']) && isset($_POST['invasiontumoral']) && isset($_POST['invasiontumoraltext']) && isset($_POST['mitotico']) && isset($_POST['primarioclinico']) && isset($_POST['primarioclinicotext']) && isset($_POST['observacionprimario']) && isset($_POST['regionalesclinico']) && isset($_POST['regionalesclinicotext']) && isset($_POST['observacionregional']) && isset($_POST['distanciaclinico']) && isset($_POST['distanciaclinicotext']) && isset($_POST['observaciondistancia']) && isset($_POST['anamnesis']) && isset($_POST['cirugia']) && isset($_POST['quimioterapia']) && isset($_POST['radioterapia']) && isset($_POST['otros']) && isset($_POST['seguimiento']) && isset($_POST['completar']) && isset($_POST['revaluacion']) && isset($_POST['estudioclinicno']) && isset($_POST['observacionesdecision']) && isset($_POST['consultade']) && isset($_POST['consultadetext']) && isset($_POST['programacion']) && isset($_POST['traslado']) && isset($_POST['paliativos']) && isset($_POST['ingreso']) && isset($_POST['observacionplan']) && isset($_POST['resolucion'])) {
 
     // Recibir los datos en variables PHP
     $paciente = $_POST['paciente'];
+    $paciente = $c->escapeString($paciente);
+    $pacienteobject = $c->buscarpaciente($paciente);
     $comite = $_POST['comite'];
     $diagnostico = $_POST['diagnostico'];
+    $diagnostico = $c->escapeString($diagnostico);
     $diagnosticotext = $_POST['diagnosticotext'];
+    $diagnosticotext = $c->escapeString($diagnosticotext);
     $diagnosticocieomor = $_POST['diagnosticocieomor'];
+
     $diagnosticocieomortext = $_POST['diagnosticocieomortext'];
     $diagnosticocieotop = $_POST['diagnosticocieotop'];
     $diagnosticocieotoptext = $_POST['diagnosticocieotoptext'];
@@ -74,17 +80,18 @@ if (isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagno
 
     if($result==true){
         echo 1;
+        /***********Auditoria******************* */
+        $titulo = "Registro de Informe Comité";
+        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo informe de comité para el paciente " . $pacienteobject->getNombre() . " " . $pacienteobject->getApellido1() . " " . $pacienteobject->getApellido2() . "";
+        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+        /**************************************** */
     }else{
         echo "Error al registrar informe";
-    }
-    
-    /*
-    echo "<br>Datos en forma de lista:<br>";
-    foreach ($_POST as $key => $value) {
-        echo "$key: $value<br>";
-    } */   
+    } 
 } else {
-    // Si alguna variable no fue enviada, puedes manejar el error aquí.
     echo "Error: Faltan datos enviados por POST.";
 }
 ?>

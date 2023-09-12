@@ -111,7 +111,7 @@ if (isset($_POST['id']) && isset($_POST['UserRut']) && isset($_POST['UserNombre'
     if ($result == true) {
         echo 1;
         $titulo = "Modificacion de datos de Usuario";
-        $c->registrarAuditoria($_SESSION['USER_ID'], 2, $titulo, $evento);
+        $c->registrarAuditoria($_SESSION['USER_ID'],$empresa->getId(), 2, $titulo, $evento);
     } else {
         echo 0;
     }

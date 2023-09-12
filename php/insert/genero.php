@@ -17,6 +17,15 @@ if(isset($_POST['Codigo']) && isset($_POST['Nombre'])){
         $result = $c->registrargenero($codigo, $nombre);
         if($result==true){
             echo "1";
+            
+        /***********Auditoria******************* */
+        $titulo = "Registro de Genero";
+        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo genero con el nombre de " . $nombre . " y codigo " . $codigo . "";
+        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+        /**************************************** */
         }else{
             echo "0";
         }

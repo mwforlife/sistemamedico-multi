@@ -97,6 +97,15 @@ if(isset($_POST['tipoidentificacion']) && isset($_POST['rut']) && isset($_POST['
     $c->registrarresponsable($idpac, $rutPersona, $nombrePersona, $relacion, $telefonoMovil, $direccion);
 
     echo 1;
+    
+        /***********Auditoria******************* */
+        $titulo = "Registro de Paciente";
+        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo paciente con nombre " . $nombre . " " . $apellido1 . " " . $apellido2 . " y rut " . $rut . "";
+        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+        /**************************************** */
 
 }else{
     echo "No se han recibido los datos correctamente";

@@ -61,6 +61,15 @@ if(isset($_POST['UserRut']) && isset($_POST['UserNombre']) && isset($_POST['User
         }
         $c->registrarusuarioprofesion($id, $profesion, $servicio,$empresa,1);
         echo 1;
+        /***********Auditoria******************* */
+        $titulo = "Registro de Usuario";
+        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo usuario con el nombre de " . $nombre . " " . $apellido . " " . $apellido2 . " y Rut " . $rut . "";
+        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+        /**************************************** */
+
        }else{
         echo 0;
        }
@@ -120,6 +129,14 @@ if(isset($_POST['UserRut']) && isset($_POST['UserNombre']) && isset($_POST['User
     if($result==true){
         $c->registrarusuarioprofesion($idusuario, $profesion, $servicio,$empresa,1);
         echo 1;
+        /***********Auditoria******************* */
+        $titulo = "Registro de Usuario";
+        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha asignado un nuevo usuario con el nombre de " . $nombre . " " . $apellido . " " . $apellido2 . " y Rut " . $rut . " al Hospital";
+        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+        /**************************************** */
     }else{
         echo 0;
     }

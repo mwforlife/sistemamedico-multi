@@ -2,14 +2,16 @@
 class Auditoria{
     private $id;
     private $usuario;
+    private $empresa;
     private $accion;
     private $titulo;
     private $evento;
     private $fecha;
 
-    function __construct($id, $usuario, $accion, $titulo, $evento, $fecha) {
+    function __construct($id, $usuario, $empresa, $accion, $titulo, $evento, $fecha) {
         $this->id = $id;
         $this->usuario = $usuario;
+        $this->empresa = $empresa;
         $this->accion = $accion;
         $this->titulo = $titulo;
         $this->evento = $evento;
@@ -22,6 +24,10 @@ class Auditoria{
 
     function getUsuario() {
         return $this->usuario;
+    }
+
+    function getEmpresa() {
+        return $this->empresa;
     }
 
     function getAccion() {

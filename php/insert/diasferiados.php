@@ -29,9 +29,16 @@ if (isset($_POST['periodo']) && isset($_POST['fecha']) && isset($_POST['descripc
     $result = $c->query("insert into diasferiado values (null, $periodo, '$fecha', '$descripcion')");
     if ($result == true) {
         echo 1;
-        $usuario = $_SESSION['USER_ID'];
-        $eventos = "Se Agrego el dia " . $fecha . " como feriado";
-        $c->registrarAuditoria($usuario, 1, "Registro de Feriado", $eventos);
+        
+        
+        /***********Auditoria******************* */
+        $titulo = "Registro de Dias Feriados";
+        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado la fecha ". date("d-m-Y", strtotime($fecha)) . " como feriado";
+        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+        /**************************************** */
     } else {
         echo 0;
     }

@@ -24,11 +24,15 @@ if(isset($_POST['Codigo']) && isset($_POST['Nombre']) && isset($_POST['Region'])
             echo "1";
             $c->registraciudad($codigo,$nombre, $region, $provincia);
 
-            $idUsuario = $_SESSION['USER_ID'];
-            $titulo = "Registro de comuna";
-            $object = $c->buscarenUsuario1($idUsuario);
-            $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado una nueva comuna";
-            $c->registrarAuditoria($_SESSION['USER_ID'], 1, $titulo, $evento);
+            
+        /***********Auditoria******************* */
+        $titulo = "Registro de Comuna";
+        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado una nueva comuna con el nombre de " . $nombre . " y codigo " . $codigo . " en la region " . $region . " y provincia " . $provincia . "";
+        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+        /**************************************** */
             
         }else{
             echo "0";

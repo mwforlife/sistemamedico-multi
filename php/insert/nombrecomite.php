@@ -1,9 +1,7 @@
 <?php
 require '../controller.php';
 $c = new Controller();
-
-/*Codigo: sdfs
-Nombre: fdsf*/
+session_start();
 
 if(isset($_POST['Codigo']) && isset($_POST['Nombre']) && isset($_POST['empresa'])){
     $codigo = $_POST['Codigo'];
@@ -19,6 +17,14 @@ if(isset($_POST['Codigo']) && isset($_POST['Nombre']) && isset($_POST['empresa']
         $result = $c->registrarnombrecomite($codigo, $nombre, $empresa);
         if($result==true){
             echo "1";
+            /***********Auditoria******************* */
+            $titulo = "Registro de Nombre Comite";
+            $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+            $idUsuario = $_SESSION['USER_ID'];
+            $object = $c->buscarenUsuario1($idUsuario);
+            $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo nombre comite con el nombre de " . $nombre . " y codigo " . $codigo . "";
+            $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+            /**************************************** */
         }else{
             echo "0";
         }

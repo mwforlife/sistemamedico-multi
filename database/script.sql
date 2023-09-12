@@ -294,10 +294,13 @@ create table acciones(
 insert into acciones(nombre) values('Registro');
 insert into acciones(nombre) values('Edicion');
 insert into acciones(nombre) values('Eliminacion');
+insert into acciones(nombre) values('Informe');
+insert into acciones(nombre) values('Session');
 
 create table auditoriaeventos(
     id int not null auto_increment primary key,
     usuario int not null references usuarios(id),
+    empresa int not null references empresa(id),
     accion int not null references acciones(id),
     titulo varchar(200) not null,
     evento text not null,

@@ -91,6 +91,14 @@ if(isset($_POST['idcomite']) && isset($_POST['profesionales']) && isset($_POST['
     }
 
     echo "1";
+    /***********Auditoria******************* */
+    $titulo = "Asignacion de Profesionales y Pacientes a Comité";
+    $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+    $idUsuario = $_SESSION['USER_ID'];
+    $object = $c->buscarenUsuario1($idUsuario);
+    $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha asignado profesionales y pacientes al comité";
+    $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+    /**************************************** */
 }else{
     echo "No se recibieron los datos";
 }

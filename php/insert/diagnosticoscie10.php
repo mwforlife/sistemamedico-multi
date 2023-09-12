@@ -1,6 +1,7 @@
 <?php
 require '../controller.php';
 $c = new Controller();
+session_start();
 if (isset($_POST['Codigo']) && isset($_POST['Nombre']) && isset($_POST['nodofinal']) && isset($_POST['manifestacion']) && isset($_POST['perinatal']) && isset($_POST['pediatrico']) && isset($_POST['obstetrico']) && isset($_POST['adulto']) && isset($_POST['mujer']) && isset($_POST['hombre']) && isset($_POST['poaexento']) && isset($_POST['dpnoprincipal']) && isset($_POST['vcdp'])) {
     $codigo = $_POST['Codigo'];
     $nombre = $_POST['Nombre'];
@@ -51,11 +52,15 @@ if (isset($_POST['Codigo']) && isset($_POST['Nombre']) && isset($_POST['nodofina
         if ($result == true) {
             echo "1";
 
-            $idUsuario = $_SESSION['USER_ID'];
-            $titulo = "Registro de diagnostico CIE10";
-            $object = $c->buscarenUsuario1($idUsuario);
-            $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo diagnostico CIE10";
-            $c->registrarAuditoria($_SESSION['USER_ID'], 1, $titulo, $evento);
+            
+        /***********Auditoria******************* */
+        $titulo = "Registro de Diagnostico CIE10";
+        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo diagnostico CIE10 con el nombre de " . $nombre . " y codigo " . $codigo . "";
+        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+        /**************************************** */
         } else {
             echo "0";
         }

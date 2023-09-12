@@ -1,9 +1,7 @@
 <?php
 require '../controller.php';
 $c = new Controller();
-
-/*Codigo: sdfs
-Nombre: fdsf*/
+session_start();
 
 if(isset($_POST['Codigo']) && isset($_POST['Nombre']) && isset($_POST['especialidad'])){
     $codigo = $_POST['Codigo'];
@@ -19,6 +17,15 @@ if(isset($_POST['Codigo']) && isset($_POST['Nombre']) && isset($_POST['especiali
         $result = $c->registrarprofesion($codigo, $nombre, $tipo);
         if($result==true){
             echo "1";
+            
+        /***********Auditoria******************* */
+        $titulo = "Registro de Profesion";
+        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado una nueva profesion con el nombre de " . $nombre . " y codigo " . $codigo . "";
+        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+        /**************************************** */
         }else{
             echo "0";
         }

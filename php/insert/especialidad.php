@@ -1,10 +1,7 @@
 <?php
 require '../controller.php';
 $c = new Controller();
-
-/*Codigo: sdfs
-Nombre: fdsf*/
-
+session_start();
 if(isset($_POST['Codigo']) && isset($_POST['Nombre'])){
     $codigo = $_POST['Codigo'];
     $nombre = $_POST['Nombre'];
@@ -17,6 +14,15 @@ if(isset($_POST['Codigo']) && isset($_POST['Nombre'])){
         $result = $c->registrarespecialidad($codigo, $nombre);
         if($result==true){
             echo "1";
+            
+        /***********Auditoria******************* */
+        $titulo = "Registro de Especialidad";
+        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado una nueva especialidad con el nombre de " . $nombre . " y codigo " . $codigo . "";
+        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+        /**************************************** */
         }else{
             echo "0";
         }

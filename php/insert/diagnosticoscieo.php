@@ -1,11 +1,7 @@
 <?php
 require '../controller.php';
 $c = new Controller();
-
-/*tipo: 1
-Codigo: 213ed
-Nombre: 213qs d
-Nombre1: wqee */
+session_start();
 
 if (isset($_POST['tipo']) && isset($_POST['Codigo']) && isset($_POST['Nombre']) && isset($_POST['Nombre1'])) {
     $tipo = $_POST['tipo'];
@@ -25,11 +21,15 @@ if (isset($_POST['tipo']) && isset($_POST['Codigo']) && isset($_POST['Nombre']) 
         if ($result == true) {
             echo "1";
 
-            $idUsuario = $_SESSION['USER_ID'];
-            $titulo = "Registro de diagnostico CIEO";
-            $object = $c->buscarenUsuario1($idUsuario);
-            $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo diagnostico CIEO";
-            $c->registrarAuditoria($_SESSION['USER_ID'], 1, $titulo, $evento);
+           
+        /***********Auditoria******************* */
+        $titulo = "Registro de Diagnostico CIEO";
+        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo diagnostico CIEO con el nombre de " . $des1 . " y codigo " . $codigo . "";
+        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+        /**************************************** */
         } else {
             echo "0";
         }
