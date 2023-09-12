@@ -100,6 +100,10 @@ if(isset($_POST['datosHorario'])) {
     }
     $mensaje = "Horario Registrado correctamente";
     echo json_encode(array("error" => false, "mensaje" => $mensaje));
+    $titulo = "Registro de disponibilidad";
+    $object = $c->buscarenUsuario1($idUsuario);
+    $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado nuevos horarios de disponibilidad";
+    $c->registrarAuditoria($_SESSION['USER_ID'], 2, $titulo, $evento);
 } else {
     echo json_encode(array("error" => true, "mensaje" => "Datos no recibidos correctamente"));
 }

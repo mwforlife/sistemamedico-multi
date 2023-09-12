@@ -24,6 +24,12 @@ if (isset($_POST['tipo']) && isset($_POST['Codigo']) && isset($_POST['Nombre']) 
         $result = $c->registrardiagnosticocieo($codigo, $des1, $des2, $tipo);
         if ($result == true) {
             echo "1";
+
+            $idUsuario = $_SESSION['USER_ID'];
+            $titulo = "Registro de diagnostico CIEO";
+            $object = $c->buscarenUsuario1($idUsuario);
+            $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo diagnostico CIEO";
+            $c->registrarAuditoria($_SESSION['USER_ID'], 1, $titulo, $evento);
         } else {
             echo "0";
         }

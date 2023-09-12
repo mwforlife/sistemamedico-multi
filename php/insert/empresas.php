@@ -88,6 +88,13 @@ if (isset($_POST['EnterpriseRut']) && isset($_POST['EnterpriseNombre']) && isset
                 $emp = $c->BuscarEmpresaporRut($EnterpriseRut);
                 $id = $emp->getId();
                 $_SESSION['EMPRESA_ID'] = $id;
+                
+
+            $idUsuario = $_SESSION['USER_ID'];
+            $titulo = "Registro de Empresa";
+            $object = $c->buscarenUsuario1($idUsuario);
+            $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado una nueva Empresa con el rut: ".$EnterpriseRut." Bajo el nombre: ".$EnterpriseNombre;
+            $c->registrarAuditoria($_SESSION['USER_ID'], 1, $titulo, $evento);
             }
         }
     }

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require '../controller.php';
 $c = new Controller();
 if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medico']) && isset($_POST['reserva']) && isset($_POST['diagnosticoid']) && isset($_POST['diagnosticotext']) && isset($_POST['cieo10']) && isset($_POST['diagnosticocie10']) && isset($_POST['tipoatencion']) && isset($_POST['ecog']) && isset($_POST['ecogtext']) && isset($_POST['ingreso']) && isset($_POST['receta']) && isset($_POST['reingreso']) && isset($_POST['anamnesis']) && isset($_POST['procedimientotext']) && isset($_POST['resolucion']) && isset($_POST['estadoatencion'])) {
@@ -55,7 +56,15 @@ if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medic
     $response = $c->registrarconsulta($paciente,$medico, $empresa, $reserva, $folio,$diagnosticoid, $diagnosticotext, $cieo10, $diagnosticocie10,$tipoatencion, $ecog, $ecogtext, $ingreso, $receta, $reingreso, $anamnesis, $procedimientotext, $resolucion,$modalidad);
 
     if($response==true){
+        $titulo = "Registro de consulta";
+        
+        $idUsuario = $_SESSION['USER_ID'];
+        $object = $c->buscarenUsuario1($idUsuario);
+        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado una nueva consulta";
+        $c->registrarAuditoria($_SESSION['USER_ID'], 1, $titulo, $evento);
+
         $c->cambiarestadoreserva($reserva,$estadoatencion);
+       
         echo json_encode(array('error' => false, 'message' => 'Consulta registrada correctamente'));
     }else{
         echo json_encode(array('error' => true, 'message' => 'Error al registrar la consulta'));

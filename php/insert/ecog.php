@@ -17,6 +17,12 @@ if(isset($_POST['Codigo']) && isset($_POST['Nombre'])){
         $result = $c->registrarecog($codigo, $nombre);
         if($result==true){
             echo "1";
+
+            $idUsuario = $_SESSION['USER_ID'];
+            $titulo = "Registro de ECOG";
+            $object = $c->buscarenUsuario1($idUsuario);
+            $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo ECOG";
+            $c->registrarAuditoria($_SESSION['USER_ID'], 1, $titulo, $evento);
         }else{
             echo "0";
         }

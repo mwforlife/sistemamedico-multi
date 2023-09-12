@@ -1,9 +1,7 @@
 <?php
 require '../controller.php';
 $c = new Controller();
-
-/*Codigo: sdfs
-Nombre: fdsf*/
+session_start();
 
 if(isset($_POST['Codigo']) && isset($_POST['Nombre']) && isset($_POST['Region']) && isset($_POST['Provincia'])){
     $codigo = $_POST['Codigo'];
@@ -25,6 +23,13 @@ if(isset($_POST['Codigo']) && isset($_POST['Nombre']) && isset($_POST['Region'])
         if($result==true){
             echo "1";
             $c->registraciudad($codigo,$nombre, $region, $provincia);
+
+            $idUsuario = $_SESSION['USER_ID'];
+            $titulo = "Registro de comuna";
+            $object = $c->buscarenUsuario1($idUsuario);
+            $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado una nueva comuna";
+            $c->registrarAuditoria($_SESSION['USER_ID'], 1, $titulo, $evento);
+            
         }else{
             echo "0";
         }
