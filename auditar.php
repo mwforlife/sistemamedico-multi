@@ -385,7 +385,7 @@ if(isset($_GET['user'])){
                                         </thead>
                                         <tbody>
 											<?php
-												$lista = $c->listarAuditoria($object1->getId());
+												$lista = $c->listarAuditoria($object1->getId(), $empresa->getId());
 												foreach($lista as $r){
 													echo "<tr class='text-center'>";
 													echo "<td>".$r->getUsuario()."</td>";

@@ -453,6 +453,14 @@ if (isset($_GET['r'])) {
     $contenido .= "</table>";
 
 
+    /***********Auditoria******************* */
+    $titulo = "Generaracón de receta medica";
+	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+    $object = $c->buscarenUsuario1($idUsuario);
+    $idUsuario = $_SESSION['USER_ID'];
+    $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha generado una receta Medica para el paciente " . $paciente->getNombre() . " " . $paciente->getApellido1() . " " . $paciente->getApellido2();
+    $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+    /**************************************** */
 
     $mpdf->WriteHTML($contenido);
     $nombrecontenido = "Receta_" . $paciente->getRut() . "_" . date("dmyHis") . ".pdf";

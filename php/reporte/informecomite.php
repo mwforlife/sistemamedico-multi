@@ -251,6 +251,15 @@ if (isset($_GET['id'])) {
     </tr>";
     $contenido .= "</table>";
 
+    
+    /***********Auditoria******************* */
+    $titulo = "Generaracón de informe de comité";
+	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+    $idUsuario = $_SESSION['USER_ID'];
+    $object = $c->buscarenUsuario1($idUsuario);
+    $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha generado un informe de Comité para el paciente " . $paciente->getNombre() . " " . $paciente->getApellido1() . " " . $paciente->getApellido2();
+    $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+    /**************************************** */
 
     $mpdf->WriteHTML($contenido);
     $nombrecontenido = "Informe_" . $paciente->getRut()."_".date("dmyHis") . ".pdf";
