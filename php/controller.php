@@ -44,7 +44,7 @@ class Controller
     private $mi;
 
     private $host = "localhost";
-    /*Variables*/
+    /*Variables
     private $user = "root";
     private $pass = "";
     private $bd = "oncoway";
@@ -54,7 +54,7 @@ class Controller
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server 
+    /*Variables BD Server*/ 
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
@@ -241,10 +241,10 @@ class Controller
     }
 
     //Listar Auditoria por acción
-    public function listarAuditoriaAccion($accion)
+    public function listarAuditoriaAccion($accion, $empresa)
     {
         $this->conexion();
-        $sql = "select auditoriaeventos.id as id, usuarios.nombre as nombre, usuarios.apellido1 as apellido1, usuarios.apellido2 as apellido2, auditoriaeventos.empresa as empresa, acciones.nombre as accion, auditoriaeventos.titulo as titulo, auditoriaeventos.evento as evento, auditoriaeventos.fecha as fecha from auditoriaeventos inner join usuarios on auditoriaeventos.usuario = usuarios.id inner join acciones on auditoriaeventos.accion = acciones.id where auditoriaeventos.accion = $accion order by auditoriaeventos.fecha desc";
+        $sql = "select auditoriaeventos.id as id, usuarios.nombre as nombre, usuarios.apellido1 as apellido1, usuarios.apellido2 as apellido2, auditoriaeventos.empresa as empresa, acciones.nombre as accion, auditoriaeventos.titulo as titulo, auditoriaeventos.evento as evento, auditoriaeventos.fecha as fecha from auditoriaeventos inner join usuarios on auditoriaeventos.usuario = usuarios.id inner join acciones on auditoriaeventos.accion = acciones.id where auditoriaeventos.accion = $accion and auditoriaeventos.empresa=$empresa order by auditoriaeventos.fecha desc";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {
