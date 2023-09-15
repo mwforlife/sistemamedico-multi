@@ -375,11 +375,13 @@ $object = $c->buscarenUsuario1($id);
 					<!-- End Page Header -->
 					<div class="card">
 						<div class="card-header bd-b-0">
-							<h4 class="card-title font-weight-semibold mb-0">Roles</h4>
+							<h4 class="card-title font-weight-semibold mb-0">Asignación de Roles: <?php echo $usuario->getNombre(). " " . $usuario->getApellido1(). " " . $usuario->getApellido2();?></h4>
+							<input type="hidden" id="enterprise" value="<?php echo $enterprise;?>">
+							<input type="hidden" id="user" value="<?php echo $usuario->getId();?>">
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-bordered text-nowrap mb-0 w-100" id="example2">
+								<table class="table table-bordered text-nowrap mb-0 w-100" id="">
 									<thead>
 										<tr>
 											<td>Nombre</td>
@@ -387,58 +389,13 @@ $object = $c->buscarenUsuario1($id);
 											<td>Asignar</td>
 										</tr>
 									</thead>
-									<tbody>
-										<?php
-										$roles = $c->listarRoles();
-										foreach ($roles as $rol) {
-											echo "<tr>";
-											echo "<td>" . $rol->getCodigo() . "</td>";
-											echo "<td>" . $rol->getNombre() . "</td>";
-											echo "<td><a href='javascript:void(0)' onclick='asignarRol(" . $rol->getId() . ",$enterprise,".$usuario->getId().")' class='btn btn-outline-primary btn-sm'><i class='fa fa-user-plus'></i></a></td>";
-											echo "</tr>";
-										}
-										?>
+									<tbody id="tableroles">
 									</tbody>
 
 								</table>
 							</div>
 						</div>
 					</div>
-
-					
-					<div class="card">
-						<div class="card-header bd-b-0">
-							<h4 class="card-title font-weight-semibold mb-0">Roles Asignados: <?php echo $usuario->getNombre(). " " . $usuario->getApellido1(). " " . $usuario->getApellido2();?></h4>
-						</div>
-						<div class="card-body">
-							<div class="table-responsive">
-								<table class="table table-bordered text-nowrap mb-0 w-100" id="example1">
-									<thead>
-										<tr>
-											<td>Nombre</td>
-											<td>Descripción</td>
-											<td>Asignar</td>
-										</tr>
-									</thead>
-									<tbody>
-										<?php
-										$roles = $c->BuscarRolesUsuarioEmpresa($enterprise,$usuario->getId());
-										foreach ($roles as $rol) {
-											echo "<tr>";
-											echo "<td>" . $rol->getCodigo() . "</td>";
-											echo "<td>" . $rol->getNombre() . "</td>";
-											echo "<td><a href='javascript:void(0)' onclick='eliminarRol(" . $rol->getId() .")' class='btn btn-outline-danger btn-sm'><i class='fa fa-user-times'></i></a></td>";
-											echo "</tr>";
-										}
-										?>
-									</tbody>
-
-								</table>
-							</div>
-						</div>
-					</div>
-
-
 				</div>
 			</div>
 		</div>

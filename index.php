@@ -25,61 +25,70 @@ $id = $_SESSION['USER_ID'];
 $object = $c->buscarenUsuario1($id);
 
 $admingeneral = false;
-$adminempresa = false;
 $adminsistema = false;
-$auditoria = false;
-$comite = false;
-$definicionescomite = false;
-$definicionesempresa = false;
-$definicionesgenerales = false;
-$fichaclinica = false;
-$medico = false;
-$reservas = false;
+$adminempresa = false;
 $suupervisor = false;
+$medico = false;
+$definicionescomite = false;
+$definicionesgenerales = false;
+$definicionesempresa = false;
+$auditoria = false;
+$reservas = false;
+$fichaclinica = false;
+$comite = false;
 $usuarios = false;
 if(isset($_SESSION['CURRENT_ENTERPRISE'])){
+	if($c->validarroladmin($object->getId())==true){
+		$admingeneral = true;
+	}
 	$idempresa = $_SESSION['CURRENT_ENTERPRISE'];
 	$roles = $c->BuscarRolesUsuarioEmpresa1($idempresa, $id);
 	foreach ($roles as $rol) {
-		if ($rol->getId() == 1) {
+		if ($rol->getNombre() == 1) {
 			$admingeneral = true;
 		}
-		if ($rol->getId() == 2) {
-			$adminempresa = true;
-		}
-		if ($rol->getId() == 3) {
+		if ($rol->getNombre() == 2) {
 			$adminsistema = true;
 		}
-		if ($rol->getId() == 4) {
-			$auditoria = true;
+		if ($rol->getNombre() == 3) {
+			$adminempresa = true;
 		}
-		if ($rol->getId() == 5) {
-			$comite = true;
-		}
-		if ($rol->getId() == 6) {
-			$definicionescomite = true;
-		}
-		if ($rol->getId() == 7) {
-			$definicionesempresa = true;
-		}
-		if ($rol->getId() == 8) {
-			$definicionesgenerales = true;
-		}
-		if ($rol->getId() == 9) {
-			$fichaclinica = true;
-		}
-		if ($rol->getId() == 10) {
-			$medico = true;
-		}
-		if ($rol->getId() == 11) {
-			$reservas = true;
-		}
-		if ($rol->getId() == 12) {
+		if ($rol->getNombre() == 4) {
 			$suupervisor = true;
 		}
-		if ($rol->getId() == 13) {
+		if ($rol->getNombre() == 5) {
+			$medico = true;
+		}
+		if ($rol->getNombre() == 6) {
+			$definicionescomite = true;
+		}
+		if ($rol->getNombre() == 7) {
+			$definicionesgenerales = true;
+		}
+		if ($rol->getNombre() == 8) {
+			$definicionesempresa = true;
+		}
+		if ($rol->getNombre() == 9) {
+			$auditoria = true;
+		}
+		if ($rol->getNombre() == 10) {
+			$reservas = true;
+		}
+		if ($rol->getNombre() == 11) {
+			$fichaclinica = true;
+		}
+		if ($rol->getNombre() == 12) {
+			$comite = true;
+		}
+		if ($rol->getNombre() == 13) {
 			$usuarios = true;
 		}
+
+
+	}
+}else{
+	if($c->validarroladmin($object->getId())==true){
+		$admingeneral = true;
 	}
 }
 
@@ -161,8 +170,15 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 				</a>
 			</div>
 			<div class="main-sidebar-body">
+					
 				<ul class="nav">
+					<?php 
+						if($admingeneral == true || $adminsistema == true || $adminempresa == true || $suupervisor == true || $definicionescomite == true || $definicionesgenerales == true){
+					?>
 					<li class="nav-header"><span class="nav-label">Dashboard</span></li>
+					<?php
+						if($admingeneral == true || $adminsistema == true || $definicionescomite == true){
+					?>
 					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
@@ -192,9 +208,17 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							</li>
 						</ul>
 					</li>
+					<?php
+						}
+						if($admingeneral == true || $adminsistema == true || $adminempresa == true || $suupervisor == true || $definicionesgenerales == true){
+					?>
 					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
+						<?php
+						}
+							if($admingeneral == true || $adminsistema == true || $definicionesgenerales == true){
+							?>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="regiones.php">Regiones</a>
 							</li>
@@ -213,20 +237,34 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
 							</li>
+							<?php
+								}
+								if($admingeneral == true || $adminsistema == true || $adminempresa == true || $suupervisor == true || $definicionesgenerales == true){
+							?>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="esquema.php">Esquema</a>
 							</li>
+							<?php
+								}
+								if($admingeneral == true || $adminsistema == true || $definicionesgenerales == true){
+							?>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
 							</li>
+							<?php
+								}
+							?>
 						</ul>
 					</li>
+					<?php
+						}
+						
+					?>
 					<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
-					<li class="nav-item">
-						<a class="nav-link" href="tipodocumento.html"><i class="fe fe-grid sidemenu-icon"></i><span class="sidemenu-label">Redactar documentos</span></a>
-					</li>
-
 					<!--------------------------Inicio Empresa--------------------------->
+					<?php
+						if($admingeneral == true || $adminsistema == true || $adminempresa == true){
+					?>
 					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
@@ -235,6 +273,9 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							</li>
 						</ul>
 					</li>
+					<?php
+						}
+					?>
 					<!--------------------------Fin Empresa--------------------------->
 
 					<!--------------------------Inicio Agenda--------------------------->
@@ -349,17 +390,21 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 
 					<select name="" id="entrepriseselect" onchange="cambiarempresa(this)" class="form-control select2" style="min-width: 400px; z-index:999999999;">
 						<?php
-						$empresas = $c->listarEmpresas();
-						foreach ($empresas as $empresa) {
-							if(isset($_SESSION['CURRENT_ENTERPRISE'])){
-								if($_SESSION['CURRENT_ENTERPRISE'] == $empresa->getId()){
-									echo "<option value='" . $empresa->getId() . "' selected>" . $empresa->getRazonsocial() . "</option>";
+						if($admingeneral == true || $adminsistema == true){
+							$empresas = $c->listarEmpresas();
+							foreach ($empresas as $empresa) {
+								if(isset($_SESSION['CURRENT_ENTERPRISE'])){
+									if($_SESSION['CURRENT_ENTERPRISE'] == $empresa->getId()){
+										echo "<option value='" . $empresa->getId() . "' selected>" . $empresa->getRazonsocial() . "</option>";
+									}else{
+										echo "<option value='" . $empresa->getId() . "'>" . $empresa->getRazonsocial() . "</option>";
+									}
 								}else{
 									echo "<option value='" . $empresa->getId() . "'>" . $empresa->getRazonsocial() . "</option>";
 								}
-							}else{
-								echo "<option value='" . $empresa->getId() . "'>" . $empresa->getRazonsocial() . "</option>";
 							}
+						}else{
+							
 						}
 						?>
 					</select>
@@ -470,27 +515,6 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 			</div>
 		</div>
 		<!--End Footer-->
-
-
-
-		<!-- Edit Modal -->
-		<div class="modal fade" id="modaledit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="staticBackdropLabel">Edición</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="content">
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 	<!-- End Page -->
 
@@ -547,9 +571,6 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	<script src="JsFunctions/Alert/alert.js"></script>
 	<script src="JsFunctions/function.js"></script>
 	<script src="JsFunctions/main.js"></script>
-
-
-
 </body>
 
 </html>

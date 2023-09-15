@@ -9,7 +9,7 @@ function asignarRol(rol, empresa, usuario) {
             //Si el error es falso, mostramos el mensaje y 
             if (jsonData.error == false) {
                 ToastifySuccess(jsonData.message);
-                setTimeout(function () { location.reload(); }, 1500);
+                listarroles();
             } else {
                 ToastifyError(jsonData.message);
             }
@@ -17,7 +17,7 @@ function asignarRol(rol, empresa, usuario) {
     });
 }
 
-function eliminarRol(rol) {
+function eliminarRol(rol, empresa, usuario) {
     //Preguntamos si esta seguro
     swal.fire({
         title: '¿Estás seguro?',
@@ -32,14 +32,14 @@ function eliminarRol(rol) {
             $.ajax({
                 type: "POST",
                 url: "php/delete/rol.php",
-                data: { rol: rol },
+                data: { rol: rol, empresa: empresa, usuario: usuario },
                 success: function (response) {
                     //Recibimos el JSON
                     var jsonData = JSON.parse(response);
                     //Si el error es falso, mostramos el mensaje y 
                     if (jsonData.error == false) {
                         ToastifySuccess(jsonData.message);
-                        setTimeout(function () { location.reload(); }, 1500);
+                        listarroles();
                     } else {
                         ToastifyError(jsonData.message);
                     }
@@ -50,3 +50,20 @@ function eliminarRol(rol) {
         }
     });
 }
+
+function listarroles(){
+    var enterprise = $("#enterprise").val();
+    var user = $("#user").val();
+    $.ajax({
+        type: "POST",
+        url: "php/listado/roles.php",
+        data: { enterprise: enterprise, user: user },
+        success: function (response) {
+            $("#tableroles").html(response);
+        }
+    });
+}
+
+$(document).ready(function () {
+    listarroles();
+});

@@ -44,7 +44,7 @@ class Controller
     private $mi;
 
     private $host = "localhost";
-    /*Variables
+    /*Variables*/ 
     private $user = "root";
     private $pass = "";
     private $bd = "oncoway";
@@ -54,7 +54,7 @@ class Controller
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server*/ 
+    /*Variables BD Server
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
@@ -99,7 +99,6 @@ class Controller
         // Obtener la fecha y hora actual desde MySQL
         $sqlFechaHoraActual = "SELECT DATE(NOW()) AS fecha_actual, TIME(NOW()) AS hora_actual";
         $resultFechaHoraActual = $this->mi->query($sqlFechaHoraActual);
-        $fechaHoraActual = null;
         if ($rsFechaHoraActual = mysqli_fetch_array($resultFechaHoraActual)) {
             $fechaActual = $rsFechaHoraActual['fecha_actual'];
             $horaActual = $rsFechaHoraActual['hora_actual'];
@@ -4083,14 +4082,14 @@ class Controller
     public function BuscarRolesUsuarioEmpresa1($empresa, $usuario)
     {
         $this->conexion();
-        $sql = "select rolesusuarios.id as id, roles.id as nombre, roles.descripcion as descripcion from roles, rolesusuarios where roles.id = rolesusuarios.rol and rolesusuarios.usuario = $usuario and rolesusuarios.empresa = $empresa";
+        $sql = "select * from rolesusuarios where rolesusuarios.usuario = $usuario and rolesusuarios.empresa = $empresa";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {
             $id = $rs['id'];
-            $nombre = $rs['nombre'];
-            $descripcion = $rs['descripcion'];
-            $rol = new Objects($id, $nombre, $descripcion);
+            $nombre = $rs['rol'];
+            $descripcion = $rs['registro'];
+            $rol = new Objects($id, $descripcion, $nombre);
             $lista[] = $rol;
         }
         $this->desconexion();
@@ -4122,10 +4121,10 @@ class Controller
     }
 
     //Eliminar Rol Usuario Empresa
-    public function EliminarRolUsuarioEmpresa($id)
+    public function EliminarRolUsuarioEmpresa($id,$empresa,$usuario)
     {
         $this->conexion();
-        $sql = "delete from rolesusuarios where id = $id";
+        $sql = "delete from rolesusuarios where rol = $id and empresa = $empresa and usuario = $usuario";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
