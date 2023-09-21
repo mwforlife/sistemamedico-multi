@@ -273,6 +273,7 @@ insert into roles(nombre,descripcion) values('Auditoria','El Usuario tiene permi
 insert into roles(nombre,descripcion) values('Reservas','El Usuario tiene permiso para administrar las reservas del sistema');
 insert into roles(nombre,descripcion) values('Ficha Clinica','El Usuario tiene permiso para administrar las fichas clinicas del sistema');
 insert into roles(nombre,descripcion) values('Comité','El Usuario tiene permiso para administrar los comités del sistema');
+insert into roles(nombre,descripcion) values('Usuarios','El Usuario tiene permiso para administrar los usuarios del sistema');
 
 
 

@@ -24,71 +24,69 @@ if (!isset($_SESSION['USER_ID'])) {
 $id = $_SESSION['USER_ID'];
 $object = $c->buscarenUsuario1($id);
 
-$admingeneral = false;
-$adminsistema = false;
-$adminempresa = false;
-$suupervisor = false;
-$medico = false;
-$definicionescomite = false;
-$definicionesgenerales = false;
-$definicionesempresa = false;
-$auditoria = false;
-$reservas = false;
-$fichaclinica = false;
-$comite = false;
-$usuarios = false;
+$admingeneralrol = false;
+$adminsistemarol = false;
+$adminempresarol = false;
+$suupervisorrol = false;
+$medicorol = false;
+$definicionescomiterol = false;
+$definicionesgeneralesrol = false;
+$definicionesempresarol = false;
+$auditoriarol = false;
+$reservasrol = false;
+$fichaclinicarol = false;
+$comiterol = false;
+$usersrol = false;
 if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	if($c->validarroladmin($object->getId())==true){
-		$admingeneral = true;
+		$admingeneralrol = true;
 	}
 	$idempresa = $_SESSION['CURRENT_ENTERPRISE'];
 	$roles = $c->BuscarRolesUsuarioEmpresa1($idempresa, $id);
 	foreach ($roles as $rol) {
 		if ($rol->getNombre() == 1) {
-			$admingeneral = true;
+			$admingeneralrol = true;
 		}
 		if ($rol->getNombre() == 2) {
-			$adminsistema = true;
+			$adminsistemarol = true;
 		}
 		if ($rol->getNombre() == 3) {
-			$adminempresa = true;
+			$adminempresarol = true;
 		}
 		if ($rol->getNombre() == 4) {
-			$suupervisor = true;
+			$suupervisorrol = true;
 		}
 		if ($rol->getNombre() == 5) {
-			$medico = true;
+			$medicorol = true;
 		}
 		if ($rol->getNombre() == 6) {
-			$definicionescomite = true;
+			$definicionescomiterol = true;
 		}
 		if ($rol->getNombre() == 7) {
-			$definicionesgenerales = true;
+			$definicionesgeneralesrol = true;
 		}
 		if ($rol->getNombre() == 8) {
-			$definicionesempresa = true;
+			$definicionesempresarol = true;
 		}
 		if ($rol->getNombre() == 9) {
-			$auditoria = true;
+			$auditoriarol = true;
 		}
 		if ($rol->getNombre() == 10) {
-			$reservas = true;
+			$reservasrol = true;
 		}
 		if ($rol->getNombre() == 11) {
-			$fichaclinica = true;
+			$fichaclinicarol = true;
 		}
 		if ($rol->getNombre() == 12) {
-			$comite = true;
+			$comiterol = true;
 		}
 		if ($rol->getNombre() == 13) {
-			$usuarios = true;
+			$usersrol = true;
 		}
-
-
 	}
 }else{
 	if($c->validarroladmin($object->getId())==true){
-		$admingeneral = true;
+		$admingeneralrol = true;
 	}
 }
 
@@ -173,11 +171,11 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 					
 				<ul class="nav">
 					<?php 
-						if($admingeneral == true || $adminsistema == true || $adminempresa == true || $suupervisor == true || $definicionescomite == true || $definicionesgenerales == true){
+						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionescomiterol == true || $definicionesgeneralesrol == true){
 					?>
 					<li class="nav-header"><span class="nav-label">Dashboard</span></li>
 					<?php
-						if($admingeneral == true || $adminsistema == true || $definicionescomite == true){
+						if($admingeneralrol == true || $adminsistemarol == true || $definicionescomiterol == true){
 					?>
 					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
@@ -210,14 +208,14 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 					</li>
 					<?php
 						}
-						if($admingeneral == true || $adminsistema == true || $adminempresa == true || $suupervisor == true || $definicionesgenerales == true){
+						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true){
 					?>
 					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 						<?php
 						}
-							if($admingeneral == true || $adminsistema == true || $definicionesgenerales == true){
+							if($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true){
 							?>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="regiones.php">Regiones</a>
@@ -239,14 +237,14 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							</li>
 							<?php
 								}
-								if($admingeneral == true || $adminsistema == true || $adminempresa == true || $suupervisor == true || $definicionesgenerales == true){
+								if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true){
 							?>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="esquema.php">Esquema</a>
 							</li>
 							<?php
 								}
-								if($admingeneral == true || $adminsistema == true || $definicionesgenerales == true){
+								if($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true){
 							?>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
@@ -263,7 +261,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 					<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
 					<!--------------------------Inicio Empresa--------------------------->
 					<?php
-						if($admingeneral == true || $adminsistema == true || $adminempresa == true){
+						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true){
 					?>
 					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
@@ -282,15 +280,26 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 					<li class="nav-item">
 						<a class="nav-link" href="agenda.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Agenda</span></a>
 					</li>
-					<!--------------------------Inicio Agenda--------------------------->
+					<?php
+						if($admingeneralrol == true || $adminsistemarol == true || $reservasrol == true){
+					?>
+					<!--------------------------Inicio Reservas--------------------------->
 					<li class="nav-item">
 						<a class="nav-link" href="reservas.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Reservas</span></a>
 					</li>
-					<!--------------------------Inicio Agenda--------------------------->
+					<!--------------------------Inicio Atencion--------------------------->
 					<li class="nav-item">
 						<a class="nav-link" href="atencion.php"><i class="fe fe-user sidemenu-icon"></i><span class="sidemenu-label">Atención</span></a>
 					</li>
+					<?php
+						}
+					?>
+					<!--------------------------Fin Agenda--------------------------->
 
+					
+					<?php
+						if($admingeneralrol == true || $adminsistemarol == true || $auditoriarol == true){
+					?>
 					<!--------------------------Inicio Auditoria--------------------------->
 					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
@@ -301,7 +310,14 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 						</ul>
 					</li>
 					<!--------------------------Fin Auditoria--------------------------->
+					<?php
+						}
+					?>
 
+
+					<?php
+						if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true){
+					?>
 					<!--------------------------Inicio Ficha Pacientes----------------->
 					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
@@ -319,7 +335,14 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 						</ul>
 					</li>
 					<!--------------------------Fin Ficha Pacientes----------------->
+					<?php
+						}
+					?>
 
+
+					<?php
+						if($admingeneralrol == true || $adminsistemarol == true || $medicorol == true){
+					?>
 					<!--------------------------Inicio Consulta Medica----------------->
 					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
@@ -336,7 +359,14 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 						</ul>
 					</li>
 					<!--------------------------Fin Consulta Medica----------------->
+					<?php
+						}
+					?>
 
+
+					<?php
+						if($admingeneralrol == true || $adminsistemarol == true || $comiterol == true){
+					?>
 					<!--------------------------Inicio Comite----------------->
 					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
@@ -353,7 +383,14 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 						</ul>
 					</li>
 					<!--------------------------Fin Comite----------------->
+					<?php
+						}
+						?>
 
+					
+					<?php
+						if($admingeneralrol == true || $adminsistemarol == true || $usersrol == true){
+					?>
 					<!--------------------------Inicio Usuarios----------------->
 					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
@@ -371,6 +408,9 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 						</ul>
 					</li>
 					<!--------------------------Fin Usuarios----------------->
+					<?php
+						}
+					?>
 				</ul>
 			</div>
 		</div>
@@ -390,7 +430,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 
 					<select name="" id="entrepriseselect" onchange="cambiarempresa(this)" class="form-control select2" style="min-width: 400px; z-index:999999999;">
 						<?php
-						if($admingeneral == true || $adminsistema == true){
+						if($admingeneralrol == true || $adminsistemarol == true){
 							$empresas = $c->listarEmpresas();
 							foreach ($empresas as $empresa) {
 								if(isset($_SESSION['CURRENT_ENTERPRISE'])){
@@ -404,7 +444,18 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 								}
 							}
 						}else{
-							
+							$empresas = $c->empresasusuario($_SESSION['USER_ID']);
+							foreach ($empresas as $empresa) {
+								if(isset($_SESSION['CURRENT_ENTERPRISE'])){
+									if($_SESSION['CURRENT_ENTERPRISE'] == $empresa->getId()){
+										echo "<option value='" . $empresa->getId() . "' selected>" . $empresa->getRazonsocial() . "</option>";
+									}else{
+										echo "<option value='" . $empresa->getId() . "'>" . $empresa->getRazonsocial() . "</option>";
+									}
+								}else{
+									echo "<option value='" . $empresa->getId() . "'>" . $empresa->getRazonsocial() . "</option>";
+								}
+							}
 						}
 						?>
 					</select>

@@ -1,6 +1,7 @@
 <?php
 require '../controller.php';
 $c = new Controller();
+session_start();
 
 if(isset($_POST['action'])){
     if($_POST['action'] == 'reservar'){

@@ -26,6 +26,73 @@ if (!isset($_SESSION['USER_ID'])) {
 }
 $id = $_SESSION['USER_ID'];
 $object = $c->buscarenUsuario1($id);
+
+
+$admingeneralrol = false;
+$adminsistemarol = false;
+$adminempresarol = false;
+$suupervisorrol = false;
+$medicorol = false;
+$definicionescomiterol = false;
+$definicionesgeneralesrol = false;
+$definicionesempresarol = false;
+$auditoriarol = false;
+$reservasrol = false;
+$fichaclinicarol = false;
+$comiterol = false;
+$usersrol = false;
+if(isset($_SESSION['CURRENT_ENTERPRISE'])){
+	if($c->validarroladmin($object->getId())==true){
+		$admingeneralrol = true;
+	}
+	$idempresa = $_SESSION['CURRENT_ENTERPRISE'];
+	$roles = $c->BuscarRolesUsuarioEmpresa1($idempresa, $id);
+	foreach ($roles as $rol) {
+		if ($rol->getNombre() == 1) {
+			$admingeneralrol = true;
+		}
+		if ($rol->getNombre() == 2) {
+			$adminsistemarol = true;
+		}
+		if ($rol->getNombre() == 3) {
+			$adminempresarol = true;
+		}
+		if ($rol->getNombre() == 4) {
+			$suupervisorrol = true;
+		}
+		if ($rol->getNombre() == 5) {
+			$medicorol = true;
+		}
+		if ($rol->getNombre() == 6) {
+			$definicionescomiterol = true;
+		}
+		if ($rol->getNombre() == 7) {
+			$definicionesgeneralesrol = true;
+		}
+		if ($rol->getNombre() == 8) {
+			$definicionesempresarol = true;
+		}
+		if ($rol->getNombre() == 9) {
+			$auditoriarol = true;
+		}
+		if ($rol->getNombre() == 10) {
+			$reservasrol = true;
+		}
+		if ($rol->getNombre() == 11) {
+			$fichaclinicarol = true;
+		}
+		if ($rol->getNombre() == 12) {
+			$comiterol = true;
+		}
+		if ($rol->getNombre() == 13) {
+			$usersrol = true;
+		}
+	}
+}else{
+	if($c->validarroladmin($object->getId())==true){
+		$admingeneralrol = true;
+	}
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -107,12 +174,16 @@ $object = $c->buscarenUsuario1($id);
 				</a>
 			</div>
 			<div class="main-sidebar-body">
-				<ul class="nav">
+			<ul class="nav">
+					<?php 
+						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionescomiterol == true || $definicionesgeneralesrol == true){
+					?>
 					<li class="nav-header"><span class="nav-label">Dashboard</span></li>
+					<?php
+						if($admingeneralrol == true || $adminsistemarol == true || $definicionescomiterol == true){
+					?>
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span
-								class="sidemenu-label">Definiciones de Comité</span><i
-								class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
@@ -140,11 +211,17 @@ $object = $c->buscarenUsuario1($id);
 							</li>
 						</ul>
 					</li>
+					<?php
+						}
+						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true){
+					?>
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span
-								class="sidemenu-label">Definiciones Generales</span><i
-								class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
+						<?php
+						}
+							if($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true){
+							?>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="regiones.php">Regiones</a>
 							</li>
@@ -163,40 +240,92 @@ $object = $c->buscarenUsuario1($id);
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
 							</li>
+							<?php
+								}
+								if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true){
+							?>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="esquema.php">Esquema</a>
 							</li>
+							<?php
+								}
+								if($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true){
+							?>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
 							</li>
+							<?php
+								}
+							?>
 						</ul>
 					</li>
+					<?php
+						}
+						
+					?>
 					<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
+					<!--------------------------Inicio Empresa--------------------------->
+					<?php
+						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true){
+					?>
 					<li class="nav-item">
-						<a class="nav-link" href="tipodocumento.html"><i class="fe fe-grid sidemenu-icon"></i><span
-								class="sidemenu-label">Redactar documentos</span></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span
-								class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="empresas.php">Registro de Empresas</a>
 							</li>
 						</ul>
 					</li>
+					<?php
+						}
+					?>
+					<!--------------------------Fin Empresa--------------------------->
+
+					<!--------------------------Inicio Agenda--------------------------->
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span
-								class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link" href="agenda.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Agenda</span></a>
+					</li>
+					<?php
+						if($admingeneralrol == true || $adminsistemarol == true || $reservasrol == true){
+					?>
+					<!--------------------------Inicio Reservas--------------------------->
+					<li class="nav-item">
+						<a class="nav-link" href="reservas.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Reservas</span></a>
+					</li>
+					<!--------------------------Inicio Atencion--------------------------->
+					<li class="nav-item">
+						<a class="nav-link" href="atencion.php"><i class="fe fe-user sidemenu-icon"></i><span class="sidemenu-label">Atención</span></a>
+					</li>
+					<?php
+						}
+					?>
+					<!--------------------------Fin Agenda--------------------------->
+
+					
+					<?php
+						if($admingeneralrol == true || $adminsistemarol == true || $auditoriarol == true){
+					?>
+					<!--------------------------Inicio Auditoria--------------------------->
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="auditoria.php">Auditoria</a>
 							</li>
 						</ul>
 					</li>
+					<!--------------------------Fin Auditoria--------------------------->
+					<?php
+						}
+					?>
+
+
+					<?php
+						if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true){
+					?>
+					<!--------------------------Inicio Ficha Pacientes----------------->
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span
-								class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="pacientes.php">Ficha Pacientes</a>
@@ -210,9 +339,18 @@ $object = $c->buscarenUsuario1($id);
 
 						</ul>
 					</li>
+					<!--------------------------Fin Ficha Pacientes----------------->
+					<?php
+						}
+					?>
+
+
+					<?php
+						if($admingeneralrol == true || $adminsistemarol == true || $medicorol == true){
+					?>
+					<!--------------------------Inicio Consulta Medica----------------->
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span
-								class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="pacientesmedico.php">Ficha Pacientes</a>
@@ -225,9 +363,18 @@ $object = $c->buscarenUsuario1($id);
 							</li>
 						</ul>
 					</li>
+					<!--------------------------Fin Consulta Medica----------------->
+					<?php
+						}
+					?>
+
+
+					<?php
+						if($admingeneralrol == true || $adminsistemarol == true || $comiterol == true){
+					?>
+					<!--------------------------Inicio Comite----------------->
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span
-								class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="comite.php">Crear Comité</a>
@@ -240,10 +387,18 @@ $object = $c->buscarenUsuario1($id);
 							</li>
 						</ul>
 					</li>
+					<!--------------------------Fin Comite----------------->
+					<?php
+						}
+						?>
+
+					
+					<?php
+						if($admingeneralrol == true || $adminsistemarol == true || $usersrol == true){
+					?>
+					<!--------------------------Inicio Usuarios----------------->
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span
-								class="sidemenu-label">Gestion de Usuarios</span><i
-								class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
@@ -257,6 +412,10 @@ $object = $c->buscarenUsuario1($id);
 
 						</ul>
 					</li>
+					<!--------------------------Fin Usuarios----------------->
+					<?php
+						}
+					?>
 				</ul>
 			</div>
 		</div>
