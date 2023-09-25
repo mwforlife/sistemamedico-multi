@@ -136,6 +136,11 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 
 	<link rel="stylesheet" href="JsFunctions/Alert/loader.css">
 	<script src="JsFunctions/Alert/loader.js"></script>
+	<style>
+		.select2-selection{
+			width: 100% !important;
+		}
+	</style>
 
 </head>
 
