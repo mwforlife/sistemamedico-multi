@@ -808,7 +808,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																		<?php
 																		$primario = $c->listarecog();
 																		foreach ($primario as $row) {
-																			echo "<option value='" . $row->getId() . "'>" . $row->getNombre() . "</option>";
+																			echo "<option value='" . $row->getId() . "'>" . $row->getCodigo() . " - " . $row->getNombre() . "</option>";
 																		}
 																		?>
 
@@ -820,7 +820,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																		<?php
 																		$primario = $c->listarhistologico();
 																		foreach ($primario as $row) {
-																			echo "<option value='" . $row->getId() . "'>" . $row->getNombre() . "</option>";
+																			echo "<option value='" . $row->getId() . "'>" . $row->getCodigo() . " - " . $row->getNombre() . "</option>";
 																		}
 																		?>
 
@@ -867,9 +867,48 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																			<label for="">Primario Clinico:</label>
 																		</div>
 																		<div class="col-6">
-																			<select name="primarioclinico" id="primarioclinico" class="form-control select2">
-
-																			</select>
+																		<div class="row">
+											<div class="col-md-1">
+												<select name="" id="">
+													<option value="">y</option>
+													<option value="">r</option>
+												</select>
+											</div>
+											<div class="col-md-1">
+												<select name="" id="">
+													<option value="">c</option>
+													<option value="">p</option>
+												</select>
+											</div>
+											<div class="col-md-1">
+												<input type="text" name="" id="" value="T">
+											</div>
+											<div class="col-md-1">
+												<select name="" id="">
+													<option value="">a</option>
+													<option value="">v</option>
+													<option value="">m</option>
+												</select>
+											</div>	
+											<div class="col-md-1">
+												<input type="text" name="" id="" value="T">
+											</div>
+											<div class="col-md-1">
+												<select name="" id="">
+													<option value="">a</option>
+													<option value="">v</option>
+												</select>
+											</div>	
+											<div class="col-md-1">
+												<input type="text" name="" id="" value="M">
+											</div>
+											<div class="col-md-1">
+												<select name="" id="">
+													<option value="">a</option>
+													<option value="">v</option>
+												</select>
+											</div>	
+										</div>
 																		</div>
 																	</div>
 																</div>

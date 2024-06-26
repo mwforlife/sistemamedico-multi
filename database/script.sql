@@ -88,12 +88,11 @@ create table tipotnm(
     registro datetime not null default current_timestamp
 );
 
+
 create table tnm(
     id int not null auto_increment primary key,
-    codigo varchar(20) not null,
     nombre varchar(400) not null,
     tipotnm int not null references tipotnm(id),
-    diagnostico int not null references diagnosticos(id),
     registro datetime not null default current_timestamp
 );
 
