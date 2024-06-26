@@ -1,6 +1,19 @@
 <?php
+//Imprimir error de debug
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+//Incluir archivo de conexion a base de datos
 require '../controller.php';
 $c = new Controller();
+session_start();
+if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
+	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+	$empresa = $c->buscarEmpresa($enterprise);
+} else {
+	echo "No se ha seleccionado una empresa";
+    return;
+}
 if(isset($_POST['tipoidentificacion']) && isset($_POST['rut']) && isset($_POST['documentoadd']) && isset($_POST['nacionalidad']) && isset($_POST['paisorigen']) && isset($_POST['correo']) && isset($_POST['nombre']) && isset($_POST['apellido1']) && isset($_POST['apellido2']) && isset($_POST['genero']) && isset($_POST['estadocivil']) && isset($_POST['fechanacimiento']) && isset($_POST['hora']) && isset($_POST['fonomovil']) && isset($_POST['fonofijo']) && isset($_POST['nombresocial']) && isset($_POST['funcionario']) && isset($_POST['discapacidad']) && isset($_POST['reciennacido']) && isset($_POST['hijode']) && isset($_POST['pesodenacimiento']) && isset($_POST['talladenacimiento']) && isset($_POST['tipoparto']) && isset($_POST['rol']) && isset($_POST['fechafallecimiento']) && isset($_POST['horafallecimiento']) && isset($_POST['ficha']) && isset($_POST['fechaadmision']) && isset($_POST['familia']) && isset($_POST['inscrito']) && isset($_POST['sector']) && isset($_POST['prevision']) && isset($_POST['tipoprevision']) && isset($_POST['estadoafiliar']) && isset($_POST['chilesolidario']) && isset($_POST['prais']) && isset($_POST['sename']) && isset($_POST['ubicacionficha']) && isset($_POST['fichasaludmental']) && isset($_POST['region']) && isset($_POST['procincia']) && isset($_POST['comuna']) && isset($_POST['ciudad']) && isset($_POST['tipocalle']) && isset($_POST['nombrecalle']) && isset($_POST['numerodireccion']) && isset($_POST['block']) && isset($_POST['pueblooriginario']) && isset($_POST['escolaridad']) && isset($_POST['cursorepite']) && isset($_POST['situacionlaboral']) && isset($_POST['ocupacion']) && isset($_POST['rutpersona']) && isset($_POST['nombrepersona']) && isset($_POST['relacion']) && isset($_POST['telefonomovil']) && isset($_POST['direccion'])){
     //Recuperar datos paciente
     $tipoidentificacion = $_POST['tipoidentificacion']; $rut = $_POST['rut']; $documentoadd = $_POST['documentoadd']; $nacionalidad = $_POST['nacionalidad']; $paisorigen = $_POST['paisorigen']; $correo = $_POST['correo']; $nombre = $_POST['nombre']; $apellido1 = $_POST['apellido1']; $apellido2 = $_POST['apellido2']; $genero = $_POST['genero']; $estadocivil = $_POST['estadocivil']; $fechanacimiento = $_POST['fechanacimiento']; $hora = $_POST['hora']; $fonomovil = $_POST['fonomovil']; $fonofijo = $_POST['fonofijo']; $nombresocial = $_POST['nombresocial']; $funcionario = $_POST['funcionario']; $discapacidad = $_POST['discapacidad']; $reciennacido = $_POST['reciennacido']; $hijode = $_POST['hijode']; $pesodenacimiento = $_POST['pesodenacimiento']; $talladenacimiento = $_POST['talladenacimiento']; $tipoparto = $_POST['tipoparto']; $rol = $_POST['rol']; $fechafallecimiento = $_POST['fechafallecimiento']; $horafallecimiento = $_POST['horafallecimiento'];
@@ -8,7 +21,7 @@ if(isset($_POST['tipoidentificacion']) && isset($_POST['rut']) && isset($_POST['
     
     //Validacion de datos
     if($tipoidentificacion == 1){
-        $valid = $c->validarrutpaciente($rut);
+        $valid = $c->validarregistropaciente($rut,$empresa->getId());
         if($valid==true){
             echo "El rut ya existe";
             return;
@@ -61,7 +74,11 @@ if(isset($_POST['tipoidentificacion']) && isset($_POST['rut']) && isset($_POST['
         $pesodenacimiento = 0;
     }
 
-    $idpac = $c->registrarpaciente($tipoidentificacion, $rut, $documentoadd, $nacionalidad, $paisorigen, $correo, $nombre, $apellido1, $apellido2, $genero,$estadocivil, $fechanacimiento, $hora, $fonomovil, $fonofijo, $nombresocial, $funcionario,$discapacidad, $reciennacido, $hijode, $pesodenacimiento, $talladenacimiento, $tipoparto, $rol, $fechafallecimiento, $horafallecimiento,1);
+    $empresa = $enterprise;
+
+    
+
+    $idpac = $c->registrarpaciente($tipoidentificacion, $rut, $documentoadd, $nacionalidad, $paisorigen, $correo, $nombre, $apellido1, $apellido2, $genero,$estadocivil, $fechanacimiento, $hora, $fonomovil, $fonofijo, $nombresocial, $funcionario,$discapacidad, $reciennacido, $hijode, $pesodenacimiento, $talladenacimiento, $tipoparto, $rol, $fechafallecimiento, $horafallecimiento,1,$empresa);
 
     if($idpac<=0){
         echo "Error al registrar paciente" . $idpac;

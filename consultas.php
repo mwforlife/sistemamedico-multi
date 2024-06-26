@@ -595,15 +595,15 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                                                         } else if ($estado == 5) {
                                                             //Atendido(a)
                                                             echo "<td class='bg-transparent'><span class='badge badge-success'>Atendido(a)</span></td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-success btn-sm'><i class='fa fa-user-check'></i></button></td>";
+                                                            echo "<td class='bg-transparent'><button class='btn btn-success btn-sm'><i class='fa fa-user-check' onclick='atencion(" . $id . ")' ></i></button></td>";
                                                         } else if ($estado == 6) {
                                                             //Cancelado
                                                             echo "<td class='bg-transparent'><span class='badge badge-danger'>Reserva Cancelada</span></td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-danger btn-sm'><i class='fa fa-user-times'></i></button></td>";
+                                                            echo "<td class='bg-transparent'><button class='btn btn-danger btn-sm'><i class='fa fa-user-times' onclick='atencion(" . $id . ")' ></i></button></td>";
                                                         } else if ($estado == 7) {
                                                             //Paciente No Asiste
                                                             echo "<td class='bg-transparent'><span class='badge badge-danger'>Paciente No Asiste</span></td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-danger btn-sm'><i class='fa fa-user-times'></i></button></td>";
+                                                            echo "<td class='bg-transparent'><button class='btn btn-danger btn-sm' onclick='atencion(" . $id . ")'><i class='fa fa-user-times'></i></button></td>";
                                                         } 
                                                         
                                                         echo "</tr>";

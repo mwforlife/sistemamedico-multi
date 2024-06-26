@@ -557,7 +557,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                    $lista = $c->listarpacientes();
+                                                    $lista = $c->listarpacientes($empresa->getId());
                                                     foreach ($lista as $r) {
                                                         echo "<tr class='text-center'>";
                                                         if ($r->getTipoidentificacion() == 1) {

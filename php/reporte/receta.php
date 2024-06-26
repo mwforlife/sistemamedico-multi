@@ -14,11 +14,17 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
     return;
 }
 
+if (!isset($_SESSION['USER_ID'])) {
+    echo "No se ha iniciado una sesión";
+    return;
+}
+
 if (isset($_GET['r'])) {
     $id = $_GET['r'];
     if (!is_numeric($id)) {
         return;
     }
+    $idUsuario = $_SESSION['USER_ID'];
     $receta = $c->buscarrecetabyID($id);
     $consulta = $c->buscarconsultaporid($receta->getConsulta());
     $paciente = $c->buscarpaciente($receta->getPaciente());

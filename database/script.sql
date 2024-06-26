@@ -406,8 +406,11 @@ create table pacientes(
     fechafallecimiento date null,
     horafaallecimiento time null,
     estado int not null default 1,
+    empresa int not null references empresa(id),
     registro datetime not null default current_timestamp
 );
+
+alter table pacientes add column empresa int not null references empresa(id) after estado default 1;
 
 
 create table prevision(

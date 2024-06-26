@@ -2040,8 +2040,8 @@ $(document).ready(function () {
                     ToastifySuccess("Paciente registrado(a) con exito");
                     //Recargar pagina en 1 segundo
                     setTimeout(function () {
-                        //window.location.href = "listadopacientes.php";
-                    }, 1000);
+                        location.href = "listadopacientes.php";
+                    }, 500);
                 } else if (data == 0 || data == "0") {
                     ToastifyError("Hubo un error con el registro");
                 } else {
@@ -2327,8 +2327,8 @@ $(document).ready(function () {
                     ToastifySuccess("Paciente Actualizado(a) con exito");
                     //Recargar pagina en 1 segundo
                     setTimeout(function () {
-                        //window.location.href = "listadopacientes.php";
-                    }, 1000);
+                        location.href = "listadopacientes.php";
+                    }, 500);
                 } else if (data == 0 || data == "0") {
                     ToastifyError("Hubo un error con el registro");
                 } else {
@@ -2440,7 +2440,7 @@ function searchpaciente(element) {
                         $(".datospaciente input").css("background-color", "#fff");
                         $(".datospaciente input").css("color", "#000");
                     } else {
-
+                        ToastifyError(datos.mensaje);
                     }
                 },
             });

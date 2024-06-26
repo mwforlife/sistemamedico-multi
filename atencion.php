@@ -598,12 +598,12 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                                                             //En Atención
                                                             echo "<td class='bg-transparent'><span class='badge badge-info'>En Atención</span></td>";
                                                             echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-info btn-sm'><i class='fa fa-user-check'></i></button></td>";
+                                                            echo "<td class='bg-transparent'><button class='btn btn-info btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-check'></i></button></td>";
                                                         } else if ($estado == 5) {
                                                             //Atendido(a)
                                                             echo "<td class='bg-transparent'><span class='badge badge-success'>Atendido(a)</span></td>";
                                                             echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-success btn-sm'><i class='fa fa-user-check'></i></button></td>";
+                                                            echo "<td class='bg-transparent'><button class='btn btn-success btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-check'></i></button></td>";
                                                         } else if ($estado == 6) {
                                                             //Cancelado
                                                             echo "<td class='bg-transparent'><span class='badge badge-danger'>Reserva Cancelada</span></td>";

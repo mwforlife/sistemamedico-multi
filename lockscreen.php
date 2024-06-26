@@ -1,12 +1,6 @@
 <?php
 session_start();
 $empresa = null;
-if(isset($_SESSION['CURRENT_ENTERPRISE'])){
-	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
-	$empresa = $c->buscarEmpresa($enterprise);
-}else{
-    header("Location: index.php");
-}
 if (!isset($_SESSION['USER_ID'])) {
 	header("Location: signin.php");
 }

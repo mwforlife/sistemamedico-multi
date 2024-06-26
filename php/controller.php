@@ -44,7 +44,7 @@ class Controller
     private $mi;
 
     private $host = "localhost";
-    /*Variables */
+    /*Variables
     private $user = "root";
     private $pass = "";
     private $bd = "oncoway";
@@ -54,7 +54,7 @@ class Controller
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server
+    /*Variables BD Server */
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
@@ -2377,10 +2377,10 @@ class Controller
     }
 
     //Registrar Paciente
-    public function registrarpaciente($tipoidentificacion, $rut, $identificacion, $nacionalidad, $paisorigen, $email, $nombre, $apellido1, $apellido2, $genero, $estadocivil, $fechanacimiento, $horanacimiento, $fonomovil, $fonofijo, $nombresocial, $funcionario, $discapacidad, $reciennacido, $hijode, $pesodenacimiento, $tallanacimiento, $tipoparto, $rol, $fechafallecimiento, $horafaallecimiento, $estado)
+    public function registrarpaciente($tipoidentificacion, $rut, $identificacion, $nacionalidad, $paisorigen, $email, $nombre, $apellido1, $apellido2, $genero, $estadocivil, $fechanacimiento, $horanacimiento, $fonomovil, $fonofijo, $nombresocial, $funcionario, $discapacidad, $reciennacido, $hijode, $pesodenacimiento, $tallanacimiento, $tipoparto, $rol, $fechafallecimiento, $horafaallecimiento, $estado,$empresa)
     {
         $this->conexion();
-        $sql = "insert into pacientes values(null,$tipoidentificacion, '$rut', '$identificacion', $nacionalidad, $paisorigen, '$email', '$nombre', '$apellido1', '$apellido2', $genero,$estadocivil, '$fechanacimiento', '$horanacimiento', '$fonomovil', '$fonofijo', '$nombresocial', $funcionario,$discapacidad, $reciennacido, '$hijode', $pesodenacimiento, $tallanacimiento, $tipoparto, '$rol', '$fechafallecimiento', '$horafaallecimiento',$estado,now())";
+        $sql = "insert into pacientes values(null,$tipoidentificacion, '$rut', '$identificacion', $nacionalidad, $paisorigen, '$email', '$nombre', '$apellido1', '$apellido2', $genero,$estadocivil, '$fechanacimiento', '$horanacimiento', '$fonomovil', '$fonofijo', '$nombresocial', $funcionario,$discapacidad, $reciennacido, '$hijode', $pesodenacimiento, $tallanacimiento, $tipoparto, '$rol', '$fechafallecimiento', '$horafaallecimiento',$estado,$empresa,now())";
         //Registrar y retornar id
         $this->mi->query($sql);
         $id = mysqli_insert_id($this->mi);
@@ -2391,10 +2391,10 @@ class Controller
 
 
     //Listar Pacientes
-    public function listarpacientes()
+    public function listarpacientes($empresa)
     {
         $this->conexion();
-        $sql = "select * from pacientes order by nombre asc";
+        $sql = "select * from pacientes where empresa = $empresa order by nombre asc";
         $result = $this->mi->query($sql);
         $array = array();
         while ($rs = mysqli_fetch_array($result)) {
@@ -2426,19 +2426,33 @@ class Controller
             $fechafallecimiento = $rs['fechafallecimiento'];
             $horafaallecimiento = $rs['horafaallecimiento'];
             $estado = $rs['estado'];
+            $empresa = $rs['empresa'];
             $registro = $rs['registro'];
-            $paciente = new Paciente($id, $tipoidentificacion, $rut, $identificacion, $nacionalidad, $paisorigen, $email, $nombre, $apellido1, $apellido2, $genero, $estadocivil, $fechanacimiento, $horanacimiento, $fonomovil, $fonofijo, $nombresocial, $funcionario, $discapacidad, $reciennacido, $hijode, $pesodenacimiento, $tallanacimiento, $tipoparto, $rol, $fechafallecimiento, $horafaallecimiento, $estado, $registro);
+            $paciente = new Paciente($id, $tipoidentificacion, $rut, $identificacion, $nacionalidad, $paisorigen, $email, $nombre, $apellido1, $apellido2, $genero, $estadocivil, $fechanacimiento, $horanacimiento, $fonomovil, $fonofijo, $nombresocial, $funcionario, $discapacidad, $reciennacido, $hijode, $pesodenacimiento, $tallanacimiento, $tipoparto, $rol, $fechafallecimiento, $horafaallecimiento, $estado,$empresa, $registro);
             array_push($array, $paciente);
         }
         $this->desconexion();
         return $array;
     }
 
+    //Validar registro de paciente 
+    function validarregistropaciente($rut, $empresa){
+        $this->conexion();
+        $sql = "select * from pacientes where rut = '$rut' and empresa = $empresa";
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $this->desconexion();
+            return true;
+        }
+        $this->desconexion();
+        return false;
+    }
+
     //Buscar paciente por rut
-    public function buscarpacienterut($rut)
+    public function buscarpacienterut($rut, $empresa)
     {
         $this->conexion();
-        $sql = "select * from pacientes where rut = '$rut'";
+        $sql = "select * from pacientes where rut = '$rut' and empresa = $empresa";
         $result = $this->mi->query($sql);
         if ($rs = mysqli_fetch_array($result)) {
             $id = $rs['id'];
@@ -2469,8 +2483,9 @@ class Controller
             $fechafallecimiento = $rs['fechafallecimiento'];
             $horafaallecimiento = $rs['horafaallecimiento'];
             $estado = $rs['estado'];
+            $empresa = $rs['empresa'];
             $registro = $rs['registro'];
-            $paciente = new Paciente($id, $tipoidentificacion, $rut, $identificacion, $nacionalidad, $paisorigen, $email, $nombre, $apellido1, $apellido2, $genero, $estadocivil, $fechanacimiento, $horanacimiento, $fonomovil, $fonofijo, $nombresocial, $funcionario, $discapacidad, $reciennacido, $hijode, $pesodenacimiento, $tallanacimiento, $tipoparto, $rol, $fechafallecimiento, $horafaallecimiento, $estado, $registro);
+            $paciente = new Paciente($id, $tipoidentificacion, $rut, $identificacion, $nacionalidad, $paisorigen, $email, $nombre, $apellido1, $apellido2, $genero, $estadocivil, $fechanacimiento, $horanacimiento, $fonomovil, $fonofijo, $nombresocial, $funcionario, $discapacidad, $reciennacido, $hijode, $pesodenacimiento, $tallanacimiento, $tipoparto, $rol, $fechafallecimiento, $horafaallecimiento, $estado,$empresa, $registro);
             $this->desconexion();
             return $paciente;
         }
@@ -2479,13 +2494,13 @@ class Controller
     }
 
     //Buscar paciente por rut
-    public function buscarpacienterut1($rut)
+    public function buscarpacienterut1($rut,$empresa)
     {
         $this->conexion();
-        $sql = "select pacientes.id as id, pacientes.tipoidentificacion as tipoidentificacion, pacientes.rut as rut, pacientes.identificacion as identificacion, nacionalidades.nombre as nacionalidad, paises.nombre as paisorigen, pacientes.email as email, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, generos.nombre as genero, estadocivil.nombre as estadocivil, pacientes.fechanacimiento as fechanacimiento, pacientes.horanacimiento as horanacimiento, pacientes.fonomovil as fonomovil, pacientes.fonofijo as fonofijo, pacientes.nombresocial as nombresocial, pacientes.funcionario as funcionario, pacientes.discapacidad as discapacidad, pacientes.reciennacido as reciennacido, pacientes.hijode as hijode, pacientes.pesodenacimiento as pesodenacimiento, pacientes.tallanacimiento as tallanacimiento, tipopartos.nombre as tipoparto, pacientes.rol as rol, pacientes.fechafallecimiento as fechafallecimiento, pacientes.horafaallecimiento as horafaallecimiento, pacientes.estado as estado, pacientes.registro as registro from pacientes inner join nacionalidades on pacientes.nacionalidad = nacionalidades.id inner join paises on pacientes.paisorigen = paises.id inner join generos on pacientes.genero = generos.id inner join estadocivil on pacientes.estadocivil = estadocivil.id inner join tipopartos on pacientes.tipoparto = tipopartos.id where pacientes.rut = '$rut'";
+        $sql = "select pacientes.id as id, pacientes.tipoidentificacion as tipoidentificacion, pacientes.rut as rut, pacientes.identificacion as identificacion, nacionalidades.nombre as nacionalidad, paises.nombre as paisorigen, pacientes.email as email, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, generos.nombre as genero, estadocivil.nombre as estadocivil, pacientes.fechanacimiento as fechanacimiento, pacientes.horanacimiento as horanacimiento, pacientes.fonomovil as fonomovil, pacientes.fonofijo as fonofijo, pacientes.nombresocial as nombresocial, pacientes.funcionario as funcionario, pacientes.discapacidad as discapacidad, pacientes.reciennacido as reciennacido, pacientes.hijode as hijode, pacientes.pesodenacimiento as pesodenacimiento, pacientes.tallanacimiento as tallanacimiento, tipopartos.nombre as tipoparto, pacientes.rol as rol, pacientes.fechafallecimiento as fechafallecimiento, pacientes.horafaallecimiento as horafaallecimiento, pacientes.estado as estado, pacientes.registro as registro from pacientes inner join nacionalidades on pacientes.nacionalidad = nacionalidades.id inner join paises on pacientes.paisorigen = paises.id inner join generos on pacientes.genero = generos.id inner join estadocivil on pacientes.estadocivil = estadocivil.id inner join tipopartos on pacientes.tipoparto = tipopartos.id where pacientes.rut = '$rut' and pacientes.empresa = $empresa";
         $result = $this->mi->query($sql);
         if ($rs = mysqli_fetch_array($result)) {
-            $pacientes = array("id" => $rs['id'], "tipoidentificacion" => $rs['tipoidentificacion'], "rut" => $rs['rut'], "identificacion" => $rs['identificacion'], "nacionalidad" => $rs['nacionalidad'], "paisorigen" => $rs['paisorigen'], "email" => $rs['email'], "nombre" => $rs['nombre'], "apellido1" => $rs['apellido1'], "apellido2" => $rs['apellido2'], "genero" => $rs['genero'], "estadocivil" => $rs['estadocivil'], "fechanacimiento" => $rs['fechanacimiento'], "horanacimiento" => $rs['horanacimiento'], "fonomovil" => $rs['fonomovil'], "fonofijo" => $rs['fonofijo'], "nombresocial" => $rs['nombresocial'], "funcionario" => $rs['funcionario'], "discapacidad" => $rs['discapacidad'], "reciennacido" => $rs['reciennacido'], "hijode" => $rs['hijode'], "pesodenacimiento" => $rs['pesodenacimiento'], "tallanacimiento" => $rs['tallanacimiento'], "tipoparto" => $rs['tipoparto'], "rol" => $rs['rol'], "fechafallecimiento" => $rs['fechafallecimiento'], "horafaallecimiento" => $rs['horafaallecimiento'], "estado" => $rs['estado'], "registro" => $rs['registro']);
+            $pacientes = array("id" => $rs['id'], "tipoidentificacion" => $rs['tipoidentificacion'], "rut" => $rs['rut'], "identificacion" => $rs['identificacion'], "nacionalidad" => $rs['nacionalidad'], "paisorigen" => $rs['paisorigen'], "email" => $rs['email'], "nombre" => $rs['nombre'], "apellido1" => $rs['apellido1'], "apellido2" => $rs['apellido2'], "genero" => $rs['genero'], "estadocivil" => $rs['estadocivil'], "fechanacimiento" => $rs['fechanacimiento'], "horanacimiento" => $rs['horanacimiento'], "fonomovil" => $rs['fonomovil'], "fonofijo" => $rs['fonofijo'], "nombresocial" => $rs['nombresocial'], "funcionario" => $rs['funcionario'], "discapacidad" => $rs['discapacidad'], "reciennacido" => $rs['reciennacido'], "hijode" => $rs['hijode'], "pesodenacimiento" => $rs['pesodenacimiento'], "tallanacimiento" => $rs['tallanacimiento'], "tipoparto" => $rs['tipoparto'], "rol" => $rs['rol'], "fechafallecimiento" => $rs['fechafallecimiento'], "horafaallecimiento" => $rs['horafaallecimiento'], "estado" => $rs['estado'], "empresa"=>$empresa, "registro" => $rs['registro']);
             $this->desconexion();
             return $pacientes;
         }
@@ -2528,8 +2543,9 @@ class Controller
             $fechafallecimiento = $rs['fechafallecimiento'];
             $horafaallecimiento = $rs['horafaallecimiento'];
             $estado = $rs['estado'];
+            $empresa = $rs['empresa'];
             $registro = $rs['registro'];
-            $paciente = new Paciente($id, $tipoidentificacion, $rut, $identificacion, $nacionalidad, $paisorigen, $email, $nombre, $apellido1, $apellido2, $genero, $estadocivil, $fechanacimiento, $horanacimiento, $fonomovil, $fonofijo, $nombresocial, $funcionario, $discapacidad, $reciennacido, $hijode, $pesodenacimiento, $tallanacimiento, $tipoparto, $rol, $fechafallecimiento, $horafaallecimiento, $estado, $registro);
+            $paciente = new Paciente($id, $tipoidentificacion, $rut, $identificacion, $nacionalidad, $paisorigen, $email, $nombre, $apellido1, $apellido2, $genero, $estadocivil, $fechanacimiento, $horanacimiento, $fonomovil, $fonofijo, $nombresocial, $funcionario, $discapacidad, $reciennacido, $hijode, $pesodenacimiento, $tallanacimiento, $tipoparto, $rol, $fechafallecimiento, $horafaallecimiento, $estado,$empresa, $registro);
             $this->desconexion();
             return $paciente;
         }
@@ -2602,8 +2618,9 @@ class Controller
             $fechafallecimiento = $rs['fechafallecimiento'];
             $horafaallecimiento = $rs['horafaallecimiento'];
             $estado = $rs['estado'];
+            $empresa = $rs['empresa'];
             $registro = $rs['registro'];
-            $paciente = new Paciente($id, $tipoidentificacion, $rut, $identificacion, $nacionalidad, $paisorigen, $email, $nombre, $apellido1, $apellido2, $genero, $estadocivil, $fechanacimiento, $horanacimiento, $fonomovil, $fonofijo, $nombresocial, $funcionario, $discapacidad, $reciennacido, $hijode, $pesodenacimiento, $tallanacimiento, $tipoparto, $rol, $fechafallecimiento, $horafaallecimiento, $estado, $registro);
+            $paciente = new Paciente($id, $tipoidentificacion, $rut, $identificacion, $nacionalidad, $paisorigen, $email, $nombre, $apellido1, $apellido2, $genero, $estadocivil, $fechanacimiento, $horanacimiento, $fonomovil, $fonofijo, $nombresocial, $funcionario, $discapacidad, $reciennacido, $hijode, $pesodenacimiento, $tallanacimiento, $tipoparto, $rol, $fechafallecimiento, $horafaallecimiento, $estado,$empresa, $registro);
             $this->desconexion();
             return $paciente;
         }

@@ -28,9 +28,10 @@ class Paciente{
     private $fechafallecimiento;
     private $horafallecimiento;
     private $estado;
+    private $empresa;
     private $registro;
 
-    public function __construct($id, $tipoidentificacion, $rut, $identificacion, $nacionalidad, $paisorigen, $email, $nombre, $apellido1, $apellido2, $genero,$estadocivil, $fechanacimiento, $horanacimiento, $fonomovil, $fonofijo, $nombresocial, $funcionario, $discapacidad, $reciennacido, $hijode, $pesonacimiento,$tallanacimiento, $tipoparto, $rol, $fechafallecimiento, $horafallecimiento, $estado, $registro){
+    public function __construct($id, $tipoidentificacion, $rut, $identificacion, $nacionalidad, $paisorigen, $email, $nombre, $apellido1, $apellido2, $genero,$estadocivil, $fechanacimiento, $horanacimiento, $fonomovil, $fonofijo, $nombresocial, $funcionario, $discapacidad, $reciennacido, $hijode, $pesonacimiento,$tallanacimiento, $tipoparto, $rol, $fechafallecimiento, $horafallecimiento, $estado,$empresa, $registro){
         $this->id = $id;
         $this->tipoidentificacion = $tipoidentificacion;
         $this->rut = $rut;
@@ -59,6 +60,7 @@ class Paciente{
         $this->fechafallecimiento = $fechafallecimiento;
         $this->horafallecimiento = $horafallecimiento;
         $this->estado = $estado;
+        $this->empresa = $empresa;
         $this->registro = $registro;
     }
 
@@ -172,6 +174,10 @@ class Paciente{
 
     public function getEstado(){
         return $this->estado;
+    }
+
+    public function getEmpresa(){
+        return $this->empresa;
     }
 
     public function getRegistro(){
