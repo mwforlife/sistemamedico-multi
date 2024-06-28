@@ -54,7 +54,7 @@ class Controller
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server */
+    /*Variables BD Server*/
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
@@ -86,6 +86,25 @@ class Controller
             $meses = floor(($dias % 365) / 30);
             $dias = floor(($dias % 365) % 30);
             $edad = $anos . " años, " . $meses . " meses, " . $dias . " días";
+            $this->desconexion();
+            return $edad;
+        }
+        $this->desconexion();
+        return null;
+    }
+
+    //Calcular Edad
+    public function calcularEdad1($fecha)
+    {
+        $this->conexion();
+        $sql = "select datediff(now(), '$fecha') as dias";
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $dias = $rs['dias'];
+            $anos = floor($dias / 365);
+            $meses = floor(($dias % 365) / 30);
+            $dias = floor(($dias % 365) % 30);
+            $edad = $anos . " años";
             $this->desconexion();
             return $edad;
         }
@@ -4963,12 +4982,13 @@ class Controller
     }
 
     //Buscar Consulta
-    function buscarconsulta($atencion)
+    function listarconsultasatencion($atencion)
     {
         $this->conexion();
         $sql = "select * from consultas where atencion = $atencion";
         $result = $this->mi->query($sql);
-        if ($rs = mysqli_fetch_array($result)) {
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
             $id = $rs["id"];
             $paciente = $rs["paciente"];
             $usuario = $rs["usuario"];
@@ -4991,11 +5011,38 @@ class Controller
             $tipoatencion = $rs["modalidad"];
             $registro = $rs["registro"];
             $consulta = new Consulta($id, $paciente, $usuario, $empresa, $atencion, $folio, $diagnostico, $diagnosticotexto, $diagnosticocie10, $diagnosticocie10texto, $tipodeatencion, $ecog, $ecogtexto, $ingreso, $receta, $reingreso, $anamesis, $estudiocomplementarios, $plantratamiento, $tipoatencion, $registro);
-            $this->desconexion();
-            return $consulta;
+            $lista[] = $consulta;
         }
         $this->desconexion();
-        return null;
+        return $lista;
+    }
+
+    //Validar consulta
+    function validarconsultapaciente($atencion)
+    {
+        $this->conexion();
+        $sql = "select * from consultas where atencion = $atencion";
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $this->desconexion();
+            return true;
+        }
+        $this->desconexion();
+        return false;
+    }
+
+    //Check consulta con receta
+    function checkconsultareceta($atencion)
+    {
+        $this->conexion();
+        $sql = "select * from consultas where atencion = $atencion and receta = 1";
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $this->desconexion();
+            return true;
+        }
+        $this->desconexion();
+        return false;
     }
 
     //Buscar consulta by ID
@@ -5152,6 +5199,30 @@ class Controller
         return 0;
     }
 
+    //Buscar Folio Receta
+    function buscarfolioreceta($id)
+    {
+        $this->conexion();
+        $sql = "select * from recetas where id = $id;";
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $this->desconexion();
+            return true;
+        }
+        $this->desconexion();
+        return false;
+    }
+
+    //Cambiar estado Receta
+    function cambiaestadoReceta($id, $estado)
+    {
+        $this->conexion();
+        $sql = "update recetas set estado = $estado where id = $id";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
     // Registrar Premedicaciones relacionadas con una receta
     function registrarPremedicaciones($recetaId, $premedicaciones)
     {
@@ -5187,6 +5258,29 @@ class Controller
             $observacion = $rs["observacion"];
             $registro = $rs["registro"];
             $premedicacion = new RecetaPremedicacion($id, $receta, $medicamento, $dosis, $oral, $ev, $sc, $observacion, $registro);
+            $lista[] = $premedicacion;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Listar Premedicaciones por receta
+    function listarpremedicacionesrecetavalue($receta)
+    {
+        $this->conexion();
+        $sql = "select * from recetapremedicacion where recetapremedicacion.receta = $receta";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $premedicacion = $rs["premedicacion"];
+            $dosis = $rs["dosis"];
+            $oral = $rs["oral"];
+            $ev = $rs["ev"];
+            $sc = $rs["sc"];
+            $observacion = $rs["observacion"];
+            $registro = $rs["registro"];
+            $premedicacion = new RecetaPremedicacion($id, $receta, $premedicacion, $dosis, $oral, $ev, $sc, $observacion, $registro);
             $lista[] = $premedicacion;
         }
         $this->desconexion();
@@ -5245,6 +5339,33 @@ class Controller
         return $lista;
     }
 
+    //Listar Medicamentos por receta
+    function listarMedicamentosrecetavalue($receta)
+    {
+        $this->conexion();
+        $sql = "select * from recetamedicamentos where recetamedicamentos.receta = $receta";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $medicamento = $rs["medicamento"];
+            $porcentaje = $rs["procenjate"];
+            $dosis = $rs["dosis"];
+            $carboplatino = $rs["carboplatino"];
+            $oral = $rs["oral"];
+            $ev = $rs["ev"];
+            $sc = $rs["sc"];
+            $it = $rs["it"];
+            $biccad = $rs["biccad"];
+            $observacion = $rs["observacion"];
+            $registro = $rs["registro"];
+            $medicamento = new RecetaMedicamentos($id, $receta, $medicamento, $porcentaje, $dosis, $carboplatino, $oral, $ev, $sc, $it, $biccad, $observacion, $registro);
+            $lista[] = $medicamento;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
     // Registrar Estimulador relacionado con una receta
     function registrarEstimulador($recetaId, $nombre, $cantidad, $rangodias)
     {
@@ -5274,6 +5395,26 @@ class Controller
         }
         $this->desconexion();
         return $lista;
+    }
+
+    //Buscar estimulador por id receta
+    function buscarestimuladorreceta($receta)
+    {
+        $this->conexion();
+        $sql = "select * from estimulador where receta = $receta;";
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $nombre = $rs["nombre"];
+            $cantidad = $rs["cantidad"];
+            $rangodias = $rs["rangodias"];
+            $registro = $rs["registro"];
+            $estimulador = new Estimulador($id, $receta, $nombre, $cantidad, $rangodias, $registro);
+            $this->desconexion();
+            return $estimulador;
+        }
+        $this->desconexion();
+        return null;
     }
 
     //Listar Recetas por pacientes
@@ -5443,6 +5584,35 @@ class Controller
         }
         $this->desconexion();
         return null;
+    }
+
+    //Listar recetas por empresa y estado
+    function recetasbyempresaestado($empresa, $estado)
+    {
+        $this->conexion();
+        $sql = "select recetas.id as id,recetas.folio as folio, recetas.estado as estado, recetas.fecha as fecha, recetas.pendiente as pendiente, pacientes.rut as rut, pacientes.identificacion as identificacion, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, pacientes.fechanacimiento as fechanacimiento, consultas.diagnosticotexto, consultas.plantratamiento, usuarios.nombre as medico, usuarios.apellido1 as apellido1, usuarios.apellido2 as apellido2 from recetas, pacientes, consultas, usuarios where recetas.empresa = $empresa and recetas.estado = $estado and recetas.paciente = pacientes.id and recetas.consulta = consultas.id and recetas.usuario = usuarios.id order by recetas.folio desc";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs['id'];
+            $folio = $rs['folio'];
+            $estado = $rs['estado'];
+            $fecha = $rs['fecha'];
+            $pendiente = $rs['pendiente'];
+            $rut = $rs['rut'];
+            $identificacion = $rs['identificacion'];
+            $nombre = $rs['nombre'];
+            $apellido1 = $rs['apellido1'];
+            $apellido2 = $rs['apellido2'];
+            $fechanacimiento = $rs['fechanacimiento'];
+            $diagnostico = $rs['diagnosticotexto'];
+            $plantratamiento = $rs['plantratamiento'];
+            $medico = $rs['medico'] . " " . $rs['apellido1'] . " " . $rs['apellido2'];
+            $receta = array("id" => $id, "folio" => $folio, "estado" => $estado, "fecha" => $fecha, "pendiente" => $pendiente, "rut" => $rut, "identificacion" => $identificacion, "nombre" => $nombre, "apellido1" => $apellido1, "apellido2" => $apellido2, "fechanacimiento" => $fechanacimiento, "diagnostico" => $diagnostico, "plantratamiento" => $plantratamiento, "medico" => $medico);
+            $lista[] = $receta;
+        }
+        $this->desconexion();
+        return $lista;
     }
 
     //Verificar si en la ultima receta del paciente es GES

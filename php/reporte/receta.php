@@ -447,6 +447,37 @@ if (isset($_GET['r'])) {
         $contenido .= "</table>";
     }
 
+    $contenido .= "<hr style='margin:0; margin-top:10px; ' >";
+    //Seccion Observaciones
+    //Anamnesis
+    $contenido .= "<h2 style='font-size:12pt; margin-top:10px;'>OBSERVACIONES GENERALES</h2>";
+    $contenido .= "<table width='100%' border='1' cellspacing='0' cellpadding='0' style='font-size:9pt; border-collapse: collapse; padding:5px;'>
+    <tr>
+    <td><h3 style='font-size:9pt'>Anamnesis</h3></td>
+    </tr>
+    <tr>
+        <td width='100%' style='text-align: justify;padding:5px;'>
+             " . $receta->getAnamnesis() . "
+        </td>
+    </tr>
+    </table>";
+
+    $contenido .= "<br/>";
+    //Observacion
+    $contenido .= "<table width='100%' border='1' cellspacing='0' cellpadding='0' style='font-size:9pt; border-collapse: collapse; padding:5px;'>
+    <tr>
+    <td><h3 style='font-size:9pt'>Observaciones</h3></td>
+    </tr>
+    <tr>
+        <td width='100%' style='text-align: justify;padding:5px;'>
+            " . $receta->getObservacion() . "
+        </td>
+        </tr>
+    </table>";
+
+
+
+
     $contenido .= "<br/><br/><br/><br/><br/>";
 
     //Seccion Firma Medico a la derecha

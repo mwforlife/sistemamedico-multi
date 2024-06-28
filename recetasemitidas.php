@@ -561,11 +561,16 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                                                         foreach ($recetas as $r) {
                                                             echo "<tr>";
                                                             echo "<td>" . date("d-m-Y", strtotime($r->getFecha())) . "</td>";
-                                                            if ($r->getEstado() == 1) {
-                                                                echo "<td>Pendiente</td>";
-                                                            } else {
-                                                                echo "<td>Confirmado</td>";
-                                                            }
+															if ($r->getEstado() == 1) {
+																echo "<td><span class='badge bg-primary text-white'>Emitida</span></td>";
+															} else if ($r->getEstado() == 2){
+																echo "<td><span class='badge bg-warning'>Editado</span></td>";
+															} else if ($r->getEstado() == 3){
+																echo "<td><span class='badge bg-success text-white'>Aprobada</span></td>";
+															}else if ($r->getEstado() == 4){
+																echo "<td><span class='badge bg-danger text-white'>Rechazada</span></td>";
+															}
+															
                                                             $idreceta = $r->getId();
                                                             echo "<td>" . $r->getFolio() . "</td>";
                                                             echo "<td>" . $r->getConsulta() . "</td>";

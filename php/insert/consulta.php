@@ -40,11 +40,11 @@ if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medic
     $estadoatencion = $_POST['estadoatencion'];
     $estadoatencion = $c->escapeString($estadoatencion);
 
-    $valid  = $c->validarconsulta($reserva);
+    /*$valid  = $c->validarconsulta($reserva);
     if($valid==true){
         echo json_encode(array('error' => true, 'message' => 'Ya existe una consulta para esta reserva'));
         return;
-    }
+    }*/
 
     $modalidad = 1;
     if($estadoatencion != 5){

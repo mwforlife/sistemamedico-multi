@@ -16,31 +16,41 @@ $comite = null;
 // Obtener la URL de la página anterior (si está disponible)
 $previous_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 $id = 0;
-$reservaid = 0;
-$dipaciente = 0;
-if (isset($_GET['r']) && isset($_GET['p'])) {
-	$reservaid = $_GET['r'];
-	if (is_numeric($reservaid)) {
-		$reservaid = intval($reservaid);
-		if ($reservaid <= 0) {
-			// Redireccionar a la página anterior
-			header("Location: $previous_page");
-			exit();
-		}
-	} else {
-		// Redireccionar a la página anterior
+$consultaid = 0;
+$consulta = null;
+$receta = null;
+$pa = null;
+if (isset($_GET['id'])) {
+	$recetaid = $_GET['id'];
+
+	if ($recetaid <= 0) {
 		header("Location: $previous_page");
 		exit();
 	}
 
-	$paciente = $_GET['p'];
+	$receta = $c->buscarrecetabyID($recetaid);
+	if ($receta == null) {
+		// Redireccionar a la página anterior
+		header("Location: $previous_page");
+		exit();
+	}
+	$consultaid = $receta->getConsulta();
+
+	$consulta = $c->buscarconsultaporid($consultaid);
+	if ($consulta == null) {
+		//Redireccionar a la página anterior
+		header("Location: $previous_page");
+		exit();
+	}
+
+	$paciente = $receta->getPaciente();
 	$pa = $c->buscarpaciente($paciente);
 	if ($pa == null) {
 		// Redireccionar a la página anterior
 		header("Location: $previous_page");
 		exit();
 	}
-	$dipaciente = $pa->getId();
+	$id = $pa->getId();
 } else {
 	//Redireccionar a la página anterior
 	header("Location: $previous_page");
@@ -240,7 +250,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 	<link rel="icon" href="assets/img/brand/favicon.ico" type="image/x-icon" />
 
 	<!-- Title -->
-	<title>OncoWay | Registrar Informe</title>
+	<title>OncoWay | Receta</title>
 
 	<!-- Bootstrap css-->
 	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -674,538 +684,395 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 							<div class="card">
 								<div class="card-body">
 									<div class="row">
-										<div class="col-lg-4">
+										<div class="col-lg-12 d-flex justify-content-between gap-2">
+											<div class="d-flex">
 											<h5 class="card-title">Paciente:
 												<?php echo $pa->getNombre() . " " . $pa->getApellido1() . " " . $pa->getApellido2(); ?>
-											</h5>
-											<p>
+											</h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<h5>
 												Rut:
-												<?php echo $pa->getRut(); ?><br />
+												<?php echo $pa->getRut(); ?>
+												<!--Tabulador html-->
+												&nbsp;&nbsp;&nbsp;&nbsp;
 												Edad:
-												<?php echo $edad ?> Años<br />
-											</p>
-										</div>
-										<div class="col-lg-8 text-right">
-											<?php
-											$key = "thechallengeofcoding";
-											$pacienteid = $pa->getId();
-											$atencionid = $reservaid;
-											$consultas = $c->listarconsultasatencion($reservaid);
-											$check = $c->validarconsultapaciente($reservaid);
-											if($check==false){
-											?>
-											<a href="atencionpaciente.php?p=<?php echo $pacienteid; ?>&r=<?php echo $atencionid; ?>" class="btn btn-success mt-2">Nueva Atención<i class="fe fe-arrow-right ml-2"></i></a>
-											<?php
-											}
-											?>
+												<?php echo $edad ?> Años
+											</h5>
+											</div>
+											<div>
+												<h4>Folio: <?php echo $receta->getFolio(); ?></h4>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+
 					<div class="row">
 						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-body">
+									<div class="row justify-content-between p-4">
+										<h5>Diagnostico:
+											<?php echo $consulta->getDiagnosticotexto(); ?>
+										</h5>
+										<div>
+										<a href="<?php echo $previous_page; ?>" class="btn btn-outline-danger"><i class="fa fa-arrow-left"></i> Volver</a>
+										<button class="btn btn-outline-success" onclick="editarreceta(<?php echo $pa->getId(); ?>,<?php echo $object->getId(); ?>,<?php echo $empresa->getId(); ?>,<?php echo $consulta->getId(); ?>,<?php echo $receta->getId(); ?>,<?php echo $receta->getFolio(); ?>)"><i class="fa fa-save"></i> Actualizar Receta</button>
+										</div>
+										<input type="hidden" id="previo" value="<?php echo $previous_page; ?>">
+									</div>
+									<div class="row">
+										<div class="col-md-12 mt-4">
+											<div class="card">
+												<div class="card-body">
+													<h6 class="main-content-label mb-1">Información Paciente</h6>
+													<div class="row">
+														<div class="col-md-2">
+															<label for="">Estadio</label>
+															<select name="estadio" id="estadio" class="form-control">
+																<option value="1" <?php if ($receta->getEstadio() == 1) {
+																						echo "selected";
+																					} ?>>I</option>
+																<option value="2" <?php if ($receta->getEstadio() == 2) {
+																						echo "selected";
+																					} ?>>II</option>
+																<option value="3" <?php if ($receta->getEstadio() == 3) {
+																						echo "selected";
+																					} ?>>III</option>
+																<option value="4" <?php if ($receta->getEstadio() == 4) {
+																						echo "selected";
+																					} ?>>IV</option>
+															</select>
+														</div>
+														<div class="col-md-2">
+															<label for="">Nivel</label>
+															<select name="nivel" id="nivel" class="form-control">
+																<option value="1" <?php if ($receta->getNivel() == 1) {
+																						echo "selected";
+																					} ?>>A</option>
+																<option value="2" <?php if ($receta->getNivel() == 2) {
+																						echo "selected";
+																					} ?>>A1</option>
+																<option value="3" <?php if ($receta->getNivel() == 3) {
+																						echo "selected";
+																					} ?>>A2</option>
+																<option value="4" <?php if ($receta->getNivel() == 4) {
+																						echo "selected";
+																					} ?>>A3</option>
+																<option value="5" <?php if ($receta->getNivel() == 5) {
+																						echo "selected";
+																					} ?>>B</option>
+																<option value="6" <?php if ($receta->getNivel() == 6) {
+																						echo "selected";
+																					} ?>>B1</option>
+																<option value="7" <?php if ($receta->getNivel() == 7) {
+																						echo "selected";
+																					} ?>>B2</option>
+																<option value="8" <?php if ($receta->getNivel() == 8) {
+																						echo "selected";
+																					} ?>>B3</option>
+																<option value="9" <?php if ($receta->getNivel() == 9) {
+																						echo "selected";
+																					} ?>>C</option>
+																<option value="10" <?php if ($receta->getNivel() == 10) {
+																						echo "selected";
+																					} ?>>C1</option>
+																<option value="11" <?php if ($receta->getNivel() == 11) {
+																						echo "selected";
+																					} ?>>C2</option>
+																<option value="12" <?php if ($receta->getNivel() == 12) {
+																						echo "selected";
+																					} ?>>C3</option>
+															</select>
+														</div>
+														<div class="col-md-2">
+															<label for="">GES</label>
+															<select name="ges" id="ges" class="form-control">
+																<option value="1" <?php if ($receta->getGes() == 1) {
+																						echo "selected";
+																					} ?>>Si</option>
+																<option value="2" <?php if ($receta->getGes() == 2) {
+																						echo "selected";
+																					} ?>>No</option>
+															</select>
+														</div>
+														<div class="col-md-2">
+															<label for="">Peso</label>
+															<input type="number" name="peso" id="peso" class="form-control" step="1.01" placeholder="Peso" value="<?php echo $peso; ?>" onkeyup="calcularBSA()">
+														</div>
+														<div class="col-md-2">
+															<label for="">Talla</label>
+															<input type="number" name="talla" id="talla" class="form-control" step="1.01" placeholder="Talla" value="<?php echo $talla; ?>" onkeyup="calcularBSA()">
+														</div>
+														<div class="col-md-2">
+															<label for="">S. Corporal</label>
+															<input type="number" name="scorporal" id="scorporal" class="form-control" step="1.01" readonly value="<?php echo $supcop; ?>">
+														</div>
+														<div class="col-md-2">
+															<label for="">Creatinina</label>
+															<input type="number" name="creatinina" id="creatinina" class="form-control" step="1.01" placeholder="Creatinina" value="<?php echo $receta->getCreatinina(); ?>">
+														</div>
+														<div class="col-md-2">
+															<label for="">AUC</label>
+															<input type="number" name="auc" id="auc" class="form-control" step="1.01" placeholder="AUC" value="<?php echo $receta->getAuc(); ?>">
+														</div>
+														<div class="col-md-2">
+															<label for="">Fecha de Administración</label>
+															<input type="date" name="fechaadmin" id="fechaadmin" class="form-control" value="<?php echo $receta->getFechaAdministracion(); ?>">
+														</div>
+														<div class="col-md-2">
+															<label for="">Examen Pendiente</label>
+															<select name="examen" id="examen" class="form-control">
+																<option value="1" <?php if ($receta->getPendiente() == 1) {
+																						echo "selected";
+																					} ?>>Si</option>
+																<option value="2" <?php if ($receta->getPendiente() == 2) {
+																						echo "selected";
+																					} ?>>No</option>
+															</select>
+														</div>
+														<div class="col-md-2">
+															<label for="">N° Ciclio</label>
+															<input type="number" name="ciclo" id="ciclo" class="form-control" placeholder="N° Ciclo" value="<?php echo $receta->getNciclo(); ?>">
+														</div>
+														<div class="col-md-2">
+															<label for="">Anticipada</label>
+															<select name="anticipada" id="anticipada" class="form-control">
+																<option value="2" <?php if ($receta->getAnticipada() == 1) {
+																						echo "selected";
+																					} ?>>No</option>
+																<option value="1" <?php if ($receta->getAnticipada() == 2) {
+																						echo "selected";
+																					} ?>>Si</option>
+															</select>
+														</div>
 
-							<div class="row">
-								<div class="col-lg-12">
-									<div class="card">
-										<div class="card-body">
-											<div aria-multiselectable="true" class="accordion" id="accordion" role="tablist">
-												<!--Diagnosticos-->
-												<div class="card">
-													<div class="card-header" id="diagnostic" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#atedia">Atención del Día</a>
 													</div>
-													<div aria-labelledby="diagnostico" class="collapse <?php if(count($consultas)>0){echo 'show';}?>" data-parent="#accordion" id="atedia" role="tabpanel">
-														<div class="card-body">
-															<div class="table-responsive">
-																<table class="table w-100" id="example2">
-																	<thead>
-																		<tr>
-																			<th>Fecha</th>
-																			<th>Hora</th>
-																			<th>Primer Ingreso</th>
-																			<th>Reingreso</th>
-																			<th>Genera Receta</th>
-																			<th>Atención</th>
-																			<th>Receta</th>
-																			<th>Acción</th>
-																		</tr>
-																	</thead>
-																	<tbody>
-																		<?php
-																		if (count($consultas) > 0) {
-																			foreach ($consultas as $consulta) {
-																				$consultaid = $consulta->getId();
-																				echo "<tr>";
-																				echo "<td>" . date("d-m-Y", strtotime($consulta->getRegistro())) . "</td>";
-																				echo "<td>" . date("H:i", strtotime($consulta->getRegistro())) . "</td>";
-																				if ($consulta->getIngreso() == 1) {
-																					echo "<td>Si</td>";
-																				} else {
-																					echo "<td>No</td>";
-																				}
-																				if ($consulta->getReingreso() == 1) {
-																					echo "<td>Si</td>";
-																				} else {
-																					echo "<td>No</td>";
-																				}
-																				if ($consulta->getReceta() == 1) {
-																					echo "<td>Si</td>";
-																				} else {
-																					echo "<td>No</td>";
-																				}
-																				echo "<td><a target='_blank' title='Ver Atención' href='php/reporte/consulta.php?c=$consultaid' class='btn btn-outline-primary btn-sm'><i class='fe fe-download'></i></a></td>";
-																				echo "<td>";
-																				if ($consulta->getReceta() == 1) {
-																					echo "<a title='Generar Receta' href='receta.php?p=$pacienteid&c=$consultaid' class='m-1 btn btn-outline-success btn-sm'><i class='fe fe-file'></i></a>";
-																				}else{
-																					echo "-";
-																				}
-																				echo "</td>";
-																				echo "<td>";
-																				echo "<a href='atencionpacienteedit.php?id=".$consulta->getId()."' class='m-1 btn btn-outline-warning btn-sm'><i class='fe fe-edit'></i></a>";
-																				echo "</td>";
+													<div class="row mt-2">
+														<div class="col-md-2">
+															<h6>Intención a Tratar</h6>
+															<input type="checkbox" name="curativo" id="curativo" <?php if ($receta->getCurativo() == 1) {
+																														echo "checked";
+																													} ?> value="1"><span> Curativo</span><br />
+															<input type="checkbox" name="paliativo" id="paliativo" <?php if ($receta->getPaliativo() == 1) {
+																														echo "checked";
+																													} ?> value="1"><span> Paliativo</span><br />
+															<input type="checkbox" name="adyuvante" id="adyuvante" <?php if ($receta->getAdyuvante() == 1) {
+																														echo "checked";
+																													} ?> value="1"><span> Adyuvante</span><br />
+															<input type="checkbox" name="concomitante" id="concomitante" <?php if ($receta->getConcomitante() == 1) {
+																																echo "checked";
+																															} ?> value="1"><span> Concomitante</span><br />
+															<input type="checkbox" name="neoadyuvante" id="neoadyuvante" <?php if ($receta->getNoeAdyuvante() == 1) {
+																																echo "checked";
+																															} ?> value="1"><span> Neoadyuvante</span>
+														</div>
+														<div class="col-md-2">
+															<h6>Cormobilidades</h6>
+															<input type="checkbox" name="diabetes" id="diabetes" <?php if ($receta->getDiabetes() == 1) {
+																														echo "checked";
+																													} ?> value="1"><span> Diabetes</span><br />
+															<input type="checkbox" name="hipertension" id="hipertension" <?php if ($receta->getHipertension() == 1) {
+																																echo "checked";
+																															} ?> value="1"><span> Hipertensión Arterial</span><br />
+															<input type="checkbox" onchange="detailsrecet(this)" <?php if ($receta->getAlergias() == 1) {
+																														echo "checked";
+																													} ?> name="alergia" id="alergia" value="1"><span>
+																Alergia</span><br />
+															<input type="checkbox" onchange="detailscor(this)" <?php if ($receta->getOtroCor() == 1) {
+																													echo "checked";
+																												} ?> name="otrocor" id="otrocor" value="1"><span>
+																Otro</span><br />
+														</div>
+														<div class="col-md-4">
+															<div class="resetdetails d-none">
+																<label for="">Alergia Detalle</label>
+																<textarea name="alergiadetalle" id="alergiadetalle" class="form-control" placeholder="Alergia Detalle"><?php echo $receta->getDetalleAlergias(); ?></textarea>
 
-																				echo "</tr>";
-																			}
-																		}
-																		?>
-																	</tbody>
-																</table>
 															</div>
+															<div class="cordetails <?php if ($receta->getOtroCor() == 1) {
+																						echo "d-block";
+																					} else {
+																						echo "d-none";
+																					} ?>">
+																<label for="">Otra Cormobilidad</label>
+																<textarea name="otrcormo" id="otrcormo" class="form-control" placeholder="Especifique"> <?php echo $receta->getOtroCorMo(); ?></textarea>
 
+															</div>
 														</div>
-													</div>
-												</div>
-												<div class="card">
-													<div class="card-header" id="diagnostic" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#recet">Recetas</a>
-													</div>
-													<div aria-labelledby="diagnostico" class="collapse" data-parent="#accordion" id="recet" role="tabpanel">
-														<div class="card-body">
-															<table class="table w-100 table-bordered table-striped" id="example3">
-																<thead>
-																	<tr>
-																		<th>Fecha</th>
-																		<th>Estado</th>
-																		<th>Folio</th>
-																		<th>Atención</th>
-																		<th>Receta</th>
-																		<th>Acción</th>
-																	</tr>
-																</thead>
-																<tbody>
-																	<?php
-																	$recetas = $c->recetalist($pa->getId());
-																	if (count($recetas) > 0) {
-																		foreach ($recetas as $r) {
-																			echo "<tr>";
-																			echo "<td>" . date("d-m-Y", strtotime($r->getFecha())) . "</td>";
-																			
-																			if ($r->getEstado() == 1) {
-																				echo "<td><span class='badge bg-primary text-white'>Emitida</span></td>";
-																			} else if ($r->getEstado() == 2){
-																				echo "<td><span class='badge bg-warning'>Editado</span></td>";
-																			} else if ($r->getEstado() == 3){
-																				echo "<td><span class='badge bg-success text-white'>Aprobada</span></td>";
-																			}else if ($r->getEstado() == 4){
-																				echo "<td><span class='badge bg-danger text-white'>Rechazada</span></td>";
-																			}
-																			$idreceta = $r->getId();
-																			echo "<td>" . $r->getFolio() . "</td>";
-																			echo "<td>" . $r->getConsulta() . "</td>";
-																			echo "<td><a target='_blank' href='php/reporte/receta.php?r=$idreceta' class='btn-sm btn btn-outline-success'><i class='fe fe-file'></i></a></td>";
-																			echo "<td>";
-																			if($r->getEstado() == 4){
-																				echo "<button class='btn-sm btn btn-outline-danger' title='Ver Motivo Rechazo' onclick='motivorechazo($idreceta)'><i class='fe fe-alert-triangle'></i></button>";
-																			}
-																			if ($r->getEstado() == 1 || $r->getEstado() == 4) {
-																				echo "<a href='recetaedit.php?id=$idreceta' title='Editar Receta' class='btn-sm btn btn-outline-warning'><i class='fe fe-edit'></i></a>";
-																			}
-																			echo "</td>";
-																			echo "</tr>";
-																		}
-																	}
-																	?>
+														<div class="col-md-2">
+															<h6>Documento</h6>
+															<input type="checkbox" name="primera" id="primera" <?php if ($receta->getPrimeraIngreso() == 1) {
+																													echo "checked";
+																												} ?> value="1"><span> Primer Ingreso</span><br />
+															<input type="checkbox" name="traemedicamementos" <?php if ($receta->getTraeMedicamentos() == 1) {
+																													echo "checked";
+																												} ?> id="traemedicamementos" value="1"><span> Trae
+																Medicamentos</span><br />
+														</div>
+														<div class="col-md-2">
+															<div class="row justify-content-end">
+																<div class="col-md-12">
+																	<label for="">Receta Urgente</label>
+																	<select name="urgente" id="urgente" class="form-control">
+																		<option value="2" <?php if ($receta->getUrgente() == 2) {
+																								echo "selected";
+																							} ?>>No</option>
+																		<option value="1" <?php if ($receta->getUrgente() == 1) {
+																								echo "selected";
+																							} ?>>Si</option>
+																	</select>
 
-																</tbody>
-															</table>
-														</div>
-													</div>
-												</div>
-												<!--Intervenciones Quirurgicas-->
-												<div class="card">
-													<div class="card-header" id="intervencion" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#diagnost">Diagnosticos</a>
-													</div>
-													<div aria-labelledby="intervencion" class="collapse" data-parent="#accordion" id="diagnost" role="tabpanel">
-														<div class="card-body">
-															<table class="table w-100">
-																<thead>
-																	<tr>
-																		<th>Folio</th>
-																		<th>Diagnostico</th>
-																		<th>Fecha</th>
-																		<th>Origen</th>
-																		<th>Rut Profesional</th>
-																		<th>Nombre Profesional</th>
-																		<th>Folio Comité</th>
-																		<th>Tipo Comité</th>
-																		<th>Informe</th>
-																	</tr>
-																</thead>
-															</table>
-														</div>
-													</div>
-												</div>
-												<!--Hospitalizaciones-->
-												<div class="card">
-													<div class="card-header" id="hospitalizacion" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#hospitalizaciones">Quimioterapia</a>
-													</div>
-													<div aria-labelledby="hospitalizacion" class="collapse" data-parent="#accordion" id="hospitalizaciones" role="tabpanel">
-														<div class="card-body">
-															<table class="table w-100">
-																<thead>
-																	<tr>
-																		<th>Fecha</th>
-																		<th>N° Receta</th>
-																		<th>N° Ciclo</th>
-																		<th>Nombre</th>
-																		<th>Esquema</th>
-																		<th>Receta</th>
-																	</tr>
-																</thead>
-																<tbody>
-
-																</tbody>
-															</table>
-														</div>
-													</div>
-												</div>
-												<!--Signos Vitales-->
-												<div class="card">
-													<div class="card-header" id="atencion" role="tab">
-														<a aria-controls="collapseOne" aria-expanded="true" data-toggle="collapse" href="#sig">Signos Vitales</a>
-													</div>
-													<div aria-labelledby="atencion" class="collapse" data-parent="#accordion" id="sig" role="tabpanel">
-														<div class="card-body">
-															<form id="formsignos">
-																<div class="row">
-																	<input type="hidden" name="idpac" value="<?php echo $dipaciente; ?>">
-																	<div class="col-md-1">
-																		<label>F RESP</label>
-																		<input type="number" class="form-control" min="1" id="sfresp" name="sfresp" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>P SIST</label>
-																		<input type="number" class="form-control" min="1" id="spsist" name="spsist" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>P DIAS</label>
-																		<input type="number" class="form-control" min="1" id="spdias" name="spdias" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>% STAT 02</label>
-																		<input type="number" class="form-control" min="1" id="ssat" name="ssat" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>FC</label>
-																		<input type="number" class="form-control" min="1" id="sfc" name="sfc" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>T. AUXILIAR</label>
-																		<input type="number" class="form-control" min="1" id="staux" name="staux" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>T. RECT</label>
-																		<input type="number" class="form-control" min="1" id="strect" name="strect" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>T. OTRA</label>
-																		<input type="text" class="form-control" min="1" id="stotra" name="stotra" required>
-																	</div>
-																	<div class="col-md-1">
-																		<label>HGT</label>
-																		<input type="number" class="form-control" min="1" id="shgt" name="shgt" required step="0.01">
-																	</div>
-																	<input type="hidden" class="form-control" min="0" id="speso" name="speso" required step="0.01" value="0">
-																	<div class="col-md-1 d-flex align-items-end">
-																		<button class="btn btn-outline-success" type="submit"><i class="fa fa-save"></i>
-																			Registrar</button>
-																	</div>
-																</div>
-															</form>
-															<div class="row mt-4">
-																<div class="col-xl-12 col-lg-12 col-md-12">
-																	<div class="card transcation-crypto1" id="transcation-crypto1">
-																		<div class="card-body">
-																			<div class="">
-																				<div class="table-responsive">
-																					<table class="table w-100 text-nowrap" id="">
-																						<thead class="border-top text-center">
-																							<tr>
-																								<th class="bg-transparent">
-																									Fecha</th>
-																								<th class="bg-transparent">
-																									f Resp</th>
-																								<th class="bg-transparent text-center">
-																									P. Sist</th>
-																								<th class="bg-transparent text-center">
-																									P. Dias</th>
-																								<th class="bg-transparent text-center">
-																									% Sat 02</th>
-																								<th class="bg-transparent text-center">
-																									FC</th>
-																								<th class="bg-transparent text-center">
-																									T. Axilar</th>
-																								<th class="bg-transparent text-center">
-																									T. Rect</th>
-																								<th class="bg-transparent text-center">
-																									T. Otra</th>
-																								<th class="bg-transparent text-center">
-																									HGT</th>
-																								<th class="bg-transparent text-center">
-																									PESO</th>
-																								<th class="bg-transparent text-center">
-																									ID</th>
-																							</tr>
-																						</thead>
-																						<input type="hidden" id="pacienteid" value="<?php echo $pa->getId(); ?>">
-																						<tbody class="text-center" id="signos">
-																						</tbody>
-																					</table>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-												<!--Medidas Antropometricas-->
-												<div class="card">
-													<div class="card-header" id="atros" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#atro">Antropométrica</a>
-													</div>
-													<div aria-labelledby="procedimiento" class="collapse" data-parent="#accordion" id="atro" role="tabpanel">
-														<div class="card-body">
-															<!--Row-->
-															<form id="formmedidas">
-																<div class="row">
-																	<input type="hidden" name="idpac" value="<?php echo $pa->getId(); ?>">
-																	<div class="col-md-1">
-																		<label>Peso</label>
-																		<!--Valores Hasta con 2 decimales-->
-																		<input type="number" class="form-control" min="1" id="peso" name="peso" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>Estatura</label>
-																		<input type="number" class="form-control" min="1" id="estatura" name="estatura" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>PCe/E</label>
-																		<input type="number" class="form-control" min="1" id="pce" name="pce" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>P/E</label>
-																		<select type="number" class="form-control" id="pe" name="pe" required>
-																			<option value="1">Normal</option>
-																			<option value="2">Desnutrición</option>
-																			<option value="3">Sobrepeso</option>
-																			<option value="4">Obesidad</option>
-																		</select>
-																	</div>
-																	<div class="col-md-1">
-																		<label>P/T</label>
-																		<select type="number" class="form-control" id="pt" name="pt" required>
-																			<option value="1">Normal</option>
-																			<option value="2">Desnutrición</option>
-																			<option value="3">Sobrepeso</option>
-																			<option value="4">Obesidad</option>
-																		</select>
-																	</div>
-																	<div class="col-md-1">
-																		<label>T/E</label>
-																		<select type="number" class="form-control" id="te" name="te" required>
-																			<option value="1">Normal</option>
-																			<option value="2">Desnutrición</option>
-																			<option value="3">Sobrepeso</option>
-																			<option value="4">Obesidad</option>
-																		</select>
-																	</div>
-																	<div class="col-md-1">
-																		<label>IMC</label>
-																		<input type="number" class="form-control" min="1" id="imc" name="imc" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>Clasif. IMC</label>
-																		<input type="text" class="form-control" min="1" id="clasifimc" name="clasifimc" required>
-																	</div>
-																	<div class="col-md-1">
-																		<label>PC/E</label>
-																		<input type="number" class="form-control" min="1" id="pc" name="pc" required step="0.01">
-																	</div>
-																	<div class="col-md-2">
-																		<label>Clasif P.Cintura</label>
-																		<select type="number" class="form-control" id="cpc" name="cpc" required>
-																			<option value="1">Normal</option>
-																			<option value="2">Riesgo Obésidad abdominal
-																			</option>
-																			<option value="3">Obesidad abdominal
-																			</option>
-																		</select>
-																	</div>
-																	<div class="col-md-1 d-flex align-items-end">
-																		<button class="btn btn-outline-success" type="submit"><i class="fa fa-save"></i>
-																			Registrar</button>
-																	</div>
-																</div>
-															</form>
-															<div class="row mt-4">
-																<div class="col-xl-12 col-lg-12 col-md-12">
-																	<div class="card transcation-crypto1" id="transcation-crypto1">
-																		<div class="card-body">
-																			<div class="">
-																				<div class="table-responsive">
-																					<table class="table w-100 text-nowrap" id="">
-																						<thead class="border-top text-center">
-																							<tr>
-																								<th class="bg-transparent">
-																									Fecha</th>
-																								<th class="bg-transparent">
-																									peso</th>
-																								<th class="bg-transparent text-center">
-																									Estatura</th>
-																								<th class="bg-transparent text-center">
-																									PCe/e</th>
-																								<th class="bg-transparent text-center">
-																									P/E</th>
-																								<th class="bg-transparent text-center">
-																									P/T</th>
-																								<th class="bg-transparent text-center">
-																									T/E</th>
-																								<th class="bg-transparent text-center">
-																									IMC</th>
-																								<th class="bg-transparent text-center">
-																									Clasif. IMC</th>
-																								<th class="bg-transparent text-center">
-																									PC/E</th>
-																								<th class="bg-transparent text-center">
-																									Clasif P. Cintura
-																								</th>
-																								<th class="bg-transparent text-center">
-																									ID</th>
-																							</tr>
-																						</thead>
-																						<tbody class="text-center" id="medidas">
+											</div>
 
-																						</tbody>
-																					</table>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
+											<div class="card">
+												<div class="card-body">
+
+													<div class="col-md-12">
+														<label for="">Seleccionar Esquema:</label>
+														<select name="esquema" id="esquema" class="form-control select2" onchange="cargarMedicamentoesquema()">
+															<?php
+															$esquema = $c->listaresquemasdiagnostico($empresa->getId(), $consulta->getDiagnostico());
+															foreach ($esquema as $esquemas) {
+																if ($esquemas->getId() == $receta->getEsquema()) {
+																	echo "<option value='" . $esquemas->getId() . "' selected>" . $esquemas->getNombre() . "</option>";
+																} else {
+																	echo "<option value='" . $esquemas->getId() . "'>" . $esquemas->getNombre() . "</option>";
+																}
+															}
+															?>
+														</select>
+													</div>
+													<div class="col-md-12 mt-4" id="medi">
+
 													</div>
 												</div>
-												<!--Historial Clinico-->
-												<div class="card">
-													<div class="card-header" id="interconsulta" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#histo">Historial Clinico</a>
+											</div>
+											<div class="card mt-3">
+												<div class="card-body">
+													<div>
+														<h6 class="main-content-label mb-1">Medicamentos</h6>
 													</div>
-													<div aria-labelledby="interconsulta" class="collapse" data-parent="#accordion" id="histo" role="tabpanel">
-														<div class="card-body">
-															<div class="row">
-																<div class="col-xl-12 col-lg-12 col-md-12">
-																	<div class="card transcation-crypto1" id="transcation-crypto1">
-																		<div class="card-body">
-																			<div class="">
-																				<div class="table-responsive">
-																					<table class="table w-100 text-nowrap" id="example1">
-																						<thead class="border-top text-center">
-																							<tr>
-																								<th class="bg-transparent">
-																									Estado de Atencion
-																								</th>
-																								<th class="bg-transparent">
-																									Fecha Cita</th>
-																								<th class="bg-transparent text-center">
-																									Fecha Registro</th>
-																								<th class="bg-transparent text-center">
-																									Profesional</th>
-																								<th class="bg-transparent text-center">
-																									Atención</th>
-																								<th class="bg-transparent text-center">
-																									Detalle</th>
-																								<th class="bg-transparent text-center">
-																									Reporte</th>
-																							</tr>
-																						</thead>
-																						<tbody class="text-center">
-																							<?php
-																							$atenciones = $c->buscarreservaspaciente($pa->getId());
-																							foreach ($atenciones as $at) {
-																								echo "<tr>";
-																								if ($at->getEstado() == 1) {
-																									//Pendiente Atencion
-																									echo "<td class='bg-transparent'><span class='badge badge-warning'><i class='fa fa-clock-o'></i> Pendiente</span></td>";
-																								} else if ($at->getEstado() == 2) {
-																									//Confirmado
-																									echo "<td class='bg-transparent'><span class='badge badge-success'><i class='fa fa-check'></i> Confirmado</span></td>";
-																								} else if ($at->getEstado() == 3) {
-																									//En Sala de Espera
-																									echo "<td class='bg-transparent'><span class='badge badge-info'><i class='fa fa-clock-o'></i> En Sala de Espera</span></td>";
-																								} else if ($at->getEstado() == 5) {
-																									//Atendido
-																									echo "<td class='bg-transparent'><span class='badge badge-success'><i class='fa fa-user-check'></i>Atendido</span></td>";
-																								} else if ($at->getEstado() == 7) {
-																									//Paciente no se Presenta
-																									echo "<td class='bg-transparent'><span class='badge badge-danger'><i class='fa fa-clock-o'></i> Paciente no se Presenta</span></td>";
-																								} else {
-																									//Cancelado
-																									echo "<td class='bg-transparent'><span class='badge badge-danger'><i class='fa fa-clock-o'></i> Cancelado</span></td>";
-																								}
-																								echo "<td class='bg-transparent'>" . $at->getFecha() . "</td>";
-																								echo "<td class='bg-transparent text-center'>" . $at->getRegistro() . "</td>";
-																								echo "<td class='bg-transparent text-center'>" . $at->getProfesional() . "</td>";
-																								echo "<td class='bg-transparent text-center'><a href='atencion.php?id=" . $at->getId() . "'><i class='fa fa-eye'></i></a></td>";
-																								echo "<td class='bg-transparent text-center'><a href='reporte.php?id=" . $at->getId() . "'><i class='fa fa-eye'></i></a></td>";
-																								echo "<td class='bg-transparent text-center'><a href='reporte.php?id=" . $at->getId() . "'><i class='fa fa-file-pdf-o'></i></a></td>";
-
-																								echo "</tr>";
+													<div class="text-wrap">
+														<div class="example">
+															<div class="border">
+																<div class="bg-light-1 nav-bg">
+																	<nav class="nav nav-tabs">
+																		<a class="nav-link active" data-toggle="tab" href="#tabCont1">Premedicación</a>
+																		<a class="nav-link" data-toggle="tab" href="#tabCont3">Estimulador</a>
+																		<a class="nav-link" data-toggle="tab" href="#tabCont4">Observación General</a>
+																	</nav>
+																</div>
+																<div class="card-body tab-content">
+																	<div class="tab-pane active show" id="tabCont1">
+																		<table class="table w-100">
+																			<thead>
+																				<tr>
+																					<th></th>
+																					<th>Medicamento</th>
+																					<th>Dosis MG</th>
+																					<th>Oral</th>
+																					<th>EV</th>
+																					<th>SC</th>
+																					<th>Observación</th>
+																				</tr>
+																			</thead>
+																			<tbody id="premedicamentoscharge">
+																				<?php
+																				$premedica = $c->listarpremedicacionesrecetavalue($receta->getId());
+																				$premedicacion = $c->listarpremedicacion();
+																				foreach ($premedicacion as $premedicaciones) {
+																					$check = false;
+																					foreach ($premedica as $premedic) {
+																						if ($premedic->getPremedicacion() == $premedicaciones->getId()) {
+																							echo "<tr class='m-0' >";
+																							echo "<td class='m-0'><input type='checkbox' name='premedicacion" . $premedicaciones->getId() . "' id='premedicacion" . $premedicaciones->getId() . "' value='" . $premedicaciones->getId() . "' checked></td>";
+																							echo "<td  class='m-0'>" . $premedicaciones->getNombre() . "</td>";
+																							echo "<td class='m-0'><input type='number' name='dosismg" . $premedicaciones->getId() . "' id='dosismg" . $premedicaciones->getId() . "' class='form-control' placeholder='Dosis MG' value='" . $premedic->getDosis() . "'></td>";
+																							echo "<td class='m-0'><input type='checkbox' name='oral" . $premedicaciones->getId() . "' id='oral" . $premedicaciones->getId() . "' value='1' ";
+																							if ($premedic->getOral() == 1) {
+																								echo "checked";
 																							}
-																							?>
-
-																						</tbody>
-																					</table>
-																				</div>
+																							echo "></td>";
+																							echo "<td class='m-0'><input type='checkbox' name='ev" . $premedicaciones->getId() . "' id='ev" . $premedicaciones->getId() . "' value='1' ";
+																							if ($premedic->getEv() == 1) {
+																								echo "checked";
+																							}
+																							echo "></td>";
+																							echo "<td class='m-0'><input type='checkbox' name='sc" . $premedicaciones->getId() . "' id='sc" . $premedicaciones->getId() . "' value='1' ";
+																							if ($premedic->getSc() == 1) {
+																								echo "checked";
+																							}
+																							echo "></td>";
+																							echo "<td class='m-0'><input type='text' name='observacion" . $premedicaciones->getId() . "' id='observacion" . $premedicaciones->getId() . "' class='form-control' placeholder='Observación' value='" . $premedic->getObservacion() . "'></td>";
+																							echo "</tr>";
+																							$check = true;
+																							break;
+																						}
+																					}
+																					if ($check == false) {
+																						echo "<tr class='m-0' >";
+																						echo "<td class='m-0'><input type='checkbox' name='premedicacion" . $premedicaciones->getId() . "' id='premedicacion" . $premedicaciones->getId() . "' value='" . $premedicaciones->getId() . "'></td>";
+																						echo "<td  class='m-0'>" . $premedicaciones->getNombre() . "</td>";
+																						echo "<td class='m-0'><input type='number' name='dosismg" . $premedicaciones->getId() . "' id='dosismg" . $premedicaciones->getId() . "' class='form-control' placeholder='Dosis MG'></td>";
+																						echo "<td class='m-0'><input type='checkbox' name='oral" . $premedicaciones->getId() . "' id='oral" . $premedicaciones->getId() . "' value='1'></td>";
+																						echo "<td class='m-0'><input type='checkbox' name='ev" . $premedicaciones->getId() . "' id='ev" . $premedicaciones->getId() . "' value='1'></td>";
+																						echo "<td class='m-0'><input type='checkbox' name='sc" . $premedicaciones->getId() . "' id='sc" . $premedicaciones->getId() . "' value='1'></td>";
+																						echo "<td class='m-0'><input type='text' name='observacion" . $premedicaciones->getId() . "' id='observacion" . $premedicaciones->getId() . "' class='form-control' placeholder='Observación'></td>";
+																						echo "</tr>";
+																					}
+																				}
+																				?>
+																			</tbody>
+																		</table>
+																	</div>
+																	<div class="tab-pane" id="tabCont3">
+																		<table class="table">
+																			<thead>
+																				<tr>
+																					<th></th>
+																					<th>Medicamento</th>
+																					<th>Cantidad</th>
+																					<th>Rango de dias</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<?php
+																				$estimulador = $c->buscarestimuladorreceta($receta->getId());
+																				?>
+																				<tr>
+																					<td><input type="checkbox" name="estimulador" id="estimulador" <?php if($estimulador!=null){if($estimulador->getNombre()==1){echo "checked";};} ?>></td>
+																					<td>FILGRASTIM</td>
+																					<td><input type="number" name="cantidades" id="cantidades" class="form-control"  <?php if($estimulador!=null){if($estimulador->getNombre()==1){echo "value='".$estimulador->getCantidad()."'";};} ?>></td>
+																					<td><input type="number" name="rango" id="rango" class="form-control" <?php if($estimulador!=null){if($estimulador->getNombre()==1){echo "value='".$estimulador->getRangoDias()."'";};} ?>></td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</div>
+																	<div class="tab-pane" id="tabCont4">
+																		<div class="row">
+																			<div class="col-md-6">
+																				<label for="">Anamesis</label>
+																				<textarea name="anamnesis" id="anamnesis" cols="30" rows="10" class="form-control"><?php echo $receta->getAnamnesis();?></textarea>
+																			</div>
+																			<div class="col-md-6">
+																				<label for="">Observación</label>
+																				<textarea name="observacion" id="observacion" cols="30" rows="10" class="form-control"><?php echo $receta->getObservacion();?></textarea>
 																			</div>
 																		</div>
 																	</div>
-																</div><!-- COL END -->
+																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-
-												<!--Adjuntos-->
-												<div class="card">
-													<div class="card-header" id="medicamento" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#medicamentos">Archivos Adjuntos</a>
-													</div>
-													<div aria-labelledby="medicamento" class="collapse" data-parent="#accordion" id="medicamentos" role="tabpanel">
-														<div class="card-body">
-															Informacion Aqui
-														</div>
-													</div>
-												</div>
-											</div><!-- accordion -->
+											</div>
 										</div>
 									</div>
 								</div>
@@ -1284,14 +1151,16 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
 	<script src="JsFunctions/function.js"></script>
+	<script src="JsFunctions/informe.js"></script>
 	<script>
 		//Cargar Tabla
 		$(document).ready(function() {
 			cargarsignos();
 			cargarmedidas();
+			cargarMedicamentoesquema1(<?php echo $receta->getId();?>);
 		});
 
-		$("#tableatencion").DataTable({
+		$('#tablegeneral').DataTable({
 			language: {
 				searchPlaceholder: 'Buscar..',
 				sSearch: '',
@@ -1307,11 +1176,86 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 					last: 'Último'
 				},
 			},
-			"paging": false,
-			"lengthChange": false,
-			"searching": false,
-			"ordering": false,
-			"info": false,
+			"paging": true,
+			"lengthChange": true,
+			"searching": true,
+			"ordering": true,
+			"info": true,
+			"autoWidth": true,
+			"responsive": true
+		});
+
+		$('#tablecieo1').DataTable({
+			language: {
+				searchPlaceholder: 'Buscar..',
+				sSearch: '',
+				lengthMenu: '_MENU_ datos/página',
+				zeroRecords: 'No se encontraron resultados',
+				info: 'Mostrando página _PAGE_ de _PAGES_',
+				infoEmpty: 'No hay datos disponibles',
+				infoFiltered: '(filtrado de _MAX_ datos totales)',
+				paginate: {
+					first: 'Primero',
+					previous: 'Anterior',
+					next: 'Siguiente',
+					last: 'Último'
+				},
+			},
+			"paging": true,
+			"lengthChange": true,
+			"searching": true,
+			"ordering": true,
+			"info": true,
+			"autoWidth": true,
+			"responsive": true
+		});
+
+		$('#tablecieo2').DataTable({
+			language: {
+				searchPlaceholder: 'Buscar..',
+				sSearch: '',
+				lengthMenu: '_MENU_ datos/página',
+				zeroRecords: 'No se encontraron resultados',
+				info: 'Mostrando página _PAGE_ de _PAGES_',
+				infoEmpty: 'No hay datos disponibles',
+				infoFiltered: '(filtrado de _MAX_ datos totales)',
+				paginate: {
+					first: 'Primero',
+					previous: 'Anterior',
+					next: 'Siguiente',
+					last: 'Último'
+				},
+			},
+			"paging": true,
+			"lengthChange": true,
+			"searching": true,
+			"ordering": true,
+			"info": true,
+			"autoWidth": true,
+			"responsive": true
+		});
+
+		$('#tablecie10').DataTable({
+			language: {
+				searchPlaceholder: 'Buscar..',
+				sSearch: '',
+				lengthMenu: '_MENU_ datos/página',
+				zeroRecords: 'No se encontraron resultados',
+				info: 'Mostrando página _PAGE_ de _PAGES_',
+				infoEmpty: 'No hay datos disponibles',
+				infoFiltered: '(filtrado de _MAX_ datos totales)',
+				paginate: {
+					first: 'Primero',
+					previous: 'Anterior',
+					next: 'Siguiente',
+					last: 'Último'
+				},
+			},
+			"paging": true,
+			"lengthChange": true,
+			"searching": true,
+			"ordering": true,
+			"info": true,
 			"autoWidth": true,
 			"responsive": true
 		});
