@@ -273,6 +273,8 @@ insert into roles(nombre,descripcion) values('Reservas','El Usuario tiene permis
 insert into roles(nombre,descripcion) values('Ficha Clinica','El Usuario tiene permiso para administrar las fichas clinicas del sistema');
 insert into roles(nombre,descripcion) values('Comité','El Usuario tiene permiso para administrar los comités del sistema');
 insert into roles(nombre,descripcion) values('Usuarios','El Usuario tiene permiso para administrar los usuarios del sistema');
+insert into roles(nombre,descripcion) values('Ficha Clinica (Secretaria)','El Usuario tiene permiso para administrar las fichas clinicas de los pacientes');
+insert into roles(nombre,descripcion) values('Gestión de Tratamiento','El Usuario tiene permiso para administrar los tratamientos de los pacientes');
 
 
 
@@ -834,8 +836,21 @@ create table atenciones(
     horario int not null references horarios(id),
     observacion text null,
     estado int not null default 1,
+    horainicioespera time null,
     registro datetime not null default current_timestamp
 );
+
+alter table atenciones add column horainicioespera time null after estado;
+
+create table historialestado(
+    id int not null auto_increment primary key,
+    atencion int not null references atenciones(id),
+    estado int not null,
+    observacion text null,
+    usuario int not null references usuarios(id),
+    registro datetime not null default current_timestamp
+);
+
 
 /***************Medicamentos***************/
 create table presentacion(
@@ -1136,4 +1151,21 @@ create table estimulador(
     registro datetime not null default current_timestamp
 );
 
+create table motivorechazo(
+    id int not null auto_increment primary key,
+    nombre varchar(200) not null,
+    registro datetime not null default current_timestamp
+);
 
+insert into motivorechazo values(1,"CALCULO DE DOSIS INCORRECTO",now());
+insert into motivorechazo values(2,"DATOS INCORRECTOS",now());
+insert into motivorechazo values(3,"ESQUEMA INCORRECTO",now());
+insert into motivorechazo values(4,"TRATAMIENTO NO CORRECPONDE",now());
+
+create table rechazoreceta(
+    id int not null auto_increment primary key,
+    receta int not null references recetas(id),
+    motivo int not null references motivorechazo(id),
+    observacion text not null,
+    registro datetime not null default current_timestamp
+);

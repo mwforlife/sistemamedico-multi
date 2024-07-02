@@ -12,7 +12,7 @@ if(isset($_POST['action'])){
             if($idPaciente > 0 && $hora > 0){
                 $val = $c->validarreservahorario($hora);
                 if($val == true){
-                    echo json_encode(array('error' => false, 'message' => 'El horario Seleccionado ya no se encuentra disponible'));
+                    echo json_encode(array('status' => false, 'message' => 'El horario Seleccionado ya no se encuentra disponible'));
                     exit();
                 }
                 $result = $c->registrarreserva($idPaciente, $hora);
@@ -23,7 +23,7 @@ if(isset($_POST['action'])){
                     if($response == false){
                         $c->cambiarestadodisponibilidad($id, 2);
                     }
-                    echo json_encode(array('error' => false, 'message' => 'Reserva registrada correctamente'));
+                    echo json_encode(array('status' => true, 'message' => 'Reserva registrada correctamente'));
                     /***********Auditoria******************* */
                     $titulo = "Reserva de hora";
                     $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
@@ -34,15 +34,15 @@ if(isset($_POST['action'])){
                     /**************************************** */
                     
                 }else{
-                    echo json_encode(array('error' => false, 'message' => 'Error al registrar la reserva'));
+                    echo json_encode(array('status' => false, 'message' => 'Error al registrar la reserva'));
                 }
             }else{
-                echo json_encode(array('error' => false, 'message' => 'Datos incorrectos'));
+                echo json_encode(array('status' => false, 'message' => 'Datos incorrectos'));
             }
         }else{
-            echo json_encode(array('error' => false, 'message' => 'Datos incorrectos'));
+            echo json_encode(array('status' => false, 'message' => 'Los datos enviados no son correctos'));
         }
     }
 }else{
-    echo json_encode(array('error' => false, 'message' => 'Datos incorrectos'));
+    echo json_encode(array('status' => false, 'message' => 'Acción no permitida'));
 }

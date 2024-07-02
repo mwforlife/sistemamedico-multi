@@ -37,6 +37,8 @@ $reservasrol = false;
 $fichaclinicarol = false;
 $comiterol = false;
 $usersrol = false;
+$fichaclinicasecre = false;
+$gestiontratamientorol = false;
 if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	if($c->validarroladmin($object->getId())==true){
 		$admingeneralrol = true;
@@ -82,6 +84,12 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 		}
 		if ($rol->getNombre() == 13) {
 			$usersrol = true;
+		}
+		if ($rol->getNombre() == 14) {
+			$fichaclinicasecre = true;
+		}
+		if ($rol->getNombre() == 15) {
+			$gestiontratamientorol = true;
 		}
 	}
 }else{
@@ -137,6 +145,11 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
     <link href="assets/css/sidemenu/sidemenu.css" rel="stylesheet">
 
     <link rel="stylesheet" href="JsFunctions/Alert/loader.css">
+    <style>
+        .dataTables_filter{
+            text-align: right;
+        }
+    </style>
 
 
 </head>
@@ -537,91 +550,32 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                         <div class="col-xl-12 col-lg-12 col-md-12">
                             <div class="card tran">
                                 <div class="card-header bd-b-0">
-                                    <h4 class="card-title font-weight-semibold mb-0">Reservas del día</h4>
+                                    <h4 class="card-title font-weight-semibold mb-0">Reservas</h4>
                                 </div>
-                                <div class="card-body">
-                                    <div class="">
-                                        <div class="table-responsive">
-                                            <table class="table w-100 text-nowrap" id="example1">
-                                                <thead class="border-top">
-                                                    <tr class="">
-                                                        <th class="bg-transparent">Hora</th>
-                                                        <th class="bg-transparent">Identificación</th>
-                                                        <th class="bg-transparent">Nombre Paciente</th>
-                                                        <th class="bg-transparent">Profesional</th>
-                                                        <th class="bg-transparent">Profesión</th>
-                                                        <th class="bg-transparent">Intervalo</th>
-                                                        <th class="bg-transparent">Estado</th>
-                                                        <th class="bg-transparent">Fecha Reserva</th>
-                                                        <th class="bg-transparent">Acción</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php
-                                                    $lista = $c->buscarreservashoy($empresa->getId());
-                                                    foreach ($lista as $l) {
-                                                        $id = $l->getId();
-                                                        $rut = $l->getRut();
-                                                        $paciente = $l->getPaciente();
-                                                        $profesional = $l->getProfesional();
-                                                        $profesion = $l->getProfesion();
-                                                        $fecha = $l->getFecha();
-                                                        $horainicio = $l->getHoraInicio();
-                                                        $horatermino = $l->getHoraTermino();
-                                                        $intervalo = $l->getIntervalo();
-                                                        $observacion = $l->getObservacion();
-                                                        $estado = $l->getEstado();
-                                                        $registro = $l->getRegistro();
-                                                        echo "<tr class='text-center'>";
-                                                        echo "<td class='bg-transparent'>" . date("H:i", strtotime($horainicio)) . " - " . date("H:i", strtotime($horatermino)) . "</td>";
-                                                        echo "<td class='bg-transparent'>" . $rut . "</td>";
-                                                        echo "<td class='bg-transparent'>" . $paciente . "</td>";
-                                                        echo "<td class='bg-transparent'>" . $profesional . "</td>";
-                                                        echo "<td class='bg-transparent'>" . $profesion . "</td>";
-                                                        echo "<td class='bg-transparent'>" . $intervalo . " minutos</td>";
-                                                        if ($estado == 1) {
-                                                            //Reservado
-                                                            echo "<td class='bg-transparent'><span class='badge badge-success'>Reservado</span></td>";
-                                                            echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-outline-primary btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-plus'></i></button></td>";
-                                                        } else if ($estado == 2) {
-                                                            //Confirmado
-                                                            echo "<td class='bg-transparent'><span class='badge badge-primary'>Confirmado</span></td>";
-                                                            echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-outline-primary btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-plus'></i></button></td>";
-                                                        } else if ($estado == 3) {
-                                                            //En Sala de Espera
-                                                            echo "<td class='bg-transparent'><span class='badge badge-warning'>En Sala de Espera</span></td>";
-                                                            echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-outline-warning btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-check'></i></button></td>";
-                                                        } else if ($estado == 4) {
-                                                            //En Atención
-                                                            echo "<td class='bg-transparent'><span class='badge badge-info'>En Atención</span></td>";
-                                                            echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-info btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-check'></i></button></td>";
-                                                        } else if ($estado == 5) {
-                                                            //Atendido(a)
-                                                            echo "<td class='bg-transparent'><span class='badge badge-success'>Atendido(a)</span></td>";
-                                                            echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-success btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-check'></i></button></td>";
-                                                        } else if ($estado == 6) {
-                                                            //Cancelado
-                                                            echo "<td class='bg-transparent'><span class='badge badge-danger'>Reserva Cancelada</span></td>";
-                                                            echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-danger btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-times'></i></button></td>";
-                                                        } else if ($estado == 7) {
-                                                            //Paciente No Asiste
-                                                            echo "<td class='bg-transparent'><span class='badge badge-danger'>Paciente No Asiste</span></td>";
-                                                            echo "<td class='bg-transparent'>" . date("d-m-Y H:i", strtotime($registro)) . "</td>";
-                                                            echo "<td class='bg-transparent'><button class='btn btn-danger btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-times'></i></button></td>";
-                                                        }
+                                <?php
+                                $desde = date("Y-m-d");
+                                $hasta = date("Y-m-d");
 
-                                                        echo "</tr>";
-                                                    }
-                                                    ?>
-                                                </tbody>
-                                            </table>
+                                if(isset($_SESSION['DESDE'])){
+                                    $desde = $_SESSION['DESDE'];
+                                }
+                                if(isset($_SESSION['HASTA'])){
+                                    $hasta = $_SESSION['HASTA'];
+                                }
+                                ?>
+                                <div class="card-body">
+                                    <div class="row mb-4">
+                                        <div class="col-md-3">
+                                            <label for="">Desde</label>
+                                            <input type="date" onchange="cargarreservas()" class="form-control" id="desde" value="<?php echo $desde; ?>">
                                         </div>
+                                        <div class="col-md-3">
+                                            <label for="">Hasta</label>
+                                            <input type="date" onchange="cargarreservas()" class="form-control" id="hasta" value="<?php echo $hasta; ?>">
+                                        </div>
+                                    </div>
+                                    <div class="table-reserve">
+
                                     </div>
                                 </div>
                             </div>
@@ -650,7 +604,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
         <!--End Footer-->
 
 
-        <div aria-hidden="true" class="modal main-modal-calendar-event" id="reserveeventmodal" role="dialog">
+        <div class="modal" id="reserveeventmodal" role="dialog">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -676,6 +630,38 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                             <div class="col-md-12 d-flex justify-content-end gap-1 mt-3">
                                 <button class="btn btn-outline-success" id="reserveevent" type="button"><i class="fa fa-save"></i> Registrar</button>
                                 <a class="btn btn-secondary wd-80" data-dismiss="modal" href="">Cerrar</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="modalhistorial">
+            <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5>Historial Estado</h5>
+
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Estado</th>
+                                                <th>Observación</th>
+                                                <th>Usuario</th>
+                                                <th>Registro</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="historialbody">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         
@@ -733,6 +719,11 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
     <script src="JsFunctions/function.js"></script>
     <script src="JsFunctions/Alert/loader.js"></script>
     <script src="JsFunctions/atencion.js"></script>
+    <script>
+        $(document).ready(function() {
+            cargarreservas();
+        });
+    </script>
 
 
 

@@ -52,7 +52,57 @@ function rechazar(id){
     });
 }
 
-function vertratamiento(tratamiento){
+function mostrartratamiento(tratamiento){
     $("#tratamiento").html(tratamiento);
     $("#modaltratamiento").modal("show");
+}
+
+$(document).ready(function () {
+    $("#formrechazo").submit(function (e) {
+        e.preventDefault();
+        var datos = $(this).serialize();
+        $.ajax({
+            url: 'php/update/rechazarreceta.php',
+            data: datos,
+            type: 'POST',
+            success: function (response) {
+               try {
+                var json = JSON.parse(response);
+                if(json.status==true){
+                    ToastifySuccess(json.message);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 500);
+                }else{
+                    ToastifyError(json.message);
+                
+                }
+               } catch (error) {
+                ToastifyError(error);
+               }
+            }
+        });
+    });
+});
+
+
+function vertratamiento(id){
+    $.ajax({
+        url: 'php/charge/tratamiento.php',
+        data: { id: id },
+        type: 'POST',
+        success: function (response) {
+           try {
+            var json = JSON.parse(response);
+            if(json.status==true){
+                mostrartratamiento(json.tratamiento);
+            }else{
+                ToastifyError(json.message);
+            
+            }
+           } catch (error) {
+            ToastifyError(error);
+           }
+        }
+    });
 }

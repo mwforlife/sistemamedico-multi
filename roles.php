@@ -52,6 +52,8 @@ $reservasrol = false;
 $fichaclinicarol = false;
 $comiterol = false;
 $usersrol = false;
+$fichaclinicasecre = false;
+$gestiontratamientorol = false;
 if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	if($c->validarroladmin($object->getId())==true){
 		$admingeneralrol = true;
@@ -97,6 +99,12 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 		}
 		if ($rol->getNombre() == 13) {
 			$usersrol = true;
+		}
+		if ($rol->getNombre() == 14) {
+			$fichaclinicasecre = true;
+		}
+		if ($rol->getNombre() == 15) {
+			$gestiontratamientorol = true;
 		}
 	}
 }else{

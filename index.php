@@ -37,6 +37,8 @@ $reservasrol = false;
 $fichaclinicarol = false;
 $comiterol = false;
 $usersrol = false;
+$fichaclinicasecre = false;
+$gestiontratamientorol = false;
 if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	if($c->validarroladmin($object->getId())==true){
 		$admingeneralrol = true;
@@ -82,6 +84,12 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 		}
 		if ($rol->getNombre() == 13) {
 			$usersrol = true;
+		}
+		if ($rol->getNombre() == 14) {
+			$fichaclinicasecre = true;
+		}
+		if ($rol->getNombre() == 15) {
+			$gestiontratamientorol = true;
 		}
 	}
 }else{
@@ -296,6 +304,12 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 					<li class="nav-item">
 						<a class="nav-link" href="atencion.php"><i class="fe fe-user sidemenu-icon"></i><span class="sidemenu-label">Atención</span></a>
 					</li>
+					<!--------------------------Fin Atencion--------------------------->
+					<!--------------------------Inicio Tratamiento--------------------------->
+					<?php
+						}
+						if($admingeneralrol == true || $adminsistemarol == true || $gestiontratamientorol == true){
+					?>
 					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fa fa-user-md sidemenu-icon"></i>
 						<span class="sidemenu-label">Gestión de tratamiento</span>
@@ -349,7 +363,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 
 
 					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true){
+						if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true || $fichaclinicasecre == true){
 					?>
 					<!--------------------------Inicio Ficha Pacientes----------------->
 					<li class="nav-item">
@@ -361,9 +375,15 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="registropacientes.php">Registro Pacientes</a>
 							</li>
+							<?php
+								if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicas == true){
+							?>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="listadopacientes.php">Listado Pacientes</a>
 							</li>
+							<?php
+								}
+							?>
 
 						</ul>
 					</li>

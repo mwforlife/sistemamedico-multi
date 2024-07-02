@@ -598,7 +598,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 														echo "<td>" . $receta['apellido2'] . "</td>";
 														echo "<td>" . $c->calcularEdad1($receta['fechanacimiento']) . "</td>";
 														echo "<td>" . $receta['diagnostico'] . "</td>";
-														echo "<td><button class='btn btn-outline-primary btn-sm' onclick='vertratamiento(\"" . $receta['plantratamiento'] . "\")'><i class='fa fa-eye'></i></button></td>";
+														echo "<td><button class='btn btn-outline-primary btn-sm' onclick='vertratamiento(".$receta['id'].")'><i class='fa fa-eye'></i></button></td>";
 														echo "<td><a target='_blank' href='php/reporte/receta.php?r=" . $receta['id'] . "' class='btn btn-outline-primary btn-sm'><i class='fa fa-eye'></i></a></td>";
 														echo "<td>";
 														echo "<button class='btn m-1 btn-outline-success btn-sm' title='Aprobar Receta' onclick='aprobar(" . $receta['id'] . ")'><i class='fa fa-check'></i></button>";
@@ -649,13 +649,18 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 							<div class="row">
 								<div class="col-md-12">
 									<label for="">Motivo</label>
-									<select name="motivo" id="motivo" class="form-control select2">
-
+									<select name="motivo" id="motivo" class="form-control select2" required>
+										<?php
+										$motivos = $c->listarmotivorechazo();
+										foreach ($motivos as $motivo) {
+											echo "<option value='" . $motivo['id'] . "'>" . $motivo['nombre'] . "</option>";
+										}
+										?>
 									</select>
 								</div>
 								<div class="col-md-12">
 									<label for="">Observación</label>
-									<textarea name="observacion" id="observacion" class="form-control" cols="30" rows="10"></textarea>
+									<textarea name="observacion" id="observacion" class="form-control" cols="30" rows="10" required></textarea>
 								</div>
 								<div class="col-md-12 text-right mt-4">
 									<button class="btn btn-primary" type="submit"> <i class="fa fa-times"></i> Rechazar</button>

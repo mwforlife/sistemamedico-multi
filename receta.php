@@ -167,8 +167,8 @@ $reservasrol = false;
 $fichaclinicarol = false;
 $comiterol = false;
 $usersrol = false;
-if(isset($_SESSION['CURRENT_ENTERPRISE'])){
-	if($c->validarroladmin($object->getId())==true){
+if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
+	if ($c->validarroladmin($object->getId()) == true) {
 		$admingeneralrol = true;
 	}
 	$idempresa = $_SESSION['CURRENT_ENTERPRISE'];
@@ -214,8 +214,8 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 			$usersrol = true;
 		}
 	}
-}else{
-	if($c->validarroladmin($object->getId())==true){
+} else {
+	if ($c->validarroladmin($object->getId()) == true) {
 		$admingeneralrol = true;
 	}
 }
@@ -294,254 +294,253 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 				<a class="main-logo" href="index.php">
 					<img src="assets/img/brand/logo.png" class="header-brand-img desktop-logo" alt="logo">
 					<img src="assets/img/brand/icon.png" class="header-brand-img icon-logo" alt="logo">
-					<img src="assets/img/brand/dark-logo.png" class="header-brand-img desktop-logo theme-logo"
-						alt="logo">
+					<img src="assets/img/brand/dark-logo.png" class="header-brand-img desktop-logo theme-logo" alt="logo">
 					<img src="assets/img/brand/icon.png" class="header-brand-img icon-logo theme-logo" alt="logo">
 				</a>
 			</div>
 			<div class="main-sidebar-body">
-			<ul class="nav">
-					<?php 
-						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionescomiterol == true || $definicionesgeneralesrol == true){
-					?>
-					<li class="nav-header"><span class="nav-label">Dashboard</span></li>
+				<ul class="nav">
 					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $definicionescomiterol == true){
+					if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionescomiterol == true || $definicionesgeneralesrol == true) {
 					?>
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
+						<li class="nav-header"><span class="nav-label">Dashboard</span></li>
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $definicionescomiterol == true) {
+						?>
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="diagnosticos1.php">Diagnosticos CIE10</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="ecog.php">Ecog</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="histologico.php">Histologico</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="invasiontumoral.php">Invasión Tumoral</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="tnmprimario.php">TNM-Primario clinico</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="tnmregionales.php">TNM-Regionales clinico</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="tnmdistancia.php">TNM-Distancia clinico</a>
+									</li>
+								</ul>
 							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="diagnosticos1.php">Diagnosticos CIE10</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="ecog.php">Ecog</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="histologico.php">Histologico</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="invasiontumoral.php">Invasión Tumoral</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="tnmprimario.php">TNM-Primario clinico</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="tnmregionales.php">TNM-Regionales clinico</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="tnmdistancia.php">TNM-Distancia clinico</a>
-							</li>
-						</ul>
-					</li>
-					<?php
-						}
-						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true){
-					?>
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
 						<?php
 						}
-							if($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true){
-							?>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="regiones.php">Regiones</a>
+						if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true) {
+						?>
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+								<?php
+							}
+							if ($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true) {
+								?>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="regiones.php">Regiones</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="comunas.php">Comunas</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="nacionalidad.php">Nacionalidades</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="generos.php">Generos</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="especialidad.php">Especialidad</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
+									</li>
+								<?php
+							}
+							if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true) {
+								?>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="esquema.php">Esquema</a>
+									</li>
+								<?php
+							}
+							if ($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true) {
+								?>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
+									</li>
+								<?php
+							}
+								?>
+								</ul>
 							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="comunas.php">Comunas</a>
+						<?php
+					}
+
+						?>
+						<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
+						<!--------------------------Inicio Empresa--------------------------->
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true) {
+						?>
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="empresas.php">Registro de Empresas</a>
+									</li>
+								</ul>
 							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="nacionalidad.php">Nacionalidades</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="generos.php">Generos</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="especialidad.php">Especialidad</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
-							</li>
-							<?php
-								}
-								if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true){
-							?>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="esquema.php">Esquema</a>
-							</li>
-							<?php
-								}
-								if($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true){
-							?>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
-							</li>
-							<?php
-								}
-							?>
-						</ul>
-					</li>
-					<?php
+						<?php
 						}
-						
-					?>
-					<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
-					<!--------------------------Inicio Empresa--------------------------->
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true){
-					?>
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="empresas.php">Registro de Empresas</a>
+						?>
+						<!--------------------------Fin Empresa--------------------------->
+
+						<!--------------------------Inicio Agenda--------------------------->
+						<li class="nav-item">
+							<a class="nav-link" href="agenda.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Agenda</span></a>
+						</li>
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $reservasrol == true) {
+						?>
+							<!--------------------------Inicio Reservas--------------------------->
+							<li class="nav-item">
+								<a class="nav-link" href="reservas.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Reservas</span></a>
 							</li>
-						</ul>
-					</li>
-					<?php
+							<!--------------------------Inicio Atencion--------------------------->
+							<li class="nav-item">
+								<a class="nav-link" href="atencion.php"><i class="fe fe-user sidemenu-icon"></i><span class="sidemenu-label">Atención</span></a>
+							</li>
+						<?php
 						}
-					?>
-					<!--------------------------Fin Empresa--------------------------->
-
-					<!--------------------------Inicio Agenda--------------------------->
-					<li class="nav-item">
-						<a class="nav-link" href="agenda.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Agenda</span></a>
-					</li>
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $reservasrol == true){
-					?>
-					<!--------------------------Inicio Reservas--------------------------->
-					<li class="nav-item">
-						<a class="nav-link" href="reservas.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Reservas</span></a>
-					</li>
-					<!--------------------------Inicio Atencion--------------------------->
-					<li class="nav-item">
-						<a class="nav-link" href="atencion.php"><i class="fe fe-user sidemenu-icon"></i><span class="sidemenu-label">Atención</span></a>
-					</li>
-					<?php
-						}
-					?>
-					<!--------------------------Fin Agenda--------------------------->
-
-					
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $auditoriarol == true){
-					?>
-					<!--------------------------Inicio Auditoria--------------------------->
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="auditoria.php">Auditoria</a>
-							</li>
-						</ul>
-					</li>
-					<!--------------------------Fin Auditoria--------------------------->
-					<?php
-						}
-					?>
+						?>
+						<!--------------------------Fin Agenda--------------------------->
 
 
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true){
-					?>
-					<!--------------------------Inicio Ficha Pacientes----------------->
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="pacientes.php">Ficha Pacientes</a>
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $auditoriarol == true) {
+						?>
+							<!--------------------------Inicio Auditoria--------------------------->
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="auditoria.php">Auditoria</a>
+									</li>
+								</ul>
 							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="registropacientes.php">Registro Pacientes</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="listadopacientes.php">Listado Pacientes</a>
-							</li>
-
-						</ul>
-					</li>
-					<!--------------------------Fin Ficha Pacientes----------------->
-					<?php
-						}
-					?>
-
-
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $medicorol == true){
-					?>
-					<!--------------------------Inicio Consulta Medica----------------->
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="pacientesmedico.php">Ficha Pacientes</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="consultas.php">Consultas</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="recetasemitidas.php">Recetas Emitidas</a>
-							</li>
-						</ul>
-					</li>
-					<!--------------------------Fin Consulta Medica----------------->
-					<?php
-						}
-					?>
-
-
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $comiterol == true){
-					?>
-					<!--------------------------Inicio Comite----------------->
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="comite.php">Crear Comité</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="listadocomite.php">Listado de Comité</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="nombrecomite.php">Nombres de Comite</a>
-							</li>
-						</ul>
-					</li>
-					<!--------------------------Fin Comite----------------->
-					<?php
+							<!--------------------------Fin Auditoria--------------------------->
+						<?php
 						}
 						?>
 
-					
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $usersrol == true){
-					?>
-					<!--------------------------Inicio Usuarios----------------->
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="usuarios.php">Registrar Usuarios</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="activacion.php">Activación de Usuarios</a>
-							</li>
 
-						</ul>
-					</li>
-					<!--------------------------Fin Usuarios----------------->
-					<?php
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true) {
+						?>
+							<!--------------------------Inicio Ficha Pacientes----------------->
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="pacientes.php">Ficha Pacientes</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="registropacientes.php">Registro Pacientes</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="listadopacientes.php">Listado Pacientes</a>
+									</li>
+
+								</ul>
+							</li>
+							<!--------------------------Fin Ficha Pacientes----------------->
+						<?php
 						}
-					?>
+						?>
+
+
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $medicorol == true) {
+						?>
+							<!--------------------------Inicio Consulta Medica----------------->
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="pacientesmedico.php">Ficha Pacientes</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="consultas.php">Consultas</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="recetasemitidas.php">Recetas Emitidas</a>
+									</li>
+								</ul>
+							</li>
+							<!--------------------------Fin Consulta Medica----------------->
+						<?php
+						}
+						?>
+
+
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $comiterol == true) {
+						?>
+							<!--------------------------Inicio Comite----------------->
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="comite.php">Crear Comité</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="listadocomite.php">Listado de Comité</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="nombrecomite.php">Nombres de Comite</a>
+									</li>
+								</ul>
+							</li>
+							<!--------------------------Fin Comite----------------->
+						<?php
+						}
+						?>
+
+
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $usersrol == true) {
+						?>
+							<!--------------------------Inicio Usuarios----------------->
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="usuarios.php">Registrar Usuarios</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="activacion.php">Activación de Usuarios</a>
+									</li>
+
+								</ul>
+							</li>
+							<!--------------------------Fin Usuarios----------------->
+						<?php
+						}
+						?>
 				</ul>
 			</div>
 		</div>
@@ -555,18 +554,14 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 				</div>
 				<div class="main-header-center">
 					<div class="responsive-logo">
-						<a href="index.php"><img src="assets/img/brand/dark-logo.png" class="mobile-logo"
-								alt="logo"></a>
-						<a href="index.php"><img src="assets/img/brand/logo.png" class="mobile-logo-dark"
-								alt="logo"></a>
+						<a href="index.php"><img src="assets/img/brand/dark-logo.png" class="mobile-logo" alt="logo"></a>
+						<a href="index.php"><img src="assets/img/brand/logo.png" class="mobile-logo-dark" alt="logo"></a>
 					</div>
 					<div class="input-group">
 						<div class="mt-0">
 							<form class="form-inline">
 								<div class="search-element">
-									<input type="search" class="form-control header-search text-dark" readonly
-										value="<?php echo $empresa->getRazonSocial(); ?>" aria-label="Search"
-										tabindex="1">
+									<input type="search" class="form-control header-search text-dark" readonly value="<?php echo $empresa->getRazonSocial(); ?>" aria-label="Search" tabindex="1">
 									<button class="btn" type="submit">
 										<i class="fa fa-"></i>
 									</button>
@@ -578,17 +573,13 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 				<div class="main-header-right">
 					<div class="dropdown d-md-flex">
 						<a class="nav-link icon full-screen-link fullscreen-button" href="">
-							<i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
-									viewBox="0 0 24 24" width="24">
+							<i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
 									<path d="M0 0h24v24H0V0z" fill="none" />
-									<path
-										d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+									<path d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
 								</svg></i>
-							<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
-									viewBox="0 0 24 24" width="24">
+							<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
 									<path d="M0 0h24v24H0V0z" fill="none" />
-									<path
-										d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
+									<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
 								</svg></i>
 						</a>
 					</div>
@@ -607,9 +598,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							</a>
 						</div>
 					</div>
-					<button class="navbar-toggler navresponsive-toggler" type="button" data-toggle="collapse"
-						data-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4"
-						aria-expanded="false" aria-label="Toggle navigation">
+					<button class="navbar-toggler navresponsive-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
 						<i class="fe fe-more-vertical header-icons navbar-toggler-icon"></i>
 					</button><!-- Navresponsive closed -->
 				</div>
@@ -623,18 +612,13 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 				<div class="collapse navbar-collapse" id="navbarSupportedContent-4">
 					<div class="d-flex order-lg-2 ml-auto">
 						<div class="dropdown">
-							<a class="nav-link icon full-screen-link fullscreen-button" href=""><i
-									class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
-										viewBox="0 0 24 24" width="24">
+							<a class="nav-link icon full-screen-link fullscreen-button" href=""><i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
 										<path d="M0 0h24v24H0V0z" fill="none" />
-										<path
-											d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+										<path d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
 									</svg></i>
-								<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
-										viewBox="0 0 24 24" width="24">
+								<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
 										<path d="M0 0h24v24H0V0z" fill="none" />
-										<path
-											d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
+										<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
 									</svg></i>
 							</a>
 						</div>
@@ -709,14 +693,18 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							<div class="card">
 								<div class="card-body">
 									<div class="row justify-content-between">
-										<h5>Diagnostico:
-											<?php echo $consulta->getDiagnosticotexto(); ?>
-										</h5>
-										<button class="btn btn-outline-success"
-											onclick="generarreceta(<?php echo $pa->getId(); ?>,<?php echo $object->getId(); ?>,<?php echo $empresa->getId(); ?>,<?php echo $consulta->getId(); ?>)"><i
-												class="fa fa-save"></i> Generar Receta</button>
+										<div>
+											<h5>Diagnostico:
+												<?php echo $consulta->getDiagnosticotexto(); ?>
+											</h5>
+										</div>
+										<div>
+											<button class="btn btn-outline-info" onclick="vistaprevia(<?php echo $pa->getId(); ?>,<?php echo $object->getId(); ?>,<?php echo $empresa->getId(); ?>,<?php echo $consulta->getId(); ?>,0,0)"><i class="fa fa-eye"></i> Vista Previa</button>
+											<button class="btn btn-outline-success" onclick="generarreceta(<?php echo $pa->getId(); ?>,<?php echo $object->getId(); ?>,<?php echo $empresa->getId(); ?>,<?php echo $consulta->getId(); ?>)"><i class="fa fa-save"></i> Generar Receta</button>
+											<input type="hidden" id="previo" value="<?php echo $previous_page; ?>">
 
-										<input type="hidden" id="previo" value="<?php echo $previous_page; ?>">
+										</div>
+
 									</div>
 									<div class="row">
 										<div class="col-md-12 mt-4">
@@ -759,37 +747,27 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 														</div>
 														<div class="col-md-2">
 															<label for="">Peso</label>
-															<input type="number" name="peso" id="peso"
-																class="form-control" step="1.01" placeholder="Peso"
-																value="<?php echo $peso; ?>" onkeyup="calcularBSA()">
+															<input type="number" name="peso" id="peso" class="form-control" step="1.01" placeholder="Peso" value="<?php echo $peso; ?>" onkeyup="calcularBSA()">
 														</div>
 														<div class="col-md-2">
 															<label for="">Talla</label>
-															<input type="number" name="talla" id="talla"
-																class="form-control" step="1.01" placeholder="Talla"
-																value="<?php echo $talla; ?>" onkeyup="calcularBSA()">
+															<input type="number" name="talla" id="talla" class="form-control" step="1.01" placeholder="Talla" value="<?php echo $talla; ?>" onkeyup="calcularBSA()">
 														</div>
 														<div class="col-md-2">
 															<label for="">S. Corporal</label>
-															<input type="number" name="scorporal" id="scorporal"
-																class="form-control" step="1.01" readonly
-																value="<?php echo $supcop; ?>">
+															<input type="number" name="scorporal" id="scorporal" class="form-control" step="1.01" readonly value="<?php echo $supcop; ?>">
 														</div>
 														<div class="col-md-2">
 															<label for="">Creatinina</label>
-															<input type="number" name="creatinina" id="creatinina"
-																class="form-control" step="1.01"
-																placeholder="Creatinina">
+															<input type="number" name="creatinina" id="creatinina" class="form-control" step="1.01" placeholder="Creatinina">
 														</div>
 														<div class="col-md-2">
 															<label for="">AUC</label>
-															<input type="number" name="auc" id="auc"
-																class="form-control" step="1.01" placeholder="AUC">
+															<input type="number" name="auc" id="auc" class="form-control" step="1.01" placeholder="AUC">
 														</div>
 														<div class="col-md-2">
 															<label for="">Fecha de Administración</label>
-															<input type="date" name="fechaadmin" id="fechaadmin"
-																class="form-control">
+															<input type="date" name="fechaadmin" id="fechaadmin" class="form-control">
 														</div>
 														<div class="col-md-2">
 															<label for="">Examen Pendiente</label>
@@ -800,13 +778,11 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 														</div>
 														<div class="col-md-2">
 															<label for="">N° Ciclio</label>
-															<input type="number" name="ciclo" id="ciclo"
-																class="form-control" placeholder="N° Ciclo">
+															<input type="number" name="ciclo" id="ciclo" class="form-control" placeholder="N° Ciclo">
 														</div>
 														<div class="col-md-2">
 															<label for="">Anticipada</label>
-															<select name="anticipada" id="anticipada"
-																class="form-control">
+															<select name="anticipada" id="anticipada" class="form-control">
 																<option value="2">No</option>
 																<option value="1">Si</option>
 															</select>
@@ -816,60 +792,44 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 													<div class="row mt-2">
 														<div class="col-md-2">
 															<h6>Intención a Tratar</h6>
-															<input type="checkbox" name="curativo" id="curativo"
-																value="1"><span> Curativo</span><br />
-															<input type="checkbox" name="paliativo" id="paliativo"
-																value="1"><span> Paliativo</span><br />
-															<input type="checkbox" name="adyuvante" id="adyuvante"
-																value="1"><span> Adyuvante</span><br />
-															<input type="checkbox" name="concomitante" id="concomitante"
-																value="1"><span> Concomitante</span><br />
-															<input type="checkbox" name="neoadyuvante" id="neoadyuvante"
-																value="1"><span> Neoadyuvante</span>
+															<input type="checkbox" name="curativo" id="curativo" value="1"><span> Curativo</span><br />
+															<input type="checkbox" name="paliativo" id="paliativo" value="1"><span> Paliativo</span><br />
+															<input type="checkbox" name="adyuvante" id="adyuvante" value="1"><span> Adyuvante</span><br />
+															<input type="checkbox" name="concomitante" id="concomitante" value="1"><span> Concomitante</span><br />
+															<input type="checkbox" name="neoadyuvante" id="neoadyuvante" value="1"><span> Neoadyuvante</span>
 														</div>
 														<div class="col-md-2">
 															<h6>Cormobilidades</h6>
-															<input type="checkbox" name="diabetes" id="diabetes"
-																value="1"><span> Diabetes</span><br />
-															<input type="checkbox" name="hipertension" id="hipertension"
-																value="1"><span> Hipertensión Arterial</span><br />
-															<input type="checkbox" onchange="detailsrecet(this)"
-																name="alergia" id="alergia" value="1"><span>
+															<input type="checkbox" name="diabetes" id="diabetes" value="1"><span> Diabetes</span><br />
+															<input type="checkbox" name="hipertension" id="hipertension" value="1"><span> Hipertensión Arterial</span><br />
+															<input type="checkbox" onchange="detailsrecet(this)" name="alergia" id="alergia" value="1"><span>
 																Alergia</span><br />
-															<input type="checkbox" onchange="detailscor(this)"
-																name="otrocor" id="otrocor" value="1"><span>
+															<input type="checkbox" onchange="detailscor(this)" name="otrocor" id="otrocor" value="1"><span>
 																Otro</span><br />
 														</div>
 														<div class="col-md-4">
 															<div class="resetdetails d-none">
 																<label for="">Alergia Detalle</label>
-																<textarea name="alergiadetalle" id="alergiadetalle"
-																	class="form-control"
-																	placeholder="Alergia Detalle"></textarea>
+																<textarea name="alergiadetalle" id="alergiadetalle" class="form-control" placeholder="Alergia Detalle"></textarea>
 
 															</div>
 															<div class="cordetails d-none">
 																<label for="">Otra Cormobilidad</label>
-																<textarea name="otrcormo" id="otrcormo"
-																	class="form-control"
-																	placeholder="Especifique"></textarea>
+																<textarea name="otrcormo" id="otrcormo" class="form-control" placeholder="Especifique"></textarea>
 
 															</div>
 														</div>
 														<div class="col-md-2">
-														<h6>Documento</h6>
-														<input type="checkbox" name="primera" id="primera"
-																value="1"><span> Primer Ingreso</span><br />
-															<input type="checkbox" name="traemedicamementos"
-																id="traemedicamementos" value="1"><span> Trae
+															<h6>Documento</h6>
+															<input type="checkbox" name="primera" id="primera" value="1"><span> Primer Ingreso</span><br />
+															<input type="checkbox" name="traemedicamementos" id="traemedicamementos" value="1"><span> Trae
 																Medicamentos</span><br />
 														</div>
 														<div class="col-md-2">
 															<div class="row justify-content-end">
 																<div class="col-md-12">
 																	<label for="">Receta Urgente</label>
-																	<select name="urgente" id="urgente"
-																		class="form-control">
+																	<select name="urgente" id="urgente" class="form-control">
 																		<option value="2">No</option>
 																		<option value="1">Si</option>
 																	</select>
@@ -886,8 +846,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 
 													<div class="col-md-12">
 														<label for="">Seleccionar Esquema:</label>
-														<select name="esquema" id="esquema" class="form-control select2"
-															onchange="cargarMedicamentoesquema()">
+														<select name="esquema" id="esquema" class="form-control select2" onchange="cargarMedicamentoesquema()">
 															<?php
 															$esquema = $c->listaresquemasdiagnostico($empresa->getId(), $consulta->getDiagnostico());
 															foreach ($esquema as $esquemas) {
@@ -911,12 +870,9 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 															<div class="border">
 																<div class="bg-light-1 nav-bg">
 																	<nav class="nav nav-tabs">
-																		<a class="nav-link active" data-toggle="tab"
-																			href="#tabCont1">Premedicación</a>
-																		<a class="nav-link" data-toggle="tab"
-																			href="#tabCont3">Estimulador</a>
-																		<a class="nav-link" data-toggle="tab"
-																			href="#tabCont4">Observación General</a>
+																		<a class="nav-link active" data-toggle="tab" href="#tabCont1">Premedicación</a>
+																		<a class="nav-link" data-toggle="tab" href="#tabCont3">Estimulador</a>
+																		<a class="nav-link" data-toggle="tab" href="#tabCont4">Observación General</a>
 																	</nav>
 																</div>
 																<div class="card-body tab-content">
@@ -963,17 +919,10 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																			</thead>
 																			<tbody>
 																				<tr>
-																					<td><input type="checkbox"
-																							name="estimulador"
-																							id="estimulador"></td>
+																					<td><input type="checkbox" name="estimulador" id="estimulador"></td>
 																					<td>FILGRASTIM</td>
-																					<td><input type="number"
-																							name="cantidades"
-																							id="cantidades"
-																							class="form-control"></td>
-																					<td><input type="number"
-																							name="rango" id="rango"
-																							class="form-control"></td>
+																					<td><input type="number" name="cantidades" id="cantidades" class="form-control"></td>
+																					<td><input type="number" name="rango" id="rango" class="form-control"></td>
 																				</tr>
 																			</tbody>
 																		</table>
@@ -982,15 +931,11 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																		<div class="row">
 																			<div class="col-md-6">
 																				<label for="">Anamesis</label>
-																				<textarea name="anamnesis"
-																					id="anamnesis" cols="30" rows="10"
-																					class="form-control"></textarea>
+																				<textarea name="anamnesis" id="anamnesis" cols="30" rows="10" class="form-control"></textarea>
 																			</div>
 																			<div class="col-md-6">
 																				<label for="">Observación</label>
-																				<textarea name="observacion"
-																					id="observacion" cols="30" rows="10"
-																					class="form-control"></textarea>
+																				<textarea name="observacion" id="observacion" cols="30" rows="10" class="form-control"></textarea>
 																			</div>
 																		</div>
 																	</div>
@@ -1023,6 +968,29 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 			</div>
 		</div>
 		<!--End Footer-->
+
+		<div class="modal" id="modalprevia">
+			<div class="modal-dialog modal-xl" role="document">
+				<div class="modal-content modal-content-demo">
+					<div class="modal-header">
+						<h6 class="modal-title">Vista Previa</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<iframe id="frameprevia" style="min-height: 700px;" class="w-100" frameborder="0"></iframe>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn ripple btn-primary" type="button" data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
 	</div>
 	<!-- End Page -->
 
@@ -1081,7 +1049,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	<script src="JsFunctions/informe.js"></script>
 	<script>
 		//Cargar Tabla
-		$(document).ready(function () {
+		$(document).ready(function() {
 			cargarsignos();
 			cargarmedidas();
 			cargarMedicamentoesquema();

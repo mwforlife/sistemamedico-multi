@@ -11,9 +11,10 @@ class Atencion{
     private $intervalo;
     private $observacion;
     private $estado;
+    private $horallegada;
     private $registro;
 
-    public function __construct($id, $rut, $paciente, $profesional, $profesion, $fecha, $horainicio, $horatermino, $intervalo, $observacion, $estado, $registro){
+    public function __construct($id, $rut, $paciente, $profesional, $profesion, $fecha, $horainicio, $horatermino, $intervalo, $observacion, $estado,$horallegada, $registro){
         $this->id = $id;
         $this->rut = $rut;
         $this->paciente = $paciente;
@@ -25,6 +26,7 @@ class Atencion{
         $this->intervalo = $intervalo;
         $this->observacion = $observacion;
         $this->estado = $estado;
+        $this->horallegada = $horallegada;
         $this->registro = $registro;
     }
 
@@ -70,6 +72,10 @@ class Atencion{
 
     public function getEstado(){
         return $this->estado;
+    }
+
+    public function getHoraLlegada(){
+        return $this->horallegada;
     }
 
     public function getRegistro(){

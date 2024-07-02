@@ -718,6 +718,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 										</h5>
 										<div>
 										<a href="<?php echo $previous_page; ?>" class="btn btn-outline-danger"><i class="fa fa-arrow-left"></i> Volver</a>
+										<button class="btn btn-outline-info" onclick="vistaprevia(<?php echo $pa->getId(); ?>,<?php echo $object->getId(); ?>,<?php echo $empresa->getId(); ?>,<?php echo $consulta->getId(); ?>,<?php echo $receta->getId(); ?>,<?php echo $receta->getFolio(); ?>)"><i class="fa fa-eye"></i> Vista Previa</button>
 										<button class="btn btn-outline-success" onclick="editarreceta(<?php echo $pa->getId(); ?>,<?php echo $object->getId(); ?>,<?php echo $empresa->getId(); ?>,<?php echo $consulta->getId(); ?>,<?php echo $receta->getId(); ?>,<?php echo $receta->getFolio(); ?>)"><i class="fa fa-save"></i> Actualizar Receta</button>
 										</div>
 										<input type="hidden" id="previo" value="<?php echo $previous_page; ?>">
@@ -1091,6 +1092,25 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 				<div class="row">
 					<div class="col-md-12">
 						<span>Copyright © 2022 - KaiserTech Todos los derechos reservados.</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal" id="modalprevia">
+			<div class="modal-dialog modal-xl" role="document">
+				<div class="modal-content modal-content-demo">
+					<div class="modal-header">
+						<h6 class="modal-title">Vista Previa</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12" >
+								<iframe id="frameprevia" style="min-height: 700px;" class="w-100" frameborder="0"></iframe>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn ripple btn-primary" type="button" data-dismiss="modal">Cerrar</button>
 					</div>
 				</div>
 			</div>

@@ -163,9 +163,7 @@ function otroPaciente() {
 }
 
 function reservar() {
-    console.log("Reservar");
     var idPaciente = $("#idPaciente").val();
-
     //Comprobar si se selecciono una hora
     var hora = document.getElementsByName("hora");
     var horaSeleccionada = false;
@@ -186,13 +184,13 @@ function reservar() {
                 success: function (data) {
                     //Recorrer el array de datos
                     var datos = JSON.parse(data);
-                    if (datos.error == true) {
-                        ToastifyError(datos.message);
-                    } else {
+                    if (datos.status == true) {
                         ToastifySuccess(datos.message);
                         setTimeout(function () {
                             location.reload();
-                        }, 2000);
+                        }, 500);
+                    } else {
+                        ToastifyError(datos.message);
                     }
                 },
             });
