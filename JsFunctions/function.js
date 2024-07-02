@@ -1694,9 +1694,20 @@ $(document).ready(function () {
         }
         var discapacidad = 0;
         //Chequear si discapacidad esta checkeado
-        if ($("#discapacidadcheck").is(':checked')) {
+        if ($("#discapacidad").is(':checked')) {
             discapacidad = 1;
         }
+
+        var descripciondiscapacidad = $("#descripciondiscapacidad").val();
+        if(discapacidad == 1){
+            if(descripciondiscapacidad.trim().length == 0){
+                ToastifyError("Ingrese descripcion de discapacidad");
+                $("#descripciondiscapacidad").focus();
+                return false;
+            }
+        }
+
+
         var reciennacido = 0;
         //Chequear si reciennacido esta checkeado
         if ($("#reciennacidochek").is(':checked')) {
@@ -1834,7 +1845,7 @@ $(document).ready(function () {
         var rutpersona = $("#rutpersona").val();
         if (rut.trim().length > 0) {
             if (validarRut(rutpersona) == false) {
-                ToastifyError("Rut invalido");
+                ToastifyError("Rut de la persona responsable invalido");
                 $("#rutpersona").focus();
                 return false;
             }
@@ -1885,6 +1896,7 @@ $(document).ready(function () {
             nombresocial: nombresocial,
             funcionario: funcionario,
             discapacidad: discapacidad,
+            descripciondiscapacidad: descripciondiscapacidad,
             reciennacido: reciennacido,
             hijode: hijode,
             pesodenacimiento: pesodenacimiento,
@@ -1931,16 +1943,18 @@ $(document).ready(function () {
             data: datos,
             cache: false,
             success: function (data) {
-                if (data == 1 || data == "1") {
-                    ToastifySuccess("Paciente registrado(a) con exito");
-                    //Recargar pagina en 1 segundo
-                    setTimeout(function () {
-                        location.href = "listadopacientes.php";
-                    }, 500);
-                } else if (data == 0 || data == "0") {
-                    ToastifyError("Hubo un error con el registro");
-                } else {
-                    ToastifyError(data);
+                try {
+                    var json = JSON.parse(data);
+                    if (json.status == true){
+                        ToastifySuccess(json.message);
+                        setTimeout(function () {
+                            location.href = "listadopacientes.php";
+                        }, 500);
+                    }else{
+                        ToastifyError(json.message);
+                    }
+                } catch (error) {
+                    ToastifyError(error);                    
                 }
             }
         });
@@ -1971,9 +1985,18 @@ $(document).ready(function () {
         }
         var discapacidad = 0;
         //Chequear si discapacidad esta checkeado
-        if ($("#discapacidadcheck").is(':checked')) {
+        if ($("#discapacidad").is(':checked')) {
             discapacidad = 1;
         }
+        var descripciondiscapacidad = $("#descripciondiscapacidad").val();
+        if(discapacidad == 1){
+            if(descripciondiscapacidad.trim().length == 0){
+                ToastifyError("Ingrese descripcion de discapacidad");
+                $("#descripciondiscapacidad").focus();
+                return false;
+            }
+        }
+
         var reciennacido = 0;
         //Chequear si reciennacido esta checkeado
         if ($("#reciennacidochek").is(':checked')) {
@@ -2112,7 +2135,7 @@ $(document).ready(function () {
         var rutpersona = $("#rutpersona").val();
         if (rut.trim().length > 0) {
             if (validarRut(rutpersona) == false) {
-                ToastifyError("Rut invalido");
+                ToastifyError("Rut de la persona responsable invalido");
                 $("#rutpersona").focus();
                 return false;
             }
@@ -2167,6 +2190,7 @@ $(document).ready(function () {
             nombresocial: nombresocial,
             funcionario: funcionario,
             discapacidad: discapacidad,
+            descripciondiscapacidad: descripciondiscapacidad,
             reciennacido: reciennacido,
             hijode: hijode,
             pesodenacimiento: pesodenacimiento,
@@ -2218,16 +2242,18 @@ $(document).ready(function () {
             data: datos,
             cache: false,
             success: function (data) {
-                if (data == 1 || data == "1") {
-                    ToastifySuccess("Paciente Actualizado(a) con exito");
-                    //Recargar pagina en 1 segundo
-                    setTimeout(function () {
-                        location.href = "listadopacientes.php";
-                    }, 500);
-                } else if (data == 0 || data == "0") {
-                    ToastifyError("Hubo un error con el registro");
-                } else {
-                    ToastifyError(data);
+                try {
+                    var json = JSON.parse(data);
+                    if (json.status == true){
+                        ToastifySuccess(json.message);
+                        setTimeout(function () {
+                            location.href = "listadopacientes.php";
+                        }, 500);
+                    }else{
+                        ToastifyError(json.message);
+                    }
+                } catch (error) {
+                    ToastifyError(error);                    
                 }
             }
         });
@@ -4167,4 +4193,14 @@ function editarreceta(paciente, medico, empresa, consulta, receta,folio){
            ToastifyError(error);
         }
     });
+}
+
+function checkdiscapacidad(){
+    if($("#discapacidad").is(':checked')){
+        $(".discapacidad").removeClass("d-none");
+        $("#descripciondiscapacidad").attr("required",true);
+    }else{
+        $(".discapacidad").addClass("d-none");
+        $("#descripciondiscapacidad").removeAttr("required");
+    }
 }

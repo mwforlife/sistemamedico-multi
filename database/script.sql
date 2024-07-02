@@ -398,6 +398,7 @@ create table pacientes(
     nombresocial varchar(400) null,
     funcionario int not null references funcionarios(id),
     discapacidad int not null references discapacidad(id),
+    discapacidaddetalle text null,
     reciennacido int not null references reciennacidos(id),
     hijode varchar(400) null,
     pesodenacimiento int null,
@@ -411,6 +412,7 @@ create table pacientes(
     registro datetime not null default current_timestamp
 );
 
+alter table pacientes add column discapacidaddetalle text null after discapacidad;
 alter table pacientes add column empresa int not null references empresa(id) after estado default 1;
 
 

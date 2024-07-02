@@ -499,10 +499,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 						<div class="mt-0">
 							<form class="form-inline">
 								<div class="search-element">
-									<input type="search" class="form-control header-search" placeholder="Search…" aria-label="Search" tabindex="1">
-									<button class="btn" type="submit">
-										<i class="fa fa-search"></i>
-									</button>
+
 								</div>
 							</form>
 						</div>
@@ -999,11 +996,15 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																								<div class="col-lg-3">
 																									<div class="form-group has-success mg-b-0">
 																										<label>¿Discapacidad?:</label><br />
-																										<input id="discapacidad" name="discapacidad" type="checkbox" value="1" <?php if ($paciente != null) {
-																																													if ($paciente->getDiscapacidad() == 1) {
-																																														echo "checked";
-																																													}
-																																												} ?>>
+																										<input id="discapacidad" name="discapacidad" type="checkbox"  onclick="checkdiscapacidad()" value="1" <?php if ($paciente != null) {if ($paciente->getDiscapacidad() == 1) {echo "checked";}} ?>>
+																									</div>
+																								</div>
+
+																								<!--¿Discapacidad?-->
+																								<div class="col-lg-6 discapacidad <?php if ($paciente != null) {if ($paciente->getDiscapacidad() != 1) {echo "d-none";}} ?>">
+																									<div class="form-group has-success mg-b-0">
+																										<label>Descripción Discapacidad</label>
+																										<input class="form-control" id="descripciondiscapacidad" name="descripciondiscapacidad" placeholder="Descripción Discapacidad" type="text" value="<?php if ($paciente != null) {echo $paciente->getDiscapacidaddetalle();} ?>">
 																									</div>
 																								</div>
 																							</div>
@@ -1564,7 +1565,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																							<div class="row">
 																								<!--RUT Persona-->
 																								<div class="col-lg-3">
-																									<input type="hidden" id="idresponsable" name="idresponsable" value="<?php echo $id; ?>">
+																									<input type="hidden" id="idresponsable" name="idresponsable" value="<?php echo $idresponsable; ?>">
 																									<div class="form-group has-success mg-b-0">
 																										<label>RUT Persona:</label>
 																										<input class="form-control" id="rutpersona" name="rutpersona" placeholder="RUT Persona" onkeyup="formatRut(this)" type="text" value="<?php echo $rutpersona; ?>">

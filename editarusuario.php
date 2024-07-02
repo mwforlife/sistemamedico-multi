@@ -309,6 +309,40 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 					<li class="nav-item">
 						<a class="nav-link" href="atencion.php"><i class="fe fe-user sidemenu-icon"></i><span class="sidemenu-label">Atención</span></a>
 					</li>
+					<!--------------------------Fin Atencion--------------------------->
+					<!--------------------------Inicio Tratamiento--------------------------->
+					<?php
+						}
+						if($admingeneralrol == true || $adminsistemarol == true || $gestiontratamientorol == true){
+					?>
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fa fa-user-md sidemenu-icon"></i>
+						<span class="sidemenu-label">Gestión de tratamiento</span>
+						<i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="recepcionreceta.php">Recepción de Receta</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="listadeespera.php">Paciente en Lista de Espera</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="programacionatenciones.php">Programación de Atenciones</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="preparacionfarmacia.php">Preparación Farmacia</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="recepcionfarmacia.php">Recepción Farmacia</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="recepciondroga.php">Recepción Droga</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="quimioterapia.php">quimioterapia</a>
+							</li>
+						</ul>
+					</li>
 					<?php
 						}
 					?>
@@ -334,7 +368,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 
 
 					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true){
+						if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true || $fichaclinicasecre == true){
 					?>
 					<!--------------------------Inicio Ficha Pacientes----------------->
 					<li class="nav-item">
@@ -346,9 +380,15 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="registropacientes.php">Registro Pacientes</a>
 							</li>
+							<?php
+								if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicas == true){
+							?>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="listadopacientes.php">Listado Pacientes</a>
 							</li>
+							<?php
+								}
+							?>
 
 						</ul>
 					</li>

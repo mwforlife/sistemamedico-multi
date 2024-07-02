@@ -301,6 +301,40 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 					<li class="nav-item">
 						<a class="nav-link" href="atencion.php"><i class="fe fe-user sidemenu-icon"></i><span class="sidemenu-label">Atención</span></a>
 					</li>
+					<!--------------------------Fin Atencion--------------------------->
+					<!--------------------------Inicio Tratamiento--------------------------->
+					<?php
+						}
+						if($admingeneralrol == true || $adminsistemarol == true || $gestiontratamientorol == true){
+					?>
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fa fa-user-md sidemenu-icon"></i>
+						<span class="sidemenu-label">Gestión de tratamiento</span>
+						<i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="recepcionreceta.php">Recepción de Receta</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="listadeespera.php">Paciente en Lista de Espera</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="programacionatenciones.php">Programación de Atenciones</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="preparacionfarmacia.php">Preparación Farmacia</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="recepcionfarmacia.php">Recepción Farmacia</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="recepciondroga.php">Recepción Droga</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="quimioterapia.php">quimioterapia</a>
+							</li>
+						</ul>
+					</li>
 					<?php
 						}
 					?>
@@ -326,7 +360,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 
 
 					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true){
+						if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true || $fichaclinicasecre == true){
 					?>
 					<!--------------------------Inicio Ficha Pacientes----------------->
 					<li class="nav-item">
@@ -338,9 +372,15 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="registropacientes.php">Registro Pacientes</a>
 							</li>
+							<?php
+								if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicas == true){
+							?>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="listadopacientes.php">Listado Pacientes</a>
 							</li>
+							<?php
+								}
+							?>
 
 						</ul>
 					</li>
@@ -550,29 +590,8 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 										<div class="row">
 											<div class="col-lg-6">
 												<div class="form-group has-success mg-b-0">
-													<label>Codigo</label>
-													<input class="form-control" id="Codigo" name="Codigo" placeholder="Codigo" required="" type="text" value="">
-													<input class="form-control" id="tipo" name="tipo" required="" type="hidden" value="3">
-												</div>
-											</div>
-											<div class="col-lg-6">
-												<div class="form-group has-success mg-b-0">
 													<label>Nombre</label>
 													<input class="form-control" id="Nombre" name="Nombre" placeholder="Nombre TNM" required="" type="text" value="">
-												</div>
-											</div>
-											<div class="col-lg-6">
-												<div class="form-group has-success mg-b-0">
-													<label>Diagnostico</label>
-													<select name="diagnostico" id="diagnostico" class="form-control select2">
-														<option value="">Seleccione</option>
-														<?php
-														$diagnostico = $c->listarDiagnosticos();
-														foreach ($diagnostico as $key) {
-															echo "<option value='" . $key->getId() . "'>" . $key->getNombre() . "</option>";
-														}
-														?>
-													</select>
 												</div>
 											</div>
 											<div class="col-md-12 mt-3 text-right">
@@ -598,9 +617,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 											<table class="table w-100 text-nowrap" id="example1">
 												<thead class="border-top text-center">
 													<tr>
-														<th class="bg-transparent">Codigo</th>
 														<th class="bg-transparent">Nombre</th>
-														<th class="bg-transparent">Diagnostico</th>
 														<th class="bg-transparent text-center">Accion</th>
 													</tr>
 												</thead>
@@ -609,9 +626,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 														$lista = $c->listartnm(3);
 														foreach ($lista as $row) {
 															echo "<tr>";
-															echo "<td>".$row->getCodigo()."</td>";
 															echo "<td>".$row->getNombre()."</td>";
-															echo "<td>".$row->getDiagnostico()."</td>";
 															echo "<td class='text-center'>";
 															echo "<a href='#' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#modaledit' onclick='cargarTNM(".$row->getId().")'><i class='fa fa-edit'></i></a>";
 															echo "<a href='#' class='btn btn-danger btn-sm' onclick='EliminarTNM(".$row->getId().")'><i class='fas fa-trash-alt'></i></a>";

@@ -19,6 +19,7 @@ class Paciente{
     private $nombresocial;
     private $funcionario;
     private $discapacidad;
+    private $discapacidaddetalle;
     private $reciennacido;
     private $hijode;
     private $pesonacimiento;
@@ -31,7 +32,7 @@ class Paciente{
     private $empresa;
     private $registro;
 
-    public function __construct($id, $tipoidentificacion, $rut, $identificacion, $nacionalidad, $paisorigen, $email, $nombre, $apellido1, $apellido2, $genero,$estadocivil, $fechanacimiento, $horanacimiento, $fonomovil, $fonofijo, $nombresocial, $funcionario, $discapacidad, $reciennacido, $hijode, $pesonacimiento,$tallanacimiento, $tipoparto, $rol, $fechafallecimiento, $horafallecimiento, $estado,$empresa, $registro){
+    public function __construct($id, $tipoidentificacion, $rut, $identificacion, $nacionalidad, $paisorigen, $email, $nombre, $apellido1, $apellido2, $genero,$estadocivil, $fechanacimiento, $horanacimiento, $fonomovil, $fonofijo, $nombresocial, $funcionario, $discapacidad,$discapacidaddetalle, $reciennacido, $hijode, $pesonacimiento,$tallanacimiento, $tipoparto, $rol, $fechafallecimiento, $horafallecimiento, $estado,$empresa, $registro){
         $this->id = $id;
         $this->tipoidentificacion = $tipoidentificacion;
         $this->rut = $rut;
@@ -51,6 +52,7 @@ class Paciente{
         $this->nombresocial = $nombresocial;
         $this->funcionario = $funcionario;
         $this->discapacidad = $discapacidad;
+        $this->discapacidaddetalle = $discapacidaddetalle;
         $this->reciennacido = $reciennacido;
         $this->hijode = $hijode;
         $this->pesonacimiento = $pesonacimiento;
@@ -138,6 +140,10 @@ class Paciente{
 
     public function getDiscapacidad(){
         return $this->discapacidad;
+    }
+
+    public function getDiscapacidaddetalle(){
+        return $this->discapacidaddetalle;
     }
 
     public function getReciennacido(){
