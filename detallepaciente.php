@@ -174,8 +174,8 @@ $comiterol = false;
 $usersrol = false;
 $fichaclinicasecre = false;
 $gestiontratamientorol = false;
-if(isset($_SESSION['CURRENT_ENTERPRISE'])){
-	if($c->validarroladmin($object->getId())==true){
+if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
+	if ($c->validarroladmin($object->getId()) == true) {
 		$admingeneralrol = true;
 	}
 	$idempresa = $_SESSION['CURRENT_ENTERPRISE'];
@@ -248,7 +248,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	<link rel="icon" href="assets/img/brand/favicon.ico" type="image/x-icon" />
 
 	<!-- Title -->
-	<title>OncoWay | Registrar Informe</title>
+	<title>OncoWay | Atención Paciente</title>
 
 	<!-- Bootstrap css-->
 	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -312,288 +312,288 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 				</a>
 			</div>
 			<div class="main-sidebar-body">
-			<ul class="nav">
-					<?php 
-						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionescomiterol == true || $definicionesgeneralesrol == true){
-					?>
-					<li class="nav-header"><span class="nav-label">Dashboard</span></li>
+				<ul class="nav">
 					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $definicionescomiterol == true){
+					if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionescomiterol == true || $definicionesgeneralesrol == true) {
 					?>
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
+						<li class="nav-header"><span class="nav-label">Dashboard</span></li>
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $definicionescomiterol == true) {
+						?>
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="diagnosticos1.php">Diagnosticos CIE10</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="ecog.php">Ecog</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="histologico.php">Histologico</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="invasiontumoral.php">Invasión Tumoral</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="tnmprimario.php">TNM-Primario clinico</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="tnmregionales.php">TNM-Regionales clinico</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="tnmdistancia.php">TNM-Distancia clinico</a>
+									</li>
+								</ul>
 							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="diagnosticos1.php">Diagnosticos CIE10</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="ecog.php">Ecog</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="histologico.php">Histologico</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="invasiontumoral.php">Invasión Tumoral</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="tnmprimario.php">TNM-Primario clinico</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="tnmregionales.php">TNM-Regionales clinico</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="tnmdistancia.php">TNM-Distancia clinico</a>
-							</li>
-						</ul>
-					</li>
-					<?php
-						}
-						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true){
-					?>
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
 						<?php
 						}
-							if($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true){
-							?>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="regiones.php">Regiones</a>
+						if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true) {
+						?>
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+								<?php
+							}
+							if ($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true) {
+								?>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="regiones.php">Regiones</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="comunas.php">Comunas</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="nacionalidad.php">Nacionalidades</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="generos.php">Generos</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="especialidad.php">Especialidad</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
+									</li>
+								<?php
+							}
+							if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true) {
+								?>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="esquema.php">Esquema</a>
+									</li>
+								<?php
+							}
+							if ($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true) {
+								?>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
+									</li>
+								<?php
+							}
+								?>
+								</ul>
 							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="comunas.php">Comunas</a>
+						<?php
+					}
+
+						?>
+						<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
+						<!--------------------------Inicio Empresa--------------------------->
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true) {
+						?>
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="empresas.php">Registro de Empresas</a>
+									</li>
+								</ul>
 							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="nacionalidad.php">Nacionalidades</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="generos.php">Generos</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="especialidad.php">Especialidad</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
-							</li>
-							<?php
-								}
-								if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true){
-							?>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="esquema.php">Esquema</a>
-							</li>
-							<?php
-								}
-								if($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true){
-							?>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
-							</li>
-							<?php
-								}
-							?>
-						</ul>
-					</li>
-					<?php
+						<?php
 						}
-						
-					?>
-					<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
-					<!--------------------------Inicio Empresa--------------------------->
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true){
-					?>
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="empresas.php">Registro de Empresas</a>
+						?>
+						<!--------------------------Fin Empresa--------------------------->
+
+						<!--------------------------Inicio Agenda--------------------------->
+						<li class="nav-item">
+							<a class="nav-link" href="agenda.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Agenda</span></a>
+						</li>
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $reservasrol == true) {
+						?>
+							<!--------------------------Inicio Reservas--------------------------->
+							<li class="nav-item">
+								<a class="nav-link" href="reservas.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Reservas</span></a>
 							</li>
-						</ul>
-					</li>
-					<?php
+							<!--------------------------Inicio Atencion--------------------------->
+							<li class="nav-item">
+								<a class="nav-link" href="atencion.php"><i class="fe fe-user sidemenu-icon"></i><span class="sidemenu-label">Atención</span></a>
+							</li>
+							<!--------------------------Fin Atencion--------------------------->
+							<!--------------------------Inicio Tratamiento--------------------------->
+						<?php
 						}
-					?>
-					<!--------------------------Fin Empresa--------------------------->
-
-					<!--------------------------Inicio Agenda--------------------------->
-					<li class="nav-item">
-						<a class="nav-link" href="agenda.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Agenda</span></a>
-					</li>
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $reservasrol == true){
-					?>
-					<!--------------------------Inicio Reservas--------------------------->
-					<li class="nav-item">
-						<a class="nav-link" href="reservas.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Reservas</span></a>
-					</li>
-					<!--------------------------Inicio Atencion--------------------------->
-					<li class="nav-item">
-						<a class="nav-link" href="atencion.php"><i class="fe fe-user sidemenu-icon"></i><span class="sidemenu-label">Atención</span></a>
-					</li>
-					<!--------------------------Fin Atencion--------------------------->
-					<!--------------------------Inicio Tratamiento--------------------------->
-					<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $gestiontratamientorol == true) {
+						?>
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fa fa-user-md sidemenu-icon"></i>
+									<span class="sidemenu-label">Gestión de tratamiento</span>
+									<i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="recepcionreceta.php">Recepción de Receta</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="listadeespera.php">Paciente en Lista de Espera</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="programacionatenciones.php">Programación de Atenciones</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="preparacionfarmacia.php">Preparación Farmacia</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="recepcionfarmacia.php">Recepción Farmacia</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="recepciondroga.php">Recepción Droga</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="quimioterapia.php">quimioterapia</a>
+									</li>
+								</ul>
+							</li>
+						<?php
 						}
-						if($admingeneralrol == true || $adminsistemarol == true || $gestiontratamientorol == true){
-					?>
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fa fa-user-md sidemenu-icon"></i>
-						<span class="sidemenu-label">Gestión de tratamiento</span>
-						<i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="recepcionreceta.php">Recepción de Receta</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="listadeespera.php">Paciente en Lista de Espera</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="programacionatenciones.php">Programación de Atenciones</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="preparacionfarmacia.php">Preparación Farmacia</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="recepcionfarmacia.php">Recepción Farmacia</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="recepciondroga.php">Recepción Droga</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="quimioterapia.php">quimioterapia</a>
-							</li>
-						</ul>
-					</li>
-					<?php
-						}
-					?>
-					<!--------------------------Fin Agenda--------------------------->
-
-					
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $auditoriarol == true){
-					?>
-					<!--------------------------Inicio Auditoria--------------------------->
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="auditoria.php">Auditoria</a>
-							</li>
-						</ul>
-					</li>
-					<!--------------------------Fin Auditoria--------------------------->
-					<?php
-						}
-					?>
+						?>
+						<!--------------------------Fin Agenda--------------------------->
 
 
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true || $fichaclinicasecre == true){
-					?>
-					<!--------------------------Inicio Ficha Pacientes----------------->
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="pacientes.php">Ficha Pacientes</a>
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $auditoriarol == true) {
+						?>
+							<!--------------------------Inicio Auditoria--------------------------->
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="auditoria.php">Auditoria</a>
+									</li>
+								</ul>
 							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="registropacientes.php">Registro Pacientes</a>
-							</li>
-							<?php
-								if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicas == true){
-							?>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="listadopacientes.php">Listado Pacientes</a>
-							</li>
-							<?php
-								}
-							?>
-
-						</ul>
-					</li>
-					<!--------------------------Fin Ficha Pacientes----------------->
-					<?php
-						}
-					?>
-
-
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $medicorol == true){
-					?>
-					<!--------------------------Inicio Consulta Medica----------------->
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="pacientesmedico.php">Ficha Pacientes</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="consultas.php">Consultas</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="recetasemitidas.php">Recetas Emitidas</a>
-							</li>
-						</ul>
-					</li>
-					<!--------------------------Fin Consulta Medica----------------->
-					<?php
-						}
-					?>
-
-
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $comiterol == true){
-					?>
-					<!--------------------------Inicio Comite----------------->
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="comite.php">Crear Comité</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="listadocomite.php">Listado de Comité</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="nombrecomite.php">Nombres de Comite</a>
-							</li>
-						</ul>
-					</li>
-					<!--------------------------Fin Comite----------------->
-					<?php
+							<!--------------------------Fin Auditoria--------------------------->
+						<?php
 						}
 						?>
 
-					
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $usersrol == true){
-					?>
-					<!--------------------------Inicio Usuarios----------------->
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="usuarios.php">Registrar Usuarios</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="activacion.php">Activación de Usuarios</a>
-							</li>
 
-						</ul>
-					</li>
-					<!--------------------------Fin Usuarios----------------->
-					<?php
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true || $fichaclinicasecre == true) {
+						?>
+							<!--------------------------Inicio Ficha Pacientes----------------->
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="pacientes.php">Ficha Pacientes</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="registropacientes.php">Registro Pacientes</a>
+									</li>
+									<?php
+									if ($admingeneralrol == true || $adminsistemarol == true || $fichaclinicas == true) {
+									?>
+										<li class="nav-sub-item">
+											<a class="nav-sub-link" href="listadopacientes.php">Listado Pacientes</a>
+										</li>
+									<?php
+									}
+									?>
+
+								</ul>
+							</li>
+							<!--------------------------Fin Ficha Pacientes----------------->
+						<?php
 						}
-					?>
+						?>
+
+
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $medicorol == true) {
+						?>
+							<!--------------------------Inicio Consulta Medica----------------->
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="pacientesmedico.php">Ficha Pacientes</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="consultas.php">Consultas</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="recetasemitidas.php">Recetas Emitidas</a>
+									</li>
+								</ul>
+							</li>
+							<!--------------------------Fin Consulta Medica----------------->
+						<?php
+						}
+						?>
+
+
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $comiterol == true) {
+						?>
+							<!--------------------------Inicio Comite----------------->
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="comite.php">Crear Comité</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="listadocomite.php">Listado de Comité</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="nombrecomite.php">Nombres de Comite</a>
+									</li>
+								</ul>
+							</li>
+							<!--------------------------Fin Comite----------------->
+						<?php
+						}
+						?>
+
+
+						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $usersrol == true) {
+						?>
+							<!--------------------------Inicio Usuarios----------------->
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="usuarios.php">Registrar Usuarios</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="activacion.php">Activación de Usuarios</a>
+									</li>
+
+								</ul>
+							</li>
+							<!--------------------------Fin Usuarios----------------->
+						<?php
+						}
+						?>
 				</ul>
 			</div>
 		</div>
@@ -715,6 +715,14 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 						</div>
 					</div>
 
+					<?php
+					$pacienteid = $pa->getId();
+					$pac = $c->buscarpacientetext($pacienteid);
+					$inscripcion = $c->listarinscripcionprevisionrelacionado($pacienteid);
+					$datosubicacion = $c->listardatosubicacionrelacionado($pacienteid);
+					$otros = $c->listarotrosantecedentesrelacionado($pacienteid);
+
+					?>
 					<!-- Row -->
 					<div class="row">
 						<!--Información Paciente -->
@@ -722,27 +730,55 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							<div class="card">
 								<div class="card-body">
 									<div class="row">
-										<div class="col-lg-4">
-											<h5 class="card-title">Paciente:
-												<?php echo $pa->getNombre() . " " . $pa->getApellido1() . " " . $pa->getApellido2(); ?>
-											</h5>
-											<p>
-												Rut:
-												<?php echo $pa->getRut(); ?><br />
-												Edad:
-												<?php echo $edad ?> Años<br />
-											</p>
+										<div class="col-lg-9">
+											<div class="row">
+												<div class="col-md-12">
+													<h5 class="card-title">Información Paciente</h5>
+												</div>
+												<div class="col-md-3">
+													<?php 
+														echo "<h6 class='card-title'>Rut: ".$pac->getRut()."</h6>";
+														echo "<h6 class='card-title'>Nombre: ".$pac->getNombre()." ".$pac->getApellido1()." ".$pac->getApellido2()."</h6>";
+														echo "<h6 class='card-title'>Fecha Nacimiento: ".date("d-m-Y", strtotime($pac->getFechanacimiento()))."</h6>";
+														echo "<h6 class='card-title'>Edad: ".$edad." Años</h6>";
+													?>
+												</div>
+												<div class="col-md-3">
+													<?php 
+														echo "<h6 class='card-title'>Genero: ".$pac->getGenero()."</h6>";
+														echo "<h6 class='card-title'>Nacionalidad: ".$pac->getNacionalidad()."</h6>";
+														echo "<h6 class='card-title'>Estado Civil: ".$pac->getEstadocivil()."</h6>";
+														echo "<h6 class='card-title'>Previsión: ".$inscripcion->getRegistro()." ".$inscripcion->getTipoprevision()."</h6>";
+													?>
+												</div>
+												<div class="col-md-3">
+													<?php 
+														echo "<h6 class='card-title'>Dirección: ".$datosubicacion->getNombrecalle()." ".$datosubicacion->getNumerocalle().", ".$datosubicacion->getRestodireccion()."</h6>";
+														echo "<h6 class='card-title'>Comuna: ".$datosubicacion->getComuna()."</h6>";
+														echo "<h6 class='card-title'>Región: ".$datosubicacion->getRegion()."</h6>";
+														echo "<h6 class='card-title'>Teléfono: ".$pac->getFonomovil()."</h6>";
+													?>
+												</div>
+												<div class="col-md-3">
+													<?php 
+														echo "<h6 class='card-title'>Pueblo Originario: ".$otros->getPueblooriginario()."</h6>";
+														echo "<h6 class='card-title'>N° Ficha: ".$inscripcion->getFicha()."</h6>";
+														echo "<h6 class='card-title'>Fecha Admision: ".$inscripcion->getFechaadmision()."</h6>";
+														echo "<h6 class='card-title'>Inscrito En: ".$inscripcion->getInscrito()."</h6>";
+													?>
+												</div>
+												
+											</div>
 										</div>
-										<div class="col-lg-8 text-right">
+										<div class="col-lg-3 d-flex justify-content-end align-items-center">
 											<?php
 											$key = "thechallengeofcoding";
-											$pacienteid = $pa->getId();
 											$atencionid = $reservaid;
 											$consultas = $c->listarconsultasatencion($reservaid);
 											$check = $c->validarconsultapaciente($reservaid);
-											if($check==false){
+											if ($check == false) {
 											?>
-											<a href="atencionpaciente.php?p=<?php echo $pacienteid; ?>&r=<?php echo $atencionid; ?>" class="btn btn-success mt-2">Nueva Atención<i class="fe fe-arrow-right ml-2"></i></a>
+												<a href="atencionpaciente.php?p=<?php echo $pacienteid; ?>&r=<?php echo $atencionid; ?>" class="btn btn-success mt-2">Nueva Atención<i class="fe fe-arrow-right ml-2"></i></a>
 											<?php
 											}
 											?>
@@ -763,9 +799,11 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 												<!--Diagnosticos-->
 												<div class="card">
 													<div class="card-header" id="diagnostic" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#atedia">Atención del Día</a>
+														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#atedia">Atención</a>
 													</div>
-													<div aria-labelledby="diagnostico" class="collapse <?php if(count($consultas)>0){echo 'show';}?>" data-parent="#accordion" id="atedia" role="tabpanel">
+													<div aria-labelledby="diagnostico" class="collapse <?php if (count($consultas) > 0) {
+																											echo 'show';
+																										} ?>" data-parent="#accordion" id="atedia" role="tabpanel">
 														<div class="card-body">
 															<div class="table-responsive">
 																<table class="table w-100" id="example2">
@@ -773,12 +811,14 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																		<tr>
 																			<th>Fecha</th>
 																			<th>Hora</th>
+																			<th>Folio</th>
 																			<th>Primer Ingreso</th>
 																			<th>Reingreso</th>
 																			<th>Genera Receta</th>
-																			<th>Atención</th>
-																			<th>Receta</th>
-																			<th>Acción</th>
+																			<th class="text-center">Atención</th>
+																			<th class="text-center">Historial</th>
+																			<th class="text-center">Receta</th>
+																			<th class="text-center">Acción</th>
 																		</tr>
 																	</thead>
 																	<tbody>
@@ -789,6 +829,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																				echo "<tr>";
 																				echo "<td>" . date("d-m-Y", strtotime($consulta->getRegistro())) . "</td>";
 																				echo "<td>" . date("H:i", strtotime($consulta->getRegistro())) . "</td>";
+																				echo "<td>" . $consulta->getFolio() . "</td>";
 																				if ($consulta->getIngreso() == 1) {
 																					echo "<td>Si</td>";
 																				} else {
@@ -804,16 +845,17 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																				} else {
 																					echo "<td>No</td>";
 																				}
-																				echo "<td><a target='_blank' title='Ver Atención' href='php/reporte/consulta.php?c=$consultaid' class='btn btn-outline-primary btn-sm'><i class='fe fe-download'></i></a></td>";
-																				echo "<td>";
+																				echo "<td class=' text-center'><a target='_blank' title='Ver Atención' href='php/reporte/consulta.php?c=$consultaid' class='btn btn-outline-primary btn-sm'><i class='fe fe-download'></i></a></td>";
+																				echo "<td class=' text-center'><button class='btn-sm btn btn-outline-primary' title='Historial Atención' onclick='historialatencion(" . $consulta->getFolio() . "," . $consulta->getAtencion() . ")'><i class='fe fe-list'></i></button></td>";
+																				echo "<td class=' text-center'>";
 																				if ($consulta->getReceta() == 1) {
 																					echo "<a title='Generar Receta' href='receta.php?p=$pacienteid&c=$consultaid' class='m-1 btn btn-outline-success btn-sm'><i class='fe fe-file'></i></a>";
-																				}else{
+																				} else {
 																					echo "-";
 																				}
 																				echo "</td>";
-																				echo "<td>";
-																				echo "<a href='atencionpacienteedit.php?id=".$consulta->getId()."' class='m-1 btn btn-outline-warning btn-sm'><i class='fe fe-edit'></i></a>";
+																				echo "<td class=' text-center'>";
+																				echo "<a href='atencionpacienteedit.php?id=" . $consulta->getId() . "' class='m-1 btn btn-outline-warning btn-sm'><i class='fe fe-edit'></i></a>";
 																				echo "</td>";
 
 																				echo "</tr>";
@@ -840,8 +882,9 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																		<th>Estado</th>
 																		<th>Folio</th>
 																		<th>Atención</th>
-																		<th>Receta</th>
-																		<th>Acción</th>
+																		<th class="text-center">Receta</th>
+																		<th class="text-center">Historial</th>
+																		<th class="text-center">Acción</th>
 																	</tr>
 																</thead>
 																<tbody>
@@ -851,25 +894,24 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																		foreach ($recetas as $r) {
 																			echo "<tr>";
 																			echo "<td>" . date("d-m-Y", strtotime($r->getFecha())) . "</td>";
-																			
+
 																			if ($r->getEstado() == 1) {
 																				echo "<td><span class='badge bg-primary text-white'>Emitida</span></td>";
-																			} else if ($r->getEstado() == 2){
+																			} else if ($r->getEstado() == 2) {
 																				echo "<td><span class='badge bg-warning'>Editado</span></td>";
-																			} else if ($r->getEstado() == 3){
+																			} else if ($r->getEstado() == 3) {
 																				echo "<td><span class='badge bg-success text-white'>Aprobada</span></td>";
-																			}else if ($r->getEstado() == 4){
+																			} else if ($r->getEstado() == 4) {
 																				echo "<td><span class='badge bg-danger text-white'>Rechazada</span></td>";
 																			}
 																			$idreceta = $r->getId();
 																			echo "<td>" . $r->getFolio() . "</td>";
 																			echo "<td>" . $r->getConsulta() . "</td>";
-																			echo "<td><a target='_blank' href='php/reporte/receta.php?r=$idreceta' class='btn-sm btn btn-outline-success'><i class='fe fe-file'></i></a></td>";
-																			echo "<td>";
-																			if($r->getEstado() == 4){
+																			echo "<td class='text-center'><a target='_blank' href='php/reporte/receta.php?r=$idreceta' class='btn-sm btn btn-outline-success'><i class='fe fe-file'></i></a></td>";
+																			echo "<td class='text-center'><button class='btn-sm btn btn-outline-primary' title='Historial Receta' onclick='historialreceta(" . $r->getFolio() . "," . $r->getRegistro() . ")'><i class='fe fe-list'></i></button></td>";
+																			echo "<td class='text-center'>";
+																			if ($r->getEstado() == 4) {
 																				echo "<button class='btn-sm btn btn-outline-danger' title='Ver Motivo Rechazo' onclick='motivorechazo($idreceta)'><i class='fe fe-alert-triangle'></i></button>";
-																			}
-																			if ($r->getEstado() == 1 || $r->getEstado() == 4) {
 																				echo "<a href='recetaedit.php?id=$idreceta' title='Editar Receta' class='btn-sm btn btn-outline-warning'><i class='fe fe-edit'></i></a>";
 																			}
 																			echo "</td>";
@@ -1276,6 +1318,49 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 				</div>
 			</div>
 		</div>
+
+		<div class="modal" id="modalrechazo">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content modal-content-demo">
+					<div class="modal-header">
+						<h6 class="modal-title">Rechazo Receta</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body">
+						<div class="rechazocontent"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal" id="modalhistorial">
+			<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+				<div class="modal-content modal-content-demo">
+					<div class="modal-header">
+						<h6 class="modal-title">Historial Receta</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body">
+						<div class="historialcontent">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal" id="modalhistorialatencion">
+			<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+				<div class="modal-content modal-content-demo">
+					<div class="modal-header">
+						<h6 class="modal-title">Historial Atención</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body">
+						<div class="historialatencioncontent">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!--End Footer-->
 	</div>
 	<!-- End Page -->
@@ -1332,6 +1417,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
 	<script src="JsFunctions/function.js"></script>
+	<script src="JsFunctions/recetasemitidas.js"></script>
 	<script>
 		//Cargar Tabla
 		$(document).ready(function() {

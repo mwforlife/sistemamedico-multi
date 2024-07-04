@@ -1,4 +1,5 @@
 <?php
+require 'php/validation/config.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -107,7 +108,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 	<link rel="icon" href="assets/img/brand/favicon.ico" type="image/x-icon" />
 
 	<!-- Title -->
-	<title>OncoWay</title>
+	<title>OncoWay | Recetas Emitidas</title>
 
 	<!-- Bootstrap css-->
 	<!--<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />-->
@@ -592,7 +593,8 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 														<th>Folio</th>
 														<th>Atención</th>
 														<th>Receta</th>
-														<th>Acción</th>
+														<th class='text-center'>Historial</th>
+														<th class='text-center'>Acción</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -616,11 +618,10 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 															echo "<td>" . $r->getFolio() . "</td>";
 															echo "<td>" . $r->getConsulta() . "</td>";
 															echo "<td><a target='_blank' href='php/reporte/receta.php?r=$idreceta' class='btn-sm btn btn-outline-success'><i class='fe fe-file'></i></a></td>";
+															echo "<td class='text-center'><button class='btn-sm btn btn-outline-primary' title='Historial Receta' onclick='historialreceta(".$r->getFolio().",".$r->getRegistro().")'><i class='fe fe-list'></i></button></td>";
 															echo "<td>";
-															if ($r->getEstado() == 4) {
+															if($r->getEstado() == 4){
 																echo "<button class='btn-sm btn btn-outline-danger' title='Ver Motivo Rechazo' onclick='motivorechazo($idreceta)'><i class='fe fe-alert-triangle'></i></button>";
-															}
-															if ($r->getEstado() == 1 || $r->getEstado() == 4) {
 																echo "<a href='recetaedit.php?id=$idreceta' title='Editar Receta' class='btn-sm btn btn-outline-warning'><i class='fe fe-edit'></i></a>";
 															}
 															echo "</td>";
@@ -664,6 +665,21 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 					</div>
 					<div class="modal-body">
 						<div class="rechazocontent"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal" id="modalhistorial">
+			<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+				<div class="modal-content modal-content-demo">
+					<div class="modal-header">
+						<h6 class="modal-title">Historial Receta</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body">
+						<div class="historialcontent">
+							
+						</div>
 					</div>
 				</div>
 			</div>

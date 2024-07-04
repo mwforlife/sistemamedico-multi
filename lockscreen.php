@@ -1,4 +1,5 @@
 <?php
+require 'php/validation/config.php';
 session_start();
 $empresa = null;
 if (!isset($_SESSION['USER_ID'])) {

@@ -1,4 +1,5 @@
 <?php
+require 'php/validation/config.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -904,7 +905,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																		<div class="col-6">
 																			<select name="primarioclinico" id="primarioclinico" class="form-control select2">
 																				<?php
-																				$primario = $c->listartnmpordiagnostico(1, $diagnosticos->getDiagnosticosid());
+																				$primario = $c->listartnm(1);
 																				$primarioclinico = $informe->getTnmprimario();
 																				foreach ($primario as $row) {
 																					if ($primarioclinico == $row->getId()) {
@@ -932,7 +933,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																		<div class="col-6">
 																			<select name="regionalesclinico" id="regionalesclinico" class="form-control select2">
 																			<?php
-																				$primario = $c->listartnmpordiagnostico(2, $diagnosticos->getDiagnosticosid());
+																				$primario = $c->listartnm(2);
 																				$primarioclinico = $informe->getTnmregionales();
 																				foreach ($primario as $row) {
 																					if ($primarioclinico == $row->getId()) {
@@ -960,7 +961,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																		<div class="col-6">
 																			<select name="distanciaclinico" id="distanciaclinico" class="form-control select2">
 																			<?php
-																				$primario = $c->listartnmpordiagnostico(3, $diagnosticos->getDiagnosticosid());
+																				$primario = $c->listartnm(3);
 																				$primarioclinico = $informe->getTnmdistancia();
 																				foreach ($primario as $row) {
 																					if ($primarioclinico == $row->getId()) {

@@ -3115,6 +3115,156 @@ function registraratencion(paciente, empresa, medico, reserva){
 
 }
 
+function editaratencion(paciente, empresa, medico, reserva,folio){
+    var previo = $("#previo").val();
+    var diagnosticoid = $("#iddiag").val();
+    var diagnosticotext = $("#diagnostico").val();
+    var cieo10 = $("#idcie10").val();
+    var diagnosticocie10 = $("#diagnosticocie10").val();
+    var cieo10text = $("#cie10").val();
+    var tipoatencion = $("#tipoatencion").val();
+    var ecog = $("#ecog").val();
+    //Capturar el texto del select
+    var ecogtext = $("#ecog option:selected").text();
+    var ingreso =0;
+    if($("#ingreso").is(':checked')){
+        ingreso = 1;
+    }
+    var receta =0;
+    if($("#receta").is(':checked')){
+        receta = 1;
+    }
+    var reingreso =0;
+    if($("#reingreso").is(':checked')){
+        reingreso = 1;
+    }
+    var anamnesis = $("#anamnesis").val();
+    var procedimientotext = $("#procedimientotext").val();
+    var resolucion = $("#resolucion").val();
+    var estadoatencion = $("#estadoatencion").val();
+
+    //Validar datos
+    if(diagnosticoid == 0){
+        ToastifyError("Seleccione un diagnostico");
+        $("#diagnostico").focus();
+        return false;
+    }
+
+    if(cieo10 == 0){
+        ToastifyError("Seleccione un CIE10");
+        $("#cie10").focus();
+        return false;
+    }
+
+    if(tipoatencion.trim().length == 0){
+        ToastifyError("El tipo de atencion no puede estar vacio");
+        $("#tipoatencion").focus();
+        return false;
+    }
+
+    if(ecog == 0){
+        ToastifyError("Seleccione un ECOG");
+        $("#ecog").focus();
+        return false;
+    }
+
+    if(estadoatencion == 0){
+        ToastifyError("Seleccione un estado de atencion");
+        $("#estadoatencion").focus();
+        return false;
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "php/update/consulta.php",
+        data: { paciente: paciente, empresa: empresa, medico: medico, reserva: reserva, diagnosticoid: diagnosticoid, diagnosticotext: diagnosticotext, cieo10: cieo10, diagnosticocie10: diagnosticocie10, tipoatencion: tipoatencion, ecog: ecog, ecogtext: ecogtext, ingreso: ingreso, receta: receta, reingreso: reingreso, anamnesis: anamnesis, procedimientotext: procedimientotext, resolucion: resolucion, estadoatencion: estadoatencion , folio: folio},
+        success: function (respuesta) {
+            try{
+                var atencion = JSON.parse(respuesta);
+                //si el elemento error = true, mostrar error
+                if(atencion.error == true){
+                    ToastifyError(atencion.message);
+                }else if(atencion.error == false){
+                    ToastifySuccess(atencion.message);
+                    //Recargar pagina en 1 segundo
+                    setTimeout(function () {
+                        window.location.href = previo;
+                    }, 500);
+                }
+            }catch(error){
+                ToastifyError(respuesta);
+
+            }
+        },
+        error: function (error) {
+           ToastifyError(error);
+        }
+    });
+
+}
+
+function vistapreviaatencion(paciente, empresa, medico, reserva,folio){
+    var previo = $("#previo").val();
+    var diagnosticoid = $("#iddiag").val();
+    var diagnosticotext = $("#diagnostico").val();
+    var cieo10 = $("#idcie10").val();
+    var diagnosticocie10 = $("#diagnosticocie10").val();
+    var cieo10text = $("#cie10").val();
+    var tipoatencion = $("#tipoatencion").val();
+    var ecog = $("#ecog").val();
+    //Capturar el texto del select
+    var ecogtext = $("#ecog option:selected").text();
+    var ingreso =0;
+    if($("#ingreso").is(':checked')){
+        ingreso = 1;
+    }
+    var receta =0;
+    if($("#receta").is(':checked')){
+        receta = 1;
+    }
+    var reingreso =0;
+    if($("#reingreso").is(':checked')){
+        reingreso = 1;
+    }
+    var anamnesis = $("#anamnesis").val();
+    var procedimientotext = $("#procedimientotext").val();
+    var resolucion = $("#resolucion").val();
+    var estadoatencion = $("#estadoatencion").val();
+
+    //Validar datos
+    if(diagnosticoid == 0){
+        ToastifyError("Seleccione un diagnostico");
+        $("#diagnostico").focus();
+        return false;
+    }
+
+    if(cieo10 == 0){
+        ToastifyError("Seleccione un CIE10");
+        $("#cie10").focus();
+        return false;
+    }
+
+    if(tipoatencion.trim().length == 0){
+        ToastifyError("El tipo de atencion no puede estar vacio");
+        $("#tipoatencion").focus();
+        return false;
+    }
+
+    if(ecog == 0){
+        ToastifyError("Seleccione un ECOG");
+        $("#ecog").focus();
+        return false;
+    }
+
+    if(estadoatencion == 0){
+        ToastifyError("Seleccione un estado de atencion");
+        $("#estadoatencion").focus();
+        return false;
+    }
+
+    $("#frameprevia").attr("src", "php/reporte/previa/atencion.php?paciente="+paciente+"&empresa="+empresa+"&medico="+medico+"&reserva="+reserva+"&diagnosticoid="+diagnosticoid+"&diagnosticotext="+diagnosticotext+"&cieo10="+cieo10+"&diagnosticocie10="+diagnosticocie10+"&cieo10text="+cieo10text+"&tipoatencion="+tipoatencion+"&ecog="+ecog+"&ecogtext="+ecogtext+"&ingreso="+ingreso+"&receta="+receta+"&reingreso="+reingreso+"&anamnesis="+anamnesis+"&procedimientotext="+procedimientotext+"&resolucion="+resolucion+"&estadoatencion="+estadoatencion+"&folio="+folio);
+    $("#modalprevia").modal("show");
+}
 function calcularBSA(){
     var peso = $("#peso").val();
     var talla = $("#talla").val();
@@ -4203,4 +4353,26 @@ function checkdiscapacidad(){
         $(".discapacidad").addClass("d-none");
         $("#descripciondiscapacidad").removeAttr("required");
     }
+}
+
+
+function historialatencion(folio, atencion){
+    $.ajax({
+        url: "php/charge/historialatencion.php",
+        type: "POST",
+        data: { folio: folio, atencion: atencion },
+        success: function (data) {
+            try {
+                var json = JSON.parse(data);
+                if(json.status == true){
+                    $(".historialatencioncontent").html(json.content);
+                    $("#modalhistorialatencion").modal("show");
+                }else{
+                    ToastifyError(json.message);
+                }
+            } catch (error) {
+                ToastifyError(error);
+            }
+        },
+    });
 }

@@ -1,6 +1,6 @@
 <?php
-require '../controller.php';
-require '../plugins/vendor/autoload.php';
+require '../../controller.php';
+require '../../plugins/vendor/autoload.php';
 $c = new Controller();
 session_start();
 $empresa = null;
@@ -11,14 +11,70 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 return;
 }
 
-if(isset($_GET['c'])){
-    $id = $_GET['c'];
-    if(!is_numeric($id)){
+$idusiario = 0;
+if(isset($_SESSION['USER_ID'])){
+    $idusuario = $_SESSION['USER_ID'];
+}else{
+    echo "Ups! Algo salió mal";
+    return;
+}
+
+/*paciente: 1
+empresa: 1
+medico: 1
+reserva: 38
+diagnosticoid: 1
+diagnosticotext: Cáncer Colorrectal
+cieo10: 3
+diagnosticocie10: Cólera
+cieo10text: undefined
+tipoatencion: Oncología   
+ecog: 1
+ecogtext: PRUEBA
+ingreso: 0
+receta: 1
+reingreso: 1
+anamnesis: A concisely coded CSS3 button set increases usability across the board, gives you a ton of options, and keeps all the code involved to an absolute minimum. Anim pariatur cliche reprehEnderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+procedimientotext: A concisely coded CSS3 button set increases usability across the board, gives you a ton of options, and keeps all the code involved to an absolute minimum. Anim pariatur cliche reprehEnderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+resolucion: A concisely coded CSS3 button set increases usability across the board, gives you a ton of options, and keeps all the code involved to an absolute minimum. Anim pariatur cliche reprehEnderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+estadoatencion: 5
+folio: 6*/
+
+if(isset($_GET['paciente']) && isset($_GET['empresa']) && isset($_GET['medico']) && isset($_GET['reserva']) && isset($_GET['diagnosticoid']) && isset($_GET['diagnosticotext']) && isset($_GET['cieo10']) && isset($_GET['diagnosticocie10']) && isset($_GET['cieo10text']) && isset($_GET['tipoatencion']) && isset($_GET['ecog']) && isset($_GET['ecogtext']) && isset($_GET['ingreso']) && isset($_GET['receta']) && isset($_GET['reingreso']) && isset($_GET['anamnesis']) && isset($_GET['procedimientotext']) && isset($_GET['resolucion']) && isset($_GET['estadoatencion']) && isset($_GET['folio'])){
+
+    if(!is_numeric($_GET['paciente']) || !is_numeric($_GET['empresa']) || !is_numeric($_GET['medico']) || !is_numeric($_GET['reserva']) || !is_numeric($_GET['diagnosticoid']) || !is_numeric($_GET['cieo10']) || !is_numeric($_GET['estadoatencion']) || !is_numeric($_GET['receta']) || !is_numeric($_GET['reingreso']) || !is_numeric($_GET['ingreso'])){
+        echo "Ups! Algo salió mal";
         return;
     }
-    $consulta = $c->buscarconsultaporid($id);
-    $paciente = $c->buscarpaciente($consulta->getPaciente());
-    $medico = $c->buscarenUsuario($consulta->getUsuario(), $consulta->getEmpresa());
+
+    $paciente = $_GET['paciente'];
+    $empresa = $_GET['empresa'];
+    $medico = $_GET['medico'];
+    $reserva = $_GET['reserva'];
+    $diagnosticoid = $_GET['diagnosticoid'];
+    $diagnosticotext = $_GET['diagnosticotext'];
+    $cieo10 = $_GET['cieo10'];
+    $diagnosticocie10 = $_GET['diagnosticocie10'];
+    $cieo10text = $_GET['cieo10text'];
+    $tipoatencion = $_GET['tipoatencion'];
+    $ecog = $_GET['ecog'];
+    $ecogtext = $_GET['ecogtext'];
+    $ingreso = $_GET['ingreso'];
+    $receta = $_GET['receta'];
+    $reingreso = $_GET['reingreso'];
+    $anamnesis = $_GET['anamnesis'];
+    $procedimientotext = $_GET['procedimientotext'];
+    $resolucion = $_GET['resolucion'];
+    $estadoatencion = $_GET['estadoatencion'];
+    $folio = $_GET['folio'];
+
+    if($folio<=0){
+        $folio = $c->buscarultimofolio($empresa)+1;
+    }
+
+    $paciente = $c->buscarpaciente($paciente);
+    $medico = $c->buscarenUsuario($medico, $empresa);
+    $empresa = $c->buscarEmpresa($empresa);
     $edad = $c->calcularEdad($paciente->getFechaNacimiento());
     $especialidad = $c->buscarespecialidad($medico->getProfesion());
     $ges = "No";
@@ -50,7 +106,7 @@ if(isset($_GET['c'])){
             <h1>Consulta Medica</h1>
         </td>
         <td width='50%' style='text-align: right;'>
-            <h3> FOLIO: " . $consulta->getFolio() . "</h3>
+            <h3> FOLIO: " . $folio  . "</h3>
         </td>
     </tr>
     </table>";
@@ -75,12 +131,12 @@ if(isset($_GET['c'])){
     <tr>
         <td width='100%' style='text-align: justify;'>
             <h3 style='font-size:9pt'> Atención N°: " . 
-            $consulta->getId() . "</h3>
+            $folio . "</h3>
         </td>
     </tr>
     <tr>
         <td width='100%' style='text-align: justify;'>
-            <h3 style='font-size:9pt'> Fecha de atención: " . date("d-m-Y H:i", strtotime($consulta->getRegistro())) . "</h3>
+            <h3 style='font-size:9pt'> Fecha de atención: " . date("d-m-Y H:i") . "</h3>
         </td>
     </tr>
     <tr>
@@ -101,7 +157,7 @@ if(isset($_GET['c'])){
     </tr>
     <tr>
         <td width='100%' style='text-align: justify;'>
-            <h3 style='font-size:9pt'> Tipo de Atención: " . $consulta->getTipodeatencion() . "</h3>
+            <h3 style='font-size:9pt'> Tipo de Atención: " . $tipoatencion . "</h3>
             
         </td>
     </tr>
@@ -118,7 +174,7 @@ if(isset($_GET['c'])){
     </tr>";
     $contenido .= "<tr>
         <td width='100%' style='text-align: justify;'>
-            <p style='font-size:9pt; padding-top:10px;'>" . $consulta->getAnamesis() . "</p>
+            <p style='font-size:9pt; padding-top:10px;'>" . $anamnesis . "</p>
         </td>
     </tr>";
     $contenido .= "</table>";
@@ -133,7 +189,7 @@ if(isset($_GET['c'])){
     </tr>";
     $contenido .= "<tr>
         <td width='100%' style='text-align: justify;'>
-            <p style='font-size:9pt; padding-top:10px;'>" . $consulta->getEstudiocomplementarios() . "</p>
+            <p style='font-size:9pt; padding-top:10px;'>" . $procedimientotext . "</p>
         </td>
     </tr>";
     $contenido .= "</table>";
@@ -166,7 +222,7 @@ if(isset($_GET['c'])){
     </tr>";
     $contenido .= "<tr>
         <td width='100%' style='text-align: justify;'>
-            <p style='font-size:9pt; padding-top:10px;'>" . $consulta->getDiagnosticotexto() . " - " . $consulta->getDiagnosticocie10texto() . "</p>
+            <p style='font-size:9pt; padding-top:10px;'>" . $diagnosticotext ."-".$diagnosticocie10 . "</p>
         </td>
     </tr>";
     $contenido .= "</table>";
@@ -181,7 +237,7 @@ if(isset($_GET['c'])){
     </tr>";
     $contenido .= "<tr>
         <td width='100%' style='text-align: justify;'>
-            <p style='font-size:9pt; padding-top:10px;'>" . $consulta->getPlantratamiento() . " </p><br/>
+            <p style='font-size:9pt; padding-top:10px;'>" . $resolucion . "</p>
             ";
             
             if($ges=="Si"){
@@ -196,8 +252,7 @@ if(isset($_GET['c'])){
     $contenido .= "<hr style='margin:0; margin-top:10px; ' >";
     //Indicaciones
 
-    /*
-    $contenido .= "<h3 style='text-decoration: underline; font-size:18px; margin-top:0;'> Indicaciones</h3>
+    /*$contenido .= "<h3 style='text-decoration: underline; font-size:18px; margin-top:0;'> Indicaciones</h3>
     <table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-size:9pt; '>
     <tr>
         <td width='100%' style='text-align: justify; '>

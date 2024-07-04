@@ -1,4 +1,5 @@
 <?php
+require 'php/validation/config.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -105,7 +106,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 	<link rel="icon" href="assets/img/brand/favicon.ico" type="image/x-icon" />
 
 	<!-- Title -->
-	<title>OncoWay</title>
+	<title>OncoWay | Recepción de Recetas</title>
 
 	<!-- Bootstrap css-->
 	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />

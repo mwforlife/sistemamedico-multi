@@ -1,4 +1,5 @@
 <?php
+require 'php/validation/config.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -1727,7 +1728,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																														<tr>
 																															<th class="bg-transparent">Estado de Atencion</th>
 																															<th class="bg-transparent">Fecha Cita</th>
-																															<th class="bg-transparent text-center">Fecha Registro</th>
+																															<th class="bg-transparent">Folio</th>
 																															<th class="bg-transparent text-center">Profesional</th>
 																															<th class="bg-transparent text-center">Atención</th>
 																															<th class="bg-transparent text-center">Reporte</th>
@@ -1736,18 +1737,22 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																													<tbody class="text-center">
 																														<?php
 																														if ($paciente != null) {
-																															$recetas = $c->listarconsultaspaciente($paciente->getId());
-																															if (count($recetas) > 0) {
-																																foreach ($recetas as $r) {
+																															$consultas = $c->listarconsultaspaciente($paciente->getId());
+																															if (count($consultas) > 0) {
+																																foreach ($consultas as $r) {
 
 																																	echo "<tr>";
-																																	if ($r->getAtencion() == 5) {
+																																	if($r->getAtencion() == 1 || $r->getAtencion() == 2 || $r->getAtencion() == 3 || $r->getAtencion() == 4){
+																																		echo "<td><span class='badge badge-warning'>Pendiente <i class='fa fa-user-clock'></i></span></td>";
+																																	}else if ($r->getAtencion() == 5) {
 																																		echo "<td><span class='badge badge-success'>Atendido <i class='fa fa-user-check'></i></span></td>";
-																																	} else if ($r->getAtencion() == 7) {
+																																	} else if ($r->getAtencion() == 6) {
 																																		echo "<td><span class='badge badge-danger'>Cancelado <i class='fa fa-user-times'></i></span></td>";
+																																	}else if ($r->getAtencion() == 7) {
+																																		echo "<td><span class='badge badge-danger'>Paciente no asistió <i class='fa fa-user-slash'></i></span></td>";
 																																	}
 																																	echo "<td>" . date("d-m-Y", strtotime($r->getRegistro())) . "</td>";
-																																	echo "<td>" . date("d-m-Y H:i:s", strtotime($r->getRegistro())) . "</td>";
+																																	echo "<td>" . $r->getFolio() . "</td>";
 																																	$idreceta = $r->getId();
 																																	echo "<td>" . $r->getUsuario() . "</td>";
 
