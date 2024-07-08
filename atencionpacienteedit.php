@@ -850,7 +850,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																						$ecog = $c->listarecog();
 																						foreach ($ecog as $e) {
 																							if ($consulta->getEcog() == $e->getId()) {
-																								echo "<option value='" . $e->getId() . "' selected>" . $e->getNombre() . "</option>";
+																								echo "<option value='" . $e->getId() . "' selected>" . $e->getCodigo() . " - " . $e->getNombre() . "</option>";
 																							} else {
 																								echo "<option value='" . $e->getId() . "'>" . $e->getCodigo() . " - " . $e->getNombre() . "</option>";
 																							}

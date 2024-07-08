@@ -139,22 +139,6 @@ if(isset($_GET['c'])){
     $contenido .= "</table>";
     $contenido .= "<hr style='margin:0; margin-top:10px; ' >";
 
-    //Hipotesis Diagnostica
-
-    $contenido .= "<h3 style='text-decoration: underline; font-size:18px; margin-top:0;'> Hipotesis Diagnostica</h3>
-    <table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-size:9pt; '>
-    <tr>
-        <td width='100%' style='text-align: justify; '>
-        </td>
-    </tr>";
-    $contenido .= "<tr>
-        <td width='100%' style='text-align: justify;'>
-            <p style='font-size:9pt; padding-top:10px;'></p>
-        </td>
-    </tr>";
-    $contenido .= "</table>";
-    $contenido .= "<hr style='margin:0; margin-top:10px; ' >";
-
 
     //Diagnostico Principal
 

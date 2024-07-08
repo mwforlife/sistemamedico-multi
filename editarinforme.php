@@ -576,6 +576,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 						}
 					?>
 				</ul>
+			</div>
 		</div>
 		<!-- End Sidemenu -->
 
