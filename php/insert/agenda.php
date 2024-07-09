@@ -3,12 +3,13 @@ require '../controller.php';
 $c = new Controller();
 session_start();
 
-if (isset($_POST['fechas']) && isset($_POST['start']) && isset($_POST['end']) && isset($_POST['start1']) && isset($_POST['end1']) && isset($_POST['intervalo2']) && isset($_POST['idUsuario']) && isset($_POST['idEmpresa'])) {
+if (isset($_POST['fechas']) && isset($_POST['start']) && isset($_POST['end']) && isset($_POST['start1']) && isset($_POST['end1']) && isset($_POST['tipo']) && isset($_POST['intervalo2']) && isset($_POST['idUsuario']) && isset($_POST['idEmpresa'])) {
     $fechas = $_POST['fechas'];
     $start = $_POST['start'];
     $end = $_POST['end'];
     $start1 = $_POST['start1'];
     $end1 = $_POST['end1'];
+    $tipo = $_POST['tipo'];
     $intervalo2 = $_POST['intervalo2'];
     $idUsuario = $_POST['idUsuario'];
     $idEmpresa = $_POST['idEmpresa'];
@@ -24,7 +25,7 @@ if (isset($_POST['fechas']) && isset($_POST['start']) && isset($_POST['end']) &&
             } else {
 
                 if ($start != "" && $end != "") {
-                    $id = $c->registrardisponibilidad($idUsuario, $idEmpresa, $fecha, $start, $end, $intervalo2, 1);
+                    $id = $c->registrardisponibilidad($idUsuario, $idEmpresa, $fecha, $start, $end, $intervalo2,$tipo, 1);
                     $intervalo = new DateInterval('PT' . $intervalo2 . 'M'); // Crear intervalo en minutos
                     $startInterval = new DateTime($start);
                     $endInterval = new DateTime($end);
@@ -34,7 +35,7 @@ if (isset($_POST['fechas']) && isset($_POST['start']) && isset($_POST['end']) &&
                         $endIntervalInterval = clone $startInterval;
                         $endIntervalInterval->add($intervalo);
 
-                        $c->registrarhorario($idUsuario, $idEmpresa, $fecha, $startInterval->format('H:i'), $endIntervalInterval->format('H:i'), $intervalo2, $id, 1);
+                        $c->registrarhorario($idUsuario, $idEmpresa, $fecha, $startInterval->format('H:i'), $endIntervalInterval->format('H:i'), $intervalo2, $id,$tipo, 1);
 
                         $startInterval = $endIntervalInterval;
                     }
@@ -42,7 +43,7 @@ if (isset($_POST['fechas']) && isset($_POST['start']) && isset($_POST['end']) &&
                 }
 
                 if ($start1 != "" && $end1 != "") {
-                    $id = $c->registrardisponibilidad($idUsuario, $idEmpresa, $fecha, $start1, $end1, $intervalo2, 1);
+                    $id = $c->registrardisponibilidad($idUsuario, $idEmpresa, $fecha, $start1, $end1, $intervalo2,$tipo, 1);
                     $intervalo = new DateInterval('PT' . $intervalo2 . 'M'); // Crear intervalo en minutos
                     $startInterval = new DateTime($start1);
                     $endInterval = new DateTime($end1);
@@ -52,7 +53,7 @@ if (isset($_POST['fechas']) && isset($_POST['start']) && isset($_POST['end']) &&
                         $endIntervalInterval = clone $startInterval;
                         $endIntervalInterval->add($intervalo);
 
-                        $c->registrarhorario($idUsuario, $idEmpresa, $fecha, $startInterval->format('H:i'), $endIntervalInterval->format('H:i'), $intervalo2, $id, 1);
+                        $c->registrarhorario($idUsuario, $idEmpresa, $fecha, $startInterval->format('H:i'), $endIntervalInterval->format('H:i'), $intervalo2, $id,$tipo, 1);
 
                         $startInterval = $endIntervalInterval;
                     }

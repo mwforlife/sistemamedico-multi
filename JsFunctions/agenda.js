@@ -122,6 +122,8 @@ $(document).ready(function () {
       return;
     }
 
+    var tipo = 1;
+
     var idUsuario = $("#idUsuario").val();
     var idEmpresa = $("#idEmpresa").val();
     if (idUsuario <= 0 || idEmpresa <= 0) {
@@ -142,6 +144,85 @@ $(document).ready(function () {
         intervalo2: intervalo2,
         idUsuario: idUsuario,
         idEmpresa: idEmpresa,
+        tipo: tipo
+      },
+      success: function (data) {
+        $("#global-loader").fadeOut(1000);
+        //Recibir el JSON
+        var json = JSON.parse(data);
+        if (json.error == true || json.error == "true") {
+          ToastifyError(json.mensaje);
+          return;
+        } else if (json.error == false || json.error == "false") {
+          ToastifySuccess(json.mensaje);
+          clearDates();
+          location.reload();
+          return;
+        } else {
+          ToastifyError(json);
+          return;
+        }
+      },
+      error: function () {
+        $("#global-loader").fadeOut(1000);
+        ToastifyError("Error al registrar la agenda");
+      },
+    });
+  });
+  $("#dtbtnevent2").click(function () {
+    $("#global-loader").fadeIn(1000);
+    //Validar que la fecha no este vacia
+    if (!validateDates()) {
+      $("#global-loader").fadeOut(1000);
+      ToastifyError("Debe agregar al menos una fecha");
+      return;
+    }
+    //Horas de la mañana
+    var start = $("#mainEventStartTime2").val();
+    var end = $("#EventEndTime2").val();
+   
+
+    //Horas de la tarde
+    var start1 = $("#mainEventStartTime3").val();
+    var end1 = $("#EventEndTime3").val();
+
+    if((start == "" || end == "") && (start1 == "" || end1 == "")){
+      $("#global-loader").fadeOut(1000);
+      ToastifyError("Debe seleccionar seleccionar al menos una Jornada");
+      return;
+    }
+    
+
+    //Recibir el intervalo de tiempo
+    var intervalo2 = $("#intervalo2").val();
+    if (intervalo2 == "") {
+      $("#global-loader").fadeOut(1000);
+      ToastifyError("Debe seleccionar un intervalo de tiempo");
+      return;
+    }
+
+    var tipo = 2;
+    var idUsuario = $("#idUsuario").val();
+    var idEmpresa = $("#idEmpresa").val();
+    if (idUsuario <= 0 || idEmpresa <= 0) {
+      $("#global-loader").fadeOut(1000);
+      ToastifyError("Error al obtener el usuario o la empresa");
+      return;
+    }
+
+    $.ajax({
+      url: "php/insert/agenda.php",
+      type: "POST",
+      data: {
+        fechas: fechas,
+        start: start,
+        end: end,
+        start1: start1,
+        end1: end1,
+        intervalo2: intervalo2,
+        idUsuario: idUsuario,
+        idEmpresa: idEmpresa,
+        tipo: tipo
       },
       success: function (data) {
         $("#global-loader").fadeOut(1000);
@@ -250,6 +331,7 @@ $(document).ready(function() {
         return;
       }    
       
+    var tipo = 1;
     var idUsuario = $("#idUsuario").val();
     var idEmpresa = $("#idEmpresa").val();
 
@@ -262,7 +344,8 @@ $(document).ready(function() {
         horaFinTarde: horaFinTarde,
         intervalo: intervalo,
         idUsuario: idUsuario,
-        idEmpresa: idEmpresa
+        idEmpresa: idEmpresa,
+        tipo: tipo
     };
 
     $.ajax({

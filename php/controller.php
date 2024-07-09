@@ -4336,10 +4336,10 @@ class Controller
     }
 
     //Registrar Disponibilidad
-    function registrardisponibilidad($usuario, $empresa, $fecha, $horainicio, $horafinal, $intervalo, $estado)
+    function registrardisponibilidad($usuario, $empresa, $fecha, $horainicio, $horafinal, $intervalo,$tipo, $estado)
     {
         $this->conexion();
-        $sql = "insert into disponibilidad values(null,$usuario, $empresa,  '$fecha', '$horainicio', '$horafinal', $intervalo, $estado, now())";
+        $sql = "insert into disponibilidad values(null,$usuario, $empresa,  '$fecha', '$horainicio', '$horafinal', $intervalo,$tipo, $estado, now())";
         //Registrar y retornar el id de la disponibilidad
         $result = $this->mi->query($sql);
         $id = $this->mi->insert_id;
@@ -4348,20 +4348,46 @@ class Controller
     }
 
     //Registrar Disponibilidad
-    function registrarhorario($usuario, $empresa, $fecha, $horainicio, $horafinal, $intervalo, $disponibilidad, $estado)
+    function registrarhorario($usuario, $empresa, $fecha, $horainicio, $horafinal, $intervalo, $disponibilidad,$tipo, $estado)
     {
         $this->conexion();
-        $sql = "insert into horarios values(null,$usuario, $empresa,  '$fecha', '$horainicio', '$horafinal', $intervalo, $disponibilidad, $estado, now())";
+        $sql = "insert into horarios values(null,$usuario, $empresa,  '$fecha', '$horainicio', '$horafinal', $intervalo, $disponibilidad,$tipo, $estado, now())";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
     }
+
+    //Comprobar si
 
     //Listar Disponibilidad
     function listardisponibilidad($usuario, $empresa)
     {
         $this->conexion();
         $sql = "select * from disponibilidad where usuario = $usuario and empresa = $empresa";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $usuario = $rs["usuario"];
+            $empresa = $rs["empresa"];
+            $fecha = $rs["fecha"];
+            $horainicio = $rs["horainicio"];
+            $horafinal = $rs["horafin"];
+            $intervalo = $rs["intervalo"];
+            $estado = $rs["estado"];
+            $registro = $rs["registro"];
+            $disponibilidad = new Disponibilidad($id, $usuario, $empresa, $fecha, $horainicio, $horafinal, $intervalo, $estado, $registro);
+            $lista[] = $disponibilidad;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //listardisponibilidad por tipo
+    function listardisponibilidadtipo($usuario, $empresa, $tipo)
+    {
+        $this->conexion();
+        $sql = "select * from disponibilidad where usuario = $usuario and empresa = $empresa and tipodisponibilidad = $tipo";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {
@@ -4438,6 +4464,30 @@ class Controller
     {
         $this->conexion();
         $sql = "select * from disponibilidad where usuario = $usuario and empresa = $empresa and fecha >= curdate()";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $usuario = $rs["usuario"];
+            $empresa = $rs["empresa"];
+            $fecha = $rs["fecha"];
+            $horainicio = $rs["horainicio"];
+            $horafinal = $rs["horafin"];
+            $intervalo = $rs["intervalo"];
+            $estado = $rs["estado"];
+            $registro = $rs["registro"];
+            $disponibilidad = new Disponibilidad($id, $usuario, $empresa, $fecha, $horainicio, $horafinal, $intervalo, $estado, $registro);
+            $lista[] = $disponibilidad;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    //Buscar Disponibilidad desde la fecha de hoy
+    function buscardisponibilidadtipo($usuario, $empresa,$tipo)
+    {
+        $this->conexion();
+        $sql = "select * from disponibilidad where usuario = $usuario and empresa = $empresa and fecha >= curdate() and tipodisponibilidad = $tipo";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {

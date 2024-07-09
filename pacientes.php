@@ -1925,43 +1925,43 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																					<input type="hidden" name="idpac" value="<?php echo $pacienteid; ?>">
 																					<div class="col-md-1">
 																						<label>F RESP</label>
-																						<input type="number" class="form-control" min="1" id="sfresp" name="sfresp" required step="0.01">
+																						<input type="number" class="form-control" min="1" id="sfresp" name="sfresp"  step="0.01">
 																					</div>
 																					<div class="col-md-1">
 																						<label>P SIST</label>
-																						<input type="number" class="form-control" min="1" id="spsist" name="spsist" required step="0.01">
+																						<input type="number" class="form-control" min="1" id="spsist" name="spsist"  step="0.01">
 																					</div>
 																					<div class="col-md-1">
 																						<label>P DIAS</label>
-																						<input type="number" class="form-control" min="1" id="spdias" name="spdias" required step="0.01">
+																						<input type="number" class="form-control" min="1" id="spdias" name="spdias"  step="0.01">
 																					</div>
 																					<div class="col-md-1">
 																						<label>% STAT 02</label>
-																						<input type="number" class="form-control" min="1" id="ssat" name="ssat" required step="0.01">
+																						<input type="number" class="form-control" min="1" id="ssat" name="ssat"  step="0.01">
 																					</div>
 																					<div class="col-md-1">
 																						<label>FC</label>
-																						<input type="number" class="form-control" min="1" id="sfc" name="sfc" required step="0.01">
+																						<input type="number" class="form-control" min="1" id="sfc" name="sfc"  step="0.01">
 																					</div>
 																					<div class="col-md-1">
 																						<label>T. AUXILIAR</label>
-																						<input type="number" class="form-control" min="1" id="staux" name="staux" required step="0.01">
+																						<input type="number" class="form-control" min="1" id="staux" name="staux"  step="0.01">
 																					</div>
 																					<div class="col-md-1">
 																						<label>T. RECT</label>
-																						<input type="number" class="form-control" min="1" id="strect" name="strect" required step="0.01">
+																						<input type="number" class="form-control" min="1" id="strect" name="strect"  step="0.01">
 																					</div>
 																					<div class="col-md-1">
 																						<label>T. OTRA</label>
-																						<input type="text" class="form-control" min="1" id="stotra" name="stotra" required>
+																						<input type="text" class="form-control" min="1" id="stotra" name="stotra" >
 																					</div>
 																					<div class="col-md-1">
 																						<label>HGT</label>
-																						<input type="number" class="form-control" min="1" id="shgt" name="shgt" required step="0.01">
+																						<input type="number" class="form-control" min="1" id="shgt" name="shgt"  step="0.01">
 																					</div>
 																					<div class="col-md-1">
 																						<label>PESO</label>
-																						<input type="number" class="form-control" min="1" id="speso" name="speso" required step="0.01">
+																						<input type="number" class="form-control" min="1" id="speso" name="speso"  step="0.01">
 																					</div>
 																					<div class="col-md-1 d-flex align-items-end">
 																						<button class="btn btn-outline-success" type="submit"><i class="fa fa-save"></i> Registrar</button>

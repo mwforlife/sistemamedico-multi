@@ -413,7 +413,7 @@ create table pacientes(
 );
 
 alter table pacientes add column discapacidaddetalle text null after discapacidad;
-alter table pacientes add column empresa int not null references empresa(id) after estado default 1;
+alter table pacientes add column empresa int not null default 1 references empresa(id) after estado ;
 
 
 create table prevision(
@@ -726,17 +726,17 @@ create table informecomite(
 /********Signos Vitales*/
 create table signosvitales(
     id int not null auto_increment primary key,
-    paciente int not null references pacientes(id),
-    fresp float not null,
-    psist float not null,
-    pdias float not null,
-    sat02 float not null,
-    fc float not null,
-    tauxiliar float not null,
-    trect float not null,
-    totra float not null,
-    hgt float not null,
-    peso float not null,
+    paciente int  null references pacientes(id),
+    fresp float  null,
+    psist float  null,
+    pdias float  null,
+    sat02 float  null,
+    fc float  null,
+    tauxiliar float  null,
+    trect float  null,
+    totra float  null,
+    hgt float  null,
+    peso float  null,
     registro datetime not null default current_timestamp
 );
 /********Medidas Antopométricas*/
@@ -818,6 +818,8 @@ create table disponibilidad(
     registro datetime not null default current_timestamp    
 );
 
+alter table disponibilidad add column tipodisponibilidad int not null default 1 after intervalo;
+
 /********************Horarios***************/
 create table horarios(
     id int not null auto_increment primary key,
@@ -831,6 +833,9 @@ create table horarios(
     estado int not null default 1,
     registro datetime not null default current_timestamp    
 );
+
+
+alter table horarios add column tipohorario int not null default 1 after disponibilidad;
 
 create table atenciones(
     id int not null auto_increment primary key,

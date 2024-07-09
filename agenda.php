@@ -615,19 +615,19 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                                                                     <a class="nav-link w-100 d-flex" href="">
                                                                         <div class="wd-10 ht-10 rounded-circle bg-primary mr-3">
                                                                         </div>
-                                                                        <div>Eventos de Calendario</div>
+                                                                        <div>Dias de disponibilidad</div>
                                                                     </a>
                                                                     <a class="nav-link w-100 d-flex" href="">
                                                                         <div class="wd-10 ht-10 rounded-circle bg-secondary mr-3">
                                                                         </div>
-                                                                        <div>Eventos de Cumpleaños</div>
+                                                                        <div>disponibilidad de Sobre Cupo</div>
                                                                     </a>
                                                                     <a class="nav-link w-100 d-flex" href="">
                                                                         <div class="wd-10 ht-10 rounded-circle bg-success mr-3">
                                                                         </div>
                                                                         <div>Dias Festivos</div>
                                                                     </a>
-                                                                    <a class="nav-link w-100 d-flex" href="">
+                                                                    <!--<a class="nav-link w-100 d-flex" href="">
                                                                         <div class="wd-10 ht-10 rounded-circle bg-info mr-3">
                                                                         </div>
                                                                         <div>Otros</div>
@@ -641,7 +641,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                                                                         <div class="wd-10 ht-10 rounded-circle bg-danger mr-3">
                                                                         </div>
                                                                         <div>Horario de Trabajo</div>
-                                                                    </a>
+                                                                    </a>-->
                                                                 </nav>
                                                                 <div class="mt-5">
                                                                     <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#modalSetSchedule"><i class="fe fe-plus"></i> Nuevo Horario
@@ -649,6 +649,10 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                                                                 </div>
                                                                 <div class="mt-2">
                                                                     <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#modalSetSchedule1"><i class="fe fe-plus"></i> Nuevo Horario Por
+                                                                        Fecha</a>
+                                                                </div>
+                                                                <div class="mt-2">
+                                                                    <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#modalSetSchedule2"><i class="fe fe-plus"></i> Sobre Cupo Por
                                                                         Fecha</a>
                                                                 </div>
                                                             </div>
@@ -871,10 +875,92 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                                     </select>
                                 </div>
                             </div>
+                            <input type="hidden" id="tipo1" value="1">
 
 
                             <div class="d-flex mg-t-15 mg-lg-t-30 justify-content-end">
                                 <button type="button" class="btn btn-primary mr-4" id="dtbtnevent" type="button">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div aria-hidden="true" class="modal main-modal-calendar-schedule" id="modalSetSchedule2" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title">Crear Sobre Cupo</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="mainFormCalendar1" name="mainFormCalendar1">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label for="">Fecha:</label>
+                                    <input type="date" class="form-control" id="datecalendar" value="">
+                                </div>
+                                <div class="col-md-4 d-flex align-items-end">
+                                    <button type="button" id="adddate" class="btn btn-outline-success"> <i class="fa fa-plus"></i> Agregar</button>
+                                </div>
+                            </div>
+                            <div id="dateprint">
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <p>Jornada Matutina</p>
+                            </div>
+                            <div class="form-group">
+                                <label class="tx-13 mg-b-5 tx-gray-600">Hora de Inicio y Termino</label>
+                                <div class="row row-xs">
+                                    <div class="col-6">
+                                        <input type="time" class="form-control" id="mainEventStartTime2">
+                                    </div><!-- col-7 -->
+                                    <div class="col-5">
+                                        <input type="time" class="form-control" id="EventEndTime2">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="form-group">
+                                <p>Jornada Tarde</p>
+                            </div>
+                            <div class="form-group">
+                                <label class="tx-13 mg-b-5 tx-gray-600">Hora de Inicio y Termino</label>
+                                <div class="row row-xs">
+                                    <div class="col-6">
+                                        <input type="time" class="form-control" id="mainEventStartTime3">
+                                    </div><!-- col-7 -->
+                                    <div class="col-5">
+                                        <input type="time" class="form-control" id="EventEndTime3">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="">Intervalo de Atención</label>
+                                    <select name="intervalo2" id="intervalo2" class="form-control">
+                                        <option value="10">10 Minutos</option>
+                                        <option value="15">15 Minutos</option>
+                                        <option value="20">20 Minutos</option>
+                                        <option value="25">25 Minutos</option>
+                                        <option value="30">30 Minutos</option>
+                                        <option value="35">35 Minutos</option>
+                                        <option value="40">40 Minutos</option>
+                                        <option value="45">45 Minutos</option>
+                                        <option value="50">50 Minutos</option>
+                                        <option value="55">55 Minutos</option>
+                                        <option value="60">60 Minutos</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="tipo2" value="2">
+
+
+                            <div class="d-flex mg-t-15 mg-lg-t-30 justify-content-end">
+                                <button type="button" class="btn btn-primary mr-4" id="dtbtnevent2" type="button">Guardar</button>
                             </div>
                         </form>
                     </div>
@@ -956,7 +1042,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
             id: 1,
             events: [
             <?php
-                $disponibilidad = $c->listardisponibilidad($object->getId(),$empresa->getId());
+                $disponibilidad = $c->listardisponibilidadtipo($object->getId(),$empresa->getId(),1);
                 foreach ($disponibilidad as $d) {
                     $fecha = $d->getFecha();
                     $horaInicio = $d->getHoraInicio();
@@ -974,7 +1060,19 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
             id: 2,
             backgroundColor: '#e54d26',
             borderColor: '#e54d26',
-            events: []
+            events: [
+                <?php
+                $disponibilidadb = $c->listardisponibilidadtipo($object->getId(),$empresa->getId(),2);
+                foreach ($disponibilidadb as $d) {
+                    $fecha = $d->getFecha();
+                    $horaInicio = $d->getHoraInicio();
+                    $horaFin = $d->getHoraFin();
+                    $intervalo = $d->getIntervalo();
+                    
+                    echo "{id:'".$d->getId()."',start:'".$fecha."T".$horaInicio."',end:'".$fecha."T".$horaFin."',title:'Agenda de Sobre Cupo',backgroundColor:'#e54d26',borderColor:'#e54d26',description:'Horario de Atención a pacientes con una duración de ".$intervalo." minutos'},"; 
+                }
+            ?>
+            ]
         };
         var sptHolidayEvents = {
             id: 3,

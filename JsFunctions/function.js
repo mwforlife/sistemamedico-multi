@@ -2294,14 +2294,17 @@ $(document).ready(function () {
             type: "POST",
             data: $("#formsignos").serialize(),
             success: function (respuesta) {
-                respuesta = respuesta.trim();
-                if (respuesta == 1) {
-                    ToastifySuccess("Se registro los signos vitales correctamente");
-                    cargarsignos();
-                } else {
-                    ToastifyError(respuesta);
+                var json = JSON.parse(respuesta);
+                try {
+                    if(json.status == true){
+                        ToastifySuccess(json.message);
+                        cargarsignos();
+                    }else{
+                        ToastifyError(json.message);
+                    }
+                } catch (error) {
+                    ToastifyError(error);
                 }
-
             }
         });
     });
