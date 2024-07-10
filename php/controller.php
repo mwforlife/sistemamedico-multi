@@ -4658,7 +4658,7 @@ class Controller
     function registrarreserva($paciente, $horario)
     {
         $this->conexion();
-        $sql = "insert into atenciones values(null, $paciente, $horario,'',1,null, now())";
+        $sql = "insert into atenciones values(null, $paciente, $horario,'',1,null,null,null, now())";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
@@ -4694,16 +4694,67 @@ class Controller
         return json_encode($result);
     }
 
-    //Buscar horainicioespera y horafinespera
-    function buscarhorainicioespera($id)
+    //registrar finespera
+    function registrarfinreserva($id)
     {
         $this->conexion();
-        $sql = "select horainicioespera from atenciones where id = $id";
+        $sql = "update atenciones set horafinespera = curtime() where id = $id";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Finalizar Atencion
+    function finalizaratencion($id)
+    {
+        $this->conexion();
+        $sql = "update atenciones set horafinatencion = curtime() where id = $id";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    function listarestadoatencion($tipo){
+        $this->conexion();
+        $sql = "select * from estadoatencion where tipo = $tipo or tipo=0";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $nombre = $rs["nombre"];
+            $tipo = $rs["tipo"];
+            $estado = array("id" => $id, "nombre" => $nombre, "tipo" => $tipo);
+            $lista[] = $estado;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    function nombreestadoatencion($id){
+        $this->conexion();
+        $sql = "select * from estadoatencion where id = $id";
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $nombre = $rs["nombre"];
+            $this->desconexion();
+            return $nombre;
+        }
+        $this->desconexion();
+        return null;
+    }
+
+    //Buscar horainicioespera y horafinespera
+    function buscarhoraespera($id)
+    {
+        $this->conexion();
+        $sql = "select horainicioespera, horafinespera, horafinatencion from atenciones where id = $id";
         $result = $this->mi->query($sql);
         if ($rs = mysqli_fetch_array($result)) {
             $horainicioespera = $rs["horainicioespera"];
+            $horafinespera = $rs["horafinespera"];
+            $horafinatencion = $rs["horafinatencion"];
             $this->desconexion();
-            return array("horainicioespera" => $horainicioespera);
+            return array("horainicioespera" => $horainicioespera, "horafinespera" => $horafinespera, "horafinatencion" => $horafinatencion);
         }
         $this->desconexion();
         return null;
@@ -4722,8 +4773,10 @@ class Controller
             $observacion = $rs["observacion"];
             $estado = $rs["estado"];
             $horainicioespera = $rs["horainicioespera"];
+            $horafinespera = $rs["horafinespera"];
+            $horafinatencion = $rs["horafinatencion"];
             $registro = $rs["registro"];
-            $atencion = new Atencion($id, $paciente, "", "", "", "", $horario, "", "", $observacion, $estado, $horainicioespera, $registro);
+            $atencion = new Atencion($id, $paciente, "", "", "", "", $horario, "", "", $observacion, $estado, $horainicioespera,$horafinespera, $horafinatencion, $registro);
             $this->desconexion();
             return $atencion;
         }
@@ -4749,7 +4802,7 @@ class Controller
     function buscarreservashoy($empresa)
     {
         $this->conexion();
-        $sql = "select atenciones.id as id,atenciones.horainicioespera as horainicioespera, pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and horarios.fecha = curdate() and horarios.empresa = $empresa group by id order by horarios.horainicio asc";
+        $sql = "select atenciones.id as id,atenciones.horainicioespera as horainicioespera, atenciones.horafinespera as horafinespera, atenciones.horafinatencion as horafinatencion, pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and horarios.fecha = curdate() and horarios.empresa = $empresa group by id order by horarios.horainicio asc";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {
@@ -4766,8 +4819,10 @@ class Controller
             $observacion = $rs["observacion"];
             $estado = $rs["estado"];
             $horainicioespera = $rs["horainicioespera"];
+            $horafinespera = $rs["horafinespera"];
+            $horafinatencion = $rs["horafinatencion"];
             $registro = $rs["registro"];
-            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $registro);
+            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $horafinespera, $horafinatencion, $registro);
             $lista[] = $reserva;
         }
         $this->desconexion();
@@ -4778,7 +4833,7 @@ class Controller
     function buscarreservasrango($empresa, $fechainicio, $fechafinal)
     {
         $this->conexion();
-        $sql = "select atenciones.id as id, atenciones.horainicioespera as horainicioespera, pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and horarios.fecha >= '$fechainicio' and horarios.fecha <= '$fechafinal' and horarios.empresa = $empresa group by id order by horarios.horainicio asc";
+        $sql = "select atenciones.id as id, atenciones.horainicioespera as horainicioespera, atenciones.horafinespera as horafinespera, atenciones.horafinatencion as horafinatencion, pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and horarios.fecha >= '$fechainicio' and horarios.fecha <= '$fechafinal' and horarios.empresa = $empresa group by id order by horarios.horainicio asc";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {
@@ -4795,8 +4850,10 @@ class Controller
             $observacion = $rs["observacion"];
             $estado = $rs["estado"];
             $horainicioespera = $rs["horainicioespera"];
+            $horafinespera = $rs["horafinespera"];
+            $horafinatencion = $rs["horafinatencion"];
             $registro = $rs["registro"];
-            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $registro);
+            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $horafinespera, $horafinatencion, $registro);
             $lista[] = $reserva;
         }
         $this->desconexion();
@@ -4807,7 +4864,7 @@ class Controller
     function buscarreservashoymedico($empresa, $usuario)
     {
         $this->conexion();
-        $sql = "select atenciones.id as id,atenciones.horainicioespera as horainicioespera, pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and horarios.fecha = curdate() and usuarioprofesion.empresa = $empresa and usuarios.id = $usuario group by id order by horarios.horainicio asc";
+        $sql = "select atenciones.id as id,atenciones.horainicioespera as horainicioespera, atenciones.horafinespera as horafinespera, atenciones.horafinatencion as horafinatencion, pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and horarios.fecha = curdate() and usuarioprofesion.empresa = $empresa and usuarios.id = $usuario group by id order by horarios.horainicio asc";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {
@@ -4824,8 +4881,10 @@ class Controller
             $observacion = $rs["observacion"];
             $estado = $rs["estado"];
             $horainicioespera = $rs["horainicioespera"];
+            $horafinespera = $rs["horafinespera"];
+            $horafinatencion = $rs["horafinatencion"];
             $registro = $rs["registro"];
-            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $registro);
+            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $horafinespera, $horafinatencion, $registro);
             $lista[] = $reserva;
         }
         $this->desconexion();
@@ -4836,7 +4895,7 @@ class Controller
     function buscarreservasrangomedico($empresa, $usuario, $fechainicio, $fechafinal)
     {
         $this->conexion();
-        $sql = "select atenciones.id as id, atenciones.horainicioespera as horainicioespera,pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and horarios.fecha >= '$fechainicio' and horarios.fecha <= '$fechafinal' and horarios.empresa = $empresa and usuarios.id = $usuario group by id order by horarios.horainicio asc";
+        $sql = "select atenciones.id as id, atenciones.horainicioespera as horainicioespera, atenciones.horafinespera as horafinespera, atenciones.horafinatencion as horafinatencion, pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and horarios.fecha >= '$fechainicio' and horarios.fecha <= '$fechafinal' and horarios.empresa = $empresa and usuarios.id = $usuario group by id order by horarios.horainicio asc";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {
@@ -4853,8 +4912,10 @@ class Controller
             $observacion = $rs["observacion"];
             $estado = $rs["estado"];
             $horainicioespera = $rs["horainicioespera"];
+            $horafinespera = $rs["horafinespera"];
+            $horafinatencion = $rs["horafinatencion"];
             $registro = $rs["registro"];
-            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $registro);
+            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $horafinespera, $horafinatencion, $registro);
             $lista[] = $reserva;
         }
         $this->desconexion();
@@ -4865,7 +4926,7 @@ class Controller
     function buscarreservaspaciente($paciente)
     {
         $this->conexion();
-        $sql = "select atenciones.id as id, atenciones.horainicioespera as horainicioespera, pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and pacientes.id = $paciente group by id order by horarios.horainicio asc";
+        $sql = "select atenciones.id as id, atenciones.horainicioespera as horainicioespera,atenciones.horafinespera as horafinespera, atenciones.horafinatencion as horafinatencion,  pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and pacientes.id = $paciente group by id order by horarios.horainicio asc";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {
@@ -4882,8 +4943,10 @@ class Controller
             $observacion = $rs["observacion"];
             $estado = $rs["estado"];
             $horainicioespera = $rs["horainicioespera"];
+            $horafinespera = $rs["horafinespera"];
+            $horafinatencion = $rs["horafinatencion"];
             $registro = $rs["registro"];
-            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $registro);
+            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $horafinespera, $horafinatencion, $registro);
             $lista[] = $reserva;
         }
         $this->desconexion();
@@ -4894,7 +4957,7 @@ class Controller
     public function buscarreservaporid($id)
     {
         $this->conexion();
-        $sql = "select atenciones.id as id,atenciones.horainicioespera as horainicioespera, pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and atenciones.id = $id group by id order by horarios.horainicio asc";
+        $sql = "select atenciones.id as id,atenciones.horainicioespera as horainicioespera,atenciones.horafinespera as horafinespera, atenciones.horafinatencion as horafinatencion,  pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and atenciones.id = $id group by id order by horarios.horainicio asc";
         $result = $this->mi->query($sql);
         if ($rs = mysqli_fetch_array($result)) {
             $id = $rs["id"];
@@ -4910,8 +4973,10 @@ class Controller
             $observacion = $rs["observacion"];
             $estado = $rs["estado"];
             $horainicioespera = $rs["horainicioespera"];
+            $horafinespera = $rs["horafinespera"];
+            $horafinatencion = $rs["horafinatencion"];
             $registro = $rs["registro"];
-            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $registro);
+            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $horafinespera, $horafinatencion, $registro);
             $this->desconexion();
             return $reserva;
         }
@@ -5245,7 +5310,7 @@ class Controller
     function listarmedicamentosesquemas($esquema)
     {
         $this->conexion();
-        $sql = "select medicamentoesquema.id as id, medicamentos.nombre as medicamento, medicamentoesquema.dosis as dosis,medidas.nombre as medida, medicamentoesquema.carboplatino as carboplatino, medicamentoesquema.registro as registro from medicamentoesquema, medicamentos, medidas where medicamentoesquema.medicamento = medicamentos.id and medicamentos.medida = medidas.id and medicamentoesquema.esquema =$esquema order by medicamento asc";
+        $sql = "select medicamentoesquema.id as id, medicamentos.nombre as medicamento, medicamentoesquema.dosis as dosis,medidas.nombre as medida, medicamentoesquema.carboplatino as carboplatino, medicamentoesquema.registro as registro from medicamentoesquema, medicamentos, medidas where medicamentoesquema.medicamento = medicamentos.id and medicamentos.medida = medidas.id and medicamentoesquema.esquema = $esquema order by medicamento asc";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {
@@ -5711,6 +5776,7 @@ class Controller
     {
         $this->conexion();
         $sql = "INSERT INTO recetas (paciente, usuario, empresa, consulta, fecha, folio, estadio, nivel, ges, peso, talla, scorporal, creatinina, auc, fechaadministracion, pendiente, nciclo, anticipada, curativo, paliativo, adyuvante, concomitante, noeadyuvante, primeringreso, traemedicamentos, diabetes, hipertension, alergias,otrocor, detallealergias, otrcormo, urgente, esquema, anamesis, observacion, estado) VALUES ($paciente, $usuario, $empresa, $consulta, '$fecha', '$folio', $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, '$fechaadministracion', $pendiente, $nciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primeringreso, $traemedicamentos, $diabetes, $hipertension, $alergias,$otrocor, '$detallealergias','$otrcormo', $urgente, $esquema, '$anamnesis', '$observacion',1);";
+        //echo $sql;
         $result = $this->mi->query($sql);
         // Obtener el ID de la receta recién registrada
         $recetaId = $this->mi->insert_id;
@@ -5908,7 +5974,7 @@ class Controller
     function registrarEstimulador($recetaId, $nombre, $cantidad, $rangodias)
     {
         $this->conexion();
-        $sql = "INSERT INTO estimulador (receta, nombre, cantidad, rangodias) VALUES ($recetaId, '$nombre', $cantidad, $rangodias);";
+        $sql = "INSERT INTO estimulador (receta, nombre, cantidad, rangodias) VALUES ($recetaId, '$nombre', $cantidad, '$rangodias');";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return $result;

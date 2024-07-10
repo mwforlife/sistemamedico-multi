@@ -58,7 +58,7 @@ if (isset($_POST['fechainicio']) && isset($_POST['fechatermino'])) {
                         <th class="bg-transparent">Nombre Paciente</th>
                         <th class="bg-transparent">Intervalo</th>
                         <th class="bg-transparent">Estado</th>
-                        <th class="bg-transparent">Hora de Llegada</th>
+                        <th class="bg-transparent">Hora de Espera</th>
                         <th class="bg-transparent">Acción</th>
                     </tr>
                 </thead>
@@ -73,7 +73,9 @@ if (isset($_POST['fechainicio']) && isset($_POST['fechatermino'])) {
             $intervalo = $l->getIntervalo();
             $observacion = $l->getObservacion();
             $horallegada = $l->getHoraLlegada();
+            $horaatencion = $l->getHoraAtencion();
             $estado = $l->getEstado();
+            $estadonombre = $c->nombreestadoatencion($estado);
             $registro = $l->getRegistro();
             $contenido .= "<tr class='text-center'>";
             $contenido .= "<td class='bg-transparent'>" . date("d-m-Y", strtotime($fecha)) . "</td>";
@@ -84,37 +86,100 @@ if (isset($_POST['fechainicio']) && isset($_POST['fechatermino'])) {
             if ($estado == 1) {
                 //Reservado
                 $contenido .= "<td class='bg-transparent'><span class='badge badge-success'>Reservado</span></td>";
-                $contenido .= "<td class='bg-transparent'>" . $horallegada . "</td>";
+                $contenido .= "<td class='bg-transparent'>";
+                if(strlen($horallegada) == 8){
+                    $contenido .= date("H:i", strtotime($horallegada));
+                }
+
+                if(strlen($horaatencion) == 8){
+                    $contenido .= "- ".date("H:i", strtotime($horaatencion));
+                }
+
+                $contenido .= "</td>";
                 $contenido .= "<td class='bg-transparent'><button class='btn btn-outline-primary btn-sm' onclick='atencion(" . $id . ")'><i class='fa fa-user-plus'></i></button></td>";
             } else if ($estado == 2) {
                 //Confirmado
                 $contenido .= "<td class='bg-transparent'><span class='badge badge-primary'>Confirmado</span></td>";
-                $contenido .= "<td class='bg-transparent'>" . $horallegada . "</td>";
+                $contenido .= "<td class='bg-transparent'>";
+                if(strlen($horallegada) == 8){
+                    $contenido .= date("H:i", strtotime($horallegada));
+                }
+
+                if(strlen($horaatencion) == 8){
+                    $contenido .= "- ".date("H:i", strtotime($horaatencion));
+                }
+
+                $contenido .= "</td>";
                 $contenido .= "<td class='bg-transparent'><button class='btn btn-outline-primary btn-sm' onclick='atencion(" . $id . ")'><i class='fa fa-user-plus'></i></button></td>";
             } else if ($estado == 3) {
                 //En Sala de Espera
                 $contenido .= "<td class='bg-transparent'><span class='badge badge-warning'>En Sala de Espera</span></td>";
-                $contenido .= "<td class='bg-transparent'>" . $horallegada . "</td>";
+                $contenido .= "<td class='bg-transparent'>";
+                if(strlen($horallegada) == 8){
+                    $contenido .= date("H:i", strtotime($horallegada));
+                }
+
+                if(strlen($horaatencion) == 8){
+                    $contenido .= "- ".date("H:i", strtotime($horaatencion));
+                }
+
+                $contenido .= "</td>";
                 $contenido .= "<td class='bg-transparent'><button class='btn btn-outline-warning btn-sm' onclick='atencion(" . $id . ")'><i class='fa fa-user-check'></i></button></td>";
             } else if ($estado == 4) {
                 //En Atención
                 $contenido .= "<td class='bg-transparent'><span class='badge badge-info'>En Atención</span></td>";
-                $contenido .= "<td class='bg-transparent'>" . $horallegada . "</td>";
+                $contenido .= "<td class='bg-transparent'>";
+                if(strlen($horallegada) == 8){
+                    $contenido .= date("H:i", strtotime($horallegada));
+                }
+
+                if(strlen($horaatencion) == 8){
+                    $contenido .= "- ".date("H:i", strtotime($horaatencion));
+                }
+
+                $contenido .= "</td>";
                 $contenido .= "<td class='bg-transparent'><button class='btn btn-info btn-sm' onclick='atencion(" . $id . ")'><i class='fa fa-user-check'></i></button></td>";
             } else if ($estado == 5) {
                 //Atendido(a)
                 $contenido .= "<td class='bg-transparent'><span class='badge badge-success'>Atendido(a)</span></td>";
-                $contenido .= "<td class='bg-transparent'>" . $horallegada . "</td>";
+                $contenido .= "<td class='bg-transparent'>";
+                if(strlen($horallegada) == 8){
+                    $contenido .= date("H:i", strtotime($horallegada));
+                }
+
+                if(strlen($horaatencion) == 8){
+                    $contenido .= "- ".date("H:i", strtotime($horaatencion));
+                }
+
+                $contenido .= "</td>";
                 $contenido .= "<td class='bg-transparent'><button class='btn btn-success btn-sm' onclick='atencion(" . $id . ")'><i class='fa fa-user-check'></i></button></td>";
             } else if ($estado == 6) {
                 //Cancelado
                 $contenido .= "<td class='bg-transparent'><span class='badge badge-danger'>Reserva Cancelada</span></td>";
-                $contenido .= "<td class='bg-transparent'>" . $horallegada . "</td>";
+                $contenido .= "<td class='bg-transparent'>";
+                if(strlen($horallegada) == 8){
+                    $contenido .= date("H:i", strtotime($horallegada));
+                }
+
+                if(strlen($horaatencion) == 8){
+                    $contenido .= "- ".date("H:i", strtotime($horaatencion));
+                }
+
+                $contenido .= "</td>";
                 $contenido .= "<td class='bg-transparent'>-</td>";
             } else if ($estado == 7) {
                 //Paciente No Asiste
                 $contenido .= "<td class='bg-transparent'><span class='badge badge-danger'>Paciente No Asiste</span></td>";
-                $contenido .= "<td class='bg-transparent'>" . $horallegada . "</td>";
+                $contenido .= "<td class='bg-transparent'>";
+                if(strlen($horallegada) == 8){
+                    $contenido .= date("H:i", strtotime($horallegada));
+                }
+
+                if(strlen($horaatencion) == 8){
+                    $contenido .= "- ".date("H:i", strtotime($horaatencion));
+                }
+
+                $contenido .= "</td>";
                 $contenido .= "<td class='bg-transparent'><button class='btn btn-danger btn-sm' onclick='atencion(" . $id . ")'><i class='fa fa-user-times'></i></button></td>";
             }
 

@@ -657,6 +657,12 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                             <div class="col-md-12">
                                 <label for="">Estado</label>
                                 <select name="estado" id="estado" class="form-control">
+                                    <?php
+                                        $estados = $c->listarestadoatencion(1);
+                                        foreach ($estados as $estado) {
+                                            echo '<option value="'.$estado['id'].'">'.$estado['nombre'].'</option>';
+                                        }
+                                    ?>
                                     <option value="1">Reservado</option>
                                     <option value="2">Confirmada</option>
                                     <option value="3">En Sala de Espera</option>

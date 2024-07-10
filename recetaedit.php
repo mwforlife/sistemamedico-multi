@@ -1092,7 +1092,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																					<td><input type="checkbox" name="estimulador" id="estimulador" <?php if($estimulador!=null){if($estimulador->getNombre()==1){echo "checked";};} ?>></td>
 																					<td>FILGRASTIM</td>
 																					<td><input type="number" name="cantidades" id="cantidades" class="form-control"  <?php if($estimulador!=null){if($estimulador->getNombre()==1){echo "value='".$estimulador->getCantidad()."'";};} ?>></td>
-																					<td><input type="number" name="rango" id="rango" class="form-control" <?php if($estimulador!=null){if($estimulador->getNombre()==1){echo "value='".$estimulador->getRangoDias()."'";};} ?>></td>
+																					<td><input type="text" name="rango" id="rango" class="form-control" <?php if($estimulador!=null){if($estimulador->getNombre()==1){echo "value='".$estimulador->getRangoDias()."'";};} ?>></td>
 																				</tr>
 																			</tbody>
 																		</table>

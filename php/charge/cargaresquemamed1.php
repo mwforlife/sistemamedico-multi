@@ -13,7 +13,7 @@ if (isset($_POST['id']) && isset($_POST['receta'])) {
         echo "<th></th>";
         echo "<th>Medicamento</th>";
         echo "<th class='text-center'>%</th>";
-        echo "<th>DOSIS MG</th>";
+        echo "<th>DOSIS MG ESQUEMA</th>";
         echo "<th>CARBOPLATINO</th>";
         echo "<th>DOSIS TOTAL MG</th>";
         echo "<th>ORAL</th>";
@@ -110,7 +110,7 @@ if (isset($_POST['id']) && isset($_POST['receta'])) {
         echo "<th></th>";
         echo "<th>Medicamento</th>";
         echo "<th class='text-center'>%</th>";
-        echo "<th>DOSIS MG</th>";
+        echo "<th>DOSIS MG ESQUEMA</th>";
         echo "<th>DOSIS TOTAL MG</th>";
         echo "<th>ORAL</th>";
         echo "<th>EV</th>";

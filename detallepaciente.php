@@ -1,4 +1,5 @@
 <?php
+use Mpdf\Tag\U;
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -16,8 +17,10 @@ $comite = null;
 // Obtener la URL de la página anterior (si está disponible)
 $previous_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 $id = 0;
+$userid = $_SESSION['USER_ID'];
 $reservaid = 0;
 $dipaciente = 0;
+$estadoatencion = 0;
 if (isset($_GET['r']) && isset($_GET['p'])) {
 	$reservaid = $_GET['r'];
 	if (is_numeric($reservaid)) {
@@ -31,6 +34,20 @@ if (isset($_GET['r']) && isset($_GET['p'])) {
 		// Redireccionar a la página anterior
 		header("Location: $previous_page");
 		exit();
+	}
+
+	$reserva = $c->buscarreservaporid($reservaid);
+	if ($reserva == null) {
+		// Redireccionar a la página anterior
+		header("Location: $previous_page");
+		exit();
+	}
+
+	$estadoatencion = $reserva->getEstado();
+	if ($estadoatencion == 3) {
+		$c->actualizaratencion($reservaid, 4,"Paciente en Atención");
+		$c->registrarhistorialestado($reservaid,4,"Paciente en Atención",$userid);
+		$c->registrarfinreserva($reservaid);
 	}
 
 	$paciente = $_GET['p'];
@@ -307,7 +324,8 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 				<a class="main-logo" href="index.php">
 					<img src="assets/img/brand/logo.png" class="header-brand-img desktop-logo" alt="logo">
 					<img src="assets/img/brand/icon.png" class="header-brand-img icon-logo" alt="logo">
-					<img src="assets/img/brand/dark-logo.png" class="header-brand-img desktop-logo theme-logo" alt="logo">
+					<img src="assets/img/brand/dark-logo.png" class="header-brand-img desktop-logo theme-logo"
+						alt="logo">
 					<img src="assets/img/brand/icon.png" class="header-brand-img icon-logo theme-logo" alt="logo">
 				</a>
 			</div>
@@ -315,13 +333,15 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 				<ul class="nav">
 					<?php
 					if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionescomiterol == true || $definicionesgeneralesrol == true) {
-					?>
+						?>
 						<li class="nav-header"><span class="nav-label">Dashboard</span></li>
 						<?php
 						if ($admingeneralrol == true || $adminsistemarol == true || $definicionescomiterol == true) {
-						?>
+							?>
 							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
+								<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span
+										class="sidemenu-label">Definiciones de Comité</span><i
+										class="angle fe fe-chevron-right"></i></a>
 								<ul class="nav-sub">
 									<li class="nav-sub-item">
 										<a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
@@ -349,17 +369,19 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 									</li>
 								</ul>
 							</li>
-						<?php
+							<?php
 						}
 						if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true) {
-						?>
+							?>
 							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
+								<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span
+										class="sidemenu-label">Definiciones Generales</span><i
+										class="angle fe fe-chevron-right"></i></a>
 								<ul class="nav-sub">
-								<?php
-							}
-							if ($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true) {
-								?>
+									<?php
+						}
+						if ($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true) {
+							?>
 									<li class="nav-sub-item">
 										<a class="nav-sub-link" href="regiones.php">Regiones</a>
 									</li>
@@ -378,222 +400,232 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 									<li class="nav-sub-item">
 										<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
 									</li>
-								<?php
-							}
-							if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true) {
-								?>
+									<?php
+						}
+						if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true) {
+							?>
 									<li class="nav-sub-item">
 										<a class="nav-sub-link" href="esquema.php">Esquema</a>
 									</li>
-								<?php
-							}
-							if ($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true) {
-								?>
+									<?php
+						}
+						if ($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true) {
+							?>
 									<li class="nav-sub-item">
 										<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
 									</li>
-								<?php
-							}
-								?>
-								</ul>
-							</li>
+									<?php
+						}
+						?>
+							</ul>
+						</li>
 						<?php
 					}
 
+					?>
+					<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
+					<!--------------------------Inicio Empresa--------------------------->
+					<?php
+					if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true) {
 						?>
-						<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
-						<!--------------------------Inicio Empresa--------------------------->
-						<?php
-						if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true) {
-						?>
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="empresas.php">Registro de Empresas</a>
-									</li>
-								</ul>
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span
+								class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="empresas.php">Registro de Empresas</a>
 							</li>
-						<?php
-						}
-						?>
-						<!--------------------------Fin Empresa--------------------------->
+						</ul>
+					</li>
+					<?php
+					}
+					?>
+					<!--------------------------Fin Empresa--------------------------->
 
-						<!--------------------------Inicio Agenda--------------------------->
-						<li class="nav-item">
-							<a class="nav-link" href="agenda.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Agenda</span></a>
-						</li>
-						<?php
-						if ($admingeneralrol == true || $adminsistemarol == true || $reservasrol == true) {
+					<!--------------------------Inicio Agenda--------------------------->
+					<li class="nav-item">
+						<a class="nav-link" href="agenda.php"><i class="fe fe-calendar sidemenu-icon"></i><span
+								class="sidemenu-label">Agenda</span></a>
+					</li>
+					<?php
+					if ($admingeneralrol == true || $adminsistemarol == true || $reservasrol == true) {
 						?>
-							<!--------------------------Inicio Reservas--------------------------->
-							<li class="nav-item">
-								<a class="nav-link" href="reservas.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Reservas</span></a>
+					<!--------------------------Inicio Reservas--------------------------->
+					<li class="nav-item">
+						<a class="nav-link" href="reservas.php"><i class="fe fe-calendar sidemenu-icon"></i><span
+								class="sidemenu-label">Reservas</span></a>
+					</li>
+					<!--------------------------Inicio Atencion--------------------------->
+					<li class="nav-item">
+						<a class="nav-link" href="atencion.php"><i class="fe fe-user sidemenu-icon"></i><span
+								class="sidemenu-label">Atención</span></a>
+					</li>
+					<!--------------------------Fin Atencion--------------------------->
+					<!--------------------------Inicio Tratamiento--------------------------->
+					<?php
+					}
+					if ($admingeneralrol == true || $adminsistemarol == true || $gestiontratamientorol == true) {
+						?>
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fa fa-user-md sidemenu-icon"></i>
+							<span class="sidemenu-label">Gestión de tratamiento</span>
+							<i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="recepcionreceta.php">Recepción de Receta</a>
 							</li>
-							<!--------------------------Inicio Atencion--------------------------->
-							<li class="nav-item">
-								<a class="nav-link" href="atencion.php"><i class="fe fe-user sidemenu-icon"></i><span class="sidemenu-label">Atención</span></a>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="listadeespera.php">Paciente en Lista de Espera</a>
 							</li>
-							<!--------------------------Fin Atencion--------------------------->
-							<!--------------------------Inicio Tratamiento--------------------------->
-						<?php
-						}
-						if ($admingeneralrol == true || $adminsistemarol == true || $gestiontratamientorol == true) {
-						?>
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fa fa-user-md sidemenu-icon"></i>
-									<span class="sidemenu-label">Gestión de tratamiento</span>
-									<i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="recepcionreceta.php">Recepción de Receta</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="listadeespera.php">Paciente en Lista de Espera</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="programacionatenciones.php">Programación de Atenciones</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="preparacionfarmacia.php">Preparación Farmacia</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="recepcionfarmacia.php">Recepción Farmacia</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="recepciondroga.php">Recepción Droga</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="quimioterapia.php">quimioterapia</a>
-									</li>
-								</ul>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="programacionatenciones.php">Programación de Atenciones</a>
 							</li>
-						<?php
-						}
-						?>
-						<!--------------------------Fin Agenda--------------------------->
-
-
-						<?php
-						if ($admingeneralrol == true || $adminsistemarol == true || $auditoriarol == true) {
-						?>
-							<!--------------------------Inicio Auditoria--------------------------->
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="auditoria.php">Auditoria</a>
-									</li>
-								</ul>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="preparacionfarmacia.php">Preparación Farmacia</a>
 							</li>
-							<!--------------------------Fin Auditoria--------------------------->
-						<?php
-						}
-						?>
-
-
-						<?php
-						if ($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true || $fichaclinicasecre == true) {
-						?>
-							<!--------------------------Inicio Ficha Pacientes----------------->
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="pacientes.php">Ficha Pacientes</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="registropacientes.php">Registro Pacientes</a>
-									</li>
-									<?php
-									if ($admingeneralrol == true || $adminsistemarol == true || $fichaclinicas == true) {
-									?>
-										<li class="nav-sub-item">
-											<a class="nav-sub-link" href="listadopacientes.php">Listado Pacientes</a>
-										</li>
-									<?php
-									}
-									?>
-
-								</ul>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="recepcionfarmacia.php">Recepción Farmacia</a>
 							</li>
-							<!--------------------------Fin Ficha Pacientes----------------->
-						<?php
-						}
-						?>
-
-
-						<?php
-						if ($admingeneralrol == true || $adminsistemarol == true || $medicorol == true) {
-						?>
-							<!--------------------------Inicio Consulta Medica----------------->
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="pacientesmedico.php">Ficha Pacientes</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="consultas.php">Consultas</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="recetasemitidas.php">Recetas Emitidas</a>
-									</li>
-								</ul>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="recepciondroga.php">Recepción Droga</a>
 							</li>
-							<!--------------------------Fin Consulta Medica----------------->
-						<?php
-						}
-						?>
-
-
-						<?php
-						if ($admingeneralrol == true || $adminsistemarol == true || $comiterol == true) {
-						?>
-							<!--------------------------Inicio Comite----------------->
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="comite.php">Crear Comité</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="listadocomite.php">Listado de Comité</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="nombrecomite.php">Nombres de Comite</a>
-									</li>
-								</ul>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="quimioterapia.php">quimioterapia</a>
 							</li>
-							<!--------------------------Fin Comite----------------->
-						<?php
-						}
+						</ul>
+					</li>
+					<?php
+					}
+					?>
+					<!--------------------------Fin Agenda--------------------------->
+
+
+					<?php
+					if ($admingeneralrol == true || $adminsistemarol == true || $auditoriarol == true) {
 						?>
-
-
-						<?php
-						if ($admingeneralrol == true || $adminsistemarol == true || $usersrol == true) {
-						?>
-							<!--------------------------Inicio Usuarios----------------->
-							<li class="nav-item">
-								<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
-								<ul class="nav-sub">
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="usuarios.php">Registrar Usuarios</a>
-									</li>
-									<li class="nav-sub-item">
-										<a class="nav-sub-link" href="activacion.php">Activación de Usuarios</a>
-									</li>
-
-								</ul>
+					<!--------------------------Inicio Auditoria--------------------------->
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span
+								class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="auditoria.php">Auditoria</a>
 							</li>
-							<!--------------------------Fin Usuarios----------------->
-						<?php
-						}
+						</ul>
+					</li>
+					<!--------------------------Fin Auditoria--------------------------->
+					<?php
+					}
+					?>
+
+
+					<?php
+					if ($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true || $fichaclinicasecre == true) {
 						?>
+					<!--------------------------Inicio Ficha Pacientes----------------->
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span
+								class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="pacientes.php">Ficha Pacientes</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="registropacientes.php">Registro Pacientes</a>
+							</li>
+							<?php
+							if ($admingeneralrol == true || $adminsistemarol == true || $fichaclinicas == true) {
+								?>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="listadopacientes.php">Listado Pacientes</a>
+							</li>
+							<?php
+							}
+							?>
+
+						</ul>
+					</li>
+					<!--------------------------Fin Ficha Pacientes----------------->
+					<?php
+					}
+					?>
+
+
+					<?php
+					if ($admingeneralrol == true || $adminsistemarol == true || $medicorol == true) {
+						?>
+					<!--------------------------Inicio Consulta Medica----------------->
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span
+								class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="pacientesmedico.php">Ficha Pacientes</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="consultas.php">Consultas</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="recetasemitidas.php">Recetas Emitidas</a>
+							</li>
+						</ul>
+					</li>
+					<!--------------------------Fin Consulta Medica----------------->
+					<?php
+					}
+					?>
+
+
+					<?php
+					if ($admingeneralrol == true || $adminsistemarol == true || $comiterol == true) {
+						?>
+					<!--------------------------Inicio Comite----------------->
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span
+								class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="comite.php">Crear Comité</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="listadocomite.php">Listado de Comité</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="nombrecomite.php">Nombres de Comite</a>
+							</li>
+						</ul>
+					</li>
+					<!--------------------------Fin Comite----------------->
+					<?php
+					}
+					?>
+
+
+					<?php
+					if ($admingeneralrol == true || $adminsistemarol == true || $usersrol == true) {
+						?>
+					<!--------------------------Inicio Usuarios----------------->
+					<li class="nav-item">
+						<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span
+								class="sidemenu-label">Gestion de Usuarios</span><i
+								class="angle fe fe-chevron-right"></i></a>
+						<ul class="nav-sub">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="usuarios.php">Registrar Usuarios</a>
+							</li>
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" href="activacion.php">Activación de Usuarios</a>
+							</li>
+
+						</ul>
+					</li>
+					<!--------------------------Fin Usuarios----------------->
+					<?php
+					}
+					?>
 				</ul>
 			</div>
 		</div>
@@ -607,14 +639,18 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 				</div>
 				<div class="main-header-center">
 					<div class="responsive-logo">
-						<a href="index.php"><img src="assets/img/brand/dark-logo.png" class="mobile-logo" alt="logo"></a>
-						<a href="index.php"><img src="assets/img/brand/logo.png" class="mobile-logo-dark" alt="logo"></a>
+						<a href="index.php"><img src="assets/img/brand/dark-logo.png" class="mobile-logo"
+								alt="logo"></a>
+						<a href="index.php"><img src="assets/img/brand/logo.png" class="mobile-logo-dark"
+								alt="logo"></a>
 					</div>
 					<div class="input-group">
 						<div class="mt-0">
 							<form class="form-inline">
 								<div class="search-element">
-									<input type="search" class="form-control header-search text-dark" readonly value="<?php echo $empresa->getRazonSocial(); ?>" aria-label="Search" tabindex="1">
+									<input type="search" class="form-control header-search text-dark" readonly
+										value="<?php echo $empresa->getRazonSocial(); ?>" aria-label="Search"
+										tabindex="1">
 									<button class="btn" type="submit">
 										<i class="fa fa-"></i>
 									</button>
@@ -626,13 +662,17 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 				<div class="main-header-right">
 					<div class="dropdown d-md-flex">
 						<a class="nav-link icon full-screen-link fullscreen-button" href="">
-							<i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+							<i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+									viewBox="0 0 24 24" width="24">
 									<path d="M0 0h24v24H0V0z" fill="none" />
-									<path d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+									<path
+										d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
 								</svg></i>
-							<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+							<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+									viewBox="0 0 24 24" width="24">
 									<path d="M0 0h24v24H0V0z" fill="none" />
-									<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
+									<path
+										d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
 								</svg></i>
 						</a>
 					</div>
@@ -651,7 +691,9 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 							</a>
 						</div>
 					</div>
-					<button class="navbar-toggler navresponsive-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
+					<button class="navbar-toggler navresponsive-toggler" type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4"
+						aria-expanded="false" aria-label="Toggle navigation">
 						<i class="fe fe-more-vertical header-icons navbar-toggler-icon"></i>
 					</button><!-- Navresponsive closed -->
 				</div>
@@ -665,13 +707,18 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 				<div class="collapse navbar-collapse" id="navbarSupportedContent-4">
 					<div class="d-flex order-lg-2 ml-auto">
 						<div class="dropdown">
-							<a class="nav-link icon full-screen-link fullscreen-button" href=""><i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+							<a class="nav-link icon full-screen-link fullscreen-button" href=""><i
+									class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+										viewBox="0 0 24 24" width="24">
 										<path d="M0 0h24v24H0V0z" fill="none" />
-										<path d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+										<path
+											d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
 									</svg></i>
-								<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+								<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+										viewBox="0 0 24 24" width="24">
 										<path d="M0 0h24v24H0V0z" fill="none" />
-										<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
+										<path
+											d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
 									</svg></i>
 							</a>
 						</div>
@@ -736,38 +783,38 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 													<h5 class="card-title">Información Paciente</h5>
 												</div>
 												<div class="col-md-3">
-													<?php 
-														echo "<h6 class='card-title'>Rut: ".$pac->getRut()."</h6>";
-														echo "<h6 class='card-title'>Nombre: ".$pac->getNombre()." ".$pac->getApellido1()." ".$pac->getApellido2()."</h6>";
-														echo "<h6 class='card-title'>Fecha Nacimiento: ".date("d-m-Y", strtotime($pac->getFechanacimiento()))."</h6>";
-														echo "<h6 class='card-title'>Edad: ".$edad." Años</h6>";
+													<?php
+													echo "<h6 class='card-title'>Rut: " . $pac->getRut() . "</h6>";
+													echo "<h6 class='card-title'>Nombre: " . $pac->getNombre() . " " . $pac->getApellido1() . " " . $pac->getApellido2() . "</h6>";
+													echo "<h6 class='card-title'>Fecha Nacimiento: " . date("d-m-Y", strtotime($pac->getFechanacimiento())) . "</h6>";
+													echo "<h6 class='card-title'>Edad: " . $edad . " Años</h6>";
 													?>
 												</div>
 												<div class="col-md-3">
-													<?php 
-														echo "<h6 class='card-title'>Genero: ".$pac->getGenero()."</h6>";
-														echo "<h6 class='card-title'>Nacionalidad: ".$pac->getNacionalidad()."</h6>";
-														echo "<h6 class='card-title'>Estado Civil: ".$pac->getEstadocivil()."</h6>";
-														echo "<h6 class='card-title'>Previsión: ".$inscripcion->getRegistro()." ".$inscripcion->getTipoprevision()."</h6>";
+													<?php
+													echo "<h6 class='card-title'>Genero: " . $pac->getGenero() . "</h6>";
+													echo "<h6 class='card-title'>Nacionalidad: " . $pac->getNacionalidad() . "</h6>";
+													echo "<h6 class='card-title'>Estado Civil: " . $pac->getEstadocivil() . "</h6>";
+													echo "<h6 class='card-title'>Previsión: " . $inscripcion->getRegistro() . " " . $inscripcion->getTipoprevision() . "</h6>";
 													?>
 												</div>
 												<div class="col-md-3">
-													<?php 
-														echo "<h6 class='card-title'>Dirección: ".$datosubicacion->getNombrecalle()." ".$datosubicacion->getNumerocalle().", ".$datosubicacion->getRestodireccion()."</h6>";
-														echo "<h6 class='card-title'>Comuna: ".$datosubicacion->getComuna()."</h6>";
-														echo "<h6 class='card-title'>Región: ".$datosubicacion->getRegion()."</h6>";
-														echo "<h6 class='card-title'>Teléfono: ".$pac->getFonomovil()."</h6>";
+													<?php
+													echo "<h6 class='card-title'>Dirección: " . $datosubicacion->getNombrecalle() . " " . $datosubicacion->getNumerocalle() . ", " . $datosubicacion->getRestodireccion() . "</h6>";
+													echo "<h6 class='card-title'>Comuna: " . $datosubicacion->getComuna() . "</h6>";
+													echo "<h6 class='card-title'>Región: " . $datosubicacion->getRegion() . "</h6>";
+													echo "<h6 class='card-title'>Teléfono: " . $pac->getFonomovil() . "</h6>";
 													?>
 												</div>
 												<div class="col-md-3">
-													<?php 
-														echo "<h6 class='card-title'>Pueblo Originario: ".$otros->getPueblooriginario()."</h6>";
-														echo "<h6 class='card-title'>N° Ficha: ".$inscripcion->getFicha()."</h6>";
-														echo "<h6 class='card-title'>Fecha Admision: ".$inscripcion->getFechaadmision()."</h6>";
-														echo "<h6 class='card-title'>Inscrito En: ".$inscripcion->getInscrito()."</h6>";
+													<?php
+													echo "<h6 class='card-title'>Pueblo Originario: " . $otros->getPueblooriginario() . "</h6>";
+													echo "<h6 class='card-title'>N° Ficha: " . $inscripcion->getFicha() . "</h6>";
+													echo "<h6 class='card-title'>Fecha Admision: " . $inscripcion->getFechaadmision() . "</h6>";
+													echo "<h6 class='card-title'>Inscrito En: " . $inscripcion->getInscrito() . "</h6>";
 													?>
 												</div>
-												
+
 											</div>
 										</div>
 										<div class="col-lg-3 d-flex justify-content-end align-items-center">
@@ -777,591 +824,689 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 											$consultas = $c->listarconsultasatencion($reservaid);
 											$check = $c->validarconsultapaciente($reservaid);
 											if ($check == false) {
-											?>
-												<a href="atencionpaciente.php?p=<?php echo $pacienteid; ?>&r=<?php echo $atencionid; ?>" class="btn btn-success mt-2">Nueva Atención<i class="fe fe-arrow-right ml-2"></i></a>
-											<?php
+												?>
+												<a href="atencionpaciente.php?p=<?php echo $pacienteid; ?>&r=<?php echo $atencionid; ?>"
+													class="btn btn-success mt-2">Nueva Atención<i
+														class="fe fe-arrow-right ml-2"></i></a>
+												<?php
+											}else{
+												if($estadoatencion != 5){
+													echo "<button onclick='finalizaratencion(".$atencionid.")' class='btn btn-danger mt-2'>Finalizar Atención<i class='fe fe-arrow-right ml-2'></i></button>";
+												}
 											}
 											?>
 										</div>
 									</div>
+
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-lg-12">
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
 
-							<div class="row">
-								<div class="col-lg-12">
-									<div class="card">
-										<div class="card-body">
-											<div aria-multiselectable="true" class="accordion" id="accordion" role="tablist">
-												<!--Diagnosticos-->
-												<div class="card">
-													<div class="card-header" id="diagnostic" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#atedia">Atención</a>
-													</div>
-													<div aria-labelledby="diagnostico" class="collapse <?php if (count($consultas) > 0) {
-																											echo 'show';
-																										} ?>" data-parent="#accordion" id="atedia" role="tabpanel">
-														<div class="card-body">
-															<div class="table-responsive">
-																<table class="table w-100" id="example2">
-																	<thead>
-																		<tr>
-																			<th>Fecha</th>
-																			<th>Hora</th>
-																			<th>Folio</th>
-																			<th>Primer Ingreso</th>
-																			<th>Reingreso</th>
-																			<th>Genera Receta</th>
-																			<th class="text-center">Atención</th>
-																			<th class="text-center">Historial</th>
-																			<th class="text-center">Receta</th>
-																			<th class="text-center">Acción</th>
-																		</tr>
-																	</thead>
-																	<tbody>
-																		<?php
-																		if (count($consultas) > 0) {
-																			foreach ($consultas as $consulta) {
-																				$consultaid = $consulta->getId();
-																				echo "<tr>";
-																				echo "<td>" . date("d-m-Y", strtotime($consulta->getRegistro())) . "</td>";
-																				echo "<td>" . date("H:i", strtotime($consulta->getRegistro())) . "</td>";
-																				echo "<td>" . $consulta->getFolio() . "</td>";
-																				if ($consulta->getIngreso() == 1) {
-																					echo "<td>Si</td>";
-																				} else {
-																					echo "<td>No</td>";
-																				}
-																				if ($consulta->getReingreso() == 1) {
-																					echo "<td>Si</td>";
-																				} else {
-																					echo "<td>No</td>";
-																				}
-																				if ($consulta->getReceta() == 1) {
-																					echo "<td>Si</td>";
-																				} else {
-																					echo "<td>No</td>";
-																				}
-																				echo "<td class=' text-center'><a target='_blank' title='Ver Atención' href='php/reporte/consulta.php?c=$consultaid' class='btn btn-outline-primary btn-sm'><i class='fe fe-download'></i></a></td>";
-																				echo "<td class=' text-center'><button class='btn-sm btn btn-outline-primary' title='Historial Atención' onclick='historialatencion(" . $consulta->getFolio() . "," . $consulta->getAtencion() . ")'><i class='fe fe-list'></i></button></td>";
-																				echo "<td class=' text-center'>";
-																				if ($consulta->getReceta() == 1) {
-																					echo "<a title='Generar Receta' href='receta.php?p=$pacienteid&c=$consultaid' class='m-1 btn btn-outline-success btn-sm'><i class='fe fe-file'></i></a>";
-																				} else {
-																					echo "-";
-																				}
-																				echo "</td>";
-																				echo "<td class=' text-center'>";
-																				echo "<a href='atencionpacienteedit.php?id=" . $consulta->getId() . "' class='m-1 btn btn-outline-warning btn-sm'><i class='fe fe-edit'></i></a>";
-																				echo "</td>";
-
-																				echo "</tr>";
-																			}
-																		}
-																		?>
-																	</tbody>
-																</table>
-															</div>
-
-														</div>
-													</div>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-body">
+										<div aria-multiselectable="true" class="accordion" id="accordion"
+											role="tablist">
+											<!--Diagnosticos-->
+											<div class="card">
+												<div class="card-header" id="diagnostic" role="tab">
+													<a aria-controls="collapseTwo" aria-expanded="false"
+														class="collapsed" data-toggle="collapse"
+														href="#atedia">Atención</a>
 												</div>
-												<div class="card">
-													<div class="card-header" id="diagnostic" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#recet">Recetas</a>
-													</div>
-													<div aria-labelledby="diagnostico" class="collapse" data-parent="#accordion" id="recet" role="tabpanel">
-														<div class="card-body">
-															<table class="table w-100 table-bordered table-striped" id="example3">
+												<div aria-labelledby="diagnostico" class="collapse <?php if (count($consultas) > 0) {
+													echo 'show';
+												} ?>" data-parent="#accordion" id="atedia" role="tabpanel">
+													<div class="card-body">
+														<div class="table-responsive">
+															<table class="table w-100" id="example2">
 																<thead>
 																	<tr>
 																		<th>Fecha</th>
-																		<th>Estado</th>
+																		<th>Hora</th>
 																		<th>Folio</th>
-																		<th>Atención</th>
-																		<th class="text-center">Receta</th>
+																		<th>Primer Ingreso</th>
+																		<th>Reingreso</th>
+																		<th>Genera Receta</th>
+																		<th class="text-center">Atención</th>
 																		<th class="text-center">Historial</th>
+																		<th class="text-center">Receta</th>
 																		<th class="text-center">Acción</th>
 																	</tr>
 																</thead>
 																<tbody>
 																	<?php
-																	$recetas = $c->recetalist($pa->getId());
-																	if (count($recetas) > 0) {
-																		foreach ($recetas as $r) {
+																	if (count($consultas) > 0) {
+																		foreach ($consultas as $consulta) {
+																			$consultaid = $consulta->getId();
 																			echo "<tr>";
-																			echo "<td>" . date("d-m-Y", strtotime($r->getFecha())) . "</td>";
-
-																			if ($r->getEstado() == 1) {
-																				echo "<td><span class='badge bg-primary text-white'>Emitida</span></td>";
-																			} else if ($r->getEstado() == 2) {
-																				echo "<td><span class='badge bg-warning'>Editado</span></td>";
-																			} else if ($r->getEstado() == 3) {
-																				echo "<td><span class='badge bg-success text-white'>Aprobada</span></td>";
-																			} else if ($r->getEstado() == 4) {
-																				echo "<td><span class='badge bg-danger text-white'>Rechazada</span></td>";
+																			echo "<td>" . date("d-m-Y", strtotime($consulta->getRegistro())) . "</td>";
+																			echo "<td>" . date("H:i", strtotime($consulta->getRegistro())) . "</td>";
+																			echo "<td>" . $consulta->getFolio() . "</td>";
+																			if ($consulta->getIngreso() == 1) {
+																				echo "<td>Si</td>";
+																			} else {
+																				echo "<td>No</td>";
 																			}
-																			$idreceta = $r->getId();
-																			echo "<td>" . $r->getFolio() . "</td>";
-																			echo "<td>" . $r->getConsulta() . "</td>";
-																			echo "<td class='text-center'><a target='_blank' href='php/reporte/receta.php?r=$idreceta' class='btn-sm btn btn-outline-success'><i class='fe fe-file'></i></a></td>";
-																			echo "<td class='text-center'><button class='btn-sm btn btn-outline-primary' title='Historial Receta' onclick='historialreceta(" . $r->getFolio() . "," . $r->getRegistro() . ")'><i class='fe fe-list'></i></button></td>";
-																			echo "<td class='text-center'>";
-																			if ($r->getEstado() == 4) {
-																				echo "<button class='btn-sm btn btn-outline-danger' title='Ver Motivo Rechazo' onclick='motivorechazo($idreceta)'><i class='fe fe-alert-triangle'></i></button>";
-																				echo "<a href='recetaedit.php?id=$idreceta' title='Editar Receta' class='btn-sm btn btn-outline-warning'><i class='fe fe-edit'></i></a>";
+																			if ($consulta->getReingreso() == 1) {
+																				echo "<td>Si</td>";
+																			} else {
+																				echo "<td>No</td>";
+																			}
+																			if ($consulta->getReceta() == 1) {
+																				echo "<td>Si</td>";
+																			} else {
+																				echo "<td>No</td>";
+																			}
+																			echo "<td class=' text-center'><a target='_blank' title='Ver Atención' href='php/reporte/consulta.php?c=$consultaid' class='btn btn-outline-primary btn-sm'><i class='fe fe-download'></i></a></td>";
+																			echo "<td class=' text-center'><button class='btn-sm btn btn-outline-primary' title='Historial Atención' onclick='historialatencion(" . $consulta->getFolio() . "," . $consulta->getAtencion() . ")'><i class='fe fe-list'></i></button></td>";
+																			echo "<td class=' text-center'>";
+																			if ($consulta->getReceta() == 1) {
+																				echo "<a title='Generar Receta' href='receta.php?p=$pacienteid&c=$consultaid' class='m-1 btn btn-outline-success btn-sm'><i class='fe fe-file'></i></a>";
+																			} else {
+																				echo "-";
 																			}
 																			echo "</td>";
+																			echo "<td class=' text-center'>";
+																			echo "<a href='atencionpacienteedit.php?id=" . $consulta->getId() . "' class='m-1 btn btn-outline-warning btn-sm'><i class='fe fe-edit'></i></a>";
+																			echo "</td>";
+
 																			echo "</tr>";
 																		}
 																	}
 																	?>
-
 																</tbody>
 															</table>
 														</div>
-													</div>
-												</div>
-												<!--Intervenciones Quirurgicas-->
-												<div class="card">
-													<div class="card-header" id="intervencion" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#diagnost">Diagnosticos</a>
-													</div>
-													<div aria-labelledby="intervencion" class="collapse" data-parent="#accordion" id="diagnost" role="tabpanel">
-														<div class="card-body">
-															<table class="table w-100">
-																<thead>
-																	<tr>
-																		<th>Folio</th>
-																		<th>Diagnostico</th>
-																		<th>Fecha</th>
-																		<th>Origen</th>
-																		<th>Rut Profesional</th>
-																		<th>Nombre Profesional</th>
-																		<th>Folio Comité</th>
-																		<th>Tipo Comité</th>
-																		<th>Informe</th>
-																	</tr>
-																</thead>
-															</table>
-														</div>
-													</div>
-												</div>
-												<!--Hospitalizaciones-->
-												<div class="card">
-													<div class="card-header" id="hospitalizacion" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#hospitalizaciones">Quimioterapia</a>
-													</div>
-													<div aria-labelledby="hospitalizacion" class="collapse" data-parent="#accordion" id="hospitalizaciones" role="tabpanel">
-														<div class="card-body">
-															<table class="table w-100">
-																<thead>
-																	<tr>
-																		<th>Fecha</th>
-																		<th>N° Receta</th>
-																		<th>N° Ciclo</th>
-																		<th>Nombre</th>
-																		<th>Esquema</th>
-																		<th>Receta</th>
-																	</tr>
-																</thead>
-																<tbody>
 
-																</tbody>
-															</table>
-														</div>
 													</div>
 												</div>
-												<!--Signos Vitales-->
-												<div class="card">
-													<div class="card-header" id="atencion" role="tab">
-														<a aria-controls="collapseOne" aria-expanded="true" data-toggle="collapse" href="#sig">Signos Vitales</a>
-													</div>
-													<div aria-labelledby="atencion" class="collapse" data-parent="#accordion" id="sig" role="tabpanel">
-														<div class="card-body">
-															<form id="formsignos">
-																<div class="row">
-																	<input type="hidden" name="idpac" value="<?php echo $dipaciente; ?>">
-																	<div class="col-md-1">
-																		<label>F RESP</label>
-																		<input type="number" class="form-control" min="1" id="sfresp" name="sfresp" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>P SIST</label>
-																		<input type="number" class="form-control" min="1" id="spsist" name="spsist" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>P DIAS</label>
-																		<input type="number" class="form-control" min="1" id="spdias" name="spdias" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>% STAT 02</label>
-																		<input type="number" class="form-control" min="1" id="ssat" name="ssat" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>FC</label>
-																		<input type="number" class="form-control" min="1" id="sfc" name="sfc" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>T. AUXILIAR</label>
-																		<input type="number" class="form-control" min="1" id="staux" name="staux" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>T. RECT</label>
-																		<input type="number" class="form-control" min="1" id="strect" name="strect" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>T. OTRA</label>
-																		<input type="text" class="form-control" min="1" id="stotra" name="stotra" required>
-																	</div>
-																	<div class="col-md-1">
-																		<label>HGT</label>
-																		<input type="number" class="form-control" min="1" id="shgt" name="shgt" required step="0.01">
-																	</div>
-																	<input type="hidden" class="form-control" min="0" id="speso" name="speso" required step="0.01" value="0">
-																	<div class="col-md-1 d-flex align-items-end">
-																		<button class="btn btn-outline-success" type="submit"><i class="fa fa-save"></i>
-																			Registrar</button>
-																	</div>
-																</div>
-															</form>
-															<div class="row mt-4">
-																<div class="col-xl-12 col-lg-12 col-md-12">
-																	<div class="card transcation-crypto1" id="transcation-crypto1">
-																		<div class="card-body">
-																			<div class="">
-																				<div class="table-responsive">
-																					<table class="table w-100 text-nowrap" id="">
-																						<thead class="border-top text-center">
-																							<tr>
-																								<th class="bg-transparent">
-																									Fecha</th>
-																								<th class="bg-transparent">
-																									f Resp</th>
-																								<th class="bg-transparent text-center">
-																									P. Sist</th>
-																								<th class="bg-transparent text-center">
-																									P. Dias</th>
-																								<th class="bg-transparent text-center">
-																									% Sat 02</th>
-																								<th class="bg-transparent text-center">
-																									FC</th>
-																								<th class="bg-transparent text-center">
-																									T. Axilar</th>
-																								<th class="bg-transparent text-center">
-																									T. Rect</th>
-																								<th class="bg-transparent text-center">
-																									T. Otra</th>
-																								<th class="bg-transparent text-center">
-																									HGT</th>
-																								<th class="bg-transparent text-center">
-																									PESO</th>
-																								<th class="bg-transparent text-center">
-																									ID</th>
-																							</tr>
-																						</thead>
-																						<input type="hidden" id="pacienteid" value="<?php echo $pa->getId(); ?>">
-																						<tbody class="text-center" id="signos">
-																						</tbody>
-																					</table>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
+											</div>
+											<div class="card">
+												<div class="card-header" id="diagnostic" role="tab">
+													<a aria-controls="collapseTwo" aria-expanded="false"
+														class="collapsed" data-toggle="collapse"
+														href="#recet">Recetas</a>
 												</div>
-												<!--Medidas Antropometricas-->
-												<div class="card">
-													<div class="card-header" id="atros" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#atro">Antropométrica</a>
-													</div>
-													<div aria-labelledby="procedimiento" class="collapse" data-parent="#accordion" id="atro" role="tabpanel">
-														<div class="card-body">
-															<!--Row-->
-															<form id="formmedidas">
-																<div class="row">
-																	<input type="hidden" name="idpac" value="<?php echo $pa->getId(); ?>">
-																	<div class="col-md-1">
-																		<label>Peso</label>
-																		<!--Valores Hasta con 2 decimales-->
-																		<input type="number" class="form-control" min="1" id="peso" name="peso" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>Estatura</label>
-																		<input type="number" class="form-control" min="1" id="estatura" name="estatura" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>PCe/E</label>
-																		<input type="number" class="form-control" min="1" id="pce" name="pce" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>P/E</label>
-																		<select type="number" class="form-control" id="pe" name="pe" required>
-																			<option value="1">Normal</option>
-																			<option value="2">Desnutrición</option>
-																			<option value="3">Sobrepeso</option>
-																			<option value="4">Obesidad</option>
-																		</select>
-																	</div>
-																	<div class="col-md-1">
-																		<label>P/T</label>
-																		<select type="number" class="form-control" id="pt" name="pt" required>
-																			<option value="1">Normal</option>
-																			<option value="2">Desnutrición</option>
-																			<option value="3">Sobrepeso</option>
-																			<option value="4">Obesidad</option>
-																		</select>
-																	</div>
-																	<div class="col-md-1">
-																		<label>T/E</label>
-																		<select type="number" class="form-control" id="te" name="te" required>
-																			<option value="1">Normal</option>
-																			<option value="2">Desnutrición</option>
-																			<option value="3">Sobrepeso</option>
-																			<option value="4">Obesidad</option>
-																		</select>
-																	</div>
-																	<div class="col-md-1">
-																		<label>IMC</label>
-																		<input type="number" class="form-control" min="1" id="imc" name="imc" required step="0.01">
-																	</div>
-																	<div class="col-md-1">
-																		<label>Clasif. IMC</label>
-																		<input type="text" class="form-control" min="1" id="clasifimc" name="clasifimc" required>
-																	</div>
-																	<div class="col-md-1">
-																		<label>PC/E</label>
-																		<input type="number" class="form-control" min="1" id="pc" name="pc" required step="0.01">
-																	</div>
-																	<div class="col-md-2">
-																		<label>Clasif P.Cintura</label>
-																		<select type="number" class="form-control" id="cpc" name="cpc" required>
-																			<option value="1">Normal</option>
-																			<option value="2">Riesgo Obésidad abdominal
-																			</option>
-																			<option value="3">Obesidad abdominal
-																			</option>
-																		</select>
-																	</div>
-																	<div class="col-md-1 d-flex align-items-end">
-																		<button class="btn btn-outline-success" type="submit"><i class="fa fa-save"></i>
-																			Registrar</button>
-																	</div>
-																</div>
-															</form>
-															<div class="row mt-4">
-																<div class="col-xl-12 col-lg-12 col-md-12">
-																	<div class="card transcation-crypto1" id="transcation-crypto1">
-																		<div class="card-body">
-																			<div class="">
-																				<div class="table-responsive">
-																					<table class="table w-100 text-nowrap" id="">
-																						<thead class="border-top text-center">
-																							<tr>
-																								<th class="bg-transparent">
-																									Fecha</th>
-																								<th class="bg-transparent">
-																									peso</th>
-																								<th class="bg-transparent text-center">
-																									Estatura</th>
-																								<th class="bg-transparent text-center">
-																									PCe/e</th>
-																								<th class="bg-transparent text-center">
-																									P/E</th>
-																								<th class="bg-transparent text-center">
-																									P/T</th>
-																								<th class="bg-transparent text-center">
-																									T/E</th>
-																								<th class="bg-transparent text-center">
-																									IMC</th>
-																								<th class="bg-transparent text-center">
-																									Clasif. IMC</th>
-																								<th class="bg-transparent text-center">
-																									PC/E</th>
-																								<th class="bg-transparent text-center">
-																									Clasif P. Cintura
-																								</th>
-																								<th class="bg-transparent text-center">
-																									ID</th>
-																							</tr>
-																						</thead>
-																						<tbody class="text-center" id="medidas">
+												<div aria-labelledby="diagnostico" class="collapse"
+													data-parent="#accordion" id="recet" role="tabpanel">
+													<div class="card-body">
+														<table class="table w-100 table-bordered table-striped"
+															id="example3">
+															<thead>
+																<tr>
+																	<th>Fecha</th>
+																	<th>Estado</th>
+																	<th>Folio</th>
+																	<th>Atención</th>
+																	<th class="text-center">Receta</th>
+																	<th class="text-center">Historial</th>
+																	<th class="text-center">Acción</th>
+																</tr>
+															</thead>
+															<tbody>
+																<?php
+																$recetas = $c->recetalist($pa->getId());
+																if (count($recetas) > 0) {
+																	foreach ($recetas as $r) {
+																		echo "<tr>";
+																		echo "<td>" . date("d-m-Y", strtotime($r->getFecha())) . "</td>";
 
-																						</tbody>
-																					</table>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
+																		if ($r->getEstado() == 1) {
+																			echo "<td><span class='badge bg-primary text-white'>Emitida</span></td>";
+																		} else if ($r->getEstado() == 2) {
+																			echo "<td><span class='badge bg-warning'>Editado</span></td>";
+																		} else if ($r->getEstado() == 3) {
+																			echo "<td><span class='badge bg-success text-white'>Aprobada</span></td>";
+																		} else if ($r->getEstado() == 4) {
+																			echo "<td><span class='badge bg-danger text-white'>Rechazada</span></td>";
+																		}
+																		$idreceta = $r->getId();
+																		echo "<td>" . $r->getFolio() . "</td>";
+																		echo "<td>" . $r->getConsulta() . "</td>";
+																		echo "<td class='text-center'><a target='_blank' href='php/reporte/receta.php?r=$idreceta' class='btn-sm btn btn-outline-success'><i class='fe fe-file'></i></a></td>";
+																		echo "<td class='text-center'><button class='btn-sm btn btn-outline-primary' title='Historial Receta' onclick='historialreceta(" . $r->getFolio() . "," . $r->getRegistro() . ")'><i class='fe fe-list'></i></button></td>";
+																		echo "<td class='text-center'>";
+																		if ($r->getEstado() == 4) {
+																			echo "<button class='btn-sm btn btn-outline-danger' title='Ver Motivo Rechazo' onclick='motivorechazo($idreceta)'><i class='fe fe-alert-triangle'></i></button>";
+																			echo "<a href='recetaedit.php?id=$idreceta' title='Editar Receta' class='btn-sm btn btn-outline-warning'><i class='fe fe-edit'></i></a>";
+																		}
+																		echo "</td>";
+																		echo "</tr>";
+																	}
+																}
+																?>
+
+															</tbody>
+														</table>
 													</div>
 												</div>
-												<!--Historial Clinico-->
-												<div class="card">
-													<div class="card-header" id="interconsulta" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#histo">Historial Clinico</a>
+											</div>
+											<!--Intervenciones Quirurgicas-->
+											<div class="card">
+												<div class="card-header" id="intervencion" role="tab">
+													<a aria-controls="collapseTwo" aria-expanded="false"
+														class="collapsed" data-toggle="collapse"
+														href="#diagnost">Diagnosticos</a>
+												</div>
+												<div aria-labelledby="intervencion" class="collapse"
+													data-parent="#accordion" id="diagnost" role="tabpanel">
+													<div class="card-body">
+														<table class="table w-100">
+															<thead>
+																<tr>
+																	<th>Folio</th>
+																	<th>Diagnostico</th>
+																	<th>Fecha</th>
+																	<th>Origen</th>
+																	<th>Rut Profesional</th>
+																	<th>Nombre Profesional</th>
+																	<th>Folio Comité</th>
+																	<th>Tipo Comité</th>
+																	<th>Informe</th>
+																</tr>
+															</thead>
+														</table>
 													</div>
-													<div aria-labelledby="interconsulta" class="collapse" data-parent="#accordion" id="histo" role="tabpanel">
-														<div class="card-body">
+												</div>
+											</div>
+											<!--Hospitalizaciones-->
+											<div class="card">
+												<div class="card-header" id="hospitalizacion" role="tab">
+													<a aria-controls="collapseTwo" aria-expanded="false"
+														class="collapsed" data-toggle="collapse"
+														href="#hospitalizaciones">Quimioterapia</a>
+												</div>
+												<div aria-labelledby="hospitalizacion" class="collapse"
+													data-parent="#accordion" id="hospitalizaciones" role="tabpanel">
+													<div class="card-body">
+														<table class="table w-100">
+															<thead>
+																<tr>
+																	<th>Fecha</th>
+																	<th>N° Receta</th>
+																	<th>N° Ciclo</th>
+																	<th>Nombre</th>
+																	<th>Esquema</th>
+																	<th>Receta</th>
+																</tr>
+															</thead>
+															<tbody>
+
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<!--Signos Vitales-->
+											<div class="card">
+												<div class="card-header" id="atencion" role="tab">
+													<a aria-controls="collapseOne" aria-expanded="true"
+														data-toggle="collapse" href="#sig">Signos Vitales</a>
+												</div>
+												<div aria-labelledby="atencion" class="collapse"
+													data-parent="#accordion" id="sig" role="tabpanel">
+													<div class="card-body">
+														<form id="formsignos">
 															<div class="row">
-																<div class="col-xl-12 col-lg-12 col-md-12">
-																	<div class="card transcation-crypto1" id="transcation-crypto1">
-																		<div class="card-body">
-																			<div class="">
-																				<div class="table-responsive">
-																					<table class="table w-100 text-nowrap" id="example1">
-																						<thead class="border-top text-center">
-																							<tr>
-																								<th class="bg-transparent">
-																									Estado de Atencion
-																								</th>
-																								<th class="bg-transparent">
-																									Fecha Cita</th>
-																								<th class="bg-transparent text-center">
-																									Fecha Registro</th>
-																								<th class="bg-transparent text-center">
-																									Profesional</th>
-																								<th class="bg-transparent text-center">
-																									Atención</th>
-																								<th class="bg-transparent text-center">
-																									Detalle</th>
-																								<th class="bg-transparent text-center">
-																									Reporte</th>
-																							</tr>
-																						</thead>
-																						<tbody class="text-center">
-																							<?php
-																							$atenciones = $c->buscarreservaspaciente($pa->getId());
-																							foreach ($atenciones as $at) {
-																								echo "<tr>";
-																								if ($at->getEstado() == 1) {
-																									//Pendiente Atencion
-																									echo "<td class='bg-transparent'><span class='badge badge-warning'><i class='fa fa-clock-o'></i> Pendiente</span></td>";
-																								} else if ($at->getEstado() == 2) {
-																									//Confirmado
-																									echo "<td class='bg-transparent'><span class='badge badge-success'><i class='fa fa-check'></i> Confirmado</span></td>";
-																								} else if ($at->getEstado() == 3) {
-																									//En Sala de Espera
-																									echo "<td class='bg-transparent'><span class='badge badge-info'><i class='fa fa-clock-o'></i> En Sala de Espera</span></td>";
-																								} else if ($at->getEstado() == 5) {
-																									//Atendido
-																									echo "<td class='bg-transparent'><span class='badge badge-success'><i class='fa fa-user-check'></i>Atendido</span></td>";
-																								} else if ($at->getEstado() == 7) {
-																									//Paciente no se Presenta
-																									echo "<td class='bg-transparent'><span class='badge badge-danger'><i class='fa fa-clock-o'></i> Paciente no se Presenta</span></td>";
-																								} else {
-																									//Cancelado
-																									echo "<td class='bg-transparent'><span class='badge badge-danger'><i class='fa fa-clock-o'></i> Cancelado</span></td>";
-																								}
-																								echo "<td class='bg-transparent'>" . $at->getFecha() . "</td>";
-																								echo "<td class='bg-transparent text-center'>" . $at->getRegistro() . "</td>";
-																								echo "<td class='bg-transparent text-center'>" . $at->getProfesional() . "</td>";
-																								echo "<td class='bg-transparent text-center'><a href='atencion.php?id=" . $at->getId() . "'><i class='fa fa-eye'></i></a></td>";
-																								echo "<td class='bg-transparent text-center'><a href='reporte.php?id=" . $at->getId() . "'><i class='fa fa-eye'></i></a></td>";
-																								echo "<td class='bg-transparent text-center'><a href='reporte.php?id=" . $at->getId() . "'><i class='fa fa-file-pdf-o'></i></a></td>";
-
-																								echo "</tr>";
-																							}
-																							?>
-
-																						</tbody>
-																					</table>
-																				</div>
+																<input type="hidden" name="idpac"
+																	value="<?php echo $dipaciente; ?>">
+																<div class="col-md-1">
+																	<label>F RESP</label>
+																	<input type="number" class="form-control" min="1"
+																		id="sfresp" name="sfresp" required step="0.01">
+																</div>
+																<div class="col-md-1">
+																	<label>P SIST</label>
+																	<input type="number" class="form-control" min="1"
+																		id="spsist" name="spsist" required step="0.01">
+																</div>
+																<div class="col-md-1">
+																	<label>P DIAS</label>
+																	<input type="number" class="form-control" min="1"
+																		id="spdias" name="spdias" required step="0.01">
+																</div>
+																<div class="col-md-1">
+																	<label>% STAT 02</label>
+																	<input type="number" class="form-control" min="1"
+																		id="ssat" name="ssat" required step="0.01">
+																</div>
+																<div class="col-md-1">
+																	<label>FC</label>
+																	<input type="number" class="form-control" min="1"
+																		id="sfc" name="sfc" required step="0.01">
+																</div>
+																<div class="col-md-1">
+																	<label>T. AUXILIAR</label>
+																	<input type="number" class="form-control" min="1"
+																		id="staux" name="staux" required step="0.01">
+																</div>
+																<div class="col-md-1">
+																	<label>T. RECT</label>
+																	<input type="number" class="form-control" min="1"
+																		id="strect" name="strect" required step="0.01">
+																</div>
+																<div class="col-md-1">
+																	<label>T. OTRA</label>
+																	<input type="text" class="form-control" min="1"
+																		id="stotra" name="stotra" required>
+																</div>
+																<div class="col-md-1">
+																	<label>HGT</label>
+																	<input type="number" class="form-control" min="1"
+																		id="shgt" name="shgt" required step="0.01">
+																</div>
+																<input type="hidden" class="form-control" min="0"
+																	id="speso" name="speso" required step="0.01"
+																	value="0">
+																<div class="col-md-1 d-flex align-items-end">
+																	<button class="btn btn-outline-success"
+																		type="submit"><i class="fa fa-save"></i>
+																		Registrar</button>
+																</div>
+															</div>
+														</form>
+														<div class="row mt-4">
+															<div class="col-xl-12 col-lg-12 col-md-12">
+																<div class="card transcation-crypto1"
+																	id="transcation-crypto1">
+																	<div class="card-body">
+																		<div class="">
+																			<div class="table-responsive">
+																				<table class="table w-100 text-nowrap"
+																					id="">
+																					<thead
+																						class="border-top text-center">
+																						<tr>
+																							<th class="bg-transparent">
+																								Fecha</th>
+																							<th class="bg-transparent">
+																								f Resp</th>
+																							<th
+																								class="bg-transparent text-center">
+																								P. Sist</th>
+																							<th
+																								class="bg-transparent text-center">
+																								P. Dias</th>
+																							<th
+																								class="bg-transparent text-center">
+																								% Sat 02</th>
+																							<th
+																								class="bg-transparent text-center">
+																								FC</th>
+																							<th
+																								class="bg-transparent text-center">
+																								T. Axilar</th>
+																							<th
+																								class="bg-transparent text-center">
+																								T. Rect</th>
+																							<th
+																								class="bg-transparent text-center">
+																								T. Otra</th>
+																							<th
+																								class="bg-transparent text-center">
+																								HGT</th>
+																							<th
+																								class="bg-transparent text-center">
+																								PESO</th>
+																							<th
+																								class="bg-transparent text-center">
+																								ID</th>
+																						</tr>
+																					</thead>
+																					<input type="hidden" id="pacienteid"
+																						value="<?php echo $pa->getId(); ?>">
+																					<tbody class="text-center"
+																						id="signos">
+																					</tbody>
+																				</table>
 																			</div>
 																		</div>
 																	</div>
-																</div><!-- COL END -->
+																</div>
 															</div>
 														</div>
 													</div>
 												</div>
+											</div>
+											<!--Medidas Antropometricas-->
+											<div class="card">
+												<div class="card-header" id="atros" role="tab">
+													<a aria-controls="collapseTwo" aria-expanded="false"
+														class="collapsed" data-toggle="collapse"
+														href="#atro">Antropométrica</a>
+												</div>
+												<div aria-labelledby="procedimiento" class="collapse"
+													data-parent="#accordion" id="atro" role="tabpanel">
+													<div class="card-body">
+														<!--Row-->
+														<form id="formmedidas">
+															<div class="row">
+																<input type="hidden" name="idpac"
+																	value="<?php echo $pa->getId(); ?>">
+																<div class="col-md-1">
+																	<label>Peso</label>
+																	<!--Valores Hasta con 2 decimales-->
+																	<input type="number" class="form-control" min="1"
+																		id="peso" name="peso" required step="0.01">
+																</div>
+																<div class="col-md-1">
+																	<label>Estatura</label>
+																	<input type="number" class="form-control" min="1"
+																		id="estatura" name="estatura" required
+																		step="0.01">
+																</div>
+																<div class="col-md-1">
+																	<label>PCe/E</label>
+																	<input type="number" class="form-control" min="1"
+																		id="pce" name="pce" required step="0.01">
+																</div>
+																<div class="col-md-1">
+																	<label>P/E</label>
+																	<select type="number" class="form-control" id="pe"
+																		name="pe" required>
+																		<option value="1">Normal</option>
+																		<option value="2">Desnutrición</option>
+																		<option value="3">Sobrepeso</option>
+																		<option value="4">Obesidad</option>
+																	</select>
+																</div>
+																<div class="col-md-1">
+																	<label>P/T</label>
+																	<select type="number" class="form-control" id="pt"
+																		name="pt" required>
+																		<option value="1">Normal</option>
+																		<option value="2">Desnutrición</option>
+																		<option value="3">Sobrepeso</option>
+																		<option value="4">Obesidad</option>
+																	</select>
+																</div>
+																<div class="col-md-1">
+																	<label>T/E</label>
+																	<select type="number" class="form-control" id="te"
+																		name="te" required>
+																		<option value="1">Normal</option>
+																		<option value="2">Desnutrición</option>
+																		<option value="3">Sobrepeso</option>
+																		<option value="4">Obesidad</option>
+																	</select>
+																</div>
+																<div class="col-md-1">
+																	<label>IMC</label>
+																	<input type="number" class="form-control" min="1"
+																		id="imc" name="imc" required step="0.01">
+																</div>
+																<div class="col-md-1">
+																	<label>Clasif. IMC</label>
+																	<input type="text" class="form-control" min="1"
+																		id="clasifimc" name="clasifimc" required>
+																</div>
+																<div class="col-md-1">
+																	<label>PC/E</label>
+																	<input type="number" class="form-control" min="1"
+																		id="pc" name="pc" required step="0.01">
+																</div>
+																<div class="col-md-2">
+																	<label>Clasif P.Cintura</label>
+																	<select type="number" class="form-control" id="cpc"
+																		name="cpc" required>
+																		<option value="1">Normal</option>
+																		<option value="2">Riesgo Obésidad abdominal
+																		</option>
+																		<option value="3">Obesidad abdominal
+																		</option>
+																	</select>
+																</div>
+																<div class="col-md-1 d-flex align-items-end">
+																	<button class="btn btn-outline-success"
+																		type="submit"><i class="fa fa-save"></i>
+																		Registrar</button>
+																</div>
+															</div>
+														</form>
+														<div class="row mt-4">
+															<div class="col-xl-12 col-lg-12 col-md-12">
+																<div class="card transcation-crypto1"
+																	id="transcation-crypto1">
+																	<div class="card-body">
+																		<div class="">
+																			<div class="table-responsive">
+																				<table class="table w-100 text-nowrap"
+																					id="">
+																					<thead
+																						class="border-top text-center">
+																						<tr>
+																							<th class="bg-transparent">
+																								Fecha</th>
+																							<th class="bg-transparent">
+																								peso</th>
+																							<th
+																								class="bg-transparent text-center">
+																								Estatura</th>
+																							<th
+																								class="bg-transparent text-center">
+																								PCe/e</th>
+																							<th
+																								class="bg-transparent text-center">
+																								P/E</th>
+																							<th
+																								class="bg-transparent text-center">
+																								P/T</th>
+																							<th
+																								class="bg-transparent text-center">
+																								T/E</th>
+																							<th
+																								class="bg-transparent text-center">
+																								IMC</th>
+																							<th
+																								class="bg-transparent text-center">
+																								Clasif. IMC</th>
+																							<th
+																								class="bg-transparent text-center">
+																								PC/E</th>
+																							<th
+																								class="bg-transparent text-center">
+																								Clasif P. Cintura
+																							</th>
+																							<th
+																								class="bg-transparent text-center">
+																								ID</th>
+																						</tr>
+																					</thead>
+																					<tbody class="text-center"
+																						id="medidas">
 
-												<!--Adjuntos-->
-												<div class="card">
-													<div class="card-header" id="medicamento" role="tab">
-														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#medicamentos">Archivos Adjuntos</a>
-													</div>
-													<div aria-labelledby="medicamento" class="collapse" data-parent="#accordion" id="medicamentos" role="tabpanel">
-														<div class="card-body">
-															Informacion Aqui
+																					</tbody>
+																				</table>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
 														</div>
 													</div>
 												</div>
-											</div><!-- accordion -->
-										</div>
+											</div>
+											<!--Historial Clinico-->
+											<div class="card">
+												<div class="card-header" id="interconsulta" role="tab">
+													<a aria-controls="collapseTwo" aria-expanded="false"
+														class="collapsed" data-toggle="collapse" href="#histo">Historial
+														Clinico</a>
+												</div>
+												<div aria-labelledby="interconsulta" class="collapse"
+													data-parent="#accordion" id="histo" role="tabpanel">
+													<div class="card-body">
+														<div class="row">
+															<div class="col-xl-12 col-lg-12 col-md-12">
+																<div class="card transcation-crypto1"
+																	id="transcation-crypto1">
+																	<div class="card-body">
+																		<div class="">
+																			<div class="table-responsive">
+																				<table class="table w-100 text-nowrap"
+																					id="example1">
+																					<thead
+																						class="border-top text-center">
+																						<tr>
+																							<th class="bg-transparent">
+																								Estado de Atencion
+																							</th>
+																							<th class="bg-transparent">
+																								Fecha Cita</th>
+																							<th
+																								class="bg-transparent text-center">
+																								Fecha Registro</th>
+																							<th
+																								class="bg-transparent text-center">
+																								Profesional</th>
+																							<th
+																								class="bg-transparent text-center">
+																								Atención</th>
+																							<th
+																								class="bg-transparent text-center">
+																								Detalle</th>
+																							<th
+																								class="bg-transparent text-center">
+																								Reporte</th>
+																						</tr>
+																					</thead>
+																					<tbody class="text-center">
+																						<?php
+																						$atenciones = $c->buscarreservaspaciente($pa->getId());
+																						foreach ($atenciones as $at) {
+																							echo "<tr>";
+																							if ($at->getEstado() == 1) {
+																								//Pendiente Atencion
+																								echo "<td class='bg-transparent'><span class='badge badge-warning'><i class='fa fa-clock-o'></i> Pendiente</span></td>";
+																							} else if ($at->getEstado() == 2) {
+																								//Confirmado
+																								echo "<td class='bg-transparent'><span class='badge badge-success'><i class='fa fa-check'></i> Confirmado</span></td>";
+																							} else if ($at->getEstado() == 3) {
+																								//En Sala de Espera
+																								echo "<td class='bg-transparent'><span class='badge badge-info'><i class='fa fa-clock-o'></i> En Sala de Espera</span></td>";
+																							} else if ($at->getEstado() == 5) {
+																								//Atendido
+																								echo "<td class='bg-transparent'><span class='badge badge-success'><i class='fa fa-user-check'></i>Atendido</span></td>";
+																							} else if ($at->getEstado() == 7) {
+																								//Paciente no se Presenta
+																								echo "<td class='bg-transparent'><span class='badge badge-danger'><i class='fa fa-clock-o'></i> Paciente no se Presenta</span></td>";
+																							} else {
+																								//Cancelado
+																								echo "<td class='bg-transparent'><span class='badge badge-danger'><i class='fa fa-clock-o'></i> Cancelado</span></td>";
+																							}
+																							echo "<td class='bg-transparent'>" . $at->getFecha() . "</td>";
+																							echo "<td class='bg-transparent text-center'>" . $at->getRegistro() . "</td>";
+																							echo "<td class='bg-transparent text-center'>" . $at->getProfesional() . "</td>";
+																							echo "<td class='bg-transparent text-center'><a href='atencion.php?id=" . $at->getId() . "'><i class='fa fa-eye'></i></a></td>";
+																							echo "<td class='bg-transparent text-center'><a href='reporte.php?id=" . $at->getId() . "'><i class='fa fa-eye'></i></a></td>";
+																							echo "<td class='bg-transparent text-center'><a href='reporte.php?id=" . $at->getId() . "'><i class='fa fa-file-pdf-o'></i></a></td>";
+
+																							echo "</tr>";
+																						}
+																						?>
+
+																					</tbody>
+																				</table>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div><!-- COL END -->
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<!--Adjuntos-->
+											<div class="card">
+												<div class="card-header" id="medicamento" role="tab">
+													<a aria-controls="collapseTwo" aria-expanded="false"
+														class="collapsed" data-toggle="collapse"
+														href="#medicamentos">Archivos Adjuntos</a>
+												</div>
+												<div aria-labelledby="medicamento" class="collapse"
+													data-parent="#accordion" id="medicamentos" role="tabpanel">
+													<div class="card-body">
+														Informacion Aqui
+													</div>
+												</div>
+											</div>
+										</div><!-- accordion -->
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+				</div>
 
+			</div>
+		</div>
+	</div>
+	<!-- End Main Content-->
+
+	<!-- Main Footer-->
+	<div class="main-footer text-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<span>Copyright © 2022 - KaiserTech Todos los derechos reservados.</span>
 				</div>
 			</div>
 		</div>
-		<!-- End Main Content-->
+	</div>
 
-		<!-- Main Footer-->
-		<div class="main-footer text-center">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<span>Copyright © 2022 - KaiserTech Todos los derechos reservados.</span>
-					</div>
+	<div class="modal" id="modalrechazo">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content modal-content-demo">
+				<div class="modal-header">
+					<h6 class="modal-title">Rechazo Receta</h6><button aria-label="Close" class="close"
+						data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="rechazocontent"></div>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<div class="modal" id="modalrechazo">
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content modal-content-demo">
-					<div class="modal-header">
-						<h6 class="modal-title">Rechazo Receta</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-					</div>
-					<div class="modal-body">
-						<div class="rechazocontent"></div>
-					</div>
+	<div class="modal" id="modalhistorial">
+		<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+			<div class="modal-content modal-content-demo">
+				<div class="modal-header">
+					<h6 class="modal-title">Historial Receta</h6><button aria-label="Close" class="close"
+						data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 				</div>
-			</div>
-		</div>
+				<div class="modal-body">
+					<div class="historialcontent">
 
-		<div class="modal" id="modalhistorial">
-			<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-				<div class="modal-content modal-content-demo">
-					<div class="modal-header">
-						<h6 class="modal-title">Historial Receta</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-					</div>
-					<div class="modal-body">
-						<div class="historialcontent">
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="modal" id="modalhistorialatencion">
-			<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-				<div class="modal-content modal-content-demo">
-					<div class="modal-header">
-						<h6 class="modal-title">Historial Atención</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-					</div>
-					<div class="modal-body">
-						<div class="historialatencioncontent">
-
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!--End Footer-->
+	</div>
+
+	<div class="modal" id="modalhistorialatencion">
+		<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+			<div class="modal-content modal-content-demo">
+				<div class="modal-header">
+					<h6 class="modal-title">Historial Atención</h6><button aria-label="Close" class="close"
+						data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="historialatencioncontent">
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--End Footer-->
 	</div>
 	<!-- End Page -->
 
@@ -1420,7 +1565,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 	<script src="JsFunctions/recetasemitidas.js"></script>
 	<script>
 		//Cargar Tabla
-		$(document).ready(function() {
+		$(document).ready(function () {
 			cargarsignos();
 			cargarmedidas();
 		});

@@ -898,13 +898,13 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                             <div class="row">
                                 <div class="col-md-8">
                                     <label for="">Fecha:</label>
-                                    <input type="date" class="form-control" id="datecalendar" value="">
+                                    <input type="date" class="form-control" id="datecalendar1" value="">
                                 </div>
                                 <div class="col-md-4 d-flex align-items-end">
-                                    <button type="button" id="adddate" class="btn btn-outline-success"> <i class="fa fa-plus"></i> Agregar</button>
+                                    <button type="button" id="adddate1" class="btn btn-outline-success"> <i class="fa fa-plus"></i> Agregar</button>
                                 </div>
                             </div>
-                            <div id="dateprint">
+                            <div id="dateprint1">
                             </div>
                             <hr>
                             <div class="form-group">
@@ -914,10 +914,10 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                                 <label class="tx-13 mg-b-5 tx-gray-600">Hora de Inicio y Termino</label>
                                 <div class="row row-xs">
                                     <div class="col-6">
-                                        <input type="time" class="form-control" id="mainEventStartTime2">
+                                        <input type="time" class="form-control" id="mainEventStartTime4">
                                     </div><!-- col-7 -->
                                     <div class="col-5">
-                                        <input type="time" class="form-control" id="EventEndTime2">
+                                        <input type="time" class="form-control" id="EventEndTime4">
                                     </div>
                                 </div>
                             </div>
@@ -930,17 +930,17 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                                 <label class="tx-13 mg-b-5 tx-gray-600">Hora de Inicio y Termino</label>
                                 <div class="row row-xs">
                                     <div class="col-6">
-                                        <input type="time" class="form-control" id="mainEventStartTime3">
+                                        <input type="time" class="form-control" id="mainEventStartTime5">
                                     </div><!-- col-7 -->
                                     <div class="col-5">
-                                        <input type="time" class="form-control" id="EventEndTime3">
+                                        <input type="time" class="form-control" id="EventEndTime5">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="">Intervalo de Atención</label>
-                                    <select name="intervalo2" id="intervalo2" class="form-control">
+                                    <select name="intervalo3" id="intervalo3" class="form-control">
                                         <option value="10">10 Minutos</option>
                                         <option value="15">15 Minutos</option>
                                         <option value="20">20 Minutos</option>

@@ -2,15 +2,19 @@
 require '../controller.php';
 $c = new Controller();
 $id = $_POST['id'];
+if($id<=0){
+    $id = 0;
+}
 $medidasant = $c->listarmedicamentosesquemas($id);
 $carbo = $c->buscarcarboplatino($id);
 if($carbo == true){
+    echo "<div class='table-responsive'>";
     echo "<table class='table table-bordered mt-4'>";
     echo "<tr>";
     echo "<th></th>";
     echo "<th>Medicamento</th>";
     echo "<th class='text-center'>%</th>";
-    echo "<th>DOSIS MG</th>";
+    echo "<th>DOSIS MG ESQUEMA</th>";
     echo "<th>CARBOPLATINO</th>";
     echo "<th>DOSIS TOTAL MG</th>";
     echo "<th>ORAL</th>";
@@ -42,7 +46,7 @@ if($carbo == true){
             echo "</select>";
             echo "</td>";
 
-            echo "<td class='m-0'><input type='number' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedicion() . "'></td>";
+            echo "<td class='m-0'><input type='number' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' value='" . $medicamento->getDosis() . "'></td>";
             echo "<td class='m-0'><input type='number' class='form-control' name='carboplatino" . $medicamento->getId() . "' id='carboplatino" . $medicamento->getId() . "' ></td>";
             echo "<td class='m-0'><input type='number' name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG'></td>";
             echo "<td class='m-0'><input type='checkbox' name='oral" . $medicamento->getId() . "' id='oral" . $medicamento->getId() . "' value='1'></td>";
@@ -60,14 +64,16 @@ if($carbo == true){
     }
     echo "</tbody>";
     echo "</table>";
+    echo "</div>";
 
 }else{
+    echo "<div class='table-responsive'>";
     echo "<table class='table table-bordered'>";
     echo "<tr>";
     echo "<th></th>";
     echo "<th>Medicamento</th>";
     echo "<th class='text-center'>%</th>";
-    echo "<th>DOSIS MG</th>";
+    echo "<th>DOSIS MG ESQUEMA</th>";
     echo "<th>DOSIS TOTAL MG</th>";
     echo "<th>ORAL</th>";
     echo "<th>EV</th>";
@@ -98,7 +104,7 @@ if($carbo == true){
             echo "</select>";
             echo "</td>";
 
-            echo "<td class='m-0'><input type='number' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedicion() . "'></td>";
+            echo "<td class='m-0'><input type='number' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' value='" . $medicamento->getDosis() . "'></td>";
             echo "<td class='m-0'><input type='number' name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG'></td>";
             echo "<td class='m-0'><input type='checkbox' name='oral" . $medicamento->getId() . "' id='oral" . $medicamento->getId() . "' value='1'></td>";
             echo "<td class='m-0'><input type='checkbox' name='ev" . $medicamento->getId() . "' id='ev" . $medicamento->getId() . "' value='1'></td>";

@@ -837,17 +837,37 @@ create table horarios(
 
 alter table horarios add column tipohorario int not null default 1 after disponibilidad;
 
+create table estadoatencion(
+    id int not null auto_increment primary key,
+    tipo int not null,
+    nombre varchar(200) not null
+);
+
+insert into estadoatencion values(1,1,"Reservada");
+insert into estadoatencion values(2,1,"Confirmada");
+insert into estadoatencion values(3,1,"En sala de espera");
+insert into estadoatencion values(4,2,"En Atención");
+insert into estadoatencion values(5,2,"Atendido(a)");
+insert into estadoatencion values(6,1,"Cancela Reserva");
+insert into estadoatencion values(7,0,"Paciente no asiste");
+
+
+
 create table atenciones(
     id int not null auto_increment primary key,
     paciente int not null references pacientes(id),
     horario int not null references horarios(id),
     observacion text null,
-    estado int not null default 1,
+    estado int not null default 1 references estadoatencion(id),
     horainicioespera time null,
+    horafinespera time null,
+    horafinatencion time null,
     registro datetime not null default current_timestamp
 );
 
 alter table atenciones add column horainicioespera time null after estado;
+alter table atenciones add column horafinespera time null after horainicioespera;
+alter table atenciones add column horafinatencion time null after horafinespera;
 
 create table historialestado(
     id int not null auto_increment primary key,
@@ -1119,6 +1139,9 @@ create table recetas(
     registro datetime not null default current_timestamp
 );
 
+alter table recetas add column otrocor int not null default 0 after alergias;
+alter table recetas add column otrcormo text null after detallealergias;
+
 alter table recetas add column estadoorden int not null default 1 after estado;
 
 create table recetapremedicacion(
@@ -1154,7 +1177,7 @@ create table estimulador(
     receta int not null references recetas(id),
     nombre varchar(200) not null,
     cantidad int not null,
-    rangodias int not null,
+    rangodias text not null,
     registro datetime not null default current_timestamp
 );
 

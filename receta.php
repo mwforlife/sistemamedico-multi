@@ -963,7 +963,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																					<td><input type="checkbox" name="estimulador" id="estimulador"></td>
 																					<td>FILGRASTIM</td>
 																					<td><input type="number" name="cantidades" id="cantidades" class="form-control"></td>
-																					<td><input type="number" name="rango" id="rango" class="form-control"></td>
+																					<td><input type="text" name="rango" id="rango" class="form-control"></td>
 																				</tr>
 																			</tbody>
 																		</table>

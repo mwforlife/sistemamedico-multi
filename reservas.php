@@ -693,27 +693,6 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
                                                                         <div>Horario de Trabajo</div>
                                                                     </a>-->
                                                                 </nav>
-                                                                <div class="mt-5">
-                                                                    <a class="btn btn-outline-primary" href="#"
-                                                                        data-toggle="modal"
-                                                                        data-target="#modalSetSchedule"><i
-                                                                            class="fe fe-plus"></i> Nuevo Horario
-                                                                        Mensual</a>
-                                                                </div>
-                                                                <div class="mt-2">
-                                                                    <a class="btn btn-outline-primary" href="#"
-                                                                        data-toggle="modal"
-                                                                        data-target="#modalSetSchedule1"><i
-                                                                            class="fe fe-plus"></i> Nuevo Horario Por
-                                                                        Fecha</a>
-                                                                </div>
-                                                                <div class="mt-2">
-                                                                    <a class="btn btn-outline-primary" href="#"
-                                                                        data-toggle="modal"
-                                                                        data-target="#modalSetSchedule2"><i
-                                                                            class="fe fe-plus"></i> Sobre Cupo Por
-                                                                        Fecha</a>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
