@@ -829,10 +829,6 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 													class="btn btn-success mt-2">Nueva Atención<i
 														class="fe fe-arrow-right ml-2"></i></a>
 												<?php
-											}else{
-												if($estadoatencion != 5){
-													echo "<button onclick='finalizaratencion(".$atencionid.")' class='btn btn-danger mt-2'>Finalizar Atención<i class='fe fe-arrow-right ml-2'></i></button>";
-												}
 											}
 											?>
 										</div>
@@ -1438,6 +1434,17 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 												</div>
 											</div>
 										</div><!-- accordion -->
+										<div class="row">
+											<div class="col-md-12 text-right">
+											<?php
+											if ($check == true){
+												if($estadoatencion != 5){
+													echo "<button onclick='finalizaratencion(".$atencionid.")' class='btn btn-danger mt-2'>Finalizar Atención<i class='fe fe-arrow-right ml-2'></i></button>";
+												}
+											}
+											?>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

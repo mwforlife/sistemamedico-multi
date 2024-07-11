@@ -27,19 +27,19 @@ function cargarHorario($id) {
                 if (datos[i].estado == 1) {
                     //Dispobible
                     horario += "<div class='col-md-2 col-sm-6 col-xs-12'>";
-                    horario += "<input type='radio' class='btn-check' title='Disponible' name='hora' id='hora" + datos[i].id + "' autocomplete='off' value='" + datos[i].id + "'>";
+                    horario += "<input type='checkbox' class='btn-check' title='Disponible' name='hora' id='hora" + datos[i].id + "' autocomplete='off' value='" + datos[i].id + "'>";
                     horario += "<label class='btn btn-outline-primary btn-block w-100 mt-2' title='Disponible' for='hora" + datos[i].id + "'>" + datos[i].start + " - " + datos[i].end + "</label>";
                     horario += "</div>";
                 } else if (datos[i].estado == 2) {
                     //Reservado
                     horario += "<div class='col-md-2 col-sm-6 col-xs-12' title='Reservada'>";
-                    horario += "<input type='radio' class='btn-check' title='Reservada' name='hora' id='hora" + datos[i].id + "' autocomplete='off' value='" + datos[i].id + "' disabled>";
+                    horario += "<input type='checkbox' class='btn-check' title='Reservada' name='hora' id='hora" + datos[i].id + "' autocomplete='off' value='" + datos[i].id + "' disabled>";
                     horario += "<label class='btn btn-success btn-block w-100 mt-2' title='Reservada' for='hora" + datos[i].id + "'>" + datos[i].start + " - " + datos[i].end + "</label>";
                     horario += "</div>";
                 } else if (datos[i].estado == 3) {
                     //Cancelado
                     horario += "<div class='col-md-2 col-sm-6 col-xs-12' title='No Disponible'> ";
-                    horario += "<input type='radio' class='btn-check' title='No Disponible' name='hora' id='hora" + datos[i].id + "' autocomplete='off' value='" + datos[i].id + "' disabled>";
+                    horario += "<input type='checkbox' class='btn-check' title='No Disponible' name='hora' id='hora" + datos[i].id + "' autocomplete='off' value='" + datos[i].id + "' disabled>";
                     horario += "<label class='btn btn-secondary btn-block w-100 mt-2' title='No Disponible' for='hora" + datos[i].id + "'>" + datos[i].start + " - " + datos[i].end + "</label>";
                     horario += "</div>";
                 }
@@ -167,20 +167,20 @@ function reservar() {
     //Comprobar si se selecciono una hora
     var hora = document.getElementsByName("hora");
     var horaSeleccionada = false;
-    var horaId = 0;
+    var horaId = [];
     for (var i = 0; i < hora.length; i++) {
         if (hora[i].checked) {
             horaSeleccionada = true;
-            horaId = hora[i].value;
-            break;
+            horaId.push(hora[i].value);
         }
     }
+
     if (horaSeleccionada) {
         if (idPaciente > 0) {
             $.ajax({
                 url: "php/insert/reserva.php",
                 type: "POST",
-                data: { action: 'reservar', idPaciente: idPaciente , hora: horaId},
+                data: { action: 'reservar', idPaciente: idPaciente , hora: JSON.stringify(horaId) },
                 success: function (data) {
                     //Recorrer el array de datos
                     var datos = JSON.parse(data);
