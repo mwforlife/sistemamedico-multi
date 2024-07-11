@@ -1,4 +1,9 @@
 <?php
+//imprimir error de debug
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require '../../controller.php';
 require '../../plugins/vendor/autoload.php';
 $c = new Controller();
@@ -40,9 +45,9 @@ resolucion: A concisely coded CSS3 button set increases usability across the boa
 estadoatencion: 5
 folio: 6*/
 
-if(isset($_GET['paciente']) && isset($_GET['empresa']) && isset($_GET['medico']) && isset($_GET['reserva']) && isset($_GET['diagnosticoid']) && isset($_GET['diagnosticotext']) && isset($_GET['cieo10']) && isset($_GET['diagnosticocie10']) && isset($_GET['cieo10text']) && isset($_GET['tipoatencion']) && isset($_GET['ecog']) && isset($_GET['ecogtext']) && isset($_GET['ingreso']) && isset($_GET['receta']) && isset($_GET['reingreso']) && isset($_GET['anamnesis']) && isset($_GET['procedimientotext']) && isset($_GET['resolucion']) && isset($_GET['estadoatencion']) && isset($_GET['folio'])){
+if(isset($_GET['paciente']) && isset($_GET['empresa']) && isset($_GET['medico']) && isset($_GET['reserva']) && isset($_GET['diagnosticoid']) && isset($_GET['diagnosticotext']) && isset($_GET['cieo10']) && isset($_GET['diagnosticocie10']) && isset($_GET['cieo10text']) && isset($_GET['tipoatencion']) && isset($_GET['ecog']) && isset($_GET['ecogtext']) && isset($_GET['ingreso']) && isset($_GET['receta']) && isset($_GET['reingreso']) && isset($_GET['anamnesis']) && isset($_GET['procedimientotext']) && isset($_GET['resolucion'])&& isset($_GET['folio'])){
 
-    if(!is_numeric($_GET['paciente']) || !is_numeric($_GET['empresa']) || !is_numeric($_GET['medico']) || !is_numeric($_GET['reserva']) || !is_numeric($_GET['diagnosticoid']) || !is_numeric($_GET['cieo10']) || !is_numeric($_GET['estadoatencion']) || !is_numeric($_GET['receta']) || !is_numeric($_GET['reingreso']) || !is_numeric($_GET['ingreso'])){
+    if(!is_numeric($_GET['paciente']) || !is_numeric($_GET['empresa']) || !is_numeric($_GET['medico']) || !is_numeric($_GET['reserva']) || !is_numeric($_GET['diagnosticoid']) || !is_numeric($_GET['cieo10'])  || !is_numeric($_GET['receta']) || !is_numeric($_GET['reingreso']) || !is_numeric($_GET['ingreso'])){
         echo "Ups! Algo salió mal";
         return;
     }
@@ -65,7 +70,6 @@ if(isset($_GET['paciente']) && isset($_GET['empresa']) && isset($_GET['medico'])
     $anamnesis = $_GET['anamnesis'];
     $procedimientotext = $_GET['procedimientotext'];
     $resolucion = $_GET['resolucion'];
-    $estadoatencion = $_GET['estadoatencion'];
     $folio = $_GET['folio'];
 
     if($folio<=0){

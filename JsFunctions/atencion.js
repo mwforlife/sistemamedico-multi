@@ -60,11 +60,16 @@ function Finalizaratencion(id){
         type: "POST",
         data: {id: id},
         success: function(data){
-            if(data == 1){
-                ToastifySuccess("Finalizada");
-                setTimeout(function(){location.reload();}, 1500);
-            }else{
-                ToastifyError("Error al finalizar");
+            try {
+                var json = JSON.parse(data);
+                if(json.status == true){
+                    ToastifySuccess(json.message);
+                    setTimeout(function(){location.reload();}, 500);
+                }else{
+                    ToastifyError(json.message);
+                }
+            } catch (error) {
+                ToastifyError(error);
             }
         }
     });

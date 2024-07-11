@@ -3056,7 +3056,7 @@ function registraratencion(paciente, empresa, medico, reserva){
     var anamnesis = $("#anamnesis").val();
     var procedimientotext = $("#procedimientotext").val();
     var resolucion = $("#resolucion").val();
-    var estadoatencion = $("#estadoatencion").val();
+    //var estadoatencion = $("#estadoatencion").val();
 
     //Validar datos
     if(diagnosticoid == 0){
@@ -3083,16 +3083,10 @@ function registraratencion(paciente, empresa, medico, reserva){
         return false;
     }
 
-    if(estadoatencion == 0){
-        ToastifyError("Seleccione un estado de atencion");
-        $("#estadoatencion").focus();
-        return false;
-    }
-
     $.ajax({
         type: "POST",
         url: "php/insert/consulta.php",
-        data: { paciente: paciente, empresa: empresa, medico: medico, reserva: reserva, diagnosticoid: diagnosticoid, diagnosticotext: diagnosticotext, cieo10: cieo10, diagnosticocie10: diagnosticocie10, tipoatencion: tipoatencion, ecog: ecog, ecogtext: ecogtext, ingreso: ingreso, receta: receta, reingreso: reingreso, anamnesis: anamnesis, procedimientotext: procedimientotext, resolucion: resolucion, estadoatencion: estadoatencion },
+        data: { paciente: paciente, empresa: empresa, medico: medico, reserva: reserva, diagnosticoid: diagnosticoid, diagnosticotext: diagnosticotext, cieo10: cieo10, diagnosticocie10: diagnosticocie10, tipoatencion: tipoatencion, ecog: ecog, ecogtext: ecogtext, ingreso: ingreso, receta: receta, reingreso: reingreso, anamnesis: anamnesis, procedimientotext: procedimientotext, resolucion: resolucion },
         success: function (respuesta) {
             try{
                 var atencion = JSON.parse(respuesta);
@@ -3144,7 +3138,6 @@ function editaratencion(paciente, empresa, medico, reserva,folio){
     var anamnesis = $("#anamnesis").val();
     var procedimientotext = $("#procedimientotext").val();
     var resolucion = $("#resolucion").val();
-    var estadoatencion = $("#estadoatencion").val();
 
     //Validar datos
     if(diagnosticoid == 0){
@@ -3170,17 +3163,10 @@ function editaratencion(paciente, empresa, medico, reserva,folio){
         $("#ecog").focus();
         return false;
     }
-
-    if(estadoatencion == 0){
-        ToastifyError("Seleccione un estado de atencion");
-        $("#estadoatencion").focus();
-        return false;
-    }
-
     $.ajax({
         type: "POST",
         url: "php/update/consulta.php",
-        data: { paciente: paciente, empresa: empresa, medico: medico, reserva: reserva, diagnosticoid: diagnosticoid, diagnosticotext: diagnosticotext, cieo10: cieo10, diagnosticocie10: diagnosticocie10, tipoatencion: tipoatencion, ecog: ecog, ecogtext: ecogtext, ingreso: ingreso, receta: receta, reingreso: reingreso, anamnesis: anamnesis, procedimientotext: procedimientotext, resolucion: resolucion, estadoatencion: estadoatencion , folio: folio},
+        data: { paciente: paciente, empresa: empresa, medico: medico, reserva: reserva, diagnosticoid: diagnosticoid, diagnosticotext: diagnosticotext, cieo10: cieo10, diagnosticocie10: diagnosticocie10, tipoatencion: tipoatencion, ecog: ecog, ecogtext: ecogtext, ingreso: ingreso, receta: receta, reingreso: reingreso, anamnesis: anamnesis, procedimientotext: procedimientotext, resolucion: resolucion, folio: folio},
         success: function (respuesta) {
             try{
                 var atencion = JSON.parse(respuesta);
@@ -3232,7 +3218,6 @@ function vistapreviaatencion(paciente, empresa, medico, reserva,folio){
     var anamnesis = $("#anamnesis").val();
     var procedimientotext = $("#procedimientotext").val();
     var resolucion = $("#resolucion").val();
-    var estadoatencion = $("#estadoatencion").val();
 
     //Validar datos
     if(diagnosticoid == 0){
@@ -3259,13 +3244,7 @@ function vistapreviaatencion(paciente, empresa, medico, reserva,folio){
         return false;
     }
 
-    if(estadoatencion == 0){
-        ToastifyError("Seleccione un estado de atencion");
-        $("#estadoatencion").focus();
-        return false;
-    }
-
-    $("#frameprevia").attr("src", "php/reporte/previa/atencion.php?paciente="+paciente+"&empresa="+empresa+"&medico="+medico+"&reserva="+reserva+"&diagnosticoid="+diagnosticoid+"&diagnosticotext="+diagnosticotext+"&cieo10="+cieo10+"&diagnosticocie10="+diagnosticocie10+"&cieo10text="+cieo10text+"&tipoatencion="+tipoatencion+"&ecog="+ecog+"&ecogtext="+ecogtext+"&ingreso="+ingreso+"&receta="+receta+"&reingreso="+reingreso+"&anamnesis="+anamnesis+"&procedimientotext="+procedimientotext+"&resolucion="+resolucion+"&estadoatencion="+estadoatencion+"&folio="+folio);
+    $("#frameprevia").attr("src", "php/reporte/previa/atencion.php?paciente="+paciente+"&empresa="+empresa+"&medico="+medico+"&reserva="+reserva+"&diagnosticoid="+diagnosticoid+"&diagnosticotext="+diagnosticotext+"&cieo10="+cieo10+"&diagnosticocie10="+diagnosticocie10+"&cieo10text="+cieo10text+"&tipoatencion="+tipoatencion+"&ecog="+ecog+"&ecogtext="+ecogtext+"&ingreso="+ingreso+"&receta="+receta+"&reingreso="+reingreso+"&anamnesis="+anamnesis+"&procedimientotext="+procedimientotext+"&resolucion="+resolucion+"&folio="+folio);
     $("#modalprevia").modal("show");
 }
 function calcularBSA(){
@@ -4370,6 +4349,29 @@ function historialatencion(folio, atencion){
                 if(json.status == true){
                     $(".historialatencioncontent").html(json.content);
                     $("#modalhistorialatencion").modal("show");
+                }else{
+                    ToastifyError(json.message);
+                }
+            } catch (error) {
+                ToastifyError(error);
+            }
+        },
+    });
+}
+
+function finalizaratencion(id){
+    $.ajax({
+        url: "php/update/finalizaratencion.php",
+        type: "POST",
+        data: { id: id },
+        success: function (data) {
+            try {
+                var json = JSON.parse(data);
+                if(json.status == true){
+                    ToastifySuccess(json.message);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 500);
                 }else{
                     ToastifyError(json.message);
                 }

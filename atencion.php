@@ -663,11 +663,6 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                                             echo '<option value="'.$estado['id'].'">'.$estado['nombre'].'</option>';
                                         }
                                     ?>
-                                    <option value="1">Reservado</option>
-                                    <option value="2">Confirmada</option>
-                                    <option value="3">En Sala de Espera</option>
-                                    <option value="6">Cancela Reserva</option>
-                                    <option value="7">Paciente no Asiste</option>
                                 </select>
                             </div>
                             <div class="col-md-12">

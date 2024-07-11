@@ -153,7 +153,8 @@ if (isset($_POST['fechainicio']) && isset($_POST['fechatermino'])) {
 
                             $contenido .= "</td>";
                             $contenido .= "<td class='bg-transparent'><button class='btn btn-outline-success btn-sm' onclick='historial(" . $id . ")'><i class='fa fa-history'></i></button></td>";
-                            $contenido .= "<td class='bg-transparent'><button class='btn btn-success btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-check'></i></button></td>";
+                            //$contenido .= "<td class='bg-transparent'><button class='btn btn-success btn-sm' onclick='atender(" . $id . ")'><i class='fa fa-user-check'></i></button></td>";
+                            $contenido .= "<td class='bg-transparent'>-</td>";
                         } else if ($estado == 6) {
                             //Cancelado
                             $contenido .= "<td class='bg-transparent'><span class='badge badge-danger'>$estadonombre</span></td>";

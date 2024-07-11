@@ -2,7 +2,7 @@
 session_start();
 require '../controller.php';
 $c = new Controller();
-if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medico']) && isset($_POST['reserva']) && isset($_POST['diagnosticoid']) && isset($_POST['diagnosticotext']) && isset($_POST['cieo10']) && isset($_POST['diagnosticocie10']) && isset($_POST['tipoatencion']) && isset($_POST['ecog']) && isset($_POST['ecogtext']) && isset($_POST['ingreso']) && isset($_POST['receta']) && isset($_POST['reingreso']) && isset($_POST['anamnesis']) && isset($_POST['procedimientotext']) && isset($_POST['resolucion']) && isset($_POST['estadoatencion'])) {
+if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medico']) && isset($_POST['reserva']) && isset($_POST['diagnosticoid']) && isset($_POST['diagnosticotext']) && isset($_POST['cieo10']) && isset($_POST['diagnosticocie10']) && isset($_POST['tipoatencion']) && isset($_POST['ecog']) && isset($_POST['ecogtext']) && isset($_POST['ingreso']) && isset($_POST['receta']) && isset($_POST['reingreso']) && isset($_POST['anamnesis']) && isset($_POST['procedimientotext']) && isset($_POST['resolucion'])) {
     $paciente = $_POST['paciente'];
     $paciente = $c->escapeString($paciente);
     $empresa = $_POST['empresa'];
@@ -37,9 +37,9 @@ if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medic
     $procedimientotext = $c->escapeString($procedimientotext);
     $resolucion = $_POST['resolucion'];
     $resolucion = $c->escapeString($resolucion);
-    $estadoatencion = $_POST['estadoatencion'];
-    $estadoatencion = $c->escapeString($estadoatencion);
-
+    //$estadoatencion = $_POST['estadoatencion'];
+    //$estadoatencion = $c->escapeString($estadoatencion);
+ 
     /*$valid  = $c->validarconsulta($reserva);
     if($valid==true){
         echo json_encode(array('error' => true, 'message' => 'Ya existe una consulta para esta reserva'));
@@ -47,9 +47,6 @@ if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medic
     }*/
 
     $modalidad = 1;
-    if($estadoatencion != 5){
-        $modalidad = 2;
-    }
 
     $folio = $c->buscarultimofolio($empresa)+1;
 
@@ -66,10 +63,7 @@ if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medic
         $object = $c->buscarenUsuario1($idUsuario);
         $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado una nueva consulta";
         $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
-        /**************************************** */
-
-        $c->cambiarestadoreserva($reserva,$estadoatencion);
-       
+        /**************************************** */       
         echo json_encode(array('error' => false, 'message' => 'Consulta registrada correctamente'));
     }else{
         echo json_encode(array('error' => true, 'message' => 'Error al registrar la consulta'));

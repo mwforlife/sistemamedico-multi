@@ -789,15 +789,6 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 
 											</div>
 										</div>
-										<div class="col-lg-3 d-flex justify-content-end align-items-center">
-											<label for="">Estado Atención</label>
-											<select name="estadoatencion" id="estadoatencion" class="form-control">
-												<option value="4">En Atención</option>
-												<option value="5" selected>Atendido</option>
-												<option value="7">Paciente No se Presenta</option>
-											</select>
-
-										</div>
 									</div>
 								</div>
 							</div>

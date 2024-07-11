@@ -2,7 +2,7 @@
 session_start();
 require '../controller.php';
 $c = new Controller();
-if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medico']) && isset($_POST['reserva']) && isset($_POST['diagnosticoid']) && isset($_POST['diagnosticotext']) && isset($_POST['cieo10']) && isset($_POST['diagnosticocie10']) && isset($_POST['tipoatencion']) && isset($_POST['ecog']) && isset($_POST['ecogtext']) && isset($_POST['ingreso']) && isset($_POST['receta']) && isset($_POST['reingreso']) && isset($_POST['anamnesis']) && isset($_POST['procedimientotext']) && isset($_POST['resolucion']) && isset($_POST['estadoatencion']) && isset($_POST['folio'])) {
+if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medico']) && isset($_POST['reserva']) && isset($_POST['diagnosticoid']) && isset($_POST['diagnosticotext']) && isset($_POST['cieo10']) && isset($_POST['diagnosticocie10']) && isset($_POST['tipoatencion']) && isset($_POST['ecog']) && isset($_POST['ecogtext']) && isset($_POST['ingreso']) && isset($_POST['receta']) && isset($_POST['reingreso']) && isset($_POST['anamnesis']) && isset($_POST['procedimientotext']) && isset($_POST['resolucion']) && isset($_POST['folio'])) {
     $paciente = $_POST['paciente'];
     $paciente = $c->escapeString($paciente);
     $empresa = $_POST['empresa'];
@@ -37,8 +37,6 @@ if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medic
     $procedimientotext = $c->escapeString($procedimientotext);
     $resolucion = $_POST['resolucion'];
     $resolucion = $c->escapeString($resolucion);
-    $estadoatencion = $_POST['estadoatencion'];
-    $estadoatencion = $c->escapeString($estadoatencion);
     $folio = $_POST['folio'];
 
     /*$valid  = $c->validarconsulta($reserva);
@@ -48,10 +46,6 @@ if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medic
     }*/
 
     $modalidad = 1;
-    if($estadoatencion != 5){
-        $modalidad = 2;
-    }
-    
     if($folio == 0){
         $folio = $c->buscarultimofolio($empresa)+1;
     }
