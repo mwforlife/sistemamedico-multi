@@ -5772,10 +5772,10 @@ class Controller
 
     //Receta
     // Registrar Receta y obtener su ID
-    function registrarReceta($paciente, $usuario, $empresa, $consulta, $fecha, $folio, $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, $fechaadministracion, $pendiente, $nciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primeringreso, $traemedicamentos, $diabetes, $hipertension, $alergias, $otrocor, $detallealergias, $otrcormo, $urgente, $esquema, $anamnesis, $observacion)
+    function registrarReceta($paciente, $usuario, $empresa, $consulta, $fecha, $folio, $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, $fechaadministracion, $pendiente, $nciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primeringreso, $traemedicamentos, $diabetes, $hipertension, $alergias, $otrocor, $detallealergias, $otrcormo, $urgente, $esquema, $observacion)
     {
         $this->conexion();
-        $sql = "INSERT INTO recetas (paciente, usuario, empresa, consulta, fecha, folio, estadio, nivel, ges, peso, talla, scorporal, creatinina, auc, fechaadministracion, pendiente, nciclo, anticipada, curativo, paliativo, adyuvante, concomitante, noeadyuvante, primeringreso, traemedicamentos, diabetes, hipertension, alergias,otrocor, detallealergias, otrcormo, urgente, esquema, anamesis, observacion, estado) VALUES ($paciente, $usuario, $empresa, $consulta, '$fecha', '$folio', $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, '$fechaadministracion', $pendiente, $nciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primeringreso, $traemedicamentos, $diabetes, $hipertension, $alergias,$otrocor, '$detallealergias','$otrcormo', $urgente, $esquema, '$anamnesis', '$observacion',1);";
+        $sql = "INSERT INTO recetas (paciente, usuario, empresa, consulta, fecha, folio, estadio, nivel, ges, peso, talla, scorporal, creatinina, auc, fechaadministracion, pendiente, nciclo, anticipada, curativo, paliativo, adyuvante, concomitante, noeadyuvante, primeringreso, traemedicamentos, diabetes, hipertension, alergias,otrocor, detallealergias, otrcormo, urgente, esquema, observacion, estado) VALUES ($paciente, $usuario, $empresa, $consulta, '$fecha', '$folio', $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, '$fechaadministracion', $pendiente, $nciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primeringreso, $traemedicamentos, $diabetes, $hipertension, $alergias,$otrocor, '$detallealergias','$otrcormo', $urgente, $esquema, '$observacion',1);";
         //echo $sql;
         $result = $this->mi->query($sql);
         // Obtener el ID de la receta recién registrada
@@ -5903,13 +5903,14 @@ class Controller
             if (strlen($carboplatino) == 0) {
                 $carboplatino = 0;
             }
+            $totalmg = $medicamento['totalmg'];
             $oral = $medicamento['oral'];
             $ev = $medicamento['ev'];
             $sc = $medicamento['sc'];
             $it = $medicamento['it'];
             $biccad = $medicamento['biccad'];
             $observacion = $medicamento['observacion'];
-            $sql = "INSERT INTO recetamedicamentos (receta, medicamento, procenjate, dosis, carboplatino, oral, ev, sc, it, biccad, observacion) VALUES ($recetaId, $medicamentoId, $porcentaje, $dosis, $carboplatino, $oral, $ev, $sc, $it, $biccad, '$observacion');";
+            $sql = "INSERT INTO recetamedicamentos (receta, medicamento, procenjate, dosis, carboplatino,dosistotal, oral, ev, sc, it, biccad, observacion) VALUES ($recetaId, $medicamentoId, $porcentaje, $dosis, $carboplatino,$totalmg, $oral, $ev, $sc, $it, $biccad, '$observacion');";
             $this->mi->query($sql);
         }
         $this->desconexion();
@@ -5919,7 +5920,7 @@ class Controller
     function listarMedicamentosreceta($receta)
     {
         $this->conexion();
-        $sql = "select recetamedicamentos.id as id, medicamentos.nombre as medicamento, recetamedicamentos.procenjate as porcentaje, recetamedicamentos.dosis as dosis, recetamedicamentos.carboplatino as carboplatino, recetamedicamentos.oral as oral, recetamedicamentos.ev as ev, recetamedicamentos.sc as sc, recetamedicamentos.it as it, recetamedicamentos.biccad as biccad, recetamedicamentos.observacion as observacion, recetamedicamentos.registro as registro from recetamedicamentos, medicamentos where recetamedicamentos.receta = $receta and recetamedicamentos.medicamento = medicamentos.id;";
+        $sql = "select recetamedicamentos.id as id, medicamentos.nombre as medicamento, recetamedicamentos.procenjate as porcentaje, recetamedicamentos.dosis as dosis, recetamedicamentos.carboplatino as carboplatino,recetamedicamentos.dosistotal as dosistotal, recetamedicamentos.oral as oral, recetamedicamentos.ev as ev, recetamedicamentos.sc as sc, recetamedicamentos.it as it, recetamedicamentos.biccad as biccad, recetamedicamentos.observacion as observacion, recetamedicamentos.registro as registro from recetamedicamentos, medicamentos where recetamedicamentos.receta = $receta and recetamedicamentos.medicamento = medicamentos.id;";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {
@@ -5929,6 +5930,7 @@ class Controller
             $porcentaje = $rs["porcentaje"];
             $dosis = $rs["dosis"];
             $carboplatino = $rs["carboplatino"];
+            $totalmg = $rs["dosistotal"];
             $oral = $rs["oral"];
             $ev = $rs["ev"];
             $sc = $rs["sc"];
@@ -5936,7 +5938,7 @@ class Controller
             $biccad = $rs["biccad"];
             $observacion = $rs["observacion"];
             $registro = $rs["registro"];
-            $medicamento = new RecetaMedicamentos($id, $receta, $medicamento, $porcentaje, $dosis, $carboplatino, $oral, $ev, $sc, $it, $biccad, $observacion, $registro);
+            $medicamento = new RecetaMedicamentos($id, $receta, $medicamento, $porcentaje, $dosis, $carboplatino,$totalmg, $oral, $ev, $sc, $it, $biccad, $observacion, $registro);
             $lista[] = $medicamento;
         }
         $this->desconexion();
@@ -5956,6 +5958,7 @@ class Controller
             $porcentaje = $rs["procenjate"];
             $dosis = $rs["dosis"];
             $carboplatino = $rs["carboplatino"];
+            $totalmg = $rs["dosistotal"];
             $oral = $rs["oral"];
             $ev = $rs["ev"];
             $sc = $rs["sc"];
@@ -5963,7 +5966,7 @@ class Controller
             $biccad = $rs["biccad"];
             $observacion = $rs["observacion"];
             $registro = $rs["registro"];
-            $medicamento = new RecetaMedicamentos($id, $receta, $medicamento, $porcentaje, $dosis, $carboplatino, $oral, $ev, $sc, $it, $biccad, $observacion, $registro);
+            $medicamento = new RecetaMedicamentos($id, $receta, $medicamento, $porcentaje, $dosis, $carboplatino,$totalmg, $oral, $ev, $sc, $it, $biccad, $observacion, $registro);
             $lista[] = $medicamento;
         }
         $this->desconexion();

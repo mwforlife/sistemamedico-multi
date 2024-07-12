@@ -442,10 +442,10 @@ if (
         $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Adyuvante,</label>";
     }
     if ($concomitante == 1) {
-        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Neoadyuvante,</label>";
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Concomitante,</label>";
     }
     if ($curativo == 1) {
-        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Concomitante,</label>";
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Curativo,</label>";
     }
 
     if ($paliativo == 1) {
@@ -453,7 +453,7 @@ if (
     }
 
     if ($neoadyuvante == 1) {
-        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Preventivo,</label>";
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Neoadyuvante,</label>";
     }
 
     $contenido .= "</div>";

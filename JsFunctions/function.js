@@ -1699,8 +1699,8 @@ $(document).ready(function () {
         }
 
         var descripciondiscapacidad = $("#descripciondiscapacidad").val();
-        if(discapacidad == 1){
-            if(descripciondiscapacidad.trim().length == 0){
+        if (discapacidad == 1) {
+            if (descripciondiscapacidad.trim().length == 0) {
                 ToastifyError("Ingrese descripcion de discapacidad");
                 $("#descripciondiscapacidad").focus();
                 return false;
@@ -1945,16 +1945,16 @@ $(document).ready(function () {
             success: function (data) {
                 try {
                     var json = JSON.parse(data);
-                    if (json.status == true){
+                    if (json.status == true) {
                         ToastifySuccess(json.message);
                         setTimeout(function () {
                             location.href = "listadopacientes.php";
                         }, 500);
-                    }else{
+                    } else {
                         ToastifyError(json.message);
                     }
                 } catch (error) {
-                    ToastifyError(error);                    
+                    ToastifyError(error);
                 }
             }
         });
@@ -1989,8 +1989,8 @@ $(document).ready(function () {
             discapacidad = 1;
         }
         var descripciondiscapacidad = $("#descripciondiscapacidad").val();
-        if(discapacidad == 1){
-            if(descripciondiscapacidad.trim().length == 0){
+        if (discapacidad == 1) {
+            if (descripciondiscapacidad.trim().length == 0) {
                 ToastifyError("Ingrese descripcion de discapacidad");
                 $("#descripciondiscapacidad").focus();
                 return false;
@@ -2244,16 +2244,16 @@ $(document).ready(function () {
             success: function (data) {
                 try {
                     var json = JSON.parse(data);
-                    if (json.status == true){
+                    if (json.status == true) {
                         ToastifySuccess(json.message);
                         setTimeout(function () {
                             location.href = "listadopacientes.php";
                         }, 500);
-                    }else{
+                    } else {
                         ToastifyError(json.message);
                     }
                 } catch (error) {
-                    ToastifyError(error);                    
+                    ToastifyError(error);
                 }
             }
         });
@@ -2296,10 +2296,10 @@ $(document).ready(function () {
             success: function (respuesta) {
                 var json = JSON.parse(respuesta);
                 try {
-                    if(json.status == true){
+                    if (json.status == true) {
                         ToastifySuccess(json.message);
                         cargarsignos();
-                    }else{
+                    } else {
                         ToastifyError(json.message);
                     }
                 } catch (error) {
@@ -2374,7 +2374,7 @@ function searchpaciente(element) {
     }
 }
 
-function searchother(){
+function searchother() {
     $(".datospaciente").addClass("d-none");
     $("#rutsearch").attr("disabled", false);
     $("#rutsearch").focus();
@@ -2613,7 +2613,7 @@ function verinforme(id) {
 
 
 //Finalizar Comite
-function finalizarcomite1(id){
+function finalizarcomite1(id) {
     swal.fire({
         title: '¿Estas seguro de finalizar este comite?',
         text: "No podras revertir esta accion!",
@@ -2650,7 +2650,7 @@ function finalizarcomite1(id){
 }
 
 //Habilitar Comite
-function habilitarcomite(id){
+function habilitarcomite(id) {
     swal.fire({
         title: '¿Estas seguro de habilitar este comite?',
         text: "No podras revertir esta accion!",
@@ -2700,19 +2700,19 @@ $(document).ready(function () {
             processData: false,
             success: function (data) {
                 //Recibir el JSON
-                try{
+                try {
                     var medicamento = JSON.parse(data);
                     //si el elemento error = true, mostrar error
-                    if(medicamento.error == true){
+                    if (medicamento.error == true) {
                         ToastifyError(medicamento.message);
-                    }else if(medicamento.error == false){
+                    } else if (medicamento.error == false) {
                         ToastifySuccess(medicamento.message);
                         //Recargar pagina en 1 segundo
                         setTimeout(function () {
                             location.reload();
                         }, 500);
                     }
-                }catch(error){
+                } catch (error) {
                     ToastifyError(data);
 
                 }
@@ -2732,19 +2732,19 @@ $(document).ready(function () {
             processData: false,
             success: function (data) {
                 //Recibir el JSON
-                try{
+                try {
                     var medicamento = JSON.parse(data);
                     //si el elemento error = true, mostrar error
-                    if(medicamento.error == true){
+                    if (medicamento.error == true) {
                         ToastifyError(medicamento.message);
-                    }else if(medicamento.error == false){
+                    } else if (medicamento.error == false) {
                         ToastifySuccess(medicamento.message);
                         //Recargar pagina en 1 segundo
                         setTimeout(function () {
                             location.reload();
                         }, 500);
                     }
-                }catch(error){
+                } catch (error) {
                     ToastifyError(data);
 
                 }
@@ -2847,7 +2847,7 @@ $(document).ready(function () {
                     ToastifySuccess("Datos Actualizados con exito");
                     //Recargar pagina en 1 segundo
                     setTimeout(function () {
-                       location.reload();
+                        location.reload();
                     }, 1500);
                 } else if (data == 0 || data == "0") {
                     ToastifyError("Hubo un error con el registro");
@@ -2912,10 +2912,10 @@ function cargarEsquema(id) {
 }
 
 //Agregar medicamento
-function agregarmedicamento(id, medicamento){
+function agregarmedicamento(id, medicamento) {
     $("#modaledit").modal("hide");
     $("#medicamentoid").val(id);
-    $("#med").html("Medicamento: "+medicamento);
+    $("#med").html("Medicamento: " + medicamento);
     $("#modaladd").modal("show");
 }
 
@@ -2932,20 +2932,20 @@ $(document).ready(function () {
             processData: false,
             success: function (data) {
                 //Recibir el JSON
-                try{
+                try {
                     var medicamento = JSON.parse(data);
                     //si el elemento error = true, mostrar error
-                    if(medicamento.error == true){
+                    if (medicamento.error == true) {
                         ToastifyError(medicamento.message);
-                    }else if(medicamento.error == false){
+                    } else if (medicamento.error == false) {
                         ToastifySuccess(medicamento.message);
                         //Recargar pagina en 1 segundo
                         listarMedicamentos();
                         $("#modaladd").modal("hide");
-                        $("#modaledit").modal("show");                          
-                        $("#formesmed")[0].reset();                 
+                        $("#modaledit").modal("show");
+                        $("#formesmed")[0].reset();
                     }
-                }catch(error){
+                } catch (error) {
                     ToastifyError(data);
 
                 }
@@ -2993,7 +2993,7 @@ function EliminarMedicamentoEsquema(id) {
 }
 
 //Listar medicamentos
-function listarMedicamentos(){
+function listarMedicamentos() {
     var id = $("#esquemaid").val();
     $.ajax({
         type: "POST",
@@ -3005,7 +3005,7 @@ function listarMedicamentos(){
     });
 }
 
-function cargarMedicamentoesquema(){
+function cargarMedicamentoesquema() {
     var id = $("#esquema").val();
     $.ajax({
         type: "POST",
@@ -3017,9 +3017,10 @@ function cargarMedicamentoesquema(){
     });
 }
 
-function cargarMedicamentoesquema1(receta){
+function cargarMedicamentoesquema1(receta) {
     var id = $("#esquema").val();
-    
+    var scorporal = $("#scorporal").val();
+
     $.ajax({
         type: "POST",
         url: "php/charge/cargaresquemamed1.php",
@@ -3030,7 +3031,7 @@ function cargarMedicamentoesquema1(receta){
     });
 }
 
-function registraratencion(paciente, empresa, medico, reserva){
+function registraratencion(paciente, empresa, medico, reserva) {
     var previo = $("#previo").val();
     var diagnosticoid = $("#iddiag").val();
     var diagnosticotext = $("#diagnostico").val();
@@ -3041,16 +3042,16 @@ function registraratencion(paciente, empresa, medico, reserva){
     var ecog = $("#ecog").val();
     //Capturar el texto del select
     var ecogtext = $("#ecog option:selected").text();
-    var ingreso =0;
-    if($("#ingreso").is(':checked')){
+    var ingreso = 0;
+    if ($("#ingreso").is(':checked')) {
         ingreso = 1;
     }
-    var receta =0;
-    if($("#receta").is(':checked')){
+    var receta = 0;
+    if ($("#receta").is(':checked')) {
         receta = 1;
     }
-    var reingreso =0;
-    if($("#reingreso").is(':checked')){
+    var reingreso = 0;
+    if ($("#reingreso").is(':checked')) {
         reingreso = 1;
     }
     var anamnesis = $("#anamnesis").val();
@@ -3059,25 +3060,25 @@ function registraratencion(paciente, empresa, medico, reserva){
     //var estadoatencion = $("#estadoatencion").val();
 
     //Validar datos
-    if(diagnosticoid == 0){
+    if (diagnosticoid == 0) {
         ToastifyError("Seleccione un diagnostico");
         $("#diagnostico").focus();
         return false;
     }
 
-    if(cieo10 == 0){
+    if (cieo10 == 0) {
         ToastifyError("Seleccione un CIE10");
         $("#cie10").focus();
         return false;
     }
 
-    if(tipoatencion.trim().length == 0){
+    if (tipoatencion.trim().length == 0) {
         ToastifyError("El tipo de atencion no puede estar vacio");
         $("#tipoatencion").focus();
         return false;
     }
 
-    if(ecog == 0){
+    if (ecog == 0) {
         ToastifyError("Seleccione un ECOG");
         $("#ecog").focus();
         return false;
@@ -3088,31 +3089,31 @@ function registraratencion(paciente, empresa, medico, reserva){
         url: "php/insert/consulta.php",
         data: { paciente: paciente, empresa: empresa, medico: medico, reserva: reserva, diagnosticoid: diagnosticoid, diagnosticotext: diagnosticotext, cieo10: cieo10, diagnosticocie10: diagnosticocie10, tipoatencion: tipoatencion, ecog: ecog, ecogtext: ecogtext, ingreso: ingreso, receta: receta, reingreso: reingreso, anamnesis: anamnesis, procedimientotext: procedimientotext, resolucion: resolucion },
         success: function (respuesta) {
-            try{
+            try {
                 var atencion = JSON.parse(respuesta);
                 //si el elemento error = true, mostrar error
-                if(atencion.error == true){
+                if (atencion.error == true) {
                     ToastifyError(atencion.message);
-                }else if(atencion.error == false){
+                } else if (atencion.error == false) {
                     ToastifySuccess(atencion.message);
                     //Recargar pagina en 1 segundo
                     setTimeout(function () {
                         window.location.href = previo;
                     }, 500);
                 }
-            }catch(error){
+            } catch (error) {
                 ToastifyError(respuesta);
 
             }
         },
         error: function (error) {
-           ToastifyError(error);
+            ToastifyError(error);
         }
     });
 
 }
 
-function editaratencion(paciente, empresa, medico, reserva,folio){
+function editaratencion(paciente, empresa, medico, reserva, folio) {
     var previo = $("#previo").val();
     var diagnosticoid = $("#iddiag").val();
     var diagnosticotext = $("#diagnostico").val();
@@ -3123,16 +3124,16 @@ function editaratencion(paciente, empresa, medico, reserva,folio){
     var ecog = $("#ecog").val();
     //Capturar el texto del select
     var ecogtext = $("#ecog option:selected").text();
-    var ingreso =0;
-    if($("#ingreso").is(':checked')){
+    var ingreso = 0;
+    if ($("#ingreso").is(':checked')) {
         ingreso = 1;
     }
-    var receta =0;
-    if($("#receta").is(':checked')){
+    var receta = 0;
+    if ($("#receta").is(':checked')) {
         receta = 1;
     }
-    var reingreso =0;
-    if($("#reingreso").is(':checked')){
+    var reingreso = 0;
+    if ($("#reingreso").is(':checked')) {
         reingreso = 1;
     }
     var anamnesis = $("#anamnesis").val();
@@ -3140,25 +3141,25 @@ function editaratencion(paciente, empresa, medico, reserva,folio){
     var resolucion = $("#resolucion").val();
 
     //Validar datos
-    if(diagnosticoid == 0){
+    if (diagnosticoid == 0) {
         ToastifyError("Seleccione un diagnostico");
         $("#diagnostico").focus();
         return false;
     }
 
-    if(cieo10 == 0){
+    if (cieo10 == 0) {
         ToastifyError("Seleccione un CIE10");
         $("#cie10").focus();
         return false;
     }
 
-    if(tipoatencion.trim().length == 0){
+    if (tipoatencion.trim().length == 0) {
         ToastifyError("El tipo de atencion no puede estar vacio");
         $("#tipoatencion").focus();
         return false;
     }
 
-    if(ecog == 0){
+    if (ecog == 0) {
         ToastifyError("Seleccione un ECOG");
         $("#ecog").focus();
         return false;
@@ -3166,33 +3167,33 @@ function editaratencion(paciente, empresa, medico, reserva,folio){
     $.ajax({
         type: "POST",
         url: "php/update/consulta.php",
-        data: { paciente: paciente, empresa: empresa, medico: medico, reserva: reserva, diagnosticoid: diagnosticoid, diagnosticotext: diagnosticotext, cieo10: cieo10, diagnosticocie10: diagnosticocie10, tipoatencion: tipoatencion, ecog: ecog, ecogtext: ecogtext, ingreso: ingreso, receta: receta, reingreso: reingreso, anamnesis: anamnesis, procedimientotext: procedimientotext, resolucion: resolucion, folio: folio},
+        data: { paciente: paciente, empresa: empresa, medico: medico, reserva: reserva, diagnosticoid: diagnosticoid, diagnosticotext: diagnosticotext, cieo10: cieo10, diagnosticocie10: diagnosticocie10, tipoatencion: tipoatencion, ecog: ecog, ecogtext: ecogtext, ingreso: ingreso, receta: receta, reingreso: reingreso, anamnesis: anamnesis, procedimientotext: procedimientotext, resolucion: resolucion, folio: folio },
         success: function (respuesta) {
-            try{
+            try {
                 var atencion = JSON.parse(respuesta);
                 //si el elemento error = true, mostrar error
-                if(atencion.error == true){
+                if (atencion.error == true) {
                     ToastifyError(atencion.message);
-                }else if(atencion.error == false){
+                } else if (atencion.error == false) {
                     ToastifySuccess(atencion.message);
                     //Recargar pagina en 1 segundo
                     setTimeout(function () {
                         window.location.href = previo;
                     }, 500);
                 }
-            }catch(error){
+            } catch (error) {
                 ToastifyError(respuesta);
 
             }
         },
         error: function (error) {
-           ToastifyError(error);
+            ToastifyError(error);
         }
     });
 
 }
 
-function vistapreviaatencion(paciente, empresa, medico, reserva,folio){
+function vistapreviaatencion(paciente, empresa, medico, reserva, folio) {
     var previo = $("#previo").val();
     var diagnosticoid = $("#iddiag").val();
     var diagnosticotext = $("#diagnostico").val();
@@ -3203,16 +3204,16 @@ function vistapreviaatencion(paciente, empresa, medico, reserva,folio){
     var ecog = $("#ecog").val();
     //Capturar el texto del select
     var ecogtext = $("#ecog option:selected").text();
-    var ingreso =0;
-    if($("#ingreso").is(':checked')){
+    var ingreso = 0;
+    if ($("#ingreso").is(':checked')) {
         ingreso = 1;
     }
-    var receta =0;
-    if($("#receta").is(':checked')){
+    var receta = 0;
+    if ($("#receta").is(':checked')) {
         receta = 1;
     }
-    var reingreso =0;
-    if($("#reingreso").is(':checked')){
+    var reingreso = 0;
+    if ($("#reingreso").is(':checked')) {
         reingreso = 1;
     }
     var anamnesis = $("#anamnesis").val();
@@ -3220,34 +3221,34 @@ function vistapreviaatencion(paciente, empresa, medico, reserva,folio){
     var resolucion = $("#resolucion").val();
 
     //Validar datos
-    if(diagnosticoid == 0){
+    if (diagnosticoid == 0) {
         ToastifyError("Seleccione un diagnostico");
         $("#diagnostico").focus();
         return false;
     }
 
-    if(cieo10 == 0){
+    if (cieo10 == 0) {
         ToastifyError("Seleccione un CIE10");
         $("#cie10").focus();
         return false;
     }
 
-    if(tipoatencion.trim().length == 0){
+    if (tipoatencion.trim().length == 0) {
         ToastifyError("El tipo de atencion no puede estar vacio");
         $("#tipoatencion").focus();
         return false;
     }
 
-    if(ecog == 0){
+    if (ecog == 0) {
         ToastifyError("Seleccione un ECOG");
         $("#ecog").focus();
         return false;
     }
 
-    $("#frameprevia").attr("src", "php/reporte/previa/atencion.php?paciente="+paciente+"&empresa="+empresa+"&medico="+medico+"&reserva="+reserva+"&diagnosticoid="+diagnosticoid+"&diagnosticotext="+diagnosticotext+"&cieo10="+cieo10+"&diagnosticocie10="+diagnosticocie10+"&cieo10text="+cieo10text+"&tipoatencion="+tipoatencion+"&ecog="+ecog+"&ecogtext="+ecogtext+"&ingreso="+ingreso+"&receta="+receta+"&reingreso="+reingreso+"&anamnesis="+anamnesis+"&procedimientotext="+procedimientotext+"&resolucion="+resolucion+"&folio="+folio);
+    $("#frameprevia").attr("src", "php/reporte/previa/atencion.php?paciente=" + paciente + "&empresa=" + empresa + "&medico=" + medico + "&reserva=" + reserva + "&diagnosticoid=" + diagnosticoid + "&diagnosticotext=" + diagnosticotext + "&cieo10=" + cieo10 + "&diagnosticocie10=" + diagnosticocie10 + "&cieo10text=" + cieo10text + "&tipoatencion=" + tipoatencion + "&ecog=" + ecog + "&ecogtext=" + ecogtext + "&ingreso=" + ingreso + "&receta=" + receta + "&reingreso=" + reingreso + "&anamnesis=" + anamnesis + "&procedimientotext=" + procedimientotext + "&resolucion=" + resolucion + "&folio=" + folio);
     $("#modalprevia").modal("show");
 }
-function calcularBSA(){
+function calcularBSA() {
     var peso = $("#peso").val();
     var talla = $("#talla").val();
     var bsa = calculateBSA(talla, peso);
@@ -3260,22 +3261,22 @@ function calculateBSA(Height, Weight) {
     return BSA.toFixed(2);
 }
 
-function detailsrecet(element){
-    if(element.checked){
+function detailsrecet(element) {
+    if (element.checked) {
         $(".resetdetails").removeClass("d-none");
-    }else{
+    } else {
         $(".resetdetails").addClass("d-none");
     }
 }
-function detailscor(element){
-    if(element.checked){
+function detailscor(element) {
+    if (element.checked) {
         $(".cordetails").removeClass("d-none");
-    }else{
+    } else {
         $(".cordetails").addClass("d-none");
     }
 }
 
-function generarreceta(paciente, medico, empresa, consulta){
+function generarreceta(paciente, medico, empresa, consulta) {
     var estadio = $("#estadio").val();
     var nivel = $("#nivel").val();
     var ges = $("#ges").val();
@@ -3288,44 +3289,44 @@ function generarreceta(paciente, medico, empresa, consulta){
     var examen = $("#examen").val();
     var ciclo = $("#ciclo").val();
     var anticipada = $("#anticipada").val();
-    var curativo =0;
-    if($("#curativo").is(':checked')){
+    var curativo = 0;
+    if ($("#curativo").is(':checked')) {
         curativo = 1;
     }
-    var paliativo =0;
-    if($("#paliativo").is(':checked')){
+    var paliativo = 0;
+    if ($("#paliativo").is(':checked')) {
         paliativo = 1;
     }
-    var adyuvante =0;
-    if($("#adyuvante").is(':checked')){
+    var adyuvante = 0;
+    if ($("#adyuvante").is(':checked')) {
         adyuvante = 1;
     }
-    var concomitante =0;
-    if($("#concomitante").is(':checked')){
+    var concomitante = 0;
+    if ($("#concomitante").is(':checked')) {
         concomitante = 1;
     }
-    var neoadyuvante =0;
-    if($("#neoadyuvante").is(':checked')){
+    var neoadyuvante = 0;
+    if ($("#neoadyuvante").is(':checked')) {
         neoadyuvante = 1;
     }
-    var primera =0;
-    if($("#primera").is(':checked')){
+    var primera = 0;
+    if ($("#primera").is(':checked')) {
         primera = 1;
     }
-    var traemedicamentos =0;
-    if($("#traemedicamentos").is(':checked')){
+    var traemedicamentos = 0;
+    if ($("#traemedicamentos").is(':checked')) {
         traemedicamentos = 1;
     }
-    var diabetes =0;
-    if($("#diabetes").is(':checked')){
+    var diabetes = 0;
+    if ($("#diabetes").is(':checked')) {
         diabetes = 1;
     }
-    var hipertension =0;
-    if($("#hipertension").is(':checked')){
+    var hipertension = 0;
+    if ($("#hipertension").is(':checked')) {
         hipertension = 1;
     }
-    var alergia =0;
-    if($("#alergia").is(':checked')){
+    var alergia = 0;
+    if ($("#alergia").is(':checked')) {
         alergia = 1;
     }
 
@@ -3335,10 +3336,10 @@ function generarreceta(paciente, medico, empresa, consulta){
 
     var otrcormo = "";
     var otrocor = 0;
-    if($("#otrocor").is(':checked')){
+    if ($("#otrocor").is(':checked')) {
         otrocor = 1;
         otrcormo = $("#otrcormo").val();
-        if(otrcormo.trim().length == 0){
+        if (otrcormo.trim().length == 0) {
             ToastifyError("Debe ingresar la otra comorbilidad");
             $("#otrcormo").focus();
             return false;
@@ -3348,64 +3349,64 @@ function generarreceta(paciente, medico, empresa, consulta){
     //Captura de medicamentos seleccionados
     const medicamentoscheck = [];
 
-    $("#medicamentoscharge tr.m-0").each(function() {
-      const checkbox = $(this).find("input[type='checkbox']");
-      const porcentajeSelect = $(this).find("select");
-      const medidaInput = $(this).find("input[name^='medida']");
-      const totalMgInput = $(this).find("input[name^='totalmg']");
-      const oralCheckbox = $(this).find("input[name^='oral']");
-      const evCheckbox = $(this).find("input[name^='ev']");
-      const scCheckbox = $(this).find("input[name^='sc']");
-      const itCheckbox = $(this).find("input[name^='it']");
-      const biccadCheckbox = $(this).find("input[name^='biccad']");
-      const observacionInput = $(this).find("input[name^='observacion']");
-      const carboplatinoInput = $(this).find("input[name^='carboplatino']");
+    $("#medicamentoscharge tr.m-0").each(function () {
+        const checkbox = $(this).find("input[type='checkbox']");
+        const porcentajeSelect = $(this).find("select");
+        const medidaInput = $(this).find("input[name^='medida']");
+        const totalMgInput = $(this).find("input[name^='totalmg']");
+        const oralCheckbox = $(this).find("input[name^='oral']");
+        const evCheckbox = $(this).find("input[name^='ev']");
+        const scCheckbox = $(this).find("input[name^='sc']");
+        const itCheckbox = $(this).find("input[name^='it']");
+        const biccadCheckbox = $(this).find("input[name^='biccad']");
+        const observacionInput = $(this).find("input[name^='observacion']");
+        const carboplatinoInput = $(this).find("input[name^='carboplatino']");
 
-      if (checkbox.prop("checked")) {
-        var porcentaje = porcentajeSelect.val();
-        var medida = medidaInput.val();
-        var totalMg = totalMgInput.val();
-        var oral =0;
-        if(oralCheckbox.prop("checked")){
-            oral = 1;
+        if (checkbox.prop("checked")) {
+            var porcentaje = porcentajeSelect.val();
+            var medida = medidaInput.val();
+            var totalMg = totalMgInput.val();
+            var oral = 0;
+            if (oralCheckbox.prop("checked")) {
+                oral = 1;
+            }
+            var ev = 0;
+            if (evCheckbox.prop("checked")) {
+                ev = 1;
+            }
+            var sc = 0;
+            if (scCheckbox.prop("checked")) {
+                sc = 1;
+            }
+            var it = 0;
+            if (itCheckbox.prop("checked")) {
+                it = 1;
+            }
+            var biccad = 0;
+            if (biccadCheckbox.prop("checked")) {
+                biccad = 1;
+            }
+            var observacion = observacionInput.val();
+            //Verificar si el campo existe
+            var carboplatino = null;
+            if (carboplatinoInput.length) {
+                carboplatino = carboplatinoInput.val();
+            }
+            const data = {
+                medicamento: checkbox.val(),
+                porcentaje: porcentaje,
+                medida: medida,
+                totalMg: totalMg,
+                oral: oral,
+                ev: ev,
+                sc: sc,
+                it: it,
+                biccad: biccad,
+                observacion: observacion,
+                carboplatino: carboplatino
+            };
+            medicamentoscheck.push(data);
         }
-        var ev =0;
-        if(evCheckbox.prop("checked")){
-            ev = 1;
-        }
-        var sc =0;
-        if(scCheckbox.prop("checked")){
-            sc = 1;
-        }
-        var it =0;
-        if(itCheckbox.prop("checked")){
-            it = 1;
-        }
-        var biccad =0;
-        if(biccadCheckbox.prop("checked")){
-            biccad = 1;
-        }
-        var observacion = observacionInput.val();
-        //Verificar si el campo existe
-        var carboplatino = null;
-        if (carboplatinoInput.length) {
-            carboplatino = carboplatinoInput.val();
-        }
-        const data = {
-          medicamento: checkbox.val(),
-          porcentaje: porcentaje,
-          medida: medida,
-          totalMg: totalMg,
-          oral: oral,
-          ev: ev,
-          sc: sc,
-          it: it,
-          biccad: biccad,
-          observacion: observacion,
-          carboplatino: carboplatino
-        };
-        medicamentoscheck.push(data);
-      }
     });
 
     console.log(medicamentoscheck);
@@ -3413,47 +3414,47 @@ function generarreceta(paciente, medico, empresa, consulta){
     //Captura de Premedicacion
     const premedicaciones = [];
 
-    $("#premedicamentoscharge tr.m-0").each(function() {
-      const checkbox = $(this).find("input[type='checkbox']");
-      const dosisInput = $(this).find("input[name^='dosismg']");
-      const oralCheckbox = $(this).find("input[name^='oral']");
-      const evCheckbox = $(this).find("input[name^='ev']");
-      const scCheckbox = $(this).find("input[name^='sc']");
-      const observacionInput = $(this).find("input[name^='observacion']");
+    $("#premedicamentoscharge tr.m-0").each(function () {
+        const checkbox = $(this).find("input[type='checkbox']");
+        const dosisInput = $(this).find("input[name^='dosismg']");
+        const oralCheckbox = $(this).find("input[name^='oral']");
+        const evCheckbox = $(this).find("input[name^='ev']");
+        const scCheckbox = $(this).find("input[name^='sc']");
+        const observacionInput = $(this).find("input[name^='observacion']");
 
-      if (checkbox.prop("checked")) {
-        var dosis = dosisInput.val();
-        var oral =0;
-        if(oralCheckbox.prop("checked")){
-            oral = 1;
+        if (checkbox.prop("checked")) {
+            var dosis = dosisInput.val();
+            var oral = 0;
+            if (oralCheckbox.prop("checked")) {
+                oral = 1;
+            }
+            var ev = 0;
+            if (evCheckbox.prop("checked")) {
+                ev = 1;
+            }
+            var sc = 0;
+            if (scCheckbox.prop("checked")) {
+                sc = 1;
+            }
+            var observacion = observacionInput.val();
+
+            const data = {
+                premedicacion: checkbox.val(),
+                dosis: dosis,
+                oral: oral,
+                ev: ev,
+                sc: sc,
+                observacion: observacion
+            };
+            premedicaciones.push(data);
         }
-        var ev =0;
-        if(evCheckbox.prop("checked")){
-            ev = 1;
-        }
-        var sc =0;
-        if(scCheckbox.prop("checked")){
-            sc = 1;
-        }
-        var observacion = observacionInput.val();
-        
-        const data = {
-          premedicacion: checkbox.val(),
-          dosis: dosis,
-            oral: oral,
-            ev: ev,
-            sc: sc,
-            observacion: observacion
-        };
-        premedicaciones.push(data);
-      }
     });
 
     //Estimulador
-    var estimulador =0;
+    var estimulador = 0;
     var cantidades = 0;
     var rango = 0;
-    if($("#estimulador").is(':checked')){
+    if ($("#estimulador").is(':checked')) {
         estimulador = 1;
         cantidades = $("#cantidades").val();
         rango = $("#rango").val();
@@ -3464,120 +3465,120 @@ function generarreceta(paciente, medico, empresa, consulta){
     var observaciones = $("#observacion").val();
 
     //Validar datos
-    if(estadio == 0){
+    if (estadio == 0) {
         ToastifyError("Seleccione un estadio");
         $("#estadio").focus();
         return false;
     }
 
-    if(nivel == 0){
+    if (nivel == 0) {
         ToastifyError("Seleccione un nivel");
         $("#nivel").focus();
         return false;
     }
 
-    if(ges == 0){
+    if (ges == 0) {
         ToastifyError("Seleccione un GES");
         $("#ges").focus();
         return false;
     }
 
-    if(peso.trim().length == 0){
+    if (peso.trim().length == 0) {
         ToastifyError("El peso no puede estar vacio");
         $("#peso").focus();
         return false;
     }
 
-    if(talla.trim().length == 0){
+    if (talla.trim().length == 0) {
         ToastifyError("La talla no puede estar vacia");
         $("#talla").focus();
         return false;
     }
 
-    if(scorporal.trim().length == 0){
+    if (scorporal.trim().length == 0) {
         ToastifyError("El S. Corporal no puede estar vacio");
         $("#scorporal").focus();
         return false;
     }
 
-    if(creatinina.trim().length == 0){
+    if (creatinina.trim().length == 0) {
         ToastifyError("La creatinina no puede estar vacia");
         $("#creatinina").focus();
         return false;
     }
 
-    if(auc.trim().length == 0){
+    if (auc.trim().length == 0) {
         ToastifyError("El AUC no puede estar vacio");
         $("#auc").focus();
         return false;
     }
 
-    if(fechaadmin.trim().length == 0){
+    if (fechaadmin.trim().length == 0) {
         ToastifyError("La fecha de administracion no puede estar vacia");
         $("#fechaadmin").focus();
         return false;
     }
 
-    if(examen.trim().length == 0){
+    if (examen.trim().length == 0) {
         ToastifyError("El examen no puede estar vacio");
         $("#examen").focus();
         return false;
     }
 
-    if(ciclo.trim().length == 0){
+    if (ciclo.trim().length == 0) {
         ToastifyError("El ciclo no puede estar vacio");
         $("#ciclo").focus();
         return false;
     }
 
-    if(anticipada.trim().length == 0){
+    if (anticipada.trim().length == 0) {
         ToastifyError("La anticipada no puede estar vacia");
         $("#anticipada").focus();
         return false;
     }
 
-    if(urgente.trim().length == 0){
+    if (urgente.trim().length == 0) {
         ToastifyError("Debe seleccionar si es urgente o no");
         $("#urgente").focus();
         return false;
     }
 
     //Validar alergia
-    if(alergia == 1){
-        if(alergiadetalle.trim().length == 0){
+    if (alergia == 1) {
+        if (alergiadetalle.trim().length == 0) {
             ToastifyError("Debe ingresar el detalle de la alergia");
             $("#alergiadetalle").focus();
             return false;
         }
-    }   
+    }
 
-    if(esquema == 0){
+    if (esquema == 0) {
         ToastifyError("Seleccione un esquema");
         $("#esquema").focus();
         return false;
     }
 
     //Validar medicamentos
-    if(medicamentoscheck.length == 0){
+    if (medicamentoscheck.length == 0) {
         ToastifyError("Debe seleccionar al menos un medicamento");
         return false;
     }
 
     //Validar premedicaciones
-    if(premedicaciones.length == 0){
+    if (premedicaciones.length == 0) {
         ToastifyError("Debe seleccionar al menos una premedicacion");
         return false;
     }
 
     //Validar estimulador
-    if(estimulador == 1){
-        if(cantidades.trim().length == 0){
+    if (estimulador == 1) {
+        if (cantidades.trim().length == 0) {
             ToastifyError("La cantidad no puede estar vacia");
             $("#cantidades").focus();
             return false;
         }
 
-        if(rango.trim().length == 0){
+        if (rango.trim().length == 0) {
             ToastifyError("El rango no puede estar vacio");
             $("#rango").focus();
             return false;
@@ -3585,13 +3586,13 @@ function generarreceta(paciente, medico, empresa, consulta){
     }
 
     //Validar observaciones
-    if(anamnesis.trim().length == 0){
+    if (anamnesis.trim().length == 0) {
         ToastifyError("La anamnesis no puede estar vacia");
         $("#anamnesis").focus();
         return false;
     }
 
-    if(observaciones.trim().length == 0){
+    if (observaciones.trim().length == 0) {
         ToastifyError("Las observaciones no pueden estar vacias");
         $("#observacion").focus();
         return false;
@@ -3600,32 +3601,33 @@ function generarreceta(paciente, medico, empresa, consulta){
     $.ajax({
         type: "POST",
         url: "php/insert/receta.php",
-        data: { paciente: paciente, medico: medico, empresa: empresa, consulta: consulta, estadio: estadio, nivel: nivel, ges: ges, peso: peso, talla: talla, scorporal: scorporal, creatinina: creatinina, auc: auc, fechaadmin: fechaadmin, examen: examen, ciclo: ciclo, anticipada: anticipada, curativo: curativo, paliativo: paliativo, adyuvante: adyuvante, concomitante: concomitante, neoadyuvante: neoadyuvante, primera: primera, traemedicamentos: traemedicamentos, diabetes: diabetes, hipertension: hipertension, alergia: alergia, alergiadetalle: alergiadetalle,otrocor:otrocor, otrcormo:otrcormo, urgente: urgente, esquema: esquema, medicamentoscheck: medicamentoscheck, premedicaciones: premedicaciones, estimulador: estimulador, cantidades: cantidades, rango: rango, anamnesis: anamnesis, observaciones: observaciones },
+        data: { paciente: paciente, medico: medico, empresa: empresa, consulta: consulta, estadio: estadio, nivel: nivel, ges: ges, peso: peso, talla: talla, scorporal: scorporal, creatinina: creatinina, auc: auc, fechaadmin: fechaadmin, examen: examen, ciclo: ciclo, anticipada: anticipada, curativo: curativo, paliativo: paliativo, adyuvante: adyuvante, concomitante: concomitante, neoadyuvante: neoadyuvante, primera: primera, traemedicamentos: traemedicamentos, diabetes: diabetes, hipertension: hipertension, alergia: alergia, alergiadetalle: alergiadetalle, otrocor: otrocor, otrcormo: otrcormo, urgente: urgente, esquema: esquema, medicamentoscheck: medicamentoscheck, premedicaciones: premedicaciones, estimulador: estimulador, cantidades: cantidades, rango: rango, anamnesis: anamnesis, observaciones: observaciones },
         success: function (respuesta) {
-            try{
+            try {
                 var receta = JSON.parse(respuesta);
                 //si el elemento error = true, mostrar error
-                if(receta.error == true){
+                if (receta.error == true) {
                     ToastifyError(receta.message);
-                }else if(receta.error == false){
+                } else if (receta.error == false) {
                     ToastifySuccess(receta.message);
                     //Recargar pagina en 1 segundo
                     setTimeout(function () {
-                        window.location.href = previo;
+                        //Volver a la pagina anterior
+                        window.history.back();
                     }, 500);
                 }
-            }catch(error){
+            } catch (error) {
                 ToastifyError(respuesta);
 
             }
         },
         error: function (error) {
-           ToastifyError(error);
+            ToastifyError(error);
         }
     });
 }
 
-function vistaprevia(paciente, medico, empresa, consulta, receta,folio){
+function vistaprevia(paciente, medico, empresa, consulta, receta, folio) {
 
     var estadio = $("#estadio").val();
     var nivel = $("#nivel").val();
@@ -3639,44 +3641,44 @@ function vistaprevia(paciente, medico, empresa, consulta, receta,folio){
     var examen = $("#examen").val();
     var ciclo = $("#ciclo").val();
     var anticipada = $("#anticipada").val();
-    var curativo =0;
-    if($("#curativo").is(':checked')){
+    var curativo = 0;
+    if ($("#curativo").is(':checked')) {
         curativo = 1;
     }
-    var paliativo =0;
-    if($("#paliativo").is(':checked')){
+    var paliativo = 0;
+    if ($("#paliativo").is(':checked')) {
         paliativo = 1;
     }
-    var adyuvante =0;
-    if($("#adyuvante").is(':checked')){
+    var adyuvante = 0;
+    if ($("#adyuvante").is(':checked')) {
         adyuvante = 1;
     }
-    var concomitante =0;
-    if($("#concomitante").is(':checked')){
+    var concomitante = 0;
+    if ($("#concomitante").is(':checked')) {
         concomitante = 1;
     }
-    var neoadyuvante =0;
-    if($("#neoadyuvante").is(':checked')){
+    var neoadyuvante = 0;
+    if ($("#neoadyuvante").is(':checked')) {
         neoadyuvante = 1;
     }
-    var primera =0;
-    if($("#primera").is(':checked')){
+    var primera = 0;
+    if ($("#primera").is(':checked')) {
         primera = 1;
     }
-    var traemedicamentos =0;
-    if($("#traemedicamentos").is(':checked')){
+    var traemedicamentos = 0;
+    if ($("#traemedicamentos").is(':checked')) {
         traemedicamentos = 1;
     }
-    var diabetes =0;
-    if($("#diabetes").is(':checked')){
+    var diabetes = 0;
+    if ($("#diabetes").is(':checked')) {
         diabetes = 1;
     }
-    var hipertension =0;
-    if($("#hipertension").is(':checked')){
+    var hipertension = 0;
+    if ($("#hipertension").is(':checked')) {
         hipertension = 1;
     }
-    var alergia =0;
-    if($("#alergia").is(':checked')){
+    var alergia = 0;
+    if ($("#alergia").is(':checked')) {
         alergia = 1;
     }
 
@@ -3686,10 +3688,10 @@ function vistaprevia(paciente, medico, empresa, consulta, receta,folio){
 
     var otrcormo = "";
     var otrocor = 0;
-    if($("#otrocor").is(':checked')){
+    if ($("#otrocor").is(':checked')) {
         otrocor = 1;
         otrcormo = $("#otrcormo").val();
-        if(otrcormo.trim().length == 0){
+        if (otrcormo.trim().length == 0) {
             ToastifyError("Debe ingresar la otra comorbilidad");
             $("#otrcormo").focus();
             return false;
@@ -3699,64 +3701,64 @@ function vistaprevia(paciente, medico, empresa, consulta, receta,folio){
     //Captura de medicamentos seleccionados
     const medicamentoscheck = [];
 
-    $("#medicamentoscharge tr.m-0").each(function() {
-      const checkbox = $(this).find("input[type='checkbox']");
-      const porcentajeSelect = $(this).find("select");
-      const medidaInput = $(this).find("input[name^='medida']");
-      const totalMgInput = $(this).find("input[name^='totalmg']");
-      const oralCheckbox = $(this).find("input[name^='oral']");
-      const evCheckbox = $(this).find("input[name^='ev']");
-      const scCheckbox = $(this).find("input[name^='sc']");
-      const itCheckbox = $(this).find("input[name^='it']");
-      const biccadCheckbox = $(this).find("input[name^='biccad']");
-      const observacionInput = $(this).find("input[name^='observacion']");
-      const carboplatinoInput = $(this).find("input[name^='carboplatino']");
+    $("#medicamentoscharge tr.m-0").each(function () {
+        const checkbox = $(this).find("input[type='checkbox']");
+        const porcentajeSelect = $(this).find("select");
+        const medidaInput = $(this).find("input[name^='medida']");
+        const totalMgInput = $(this).find("input[name^='totalmg']");
+        const oralCheckbox = $(this).find("input[name^='oral']");
+        const evCheckbox = $(this).find("input[name^='ev']");
+        const scCheckbox = $(this).find("input[name^='sc']");
+        const itCheckbox = $(this).find("input[name^='it']");
+        const biccadCheckbox = $(this).find("input[name^='biccad']");
+        const observacionInput = $(this).find("input[name^='observacion']");
+        const carboplatinoInput = $(this).find("input[name^='carboplatino']");
 
-      if (checkbox.prop("checked")) {
-        var porcentaje = porcentajeSelect.val();
-        var medida = medidaInput.val();
-        var totalMg = totalMgInput.val();
-        var oral =0;
-        if(oralCheckbox.prop("checked")){
-            oral = 1;
+        if (checkbox.prop("checked")) {
+            var porcentaje = porcentajeSelect.val();
+            var medida = medidaInput.val();
+            var totalMg = totalMgInput.val();
+            var oral = 0;
+            if (oralCheckbox.prop("checked")) {
+                oral = 1;
+            }
+            var ev = 0;
+            if (evCheckbox.prop("checked")) {
+                ev = 1;
+            }
+            var sc = 0;
+            if (scCheckbox.prop("checked")) {
+                sc = 1;
+            }
+            var it = 0;
+            if (itCheckbox.prop("checked")) {
+                it = 1;
+            }
+            var biccad = 0;
+            if (biccadCheckbox.prop("checked")) {
+                biccad = 1;
+            }
+            var observacion = observacionInput.val();
+            //Verificar si el campo existe
+            var carboplatino = null;
+            if (carboplatinoInput.length) {
+                carboplatino = carboplatinoInput.val();
+            }
+            const data = {
+                medicamento: checkbox.val(),
+                porcentaje: porcentaje,
+                medida: medida,
+                totalMg: totalMg,
+                oral: oral,
+                ev: ev,
+                sc: sc,
+                it: it,
+                biccad: biccad,
+                observacion: observacion,
+                carboplatino: carboplatino
+            };
+            medicamentoscheck.push(data);
         }
-        var ev =0;
-        if(evCheckbox.prop("checked")){
-            ev = 1;
-        }
-        var sc =0;
-        if(scCheckbox.prop("checked")){
-            sc = 1;
-        }
-        var it =0;
-        if(itCheckbox.prop("checked")){
-            it = 1;
-        }
-        var biccad =0;
-        if(biccadCheckbox.prop("checked")){
-            biccad = 1;
-        }
-        var observacion = observacionInput.val();
-        //Verificar si el campo existe
-        var carboplatino = null;
-        if (carboplatinoInput.length) {
-            carboplatino = carboplatinoInput.val();
-        }
-        const data = {
-          medicamento: checkbox.val(),
-          porcentaje: porcentaje,
-          medida: medida,
-          totalMg: totalMg,
-          oral: oral,
-          ev: ev,
-          sc: sc,
-          it: it,
-          biccad: biccad,
-          observacion: observacion,
-          carboplatino: carboplatino
-        };
-        medicamentoscheck.push(data);
-      }
     });
 
     console.log(medicamentoscheck);
@@ -3764,47 +3766,47 @@ function vistaprevia(paciente, medico, empresa, consulta, receta,folio){
     //Captura de Premedicacion
     const premedicaciones = [];
 
-    $("#premedicamentoscharge tr.m-0").each(function() {
-      const checkbox = $(this).find("input[type='checkbox']");
-      const dosisInput = $(this).find("input[name^='dosismg']");
-      const oralCheckbox = $(this).find("input[name^='oral']");
-      const evCheckbox = $(this).find("input[name^='ev']");
-      const scCheckbox = $(this).find("input[name^='sc']");
-      const observacionInput = $(this).find("input[name^='observacion']");
+    $("#premedicamentoscharge tr.m-0").each(function () {
+        const checkbox = $(this).find("input[type='checkbox']");
+        const dosisInput = $(this).find("input[name^='dosismg']");
+        const oralCheckbox = $(this).find("input[name^='oral']");
+        const evCheckbox = $(this).find("input[name^='ev']");
+        const scCheckbox = $(this).find("input[name^='sc']");
+        const observacionInput = $(this).find("input[name^='observacion']");
 
-      if (checkbox.prop("checked")) {
-        var dosis = dosisInput.val();
-        var oral =0;
-        if(oralCheckbox.prop("checked")){
-            oral = 1;
+        if (checkbox.prop("checked")) {
+            var dosis = dosisInput.val();
+            var oral = 0;
+            if (oralCheckbox.prop("checked")) {
+                oral = 1;
+            }
+            var ev = 0;
+            if (evCheckbox.prop("checked")) {
+                ev = 1;
+            }
+            var sc = 0;
+            if (scCheckbox.prop("checked")) {
+                sc = 1;
+            }
+            var observacion = observacionInput.val();
+
+            const data = {
+                premedicacion: checkbox.val(),
+                dosis: dosis,
+                oral: oral,
+                ev: ev,
+                sc: sc,
+                observacion: observacion
+            };
+            premedicaciones.push(data);
         }
-        var ev =0;
-        if(evCheckbox.prop("checked")){
-            ev = 1;
-        }
-        var sc =0;
-        if(scCheckbox.prop("checked")){
-            sc = 1;
-        }
-        var observacion = observacionInput.val();
-        
-        const data = {
-          premedicacion: checkbox.val(),
-          dosis: dosis,
-            oral: oral,
-            ev: ev,
-            sc: sc,
-            observacion: observacion
-        };
-        premedicaciones.push(data);
-      }
     });
 
     //Estimulador
-    var estimulador =0;
+    var estimulador = 0;
     var cantidades = 0;
     var rango = 0;
-    if($("#estimulador").is(':checked')){
+    if ($("#estimulador").is(':checked')) {
         estimulador = 1;
         cantidades = $("#cantidades").val();
         rango = $("#rango").val();
@@ -3815,130 +3817,130 @@ function vistaprevia(paciente, medico, empresa, consulta, receta,folio){
     var observaciones = $("#observacion").val();
 
     //Validar datos
-    if(estadio == 0){
+    if (estadio == 0) {
         ToastifyError("Seleccione un estadio");
         $("#estadio").focus();
         return false;
     }
 
-    if(nivel == 0){
+    if (nivel == 0) {
         ToastifyError("Seleccione un nivel");
         $("#nivel").focus();
         return false;
     }
 
-    if(ges == 0){
+    if (ges == 0) {
         ToastifyError("Seleccione un GES");
         $("#ges").focus();
         return false;
     }
 
-    if(peso.trim().length == 0){
+    if (peso.trim().length == 0) {
         ToastifyError("El peso no puede estar vacio");
         $("#peso").focus();
         return false;
     }
 
-    if(talla.trim().length == 0){
+    if (talla.trim().length == 0) {
         ToastifyError("La talla no puede estar vacia");
         $("#talla").focus();
         return false;
     }
 
-    if(scorporal.trim().length == 0){
+    if (scorporal.trim().length == 0) {
         ToastifyError("El S. Corporal no puede estar vacio");
         $("#scorporal").focus();
         return false;
     }
 
-    if(creatinina.trim().length == 0){
+    if (creatinina.trim().length == 0) {
         ToastifyError("La creatinina no puede estar vacia");
         $("#creatinina").focus();
         return false;
     }
 
-    if(auc.trim().length == 0){
+    if (auc.trim().length == 0) {
         ToastifyError("El AUC no puede estar vacio");
         $("#auc").focus();
         return false;
     }
 
-    if(fechaadmin.trim().length == 0){
+    if (fechaadmin.trim().length == 0) {
         ToastifyError("La fecha de administracion no puede estar vacia");
         $("#fechaadmin").focus();
         return false;
     }
 
-    
+
     //Validar que la fecha de administracion sea mayor a la fecha actual
     var fechaactual = new Date();
     var fechaadmin = new Date(fechaadmin);
-    if(fechaadmin < fechaactual){
+    if (fechaadmin < fechaactual) {
         ToastifyError("La fecha de administracion no puede ser menor a la fecha actual");
         $("#fechaadmin").focus();
         return false;
     }
 
-    if(examen.trim().length == 0){
+    if (examen.trim().length == 0) {
         ToastifyError("El examen no puede estar vacio");
         $("#examen").focus();
         return false;
     }
 
-    if(ciclo.trim().length == 0){
+    if (ciclo.trim().length == 0) {
         ToastifyError("El ciclo no puede estar vacio");
         $("#ciclo").focus();
         return false;
     }
 
-    if(anticipada.trim().length == 0){
+    if (anticipada.trim().length == 0) {
         ToastifyError("La anticipada no puede estar vacia");
         $("#anticipada").focus();
         return false;
     }
 
-    if(urgente.trim().length == 0){
+    if (urgente.trim().length == 0) {
         ToastifyError("Debe seleccionar si es urgente o no");
         $("#urgente").focus();
         return false;
     }
 
     //Validar alergia
-    if(alergia == 1){
-        if(alergiadetalle.trim().length == 0){
+    if (alergia == 1) {
+        if (alergiadetalle.trim().length == 0) {
             ToastifyError("Debe ingresar el detalle de la alergia");
             $("#alergiadetalle").focus();
             return false;
         }
-    }   
+    }
 
-    if(esquema == 0){
+    if (esquema == 0) {
         ToastifyError("Seleccione un esquema");
         $("#esquema").focus();
         return false;
     }
 
     //Validar medicamentos
-    if(medicamentoscheck.length == 0){
+    if (medicamentoscheck.length == 0) {
         ToastifyError("Debe seleccionar al menos un medicamento");
         return false;
     }
 
     //Validar premedicaciones
-    if(premedicaciones.length == 0){
+    if (premedicaciones.length == 0) {
         ToastifyError("Debe seleccionar al menos una premedicacion");
         return false;
     }
 
     //Validar estimulador
-    if(estimulador == 1){
-        if(cantidades.trim().length == 0){
+    if (estimulador == 1) {
+        if (cantidades.trim().length == 0) {
             ToastifyError("La cantidad no puede estar vacia");
             $("#cantidades").focus();
             return false;
         }
 
-        if(rango.trim().length == 0){
+        if (rango.trim().length == 0) {
             ToastifyError("El rango no puede estar vacio");
             $("#rango").focus();
             return false;
@@ -3946,29 +3948,29 @@ function vistaprevia(paciente, medico, empresa, consulta, receta,folio){
     }
 
     //Validar observaciones
-    if(anamnesis.trim().length == 0){
+    if (anamnesis.trim().length == 0) {
         ToastifyError("La anamnesis no puede estar vacia");
         $("#anamnesis").focus();
         return false;
     }
 
-    if(observaciones.trim().length == 0){
+    if (observaciones.trim().length == 0) {
         ToastifyError("Las observaciones no pueden estar vacias");
         $("#observacion").focus();
         return false;
     }
 
-    $("#frameprevia").attr("src", "php/reporte/previa/receta.php?paciente="+paciente+"&medico="+medico+"&empresa="+empresa+"&consulta="+consulta+"&estadio="+estadio+"&nivel="+nivel+"&ges="+ges+"&peso="+peso+"&talla="+talla+"&scorporal="+scorporal+"&creatinina="+creatinina+"&auc="+auc+"&fechaadmin="+fechaadmin+"&examen="+examen+"&ciclo="+ciclo+"&anticipada="+anticipada+"&curativo="+curativo+"&paliativo="+paliativo+"&adyuvante="+adyuvante+"&concomitante="+concomitante+"&neoadyuvante="+neoadyuvante+"&primera="+primera+"&traemedicamentos="+traemedicamentos+"&diabetes="+diabetes+"&hipertension="+hipertension+"&alergia="+alergia+"&alergiadetalle="+alergiadetalle+"&otrocor="+otrocor+"&otrcormo="+otrcormo+"&urgente="+urgente+"&esquema="+esquema+"&medicamentoscheck="+JSON.stringify(medicamentoscheck)+"&premedicaciones="+JSON.stringify(premedicaciones)+"&estimulador="+estimulador+"&cantidades="+cantidades+"&rango="+rango+"&anamnesis="+anamnesis+"&observaciones="+observaciones+"&receta="+receta+"&folio="+folio);
+    $("#frameprevia").attr("src", "php/reporte/previa/receta.php?paciente=" + paciente + "&medico=" + medico + "&empresa=" + empresa + "&consulta=" + consulta + "&estadio=" + estadio + "&nivel=" + nivel + "&ges=" + ges + "&peso=" + peso + "&talla=" + talla + "&scorporal=" + scorporal + "&creatinina=" + creatinina + "&auc=" + auc + "&fechaadmin=" + fechaadmin + "&examen=" + examen + "&ciclo=" + ciclo + "&anticipada=" + anticipada + "&curativo=" + curativo + "&paliativo=" + paliativo + "&adyuvante=" + adyuvante + "&concomitante=" + concomitante + "&neoadyuvante=" + neoadyuvante + "&primera=" + primera + "&traemedicamentos=" + traemedicamentos + "&diabetes=" + diabetes + "&hipertension=" + hipertension + "&alergia=" + alergia + "&alergiadetalle=" + alergiadetalle + "&otrocor=" + otrocor + "&otrcormo=" + otrcormo + "&urgente=" + urgente + "&esquema=" + esquema + "&medicamentoscheck=" + JSON.stringify(medicamentoscheck) + "&premedicaciones=" + JSON.stringify(premedicaciones) + "&estimulador=" + estimulador + "&cantidades=" + cantidades + "&rango=" + rango + "&anamnesis=" + anamnesis + "&observaciones=" + observaciones + "&receta=" + receta + "&folio=" + folio);
     $("#modalprevia").modal("show");
 }
 
 
-function editarreceta(paciente, medico, empresa, consulta, receta,folio){
+function editarreceta(paciente, medico, empresa, consulta, receta, folio) {
     var previo = $("#previo").val();
-    console.log("Paciente: "+paciente);
-    console.log("Medico: "+medico);
-    console.log("Empresa: "+empresa);
-    console.log("Consulta: "+consulta);
+    console.log("Paciente: " + paciente);
+    console.log("Medico: " + medico);
+    console.log("Empresa: " + empresa);
+    console.log("Consulta: " + consulta);
     var estadio = $("#estadio").val();
     var nivel = $("#nivel").val();
     var ges = $("#ges").val();
@@ -3981,44 +3983,44 @@ function editarreceta(paciente, medico, empresa, consulta, receta,folio){
     var examen = $("#examen").val();
     var ciclo = $("#ciclo").val();
     var anticipada = $("#anticipada").val();
-    var curativo =0;
-    if($("#curativo").is(':checked')){
+    var curativo = 0;
+    if ($("#curativo").is(':checked')) {
         curativo = 1;
     }
-    var paliativo =0;
-    if($("#paliativo").is(':checked')){
+    var paliativo = 0;
+    if ($("#paliativo").is(':checked')) {
         paliativo = 1;
     }
-    var adyuvante =0;
-    if($("#adyuvante").is(':checked')){
+    var adyuvante = 0;
+    if ($("#adyuvante").is(':checked')) {
         adyuvante = 1;
     }
-    var concomitante =0;
-    if($("#concomitante").is(':checked')){
+    var concomitante = 0;
+    if ($("#concomitante").is(':checked')) {
         concomitante = 1;
     }
-    var neoadyuvante =0;
-    if($("#neoadyuvante").is(':checked')){
+    var neoadyuvante = 0;
+    if ($("#neoadyuvante").is(':checked')) {
         neoadyuvante = 1;
     }
-    var primera =0;
-    if($("#primera").is(':checked')){
+    var primera = 0;
+    if ($("#primera").is(':checked')) {
         primera = 1;
     }
-    var traemedicamentos =0;
-    if($("#traemedicamentos").is(':checked')){
+    var traemedicamentos = 0;
+    if ($("#traemedicamentos").is(':checked')) {
         traemedicamentos = 1;
     }
-    var diabetes =0;
-    if($("#diabetes").is(':checked')){
+    var diabetes = 0;
+    if ($("#diabetes").is(':checked')) {
         diabetes = 1;
     }
-    var hipertension =0;
-    if($("#hipertension").is(':checked')){
+    var hipertension = 0;
+    if ($("#hipertension").is(':checked')) {
         hipertension = 1;
     }
-    var alergia =0;
-    if($("#alergia").is(':checked')){
+    var alergia = 0;
+    if ($("#alergia").is(':checked')) {
         alergia = 1;
     }
 
@@ -4028,10 +4030,10 @@ function editarreceta(paciente, medico, empresa, consulta, receta,folio){
 
     var otrcormo = "";
     var otrocor = 0;
-    if($("#otrocor").is(':checked')){
+    if ($("#otrocor").is(':checked')) {
         otrocor = 1;
         otrcormo = $("#otrcormo").val();
-        if(otrcormo.trim().length == 0){
+        if (otrcormo.trim().length == 0) {
             ToastifyError("Debe ingresar la otra comorbilidad");
             $("#otrcormo").focus();
             return false;
@@ -4041,64 +4043,64 @@ function editarreceta(paciente, medico, empresa, consulta, receta,folio){
     //Captura de medicamentos seleccionados
     const medicamentoscheck = [];
 
-    $("#medicamentoscharge tr.m-0").each(function() {
-      const checkbox = $(this).find("input[type='checkbox']");
-      const porcentajeSelect = $(this).find("select");
-      const medidaInput = $(this).find("input[name^='medida']");
-      const totalMgInput = $(this).find("input[name^='totalmg']");
-      const oralCheckbox = $(this).find("input[name^='oral']");
-      const evCheckbox = $(this).find("input[name^='ev']");
-      const scCheckbox = $(this).find("input[name^='sc']");
-      const itCheckbox = $(this).find("input[name^='it']");
-      const biccadCheckbox = $(this).find("input[name^='biccad']");
-      const observacionInput = $(this).find("input[name^='observacion']");
-      const carboplatinoInput = $(this).find("input[name^='carboplatino']");
+    $("#medicamentoscharge tr.m-0").each(function () {
+        const checkbox = $(this).find("input[type='checkbox']");
+        const porcentajeSelect = $(this).find("select");
+        const medidaInput = $(this).find("input[name^='medida']");
+        const totalMgInput = $(this).find("input[name^='totalmg']");
+        const oralCheckbox = $(this).find("input[name^='oral']");
+        const evCheckbox = $(this).find("input[name^='ev']");
+        const scCheckbox = $(this).find("input[name^='sc']");
+        const itCheckbox = $(this).find("input[name^='it']");
+        const biccadCheckbox = $(this).find("input[name^='biccad']");
+        const observacionInput = $(this).find("input[name^='observacion']");
+        const carboplatinoInput = $(this).find("input[name^='carboplatino']");
 
-      if (checkbox.prop("checked")) {
-        var porcentaje = porcentajeSelect.val();
-        var medida = medidaInput.val();
-        var totalMg = totalMgInput.val();
-        var oral =0;
-        if(oralCheckbox.prop("checked")){
-            oral = 1;
+        if (checkbox.prop("checked")) {
+            var porcentaje = porcentajeSelect.val();
+            var medida = medidaInput.val();
+            var totalMg = totalMgInput.val();
+            var oral = 0;
+            if (oralCheckbox.prop("checked")) {
+                oral = 1;
+            }
+            var ev = 0;
+            if (evCheckbox.prop("checked")) {
+                ev = 1;
+            }
+            var sc = 0;
+            if (scCheckbox.prop("checked")) {
+                sc = 1;
+            }
+            var it = 0;
+            if (itCheckbox.prop("checked")) {
+                it = 1;
+            }
+            var biccad = 0;
+            if (biccadCheckbox.prop("checked")) {
+                biccad = 1;
+            }
+            var observacion = observacionInput.val();
+            //Verificar si el campo existe
+            var carboplatino = null;
+            if (carboplatinoInput.length) {
+                carboplatino = carboplatinoInput.val();
+            }
+            const data = {
+                medicamento: checkbox.val(),
+                porcentaje: porcentaje,
+                medida: medida,
+                totalMg: totalMg,
+                oral: oral,
+                ev: ev,
+                sc: sc,
+                it: it,
+                biccad: biccad,
+                observacion: observacion,
+                carboplatino: carboplatino
+            };
+            medicamentoscheck.push(data);
         }
-        var ev =0;
-        if(evCheckbox.prop("checked")){
-            ev = 1;
-        }
-        var sc =0;
-        if(scCheckbox.prop("checked")){
-            sc = 1;
-        }
-        var it =0;
-        if(itCheckbox.prop("checked")){
-            it = 1;
-        }
-        var biccad =0;
-        if(biccadCheckbox.prop("checked")){
-            biccad = 1;
-        }
-        var observacion = observacionInput.val();
-        //Verificar si el campo existe
-        var carboplatino = null;
-        if (carboplatinoInput.length) {
-            carboplatino = carboplatinoInput.val();
-        }
-        const data = {
-          medicamento: checkbox.val(),
-          porcentaje: porcentaje,
-          medida: medida,
-          totalMg: totalMg,
-          oral: oral,
-          ev: ev,
-          sc: sc,
-          it: it,
-          biccad: biccad,
-          observacion: observacion,
-          carboplatino: carboplatino
-        };
-        medicamentoscheck.push(data);
-      }
     });
 
     console.log(medicamentoscheck);
@@ -4106,47 +4108,47 @@ function editarreceta(paciente, medico, empresa, consulta, receta,folio){
     //Captura de Premedicacion
     const premedicaciones = [];
 
-    $("#premedicamentoscharge tr.m-0").each(function() {
-      const checkbox = $(this).find("input[type='checkbox']");
-      const dosisInput = $(this).find("input[name^='dosismg']");
-      const oralCheckbox = $(this).find("input[name^='oral']");
-      const evCheckbox = $(this).find("input[name^='ev']");
-      const scCheckbox = $(this).find("input[name^='sc']");
-      const observacionInput = $(this).find("input[name^='observacion']");
+    $("#premedicamentoscharge tr.m-0").each(function () {
+        const checkbox = $(this).find("input[type='checkbox']");
+        const dosisInput = $(this).find("input[name^='dosismg']");
+        const oralCheckbox = $(this).find("input[name^='oral']");
+        const evCheckbox = $(this).find("input[name^='ev']");
+        const scCheckbox = $(this).find("input[name^='sc']");
+        const observacionInput = $(this).find("input[name^='observacion']");
 
-      if (checkbox.prop("checked")) {
-        var dosis = dosisInput.val();
-        var oral =0;
-        if(oralCheckbox.prop("checked")){
-            oral = 1;
+        if (checkbox.prop("checked")) {
+            var dosis = dosisInput.val();
+            var oral = 0;
+            if (oralCheckbox.prop("checked")) {
+                oral = 1;
+            }
+            var ev = 0;
+            if (evCheckbox.prop("checked")) {
+                ev = 1;
+            }
+            var sc = 0;
+            if (scCheckbox.prop("checked")) {
+                sc = 1;
+            }
+            var observacion = observacionInput.val();
+
+            const data = {
+                premedicacion: checkbox.val(),
+                dosis: dosis,
+                oral: oral,
+                ev: ev,
+                sc: sc,
+                observacion: observacion
+            };
+            premedicaciones.push(data);
         }
-        var ev =0;
-        if(evCheckbox.prop("checked")){
-            ev = 1;
-        }
-        var sc =0;
-        if(scCheckbox.prop("checked")){
-            sc = 1;
-        }
-        var observacion = observacionInput.val();
-        
-        const data = {
-          premedicacion: checkbox.val(),
-          dosis: dosis,
-            oral: oral,
-            ev: ev,
-            sc: sc,
-            observacion: observacion
-        };
-        premedicaciones.push(data);
-      }
     });
 
     //Estimulador
-    var estimulador =0;
+    var estimulador = 0;
     var cantidades = 0;
     var rango = 0;
-    if($("#estimulador").is(':checked')){
+    if ($("#estimulador").is(':checked')) {
         estimulador = 1;
         cantidades = $("#cantidades").val();
         rango = $("#rango").val();
@@ -4157,55 +4159,55 @@ function editarreceta(paciente, medico, empresa, consulta, receta,folio){
     var observaciones = $("#observacion").val();
 
     //Validar datos
-    if(estadio == 0){
+    if (estadio == 0) {
         ToastifyError("Seleccione un estadio");
         $("#estadio").focus();
         return false;
     }
 
-    if(nivel == 0){
+    if (nivel == 0) {
         ToastifyError("Seleccione un nivel");
         $("#nivel").focus();
         return false;
     }
 
-    if(ges == 0){
+    if (ges == 0) {
         ToastifyError("Seleccione un GES");
         $("#ges").focus();
         return false;
     }
 
-    if(peso.trim().length == 0){
+    if (peso.trim().length == 0) {
         ToastifyError("El peso no puede estar vacio");
         $("#peso").focus();
         return false;
     }
 
-    if(talla.trim().length == 0){
+    if (talla.trim().length == 0) {
         ToastifyError("La talla no puede estar vacia");
         $("#talla").focus();
         return false;
     }
 
-    if(scorporal.trim().length == 0){
+    if (scorporal.trim().length == 0) {
         ToastifyError("El S. Corporal no puede estar vacio");
         $("#scorporal").focus();
         return false;
     }
 
-    if(creatinina.trim().length == 0){
+    if (creatinina.trim().length == 0) {
         ToastifyError("La creatinina no puede estar vacia");
         $("#creatinina").focus();
         return false;
     }
 
-    if(auc.trim().length == 0){
+    if (auc.trim().length == 0) {
         ToastifyError("El AUC no puede estar vacio");
         $("#auc").focus();
         return false;
     }
 
-    if(fechaadmin.trim().length == 0){
+    if (fechaadmin.trim().length == 0) {
         ToastifyError("La fecha de administracion no puede estar vacia");
         $("#fechaadmin").focus();
         return false;
@@ -4214,72 +4216,72 @@ function editarreceta(paciente, medico, empresa, consulta, receta,folio){
     //Validar que la fecha de administracion sea mayor a la fecha actual
     var fechaactual = new Date();
     var fechaadmin = new Date(fechaadmin);
-    if(fechaadmin < fechaactual){
+    if (fechaadmin < fechaactual) {
         ToastifyError("La fecha de administracion no puede ser menor a la fecha actual");
         $("#fechaadmin").focus();
         return false;
     }
 
-    if(examen.trim().length == 0){
+    if (examen.trim().length == 0) {
         ToastifyError("El examen no puede estar vacio");
         $("#examen").focus();
         return false;
     }
 
-    if(ciclo.trim().length == 0){
+    if (ciclo.trim().length == 0) {
         ToastifyError("El ciclo no puede estar vacio");
         $("#ciclo").focus();
         return false;
     }
 
-    if(anticipada.trim().length == 0){
+    if (anticipada.trim().length == 0) {
         ToastifyError("La anticipada no puede estar vacia");
         $("#anticipada").focus();
         return false;
     }
 
-    if(urgente.trim().length == 0){
+    if (urgente.trim().length == 0) {
         ToastifyError("Debe seleccionar si es urgente o no");
         $("#urgente").focus();
         return false;
     }
 
     //Validar alergia
-    if(alergia == 1){
-        if(alergiadetalle.trim().length == 0){
+    if (alergia == 1) {
+        if (alergiadetalle.trim().length == 0) {
             ToastifyError("Debe ingresar el detalle de la alergia");
             $("#alergiadetalle").focus();
             return false;
         }
-    }   
+    }
 
-    if(esquema == 0){
+    if (esquema == 0) {
         ToastifyError("Seleccione un esquema");
         $("#esquema").focus();
         return false;
     }
 
     //Validar medicamentos
-    if(medicamentoscheck.length == 0){
+    if (medicamentoscheck.length == 0) {
         ToastifyError("Debe seleccionar al menos un medicamento");
         return false;
     }
 
     //Validar premedicaciones
-    if(premedicaciones.length == 0){
+    if (premedicaciones.length == 0) {
         ToastifyError("Debe seleccionar al menos una premedicacion");
         return false;
     }
 
     //Validar estimulador
-    if(estimulador == 1){
-        if(cantidades.trim().length == 0){
+    if (estimulador == 1) {
+        if (cantidades.trim().length == 0) {
             ToastifyError("La cantidad no puede estar vacia");
             $("#cantidades").focus();
             return false;
         }
 
-        if(rango.trim().length == 0){
+        if (rango.trim().length == 0) {
             ToastifyError("El rango no puede estar vacio");
             $("#rango").focus();
             return false;
@@ -4287,13 +4289,13 @@ function editarreceta(paciente, medico, empresa, consulta, receta,folio){
     }
 
     //Validar observaciones
-    if(anamnesis.trim().length == 0){
+    if (anamnesis.trim().length == 0) {
         ToastifyError("La anamnesis no puede estar vacia");
         $("#anamnesis").focus();
         return false;
     }
 
-    if(observaciones.trim().length == 0){
+    if (observaciones.trim().length == 0) {
         ToastifyError("Las observaciones no pueden estar vacias");
         $("#observacion").focus();
         return false;
@@ -4302,43 +4304,44 @@ function editarreceta(paciente, medico, empresa, consulta, receta,folio){
     $.ajax({
         type: "POST",
         url: "php/insert/receta1.php",
-        data: { paciente: paciente, medico: medico, empresa: empresa, consulta: consulta, estadio: estadio, nivel: nivel, ges: ges, peso: peso, talla: talla, scorporal: scorporal, creatinina: creatinina, auc: auc, fechaadmin: fechaadmin, examen: examen, ciclo: ciclo, anticipada: anticipada, curativo: curativo, paliativo: paliativo, adyuvante: adyuvante, concomitante: concomitante, neoadyuvante: neoadyuvante, primera: primera, traemedicamentos: traemedicamentos, diabetes: diabetes, hipertension: hipertension, alergia: alergia, alergiadetalle: alergiadetalle,otrocor:otrocor, otrcormo:otrcormo, urgente: urgente, esquema: esquema, medicamentoscheck: medicamentoscheck, premedicaciones: premedicaciones, estimulador: estimulador, cantidades: cantidades, rango: rango, anamnesis: anamnesis, observaciones: observaciones, receta: receta, folio: folio },
+        data: { paciente: paciente, medico: medico, empresa: empresa, consulta: consulta, estadio: estadio, nivel: nivel, ges: ges, peso: peso, talla: talla, scorporal: scorporal, creatinina: creatinina, auc: auc, fechaadmin: fechaadmin, examen: examen, ciclo: ciclo, anticipada: anticipada, curativo: curativo, paliativo: paliativo, adyuvante: adyuvante, concomitante: concomitante, neoadyuvante: neoadyuvante, primera: primera, traemedicamentos: traemedicamentos, diabetes: diabetes, hipertension: hipertension, alergia: alergia, alergiadetalle: alergiadetalle, otrocor: otrocor, otrcormo: otrcormo, urgente: urgente, esquema: esquema, medicamentoscheck: medicamentoscheck, premedicaciones: premedicaciones, estimulador: estimulador, cantidades: cantidades, rango: rango, anamnesis: anamnesis, observaciones: observaciones, receta: receta, folio: folio },
         success: function (respuesta) {
-            try{
+            try {
                 var receta = JSON.parse(respuesta);
                 //si el elemento error = true, mostrar error
-                if(receta.error == true){
+                if (receta.error == true) {
                     ToastifyError(receta.message);
-                }else if(receta.error == false){
+                } else if (receta.error == false) {
                     ToastifySuccess(receta.message);
                     //Recargar pagina en 1 segundo
                     setTimeout(function () {
-                        window.location.href = previo;
+                        //Volver a la pagina anterior
+                        window.history.back();
                     }, 500);
                 }
-            }catch(error){
+            } catch (error) {
                 ToastifyError(respuesta);
 
             }
         },
         error: function (error) {
-           ToastifyError(error);
+            ToastifyError(error);
         }
     });
 }
 
-function checkdiscapacidad(){
-    if($("#discapacidad").is(':checked')){
+function checkdiscapacidad() {
+    if ($("#discapacidad").is(':checked')) {
         $(".discapacidad").removeClass("d-none");
-        $("#descripciondiscapacidad").attr("required",true);
-    }else{
+        $("#descripciondiscapacidad").attr("required", true);
+    } else {
         $(".discapacidad").addClass("d-none");
         $("#descripciondiscapacidad").removeAttr("required");
     }
 }
 
 
-function historialatencion(folio, atencion){
+function historialatencion(folio, atencion) {
     $.ajax({
         url: "php/charge/historialatencion.php",
         type: "POST",
@@ -4346,10 +4349,10 @@ function historialatencion(folio, atencion){
         success: function (data) {
             try {
                 var json = JSON.parse(data);
-                if(json.status == true){
+                if (json.status == true) {
                     $(".historialatencioncontent").html(json.content);
                     $("#modalhistorialatencion").modal("show");
-                }else{
+                } else {
                     ToastifyError(json.message);
                 }
             } catch (error) {
@@ -4359,7 +4362,7 @@ function historialatencion(folio, atencion){
     });
 }
 
-function finalizaratencion(id){
+function finalizaratencion(id) {
     $.ajax({
         url: "php/update/finalizaratencion.php",
         type: "POST",
@@ -4367,12 +4370,12 @@ function finalizaratencion(id){
         success: function (data) {
             try {
                 var json = JSON.parse(data);
-                if(json.status == true){
+                if (json.status == true) {
                     ToastifySuccess(json.message);
                     setTimeout(function () {
                         location.reload();
                     }, 500);
-                }else{
+                } else {
                     ToastifyError(json.message);
                 }
             } catch (error) {
@@ -4380,4 +4383,32 @@ function finalizaratencion(id){
             }
         },
     });
+}
+
+function calc(id) {
+    if ($("#medicamento" + id).prop("checked") == true) {
+        var dosis = $("#medida" + id).val();
+        var porcentaje = $("#porcentaje" + id).val();
+        var scorporal = $("#scorporal").val();
+
+        if (dosis.trim().length == 0) {
+            dosis = 0;
+            $("#totalmg" + id).val(0);
+            return;
+        }
+
+        if (porcentaje.trim().length == 0) {
+            porcentaje = 0;
+        }
+
+        if (scorporal.trim().length == 0) {
+            scorporal = 0;
+        }
+
+        var totalmg = ((dosis * porcentaje) / 100) * scorporal;
+        var totalMg = totalmg.toFixed(1);
+        $("#totalmg" + id).val(totalMg);
+    } else {
+        $("#totalmg" + id).val(0);
+    }
 }

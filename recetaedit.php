@@ -1099,11 +1099,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	</div>
 																	<div class="tab-pane" id="tabCont4">
 																		<div class="row">
-																			<div class="col-md-6">
-																				<label for="">Anamesis</label>
-																				<textarea name="anamnesis" id="anamnesis" cols="30" rows="10" class="form-control"><?php echo $receta->getAnamnesis();?></textarea>
-																			</div>
-																			<div class="col-md-6">
+																			<div class="col-md-12">
 																				<label for="">Observación</label>
 																				<textarea name="observacion" id="observacion" cols="30" rows="10" class="form-control"><?php echo $receta->getObservacion();?></textarea>
 																			</div>

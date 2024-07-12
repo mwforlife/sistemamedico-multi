@@ -64,8 +64,6 @@ if (isset($_POST['paciente']) && isset($_POST['empresa']) && isset($_POST['medic
         $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha Actualizada la consulta con el folio: ".$folio;
         $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
         /**************************************** */
-
-        $c->cambiarestadoreserva($reserva,$estadoatencion);
        
         echo json_encode(array('error' => false, 'message' => 'Consulta Actualizada correctamente'));
     }else{

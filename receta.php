@@ -798,11 +798,11 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 															<label for="">S. Corporal</label>
 															<input type="number" name="scorporal" id="scorporal" class="form-control" step="1.01" readonly value="<?php echo $supcop; ?>">
 														</div>
-														<div class="col-md-2">
+														<div class="col-md-2 carbo d-none">
 															<label for="">Creatinina</label>
 															<input type="number" name="creatinina" id="creatinina" class="form-control" step="1.01" placeholder="Creatinina">
 														</div>
-														<div class="col-md-2">
+														<div class="col-md-2 carbo d-none">
 															<label for="">AUC</label>
 															<input type="number" name="auc" id="auc" class="form-control" step="1.01" placeholder="AUC">
 														</div>
@@ -970,11 +970,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	</div>
 																	<div class="tab-pane" id="tabCont4">
 																		<div class="row">
-																			<div class="col-md-6">
-																				<label for="">Anamesis</label>
-																				<textarea name="anamnesis" id="anamnesis" cols="30" rows="10" class="form-control"></textarea>
-																			</div>
-																			<div class="col-md-6">
+																			<div class="col-md-12">
 																				<label for="">Observación</label>
 																				<textarea name="observacion" id="observacion" cols="30" rows="10" class="form-control"></textarea>
 																			</div>

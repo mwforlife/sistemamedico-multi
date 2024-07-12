@@ -15,7 +15,7 @@ if (isset($_POST['id']) && isset($_POST['receta'])) {
         echo "<th class='text-center'>%</th>";
         echo "<th>DOSIS MG ESQUEMA</th>";
         echo "<th>CARBOPLATINO</th>";
-        echo "<th>DOSIS TOTAL MG</th>";
+        echo "<th>DOSIS TOTAL MG - SC</th>";
         echo "<th>ORAL</th>";
         echo "<th>EV</th>";
         echo "<th>SC</th>";
@@ -32,7 +32,7 @@ if (isset($_POST['id']) && isset($_POST['receta'])) {
                 foreach ($medicacion as $med) {
                     if ($med->getMedicamento() == $medicamento->getId()) {
                         echo "<tr class='m-0' >";
-                        echo "<td class='m-0'><input type='checkbox' name='medicamento" . $medicamento->getId() . "' id='medicamento" . $medicamento->getId() . "' value='" . $medicamento->getId() . "' checked></td>";
+                        echo "<td class='m-0'><input type='checkbox' onclick='calc(" . $medicamento->getId() . ")' name='medicamento" . $medicamento->getId() . "' id='medicamento" . $medicamento->getId() . "' value='" . $medicamento->getId() . "' checked></td>";
                         echo "<td  class='m-0'> <span>" . $medicamento->getMedicamento() . "</span></td>";
                         echo "<td class='m-0'>";
                         echo "<select name='porcentaje" . $medicamento->getId() . "' id='porcentaje" . $medicamento->getId() . "' class='form-control' onchange='calc(" . $medicamento->getId() . ")'>";
@@ -50,9 +50,9 @@ if (isset($_POST['id']) && isset($_POST['receta'])) {
                         echo "</select>";
                         echo "</td>";
 
-                        echo "<td class='m-0'><input type='number' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedicion() . "' value='" . $med->getDosis() . "'></td>";
+                        echo "<td class='m-0'><input type='number' onkeyup='calc(" . $medicamento->getId() . ")'  name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedicion() . "' value='" . $med->getDosis() . "'></td>";
                         echo "<td class='m-0'><input type='number' class='form-control' name='carboplatino" . $medicamento->getId() . "' id='carboplatino" . $medicamento->getId() . "' value='" . $med->getCarboplatino() . "'></td>";
-                        echo "<td class='m-0'><input type='number' name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG'></td>";
+                        echo "<td class='m-0'><input type='number'  name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG' value='" . $med->getDosistotal() . "'></td>";
                         echo "<td class='m-0'><input type='checkbox' name='oral" . $medicamento->getId() . "' id='oral" . $medicamento->getId() . "' value='1'"; if ($med->getOral() == 1) {echo "checked";} echo "></td>";
                         echo "<td class='m-0'><input type='checkbox' name='ev" . $medicamento->getId() . "' id='ev" . $medicamento->getId() . "' value='1' "; if ($med->getEv() == 1) {echo "checked";} echo "></td>";
                         echo "<td class='m-0'><input type='checkbox' name='sc" . $medicamento->getId() . "' id='sc" . $medicamento->getId() . "' value='1' "; if ($med->getSc() == 1) {echo "checked";} echo "></td>";
@@ -67,7 +67,7 @@ if (isset($_POST['id']) && isset($_POST['receta'])) {
 
                 if ($check == false) {
                     echo "<tr class='m-0' >";
-                    echo "<td class='m-0'><input type='checkbox' name='medicamento" . $medicamento->getId() . "' id='medicamento" . $medicamento->getId() . "' value='" . $medicamento->getId() . "'></td>";
+                    echo "<td class='m-0'><input type='checkbox' onclick='calc(" . $medicamento->getId() . ")' name='medicamento" . $medicamento->getId() . "' id='medicamento" . $medicamento->getId() . "' value='" . $medicamento->getId() . "'></td>";
                     echo "<td  class='m-0'> <span>" . $medicamento->getMedicamento() . "</span></td>";
                     echo "<td class='m-0'>";
                     echo "<select name='porcentaje" . $medicamento->getId() . "' id='porcentaje" . $medicamento->getId() . "' class='form-control' onchange='calc(" . $medicamento->getId() . ")'>";
@@ -85,9 +85,9 @@ if (isset($_POST['id']) && isset($_POST['receta'])) {
                     echo "</select>";
                     echo "</td>";
 
-                    echo "<td class='m-0'><input type='number' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedicion() . "'></td>";
+                    echo "<td class='m-0'><input type='number' onkeyup='calc(" . $medicamento->getId() . ")' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedicion() . "'></td>";
                     echo "<td class='m-0'><input type='number' class='form-control' name='carboplatino" . $medicamento->getId() . "' id='carboplatino" . $medicamento->getId() . "' ></td>";
-                    echo "<td class='m-0'><input type='number' name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG'></td>";
+                    echo "<td class='m-0'><input type='number'  name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG' value='" . $med->getDosistotal() . "'></td>";
                     echo "<td class='m-0'><input type='checkbox' name='oral" . $medicamento->getId() . "' id='oral" . $medicamento->getId() . "' value='1'></td>";
                     echo "<td class='m-0'><input type='checkbox' name='ev" . $medicamento->getId() . "' id='ev" . $medicamento->getId() . "' value='1'></td>";
                     echo "<td class='m-0'><input type='checkbox' name='sc" . $medicamento->getId() . "' id='sc" . $medicamento->getId() . "' value='1'></td>";
@@ -128,7 +128,7 @@ if (isset($_POST['id']) && isset($_POST['receta'])) {
                 foreach ($medicacion as $med) {
                     if ($med->getMedicamento() == $medicamento->getId()) {
                         echo "<tr class='m-0' >";
-                        echo "<td class='m-0'><input type='checkbox' name='medicamento" . $medicamento->getId() . "' id='medicamento" . $medicamento->getId() . "' value='" . $medicamento->getId() . "' checked></td>";
+                        echo "<td class='m-0'><input onclick='calc(" . $medicamento->getId() . ")' type='checkbox' name='medicamento" . $medicamento->getId() . "' id='medicamento" . $medicamento->getId() . "' value='" . $medicamento->getId() . "' checked></td>";
                         echo "<td  class='m-0'> <span>" . $medicamento->getMedicamento() . "</span></td>";
                         echo "<td class='m-0'>";
                         echo "<select name='porcentaje" . $medicamento->getId() . "' id='porcentaje" . $medicamento->getId() . "' class='form-control' onchange='calc(" . $medicamento->getId() . ")'>";
@@ -146,8 +146,8 @@ if (isset($_POST['id']) && isset($_POST['receta'])) {
                         echo "</select>";
                         echo "</td>";
 
-                        echo "<td class='m-0'><input type='number' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedicion() . "' value='" . $med->getDosis() . "'></td>";
-                        echo "<td class='m-0'><input type='number' name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG'></td>";
+                        echo "<td class='m-0'><input type='number' onkeyup='calc(" . $medicamento->getId() . ")'  name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedicion() . "' value='" . $med->getDosis() . "'></td>";
+                        echo "<td class='m-0'><input type='number'  name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG'></td>";
                         echo "<td class='m-0'><input type='checkbox' name='oral" . $medicamento->getId() . "' id='oral" . $medicamento->getId() . "' value='1'"; if ($med->getOral() == 1) {echo "checked";} echo "></td>";
                         echo "<td class='m-0'><input type='checkbox' name='ev" . $medicamento->getId() . "' id='ev" . $medicamento->getId() . "' value='1' "; if ($med->getEv() == 1) {echo "checked";} echo "></td>";
                         echo "<td class='m-0'><input type='checkbox' name='sc" . $medicamento->getId() . "' id='sc" . $medicamento->getId() . "' value='1' "; if ($med->getSc() == 1) {echo "checked";} echo "></td>";
@@ -162,7 +162,7 @@ if (isset($_POST['id']) && isset($_POST['receta'])) {
 
                 if ($check == false) {
                     echo "<tr class='m-0' >";
-                    echo "<td class='m-0'><input type='checkbox' name='medicamento" . $medicamento->getId() . "' id='medicamento" . $medicamento->getId() . "' value='" . $medicamento->getId() . "'></td>";
+                    echo "<td class='m-0'><input type='checkbox' onclick='calc(" . $medicamento->getId() . ")' name='medicamento" . $medicamento->getId() . "' id='medicamento" . $medicamento->getId() . "' value='" . $medicamento->getId() . "'></td>";
                     echo "<td  class='m-0'> <span>" . $medicamento->getMedicamento() . "</span></td>";
                     echo "<td class='m-0'>";
                     echo "<select name='porcentaje" . $medicamento->getId() . "' id='porcentaje" . $medicamento->getId() . "' class='form-control' onchange='calc(" . $medicamento->getId() . ")'>";
@@ -180,8 +180,8 @@ if (isset($_POST['id']) && isset($_POST['receta'])) {
                     echo "</select>";
                     echo "</td>";
 
-                    echo "<td class='m-0'><input type='number' name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedicion() . "'></td>";
-                    echo "<td class='m-0'><input type='number' class='form-control' name='carboplatino" . $medicamento->getId() . "' id='carboplatino" . $medicamento->getId() . "' ></td>";
+                    echo "<td class='m-0'><input type='number' onkeyup='calc(" . $medicamento->getId() . ")'  name='medida" . $medicamento->getId() . "' id='medida" . $medicamento->getId() . "' class='form-control' placeholder='" . $medicamento->getMedicion() . "'></td>";
+                    echo "<td class='m-0'><input type='number'  class='form-control' name='carboplatino" . $medicamento->getId() . "' id='carboplatino" . $medicamento->getId() . "' ></td>";
                     echo "<td class='m-0'><input type='number' name='totalmg" . $medicamento->getId() . "' id='totalmg" . $medicamento->getId() . "' class='form-control' placeholder='Total MG'></td>";
                     echo "<td class='m-0'><input type='checkbox' name='oral" . $medicamento->getId() . "' id='oral" . $medicamento->getId() . "' value='1'></td>";
                     echo "<td class='m-0'><input type='checkbox' name='ev" . $medicamento->getId() . "' id='ev" . $medicamento->getId() . "' value='1'></td>";

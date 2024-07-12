@@ -1133,8 +1133,7 @@ create table recetas(
     otrcormo text null,
     urgente int not null references urgente(id),
     esquema int not null references esquemas(id),
-    anamesis text not null,
-    observacion text not null,
+    observacion text null,
     estado int not null default 1,
     registro datetime not null default current_timestamp
 );
@@ -1163,6 +1162,7 @@ create table recetamedicamentos(
     procenjate int null default 0,
     dosis float not null,
     carboplatino float null default 0,
+    dosistotal float not null,
     oral int not null,
     ev int not null,
     sc int not null,
@@ -1171,6 +1171,8 @@ create table recetamedicamentos(
     observacion text null,
     registro datetime not null default current_timestamp
 );
+
+alter table recetamedicamentos add column dosistotal float not null after carboplatino;
 
 create table estimulador(
     id int not null auto_increment primary key,

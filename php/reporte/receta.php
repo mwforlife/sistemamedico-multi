@@ -268,10 +268,10 @@ if (isset($_GET['r'])) {
         $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Adyuvante,</label>";
     }
     if ($receta->getConcomitante() == 1) {
-        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Neoadyuvante,</label>";
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Concomitante,</label>";
     }
     if ($receta->getCurativo() == 1) {
-        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Concomitante,</label>";
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Curativo,</label>";
     }
 
     if ($receta->getPaliativo() == 1) {
@@ -279,7 +279,7 @@ if (isset($_GET['r'])) {
     }
 
     if ($receta->getNoeAdyuvante() == 1) {
-        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> Preventivo,</label>";
+        $contenido .= "<label style='font-size:9pt; padding-left:15px;'> NeoAdyuvante,</label>";
     }
 
     $contenido .= "</div>";

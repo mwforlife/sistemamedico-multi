@@ -60,7 +60,8 @@ if (isset($_POST['fechas']) && isset($_POST['start']) && isset($_POST['end']) &&
                 }
             }
         }else{
-            echo "Fecha: $fecha es anterior a la fecha actual ".$fechaActual. "Hora: $horaActual";
+            echo json_encode(array("error" => true, "mensaje" => "La fecha " . $fecha . " no puede ser anterior a la fecha actual"));
+            return;
         }
     }
     echo json_encode(array("error" => false, "mensaje" => "Se registró correctamente"));

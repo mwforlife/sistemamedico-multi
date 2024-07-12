@@ -74,7 +74,6 @@ class Receta {
         $this->otrcormo = $data['otrcormo'];
         $this->urgente = $data['urgente'];
         $this->esquema = $data['esquema'];
-        $this->anamnesis = $data['anamesis'];
         $this->observacion = $data['observacion'];
         $this->estado = $data['estado'];
         $this->registro = $data['registro'];
@@ -214,10 +213,6 @@ class Receta {
 
     public function getEsquema() {
         return $this->esquema;
-    }
-
-    public function getAnamnesis() {
-        return $this->anamnesis;
     }
 
     public function getObservacion() {

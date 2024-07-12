@@ -6,6 +6,7 @@ class RecetaMedicamentos {
     private $porcentaje;
     private $dosis;
     private $carboplatino;
+    private $dosistotal;
     private $oral;
     private $ev;
     private $sc;
@@ -14,13 +15,14 @@ class RecetaMedicamentos {
     private $observacion;
     private $registro;
 
-    public function __construct($id, $receta, $medicamento, $porcentaje, $dosis, $carboplatino, $oral, $ev, $sc, $it, $biccad, $observacion, $registro) {
+    public function __construct($id, $receta, $medicamento, $porcentaje, $dosis, $carboplatino, $dosistotal, $oral, $ev, $sc, $it, $biccad, $observacion, $registro) {
         $this->id = $id;
         $this->receta = $receta;
         $this->medicamento = $medicamento;
         $this->porcentaje = $porcentaje;
         $this->dosis = $dosis;
         $this->carboplatino = $carboplatino;
+        $this->dosistotal = $dosistotal;
         $this->oral = $oral;
         $this->ev = $ev;
         $this->sc = $sc;
@@ -52,6 +54,10 @@ class RecetaMedicamentos {
 
     public function getCarboplatino() {
         return $this->carboplatino;
+    }
+
+    public function getDosistotal() {
+        return $this->dosistotal;
     }
 
     public function getOral() {

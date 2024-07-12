@@ -122,7 +122,7 @@ function listDates1() {
       $fech[1] +
       "-" +
       $fech[0] +
-      "<span class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger' title='Eliminar' onclick='deleteDate(" +
+      "<span class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger' title='Eliminar' onclick='deleteDate1(" +
       i +
       ")'><span class='visually-hidden'>x</span></span></button>";
   }
@@ -134,6 +134,12 @@ function deleteDate(index) {
   fechas.splice(index, 1);
   ToastifySuccess("Fecha eliminada");
   listDates();
+}
+//Eliminar una fecha del array
+function deleteDate1(index) {
+  fechas1.splice(index, 1);
+  ToastifySuccess("Fecha eliminada");
+  listDates1();
 }
 
 //Limpiar el array
