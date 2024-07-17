@@ -1174,9 +1174,14 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																		<div class="card-header">
 																			<h4 class="card-title">Registro Poblacional</h4>
 																			<p>Formulario de Registro caso nuevo de Cáncer</p>
+																			<label class="custom-switch">
+																				<input type="checkbox" name="completereg" class="custom-switch-input" value="1" id="completereg">
+																				<span class="custom-switch-indicator"></span>
+																				<span class="custom-switch-description">¿Completar Registro Poblacional?</span>
+																			</label>
 																		</div>
 																		<div class="card-body">
-
+																			<input type="hidden" id="pacientepoblacional" value="<?php echo $dipaciente; ?>">
 																			<div class="row">
 																				<div class="col-md-12">
 																					<label for=""><strong>Rama de Actividad</strong></label>
@@ -1285,7 +1290,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				</div>
 																				<div class="col-md-6">
 																					<label for="">Observaciones:</label>
-																					<textarea name="observaciones" id="observaciones" class="form-control" cols="30" rows="10"></textarea>
+																					<textarea name="comportamientoobservaciones" id="comportamientoobservaciones" class="form-control" cols="30" rows="10"></textarea>
 																				</div>
 																			</div>
 
@@ -1441,9 +1446,9 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				</div>
 																				<div class="col-md-6">
 																					<label for="">Estadio</label> <br>
-																					<input type="checkbox" id="estadio1" name="estadio" value="1"><span class="ml-2">Vivo</span>
-																					<input type="checkbox" id="estadio2" name="estadio" value="2"><span class="ml-2">Muerto</span>
-																					<input type="checkbox" id="estadio3" name="estadio" value="3"><span class="ml-2">Sin información</span>
+																					<input type="radio" id="estadio1" selected name="estadio" value="1"><span class="ml-2">Vivo</span>
+																					<input type="radio" id="estadio2" name="estadio" value="2"><span class="ml-2">Muerto</span>
+																					<input type="radio" id="estadio3" name="estadio" value="3"><span class="ml-2">Sin información</span>
 																				</div>
 																			</div>
 																			<hr>
@@ -1454,9 +1459,9 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				</div>
 																				<div class="col-md-6">
 																					<label for="">Causa</label><br>
-																					<input type="checkbox" id="causa1" name="causa" value="1"><span class="ml-2">Cáncer</span>
-																					<input type="checkbox" id="causa2" name="causa" value="2"><span class="ml-2">Otra</span>
-																					<input type="checkbox" id="causa3" name="causa" value="3"><span class="ml-2">Desconocido</span>
+																					<input type="radio" id="causa1" name="causa" value="1"><span class="ml-2">Cáncer</span>
+																					<input type="radio" id="causa2" name="causa" value="2"><span class="ml-2">Otra</span>
+																					<input type="radio" id="causa3" name="causa" value="3"><span class="ml-2">Desconocido</span>
 																				</div>
 																			</div>
 																			<hr>
@@ -1479,6 +1484,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 									</div>
 									<div class="row mt-4">
 										<div class="col-md-12 text-right">
+											<input type="hidden" name="previo" id="previo" value="<?php echo $previous_page; ?>">
 											<a class="btn btn-danger" href="<?php echo $previous_page; ?>"> <i class="fa fa-arrow-left"></i> Volver</a>
 											<button class="btn btn-outline-primary" onclick="vistapreviainforme(<?php echo $dipaciente ?>,<?php echo $idcomite; ?>)"> <i class="fa fa-eye"></i> Vista Previa</button>
 											<button class="btn btn-outline-success" onclick="guardarinforme(<?php echo $dipaciente ?>,<?php echo $idcomite; ?>)"> <i class="fa fa-save"></i> Guardar</button>
@@ -1949,6 +1955,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 	<script src="JsFunctions/Alert/toastify.js"></script>
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
+	<script src="JsFunctions/registropoblacional.js"></script>
 	<script src="JsFunctions/informe.js"></script>
 	<script>
 		//Cargar Tabla

@@ -3624,11 +3624,11 @@ class Controller
 
     //Informe Comité
     //Registrar informecomite diagnostico
-    function registrarcomitediagnostico($diagnosticos, $diagnosticosid, $diagnosticocieotoptext, $diagnosticocieotopid, $diagnosticocieomortext, $diagnosticocieomorid, $diagnosticocie10text, $diagnosticocie10id, $fechabiopsia, $reingreso)
+    function registrarcomitediagnostico($diagnosticos, $diagnosticosid, $diagnosticocie10text, $diagnosticocie10id, $fechabiopsia, $reingreso)
     {
         $this->conexion();
         //Registrar y devolver el id del informe comite diagnostico
-        $sql = "insert into informecomitediagnostico values(null, '$diagnosticos', $diagnosticosid, '$diagnosticocieotoptext', $diagnosticocieotopid, '$diagnosticocieomortext', $diagnosticocieomorid, '$diagnosticocie10text', $diagnosticocie10id, '$fechabiopsia', $reingreso, now())";
+        $sql = "insert into informecomitediagnostico values(null, '$diagnosticos', $diagnosticosid, '$diagnosticocie10text', $diagnosticocie10id, '$fechabiopsia', $reingreso, now())";
         $this->mi->query($sql);
         $id = $this->mi->insert_id;
         $this->desconexion();
@@ -3646,16 +3646,12 @@ class Controller
             $id = $rs["id"];
             $diagnosticos = $rs["diagnosticos"];
             $diagnosticosid = $rs["diagnosticosid"];
-            $diagnosticocieotoptext = $rs["diagnosticocieotop"];
-            $diagnosticocieotopid = $rs["diagnosticocieotopid"];
-            $diagnosticocieomortext = $rs["diagnosticocieomor"];
-            $diagnosticocieomorid = $rs["diagnosticocieomorid"];
             $diagnosticocie10text = $rs["diagnosticocie10"];
             $diagnosticocie10id = $rs["diagnosticocie10id"];
             $fechabiopsia = $rs["fechabiopsia"];
             $reingreso = $rs["reingreso"];
             $registro = $rs["registro"];
-            $object = new PacienteDiagnosticos($id, $diagnosticos, $diagnosticosid, $diagnosticocieotoptext, $diagnosticocieotopid, $diagnosticocieomortext, $diagnosticocieomorid, $diagnosticocie10text, $diagnosticocie10id, $fechabiopsia, $reingreso, $registro);
+            $object = new PacienteDiagnosticos($id, $diagnosticos, $diagnosticosid, $diagnosticocie10text, $diagnosticocie10id, $fechabiopsia, $reingreso, $registro);
             array_push($array, $object);
         }
         $this->desconexion();

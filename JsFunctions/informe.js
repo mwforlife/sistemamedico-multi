@@ -258,8 +258,16 @@ function guardarinforme(paciente, comite){
     //Diagnostico
     var diagnostico = $("#iddiag").val();
     var diagnosticotext = $("#diagnostico").val();
+    if(diagnostico<=0 || diagnosticotext.trim().length<=0){
+        ToastifyError("Debe seleccionar un diagnostico");
+        return;
+    }
     var diagnosticocie10 = $("#idcie10").val();
     var diagnosticocie10text = $("#diagnosticocie10").val();
+    if(diagnosticocie10<=0 || diagnosticocie10text.trim().length<=0){
+        ToastifyError("Debe seleccionar un diagnostico CIE10");
+        return;
+    }
 
     //Fecha biopsia
     var fechabiopsia = $("#fechabiopsia").val();
@@ -333,7 +341,13 @@ function guardarinforme(paciente, comite){
         estudioclinicno = $("#estudioclinico").val();
     }
 
+    //Validar que se haya seleccionado al menos una decision
+    if(cirugia==0 && quimioterapia==0 && radioterapia==0 && otros==0 && seguimiento==0 && completar==0 && revaluacion==0 && estudioclinicno==0){
+        ToastifyError("Debe seleccionar al menos una decision tomada");
+        return;
+    }
     var observacionesdecision = $("#observacionesdecision").val();
+
     //Plan Asistencial
     var consultade = $("#consultade").val();
     var consultadetext = $("#consultade option:selected").text();
@@ -363,12 +377,27 @@ function guardarinforme(paciente, comite){
     if($("#ingreso").is(':checked')){
         ingreso = $("#ingreso").val();
     }
+
+    //Revisar si esta chequedar el completereg 
+    var completar =0;
+    //Validar si se selecciono completar
+    if($("#completereg").is(':checked')){
+        completar = 1;
+        var valid = registropoblacional();
+        console.log(valid);
+        if(valid==false){
+            return;
+        }
+    }
+
     var observacionplan = $("#observacionplan").val();
     //SI el observacionplan esta vacia, preguntar si esta seguro de dejarlo vacia
     
     //Relosucion
     var resolucion = $("#resolucion").val();
     //SI el resolucion esta vacia, preguntar si esta seguro de dejarlo vacia
+
+    var previo = $("#previo").val();
 
     //Registrar el informe
     //Registrar el informe
@@ -377,10 +406,6 @@ function guardarinforme(paciente, comite){
         comite: comite,
         diagnostico: diagnostico,
         diagnosticotext: diagnosticotext,
-        diagnosticocieomor: diagnosticocieomor,
-        diagnosticocieomortext: diagnosticocieomortext,
-        diagnosticocieotop: diagnosticocieotop,
-        diagnosticocieotoptext: diagnosticocieotoptext,
         diagnosticocie10: diagnosticocie10,
         diagnosticocie10text: diagnosticocie10text,
         fechabiopsia: fechabiopsia,
@@ -413,21 +438,25 @@ function guardarinforme(paciente, comite){
         observacionplan: observacionplan,
         resolucion: resolucion
     };
+
     //Registrar el informe
     $.ajax({
         url: "php/insert/informe.php",
         type: "POST",
         data: informe,
-        success: function(respuesta){
-            respuesta = respuesta.trim();
-            if(respuesta==1){
-                ToastifySuccess("Se registro el informe correctamente");
-                setTimeout(function(){
-                    //Volver a la pagina anterior visitada
-                    window.history.back();
-                },1500);
-            }else{
-               ToastifyError(respuesta);
+        success: function(data){
+            try {
+                var json = JSON.parse(data);
+                if(json.status ==true){
+                    ToastifySuccess(json.message);
+                    setTimeout(function(){
+                        window.location.href = previo;
+                    },500);
+                }else{
+                    ToastifyError(json.message);
+                }
+            } catch (error) {
+                ToastifyError(error);
             }
         }
     });

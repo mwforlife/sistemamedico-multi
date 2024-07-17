@@ -411,8 +411,6 @@ create table pacientes(
     registro datetime not null default current_timestamp
 );
 
-alter table pacientes add column discapacidaddetalle text null after discapacidad;
-alter table pacientes add column empresa int not null default 1 references empresa(id) after estado ;
 
 
 create table prevision(
@@ -666,62 +664,6 @@ create table pacientescomite(
     registro datetime not null default current_timestamp
 );
 
-/**************************************************************************************************************************************************/
-create table informecomitediagnostico(
-    id int not null auto_increment primary key,
-    diagnosticos text null,
-    diagnosticosid int null default 0,
-    diagnosticocieotop text  null,
-    diagnosticocieotopid int  null default 0,
-    diagnosticocieomor text  null,
-    diagnosticocieomorid int  null default 0,
-    diagnosticocie10 text  null,
-    diagnosticocie10id int  null default 0,
-    fechabiopsia date  null,
-    reingreso int  null default 0,
-    registro datetime not null default current_timestamp
-);
-
-create table informecomite(
-    id int not null auto_increment primary key,
-    paciente int not null references pacientes(id),
-    diagnosticos int not null references informecomitediagnostico(id),
-    comite int not null references comite(id),
-    ecog int not null references ecog(id),
-    histologico int not null references histologico(id),
-    invaciontumoral int not null references invaciontumoral(id),
-    mitotico int not null,
-    tnmprimario text not null,
-    tnmprimarioid int not null,
-    observacionprimario text  null,
-    tnmregionales text not null,
-    tnmregionalesid int not null,
-    observacionregionales text  null,
-    tnmdistancia text not null,
-    tnmdistanciaid int not null,
-    observaciondistancia text  null,
-    anamesis text  null,
-    cirugia int not null default 0,
-    quimioterapia int not null default 0,
-    radioterapia int not null default 0,
-    tratamientosoncologicos int not null default 0,
-    seguimientosintratamiento int not null default 0,
-    completarestudios int not null default 0,
-    revaluacionposterior int not null default 0,
-    estudioclinico int not null default 0,
-    observaciondesicion text  null,
-    consultade text not null,
-    consultadeid int not null,
-    programacionquirurgica int not null default 0,
-    traslado int not null default 0,
-    ciudadospaliativos int not null default 0,
-    ingresohospitalario int not null default 0,
-    observacionplan text  null,
-    resolucion text  null,
-    registro datetime not null default current_timestamp
-);
-
-/**************************************************************************************************************************************************/
 /********Signos Vitales*/
 create table signosvitales(
     id int not null auto_increment primary key,
@@ -817,7 +759,6 @@ create table disponibilidad(
     registro datetime not null default current_timestamp    
 );
 
-alter table disponibilidad add column tipodisponibilidad int not null default 1 after intervalo;
 
 /********************Horarios***************/
 create table horarios(
@@ -834,7 +775,6 @@ create table horarios(
 );
 
 
-alter table horarios add column tipohorario int not null default 1 after disponibilidad;
 
 create table estadoatencion(
     id int not null auto_increment primary key,
@@ -863,10 +803,6 @@ create table atenciones(
     horafinatencion time null,
     registro datetime not null default current_timestamp
 );
-
-alter table atenciones add column horainicioespera time null after estado;
-alter table atenciones add column horafinespera time null after horainicioespera;
-alter table atenciones add column horafinatencion time null after horafinespera;
 
 create table historialestado(
     id int not null auto_increment primary key,
@@ -1155,10 +1091,7 @@ create table recetas(
     registro datetime not null default current_timestamp
 );
 
-alter table recetas add column otrocor int not null default 0 after alergias;
-alter table recetas add column otrcormo text null after detallealergias;
 
-alter table recetas add column estadoorden int not null default 1 after estado;
 
 create table recetapremedicacion(
     id int not null auto_increment primary key,
@@ -1189,7 +1122,6 @@ create table recetamedicamentos(
     registro datetime not null default current_timestamp
 );
 
-alter table recetamedicamentos add column dosistotal float not null after carboplatino;
 
 create table estimulador(
     id int not null auto_increment primary key,
@@ -1218,3 +1150,163 @@ create table rechazoreceta(
     observacion text not null,
     registro datetime not null default current_timestamp
 );
+
+
+/**************************************************************************************************************************************************/
+create table informecomite(
+    id int not null auto_increment primary key,
+    folio int not null,
+    paciente int not null references pacientes(id),
+    diagnosticos int not null references informecomitediagnostico(id),
+    comite int not null references comite(id),
+    ecog int not null references ecog(id),
+    histologico int not null references histologico(id),
+    invaciontumoral int not null references invaciontumoral(id),
+    mitotico int not null,
+    anamesis text  null,
+    cirugia int not null default 0,
+    quimioterapia int not null default 0,
+    radioterapia int not null default 0,
+    tratamientosoncologicos int not null default 0,
+    seguimientosintratamiento int not null default 0,
+    completarestudios int not null default 0,
+    revaluacionposterior int not null default 0,
+    estudioclinico int not null default 0,
+    observaciondesicion text  null,
+    consultade text not null,
+    consultadeid int not null,
+    programacionquirurgica int not null default 0,
+    traslado int not null default 0,
+    ciudadospaliativos int not null default 0,
+    ingresohospitalario int not null default 0,
+    observacionplan text  null,
+    resolucion text  null,
+    registro datetime not null default current_timestamp
+);
+
+create table informecomitediagnostico(
+    id int not null auto_increment primary key,
+    informecomite int not null references informecomite(id),
+    diagnosticos text null,
+    diagnosticosid int null default 0,
+    diagnosticocie10 text  null,
+    diagnosticocie10id int  null default 0,
+    fechabiopsia date  null,
+    reingreso int  null default 0,
+    registro datetime not null default current_timestamp
+);
+
+
+create table tnminforme(
+    id int not null auto_increment primary key,
+    informecomite int not null references informecomite(id),
+    t1 text null,
+    t2 text null,
+    t int not null references tnm(id),
+    ttexto text null,
+    n1 text null,
+    n int not null references tnm(id),
+    ntexto text null,
+    m1 text null,
+    m int not null references tnm(id),
+    mtexto text null,
+    m2 text null,
+    registro datetime not null default current_timestamp
+);
+
+
+
+/**************************************************************************************************************************************************/
+create table registropoblacional(
+    id int not null auto_increment primary key,
+    paciente int not null references pacientes(id),
+    rama1 int null,
+    rama2 int null,
+    rama3 int null,
+    rama4 int null,
+    rama5 int null,
+    rama6 int null,
+    rama7 int null,
+    rama8 int null,
+    rama9 int null,
+    rama10 int null,
+    ocupacion1 int null,
+    ocupacion2 int null,
+    ocupacion3 int null,
+    ocupacion4 int null,
+    ocupacion5 int null,
+    ocupacion6 int null,
+    ocupacion7 int null,
+    ocupacion8 int null,
+    ocupacion9 int null,
+    ocupacion10 int null,
+    ocupacion11 int null,
+    sp1 int null,
+    sp2 int null,
+    sp3 int null,
+    th1 int null,
+    th2 int null,
+    th3 int null,
+    th4 int null,
+    th5 int null,
+    comportamiento text null,
+    comportamientoobservaciones text null,
+    grado1 int null,
+    grado2 int null,
+    grado3 int null,
+    grado4 int null,
+    grado5 int null,
+    extension1 int null,
+    extension2 int null,
+    extension3 int null,
+    extension4 int null,
+    extension5 int null,
+    lateralidad1 int null,
+    lateralidad2 int null,
+    lateralidad3 int null,
+    lateralidad4 int null,
+    lateralidad5 int null,
+    fechaincidencia date null,
+    horaincidencia time null,
+    basediagnostico1 int null,
+    basediagnostico2 int null,
+    basediagnostico3 int null,
+    basediagnostico4 int null,
+    basediagnostico5 int null,
+    basediagnostico6 int null,
+    basediagnostico7 int null,
+    basediagnostico8 int null,
+    basediagnostico9 int null,
+    fuente1 text null,
+    fechapacex1 date null,
+    fechahospex1 date null,
+    horahospex1 time null,
+    fuente2 text null,
+    fechapacex2 date null,
+    fechahospex2 date null,
+    horahospex2 time null,
+    fuente3 text null,
+    fechapacex3 date null,
+    fechahospex3 date null,
+    horahospex3 time null,
+    fechaultimocontacto date null,
+    estadio int null,
+    defuncion date null,
+    causa int null,
+    obsersavacionfinal text null,
+    registro datetime not null default current_timestamp
+);
+
+
+--Alteraciones
+alter table recetas add column otrocor int not null default 0 after alergias;
+alter table recetas add column otrcormo text null after detallealergias;
+alter table recetas add column estadoorden int not null default 1 after estado;
+alter table horarios add column tipohorario int not null default 1 after disponibilidad;
+alter table disponibilidad add column tipodisponibilidad int not null default 1 after intervalo;
+alter table pacientes add column discapacidaddetalle text null after discapacidad;
+alter table pacientes add column empresa int not null default 1 references empresa(id) after estado ;
+alter table atenciones add column horainicioespera time null after estado;
+alter table atenciones add column horafinespera time null after horainicioespera;
+alter table atenciones add column horafinatencion time null after horafinespera;
+alter table recetamedicamentos add column dosistotal float not null after carboplatino;

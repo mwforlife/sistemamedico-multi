@@ -2,26 +2,59 @@
 require '../controller.php';
 $c = new Controller();
 session_start();
-// Verificar si se enviaron los datos por POST
-if (isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagnostico']) && isset($_POST['diagnosticotext']) && isset($_POST['diagnosticocieomor']) && isset($_POST['diagnosticocieomortext']) && isset($_POST['diagnosticocieotop']) && isset($_POST['diagnosticocieotoptext']) && isset($_POST['diagnosticocie10']) && isset($_POST['diagnosticocie10text']) && isset($_POST['fechabiopsia']) && isset($_POST['reingreso']) && isset($_POST['ecog']) && isset($_POST['ecogtext']) && isset($_POST['histologico']) && isset($_POST['histologicotext']) && isset($_POST['invasiontumoral']) && isset($_POST['invasiontumoraltext']) && isset($_POST['mitotico']) && isset($_POST['primarioclinico']) && isset($_POST['primarioclinicotext']) && isset($_POST['observacionprimario']) && isset($_POST['regionalesclinico']) && isset($_POST['regionalesclinicotext']) && isset($_POST['observacionregional']) && isset($_POST['distanciaclinico']) && isset($_POST['distanciaclinicotext']) && isset($_POST['observaciondistancia']) && isset($_POST['anamnesis']) && isset($_POST['cirugia']) && isset($_POST['quimioterapia']) && isset($_POST['radioterapia']) && isset($_POST['otros']) && isset($_POST['seguimiento']) && isset($_POST['completar']) && isset($_POST['revaluacion']) && isset($_POST['estudioclinicno']) && isset($_POST['observacionesdecision']) && isset($_POST['consultade']) && isset($_POST['consultadetext']) && isset($_POST['programacion']) && isset($_POST['traslado']) && isset($_POST['paliativos']) && isset($_POST['ingreso']) && isset($_POST['observacionplan']) && isset($_POST['resolucion'])) {
+/*paciente: 1
+comite: 2
+diagnostico: 5
+diagnosticotext: Cáncer de colon
+diagnosticocie10: 3
+diagnosticocie10text: Cólera
+fechabiopsia: 
+reingreso: 0
+ecog: 1
+ecogtext: 1 - PRUEBA
+histologico: 1
+histologicotext: 1 - PRUEBA
+invasiontumoral: 1
+invasiontumoraltext: PRUEBA
+mitotico: 1
+tnm[0][t1]: 
+tnm[0][t2]: 
+tnm[0][t]: 5
+tnm[0][ttext]: Tis
+tnm[0][n1]: 
+tnm[0][n]: 6
+tnm[0][ntext]: Ne
+tnm[0][m1]: 
+tnm[0][m]: 7
+tnm[0][mtext]: Mx
+tnm[0][m2]: 
+observaciontnm: 
+anamnesis: asdasd sa
+cirugia: 1
+quimioterapia: 0
+radioterapia: 0
+otros: 0
+seguimiento: 0
+completar: 1
+revaluacion: 0
+estudioclinicno: 0
+observacionesdecision: asdsa
+consultade: 1
+consultadetext: Cirugía
+programacion: 0
+traslado: 0
+paliativos: 0
+ingreso: 0
+observacionplan: asdsa
+resolucion: asdsadasdsad*/
 
-    // Recibir los datos en variables PHP
+if(isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagnostico']) && isset($_POST['diagnosticotext']) && isset($_POST['diagnosticocie10']) && isset($_POST['diagnosticocie10text']) && isset($_POST['reingreso']) && isset($_POST['ecog']) && isset($_POST['ecogtext']) && isset($_POST['histologico']) && isset($_POST['histologicotext']) && isset($_POST['invasiontumoral']) && isset($_POST['invasiontumoraltext']) && isset($_POST['mitotico']) && isset($_POST['tnm']) && isset($_POST['observaciontnm']) && isset($_POST['anamnesis']) && isset($_POST['cirugia']) && isset($_POST['quimioterapia']) && isset($_POST['radioterapia']) && isset($_POST['otros']) && isset($_POST['seguimiento']) && isset($_POST['completar']) && isset($_POST['revaluacion']) && isset($_POST['estudioclinicno']) && isset($_POST['observacionesdecision']) && isset($_POST['consultade']) && isset($_POST['consultadetext']) && isset($_POST['programacion']) && isset($_POST['traslado']) && isset($_POST['paliativos']) && isset($_POST['ingreso']) && isset($_POST['observacionplan']) && isset($_POST['resolucion'])){
     $paciente = $_POST['paciente'];
-    $paciente = $c->escapeString($paciente);
-    $pacienteobject = $c->buscarpaciente($paciente);
     $comite = $_POST['comite'];
     $diagnostico = $_POST['diagnostico'];
-    $diagnostico = $c->escapeString($diagnostico);
     $diagnosticotext = $_POST['diagnosticotext'];
-    $diagnosticotext = $c->escapeString($diagnosticotext);
-    $diagnosticocieomor = $_POST['diagnosticocieomor'];
-
-    $diagnosticocieomortext = $_POST['diagnosticocieomortext'];
-    $diagnosticocieotop = $_POST['diagnosticocieotop'];
-    $diagnosticocieotoptext = $_POST['diagnosticocieotoptext'];
     $diagnosticocie10 = $_POST['diagnosticocie10'];
     $diagnosticocie10text = $_POST['diagnosticocie10text'];
-    $fechabiopsia = $_POST['fechabiopsia'];
     $reingreso = $_POST['reingreso'];
     $ecog = $_POST['ecog'];
     $ecogtext = $_POST['ecogtext'];
@@ -30,16 +63,11 @@ if (isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagno
     $invasiontumoral = $_POST['invasiontumoral'];
     $invasiontumoraltext = $_POST['invasiontumoraltext'];
     $mitotico = $_POST['mitotico'];
-    $primarioclinico = $_POST['primarioclinico'];
-    $primarioclinicotext = $_POST['primarioclinicotext'];
-    $observacionprimario = $_POST['observacionprimario'];
-    $regionalesclinico = $_POST['regionalesclinico'];
-    $regionalesclinicotext = $_POST['regionalesclinicotext'];
-    $observacionregional = $_POST['observacionregional'];
-    $distanciaclinico = $_POST['distanciaclinico'];
-    $distanciaclinicotext = $_POST['distanciaclinicotext'];
-    $observaciondistancia = $_POST['observaciondistancia'];
+    $tnm = $_POST['tnm'];
+    $observaciontnm = $_POST['observaciontnm'];
     $anamnesis = $_POST['anamnesis'];
+
+    //Decision Tomada
     $cirugia = $_POST['cirugia'];
     $quimioterapia = $_POST['quimioterapia'];
     $radioterapia = $_POST['radioterapia'];
@@ -49,6 +77,8 @@ if (isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagno
     $revaluacion = $_POST['revaluacion'];
     $estudioclinicno = $_POST['estudioclinicno'];
     $observacionesdecision = $_POST['observacionesdecision'];
+
+    //plan asistencial
     $consultade = $_POST['consultade'];
     $consultadetext = $_POST['consultadetext'];
     $programacion = $_POST['programacion'];
@@ -58,40 +88,160 @@ if (isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagno
     $observacionplan = $_POST['observacionplan'];
     $resolucion = $_POST['resolucion'];
 
-    if($diagnostico<=0 || strlen($diagnosticotext)==0){
-        echo "Debe seleccionar un diagnóstico válido";
-        return;
-    }
-    if(($diagnosticocieomor<=0 || strlen($diagnosticocieomortext)==0) || ($diagnosticocieotop<=0 || strlen($diagnosticocieotoptext)==0) || ($diagnosticocie10<=0 || strlen($diagnosticocie10text)==0)){
-        echo "Debe seleccionar al menos un diagnóstico CIEO O CIE10 válido";
+    //Validar Diagnosticos
+    if($diagnostico <= 0 || strlen($diagnosticotext) <= 0){
+        echo json_encode(array("status"=> false, "message"=> "Ups! Debe seleccionar un diagnóstico"));
         return;
     }
 
-    if(strlen($fechabiopsia)==0){
-        echo "Debe seleccionar una fecha de biopsia válida";
+    if($diagnosticocie10 <= 0 || strlen($diagnosticocie10text) <= 0){
+        echo json_encode(array("status"=> false, "message"=> "Ups! Debe seleccionar un diagnóstico CIE10"));
         return;
     }
 
-    //Registrar diagnostico Paciente en comite
-    $idregistro = $c->registrarcomitediagnostico($diagnosticotext,$diagnostico,$diagnosticocieotoptext, $diagnosticocieotop,$diagnosticocieomortext, $diagnosticocieomor, $diagnosticocie10text, $diagnosticocie10, $fechabiopsia, $reingreso);
+    //Validar ECOG
+    if($ecog <= 0 || strlen($ecogtext) <= 0){
+        echo json_encode(array("status"=> false, "message"=> "Ups! Debe seleccionar un ECOG"));
+        return;
+    }
 
-    //Registrar Informe Paciente en comite
-    $result = $c->registrarinformecomite($paciente, $idregistro, $comite, $ecog, $histologico, $invasiontumoral, $mitotico, $primarioclinicotext, $primarioclinico, $observacionprimario, $regionalesclinicotext, $regionalesclinico, $observacionregional, $distanciaclinicotext, $distanciaclinico, $observaciondistancia, $anamnesis, $cirugia, $quimioterapia, $radioterapia, $otros, $seguimiento, $completar, $revaluacion, $estudioclinicno, $observacionesdecision,$consultadetext,$consultade, $programacion, $traslado, $paliativos, $ingreso, $observacionplan, $resolucion);
+    //Validar Histologico
+    if($histologico <= 0 || strlen($histologicotext) <= 0){
+        echo json_encode(array("status"=> false, "message"=> "Ups! Debe seleccionar un Histologico"));
+        return;
+    }
 
-    if($result==true){
-        echo 1;
-        /***********Auditoria******************* */
-        $titulo = "Registro de Informe Comité";
-        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
-        $idUsuario = $_SESSION['USER_ID'];
-        $object = $c->buscarenUsuario1($idUsuario);
-        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado un nuevo informe de comité para el paciente " . $pacienteobject->getNombre() . " " . $pacienteobject->getApellido1() . " " . $pacienteobject->getApellido2() . "";
-        $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
-        /**************************************** */
-    }else{
-        echo "Error al registrar informe";
-    } 
-} else {
-    echo "Error: Faltan datos enviados por POST.";
+    //Validar Invasion Tumoral
+    if($invasiontumoral <= 0 || strlen($invasiontumoraltext) <= 0){
+        echo json_encode(array("status"=> false, "message"=> "Ups! Debe seleccionar una Invasion Tumoral"));
+        return;
+    }
+
+    //Validar Mitotico
+    if($mitotico <= 0){
+        echo json_encode(array("status"=> false, "message"=> "Ups! Debe seleccionar un Mitotico"));
+        return;
+    }
+
+    //Validar TNM
+    if(count($tnm) <= 0){
+        echo json_encode(array("status"=> false, "message"=> "Ups! Debe seleccionar un TNM"));
+        return;
+    }
+
+    //Validar Anamnesis
+    if(strlen($anamnesis) <= 0){
+        echo json_encode(array("status"=> false, "message"=> "Ups! Debe ingresar una Anamnesis"));
+        return;
+    }
+
+    //Desicion Tomada
+    //Validar Cirugia
+    if(strlen($cirugia) <= 0 || !is_numeric($cirugia)){
+        $cirugia = 0;
+    }
+
+    //Validar Quimioterapia
+    if(strlen($quimioterapia) <= 0 || !is_numeric($quimioterapia)){
+        $quimioterapia = 0;
+    }
+
+    //Validar Radioterapia
+    if(strlen($radioterapia) <= 0 || !is_numeric($radioterapia)){
+        $radioterapia = 0;
+    }
+
+    //Validar Otros
+    if(strlen($otros) <= 0 || !is_numeric($otros)){
+        $otros = 0;
+    }
+
+    //Validar Seguimiento
+    if(strlen($seguimiento) <= 0 || !is_numeric($seguimiento)){
+        $seguimiento = 0;
+    }
+
+    //Validar Completar
+    if(strlen($completar) <= 0 || !is_numeric($completar)){
+        $completar = 0;
+    }
+
+    //Validar Revaluacion
+    if(strlen($revaluacion) <= 0 || !is_numeric($revaluacion)){
+        $revaluacion = 0;
+    }
+
+    //Validar Estudio Clinico
+    if(strlen($estudioclinicno) <= 0 || !is_numeric($estudioclinicno)){
+        $estudioclinicno = 0;
+    }
+
+    //Validar que se seleccionado al menos una opcion
+    if($cirugia == 0 && $quimioterapia == 0 && $radioterapia == 0 && $otros == 0 && $seguimiento == 0 && $completar == 0 && $revaluacion == 0 && $estudioclinicno == 0){
+        echo json_encode(array("status"=> false, "message"=> "Ups! Debe seleccionar al menos una opción en Decision Tomada"));
+        return;
+    }
+
+    //Validar Observaciones Decision
+    if(strlen($observacionesdecision) <= 0){
+        echo json_encode(array("status"=> false, "message"=> "Ups! Debe ingresar una Observaciones Decision"));
+        return;
+    }
+
+    //Plan Asistencial
+    //Validar Consulta De
+    if(strlen($consultade) <= 0 || !is_numeric($consultade)){
+        echo json_encode(array("status"=> false, "message"=> "Ups! Debe seleccionar una Consulta De"));
+        return;
+    }
+
+    //Validar Consulta De Text
+    if(strlen($consultadetext) <= 0){
+        echo json_encode(array("status"=> false, "message"=> "Ups! Debe ingresar una Consulta De Text"));
+        return;
+    }
+
+    //Validar Programacion
+    if(strlen($programacion) <= 0 || !is_numeric($programacion)){
+        $programacion = 0;
+    }
+
+    //Validar Traslado
+    if(strlen($traslado) <= 0 || !is_numeric($traslado)){
+        $traslado = 0;
+    }
+
+    //Validar Paliativos
+    if(strlen($paliativos) <= 0 || !is_numeric($paliativos)){
+        $paliativos = 0;
+    }
+
+    //Validar Ingreso
+    if(strlen($ingreso) <= 0 || !is_numeric($ingreso)){
+        $ingreso = 0;
+    }
+
+    //Validar Observacion Plan
+    if(strlen($observacionplan) <= 0){
+        echo json_encode(array("status"=> false, "message"=> "Ups! Debe ingresar una Observacion Plan"));
+        return;
+    }
+
+    //Validar Resolucion
+    if(strlen($resolucion) <= 0){
+        echo json_encode(array("status"=> false, "message"=> "Ups! Debe ingresar una Resolucion"));
+        return;
+    }
+
+    //Insertar Informe
+
+
+
+
+
+
+
+
+}else{
+    echo json_encode(array("status"=> false, "message"=> "Ups! No se han enviado los datos necesarios"));
 }
-?>
