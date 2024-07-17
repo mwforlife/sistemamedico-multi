@@ -22,8 +22,10 @@ if (!isset($_SESSION['USER_ID'])) {
 		header("Location: lockscreen.php");
 	}
 }
+$idempresa = $_SESSION['CURRENT_ENTERPRISE'];
 $id = $_SESSION['USER_ID'];
 $object = $c->buscarenUsuario1($id);
+$object1 = $c->buscarenUsuarioValores($id, $idempresa);
 
 $admingeneralrol = false;
 $adminsistemarol = false;
@@ -611,7 +613,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 														echo "<td>" . $receta['apellido2'] . "</td>";
 														echo "<td>" . $c->calcularEdad1($receta['fechanacimiento']) . "</td>";
 														echo "<td>" . $receta['diagnostico'] . "</td>";
-														echo "<td><button class='btn btn-outline-primary btn-sm' onclick='vertratamiento(".$receta['id'].")'><i class='fa fa-eye'></i></button></td>";
+														echo "<td><button class='btn btn-outline-primary btn-sm' onclick='vertratamiento(".$receta['idconsulta'].")'><i class='fa fa-eye'></i></button></td>";
 														echo "<td><a target='_blank' href='php/reporte/receta.php?r=" . $receta['id'] . "' class='btn btn-outline-primary btn-sm'><i class='fa fa-eye'></i></a></td>";
 														echo "<td>";
 														echo "<button class='btn m-1 btn-outline-success btn-sm' title='Aprobar Receta' onclick='aprobar(" . $receta['id'] . ")'><i class='fa fa-check'></i></button>";

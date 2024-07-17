@@ -34,9 +34,9 @@ class Receta {
     public $otrcormo;
     public $urgente;
     public $esquema;
-    public $anamnesis;
     public $observacion;
     public $estado;
+    public $carboplatino;
     public $registro;
     
     public function __construct($data) {
@@ -76,6 +76,7 @@ class Receta {
         $this->esquema = $data['esquema'];
         $this->observacion = $data['observacion'];
         $this->estado = $data['estado'];
+        $this->carboplatino = $data['carboplatino'];
         $this->registro = $data['registro'];
     }
 
@@ -221,6 +222,10 @@ class Receta {
 
     public function getEstado() {
         return $this->estado;
+    }
+
+    public function getCarboplatino() {
+        return $this->carboplatino;
     }
 
     public function getRegistro() {

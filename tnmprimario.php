@@ -23,8 +23,10 @@ if (!isset($_SESSION['USER_ID'])) {
 		header("Location: lockscreen.php");
 	}
 }
+$idempresa = $_SESSION['CURRENT_ENTERPRISE'];
 $id = $_SESSION['USER_ID'];
 $object = $c->buscarenUsuario1($id);
+$object1 = $c->buscarenUsuarioValores($id, $idempresa);
 
 
 $admingeneralrol = false;
@@ -612,7 +614,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 												<div class="form-group has-success mg-b-0">
 													<label>Nombre</label>
 													<input class="form-control" id="Nombre" name="Nombre"
-														placeholder="Nombre TNM" required="" type="text" value="">
+														placeholder="Ejemplo: Tx" required="" type="text" value="">
 												</div> 
 												<input type="hidden" name="tipo" id="tipo" value="1">
 											</div>
@@ -695,10 +697,10 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 		<!-- Edit Modal -->
 		<div class="modal fade" id="modaledit" data-backdrop="static" data-keyboard="false" tabindex="-1"
 			aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
+			<div class="modal-dialog modal-md">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="staticBackdropLabel">Edición</h5>
+						<h5 class="modal-title" id="staticBackdropLabel">Editar TNM</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>

@@ -14,10 +14,9 @@ $(document).ready(function () {
                     var json = JSON.parse(data);
                     if(json.status == true){
                         ToastifySuccess(json.message);
-                        //Recargar pagina en 1 segundo
                         setTimeout(function () {
                             location.reload();
-                        }, 5000);
+                        }, 500);
                     }else{
                         ToastifyError(json.message);
                     }
@@ -51,15 +50,17 @@ function EliminarTNM(id) {
                 url: "php/delete/tnm.php",
                 data: { id: id },
                 success: function (data) {
-                    if (data == 1 || data == "1") {
-                        ToastifySuccess("Datos eliminados con exito");
-                        //Recargar pagina en 1 segundo
-                        setTimeout(function () {
-                            location.reload();
-                        }, 1000);
-                    } else if (data == 0 || data == "0") {
-                        ToastifyError("Hubo un error con la eliminacion");
-                    } else {
+                    try {
+                        var json = JSON.parse(data);
+                        if(json.status == true){
+                            ToastifySuccess(json.message);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 500);
+                        }else{
+                            ToastifyError(json.message);
+                        }
+                    } catch (error) {
                         ToastifyError(data);
                     }
                 }
@@ -84,24 +85,24 @@ function cargarTNM(id) {
 
 //Actualizar datos
 function actualizarTNM(id) {
-    var codigo = $("#codigoedit").val();
     var descripcion = $("#descripcionedit").val();
-    var diagnostico = $("#diagnosticoedit").val();
 
     $.ajax({
         type: "POST",
         url: "php/update/tnm.php",
-        data: { id: id, codigo: codigo, descripcion: descripcion, diagnostico: diagnostico },
+        data: { id: id, descripcion: descripcion},
         success: function (data) {
-            if (data == 1 || data == "1") {
-                ToastifySuccess("Datos actualizados con exito");
-                //Recargar pagina en 1 segundo
-                setTimeout(function () {
-                    location.reload();
-                }, 1000);
-            } else if (data == 0 || data == "0") {
-                ToastifyError("Hubo un error con la actualizacion");
-            } else {
+            try {
+                var json = JSON.parse(data);
+                if(json.status == true){
+                    ToastifySuccess(json.message);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 500);
+                }else{
+                    ToastifyError(json.message);
+                }
+            } catch (error) {
                 ToastifyError(data);
             }
         }

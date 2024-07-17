@@ -11,8 +11,8 @@ if (
     isset($_POST['neoadyuvante']) && isset($_POST['primera']) && isset($_POST['traemedicamentos']) && isset($_POST['diabetes']) &&
     isset($_POST['hipertension']) && isset($_POST['alergia']) && isset($_POST['otrocor']) && isset($_POST['alergiadetalle']) && isset($_POST['otrcormo']) && isset($_POST['urgente']) &&
     isset($_POST['esquema']) && isset($_POST['medicamentoscheck']) && isset($_POST['premedicaciones']) &&
-    isset($_POST['estimulador']) && isset($_POST['cantidades']) && isset($_POST['rango']) && isset($_POST['anamnesis']) &&
-    isset($_POST['observaciones']) && isset($_POST['receta']) && isset($_POST['folio'])
+    isset($_POST['estimulador']) && isset($_POST['cantidades']) && isset($_POST['rango']) &&
+    isset($_POST['observaciones'])  && isset($_POST['receta']) && isset($_POST['folio']) && isset($_POST['carbovalid'])
 ) {
     // Capturar los datos del formulario
     $paciente = $_POST['paciente'];
@@ -47,11 +47,10 @@ if (
     $otrcormo = $_POST['otrcormo'];
     $urgente = $_POST['urgente'];
     $esquema = $_POST['esquema'];
-
-    $anamnesis = $_POST['anamnesis'];
     $observaciones = $_POST['observaciones'];
     $receta = $_POST['receta'];
     $folio = $_POST['folio'];
+    $carbovalid = is_bool($_POST['carbovalid']) ? $_POST['carbovalid'] : $_POST['carbovalid'] === 'true';
 
     if($receta <= 0){
         echo json_encode(array('error' => true, 'message' => 'El Identificador de la receta es incorrecto'));
@@ -63,6 +62,8 @@ if (
         return;
     }
 
+
+    $carbovalid = is_bool($_POST['carbovalid']) ? $_POST['carbovalid'] : $_POST['carbovalid'] === 'true';
 
     // Capturar medicamentoscheck
     $medicamentoscheck = $_POST['medicamentoscheck'];
@@ -106,15 +107,19 @@ if (
         return;
     }
 
-    if (empty($creatinina)) {
-        echo json_encode(array('error' => true, 'message' => 'La creatinina no puede estar vacía'));
-        return;
+    $carboplatino = 0;
+    if ($carbovalid === true) {
+        $carboplatino = 1;
+        if ($creatinina <= 0) {
+            echo json_encode(array('error' => true, 'message' => 'La creatinina no puede ser menor o igual a 0'));
+            return;
+        }
+        if ($auc <= 0) {
+            echo json_encode(array('error' => true, 'message' => 'El AUC no puede ser menor o igual a 0'));
+            return;
+        }
     }
 
-    if (empty($auc)) {
-        echo json_encode(array('error' => true, 'message' => 'El AUC no puede estar vacío'));
-        return;
-    }
 
     if (empty($fechaadmin)) {
         echo json_encode(array('error' => true, 'message' => 'La fecha de administración no puede estar vacía'));
@@ -183,21 +188,17 @@ if (
         }
     }
 
-    if (empty($anamnesis)) {
-        echo json_encode(array('error' => true, 'message' => 'La anamnesis no puede estar vacía'));
-        return;
-    }
-
     if (empty($observaciones)) {
         echo json_encode(array('error' => true, 'message' => 'Las observaciones no pueden estar vacías'));
         return;
     }
 
+
     $fecha = date('Y-m-d');
     $c->cambiaestadoReceta($receta, 2);
 
     // Llama a la función para registrar la receta
-    $recetaId = $c->registrarReceta($paciente, $medico, $empresa, $consulta,$fecha,$folio, $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, $fechaadmin, $examen, $ciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primera, $traemedicamentos, $diabetes, $hipertension, $alergia,$otrocor, $alergiadetalle,$otrcormo, $urgente, $esquema, $anamnesis, $observaciones);
+    $recetaId = $c->registrarReceta($paciente, $medico, $empresa, $consulta,$fecha,$folio, $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, $fechaadmin, $examen, $ciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primera, $traemedicamentos, $diabetes, $hipertension, $alergia,$otrocor, $alergiadetalle,$otrcormo, $urgente, $esquema, $observaciones,$carboplatino);
 
 
     if ($recetaId > 0) {    

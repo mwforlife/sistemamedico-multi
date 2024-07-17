@@ -23,8 +23,10 @@ if (!isset($_SESSION['USER_ID'])) {
 		header("Location: lockscreen.php");
 	}
 }
+$idempresa = $_SESSION['CURRENT_ENTERPRISE'];
 $id = $_SESSION['USER_ID'];
 $object = $c->buscarenUsuario1($id);
+$object1 = $c->buscarenUsuarioValores($id, $idempresa);
 
 
 $admingeneralrol = false;
@@ -592,7 +594,8 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 											<div class="col-lg-6">
 												<div class="form-group has-success mg-b-0">
 													<label>Nombre</label>
-													<input class="form-control" id="Nombre" name="Nombre" placeholder="Nombre TNM" required="" type="text" value="">
+													<input class="form-control" id="Nombre" name="Nombre" placeholder="Ejemplo: Ne" required="" type="text" value="">
+													<input type="hidden" name="tipo" id="tipo" value="2">
 												</div>
 											</div>
 											<div class="col-md-12 mt-3 text-right">
@@ -738,7 +741,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	<script src="JsFunctions/Alert/toastify.js"></script>
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
-	<script src="JsFunctions/function.js"></script>
+	<script src="JsFunctions/tnm.js"></script>
 
 
 

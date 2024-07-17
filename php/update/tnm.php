@@ -2,22 +2,17 @@
 require '../controller.php';
 $c = new Controller();
 
-if(isset($_POST['id']) && isset($_POST['codigo']) && isset($_POST['descripcion'])  && isset($_POST['diagnostico'])){
+if(isset($_POST['id']) && isset($_POST['descripcion']) ){
     $id = $_POST['id'];
-    $codigo = $_POST['codigo'];
     $descripcion = $_POST['descripcion'];
-    $diagnostico = $_POST['diagnostico'];
     //Pasar a mayusculas
-    $descripcion = strtoupper($descripcion);
-    $codigo = strtoupper($codigo);
     $descripcion = $c->escapeString($descripcion);
-    $codigo = $c->escapeString($codigo);
-    $result = $c->actualizartnm($id, $codigo, $descripcion, $diagnostico);
+    $result = $c->actualizartnm($id, $descripcion);
     if($result==true) {
-        echo 1;
+        echo json_encode(array("status"=>true, "message"=>"Registro actualizado correctamente"));
     } else {
-        echo 0;
+        echo json_encode(array("status"=>false, "message"=>"Error al actualizar el registro"));
     }
 } else {
-    echo "No se encontró el Registro";
+    echo json_encode(array("status"=>false, "message"=>"Error en los datos enviados"));
 }

@@ -22,8 +22,10 @@ if (!isset($_SESSION['USER_ID'])) {
 		header("Location: lockscreen.php");
 	}
 }
+$idempresa = $_SESSION['CURRENT_ENTERPRISE'];
 $id = $_SESSION['USER_ID'];
 $object = $c->buscarenUsuario1($id);
+$object1 = $c->buscarenUsuarioValores($id, $idempresa);
 
 
 $admingeneralrol = false;

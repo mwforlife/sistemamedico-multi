@@ -88,7 +88,6 @@ create table tipotnm(
     registro datetime not null default current_timestamp
 );
 
-
 create table tnm(
     id int not null auto_increment primary key,
     nombre varchar(400) not null,
@@ -1023,10 +1022,27 @@ create table consultas(
     reingreso int not null,
     anamesis text not null,
     estudiocomplementarios text not null,
-    plantratamiento text not null,
+    cirugia int null default 0,
+    quimioterapia int null default 0,
+    radioterapia int null default 0,
+    tratamientosoncologicos int null default 0,
+    seguimientosintratamiento int null default 0,
+    completarestudios int null default 0,
+    revaluacionposterior int null default 0,
+    estudioclinico int null default 0,
+    observaciondesicion text not null,
+    consultade text not null,
+    consultadeid int not null,
+    programacionquirurgica int null default 0,
+    traslado int null default 0,
+    ciudadospaliativos int null default 0,
+    ingresohospitalario int null default 0,
+    observacionplan text not null,
     modalidad int not null,
     registro datetime not null default current_timestamp
 );
+
+
 
 
 /*Generacion de recetas*/
@@ -1135,6 +1151,7 @@ create table recetas(
     esquema int not null references esquemas(id),
     observacion text null,
     estado int not null default 1,
+    carboplatino int not null,
     registro datetime not null default current_timestamp
 );
 
@@ -1161,7 +1178,7 @@ create table recetamedicamentos(
     medicamento int not null references medicamentos(id),
     procenjate int null default 0,
     dosis float not null,
-    carboplatino float null default 0,
+    carboplatino int not null,
     dosistotal float not null,
     oral int not null,
     ev int not null,

@@ -157,25 +157,86 @@ if(isset($_GET['c'])){
     $contenido .= "<hr style='margin:0; margin-top:10px; ' >";
     //Tratamiento
 
-    $contenido .= "<h3 style='text-decoration: underline; font-size:18px; margin-top:0;'> Tratamiento</h3>
-    <table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-size:9pt; '>
-    <tr>
-        <td width='100%' style='text-align: justify; '>
+    
+    $contenido .= "<hr style='margin:0; margin-top:10px;'>";
+    $contenido.="<h3 style='text-decoration: underline;font-size:18px; margin-top:0;'> Decision Tomada y Plan</h3>";
+    $contenido .= "<table width='100%' border='1' cellspacing='0' cellpadding='0' style='font-size:9pt; border: 1px solid black;'>
+    <tr style='padding-top:10px;'>
+        <td width='30%' style='text-align: justify; border-bottom: 1px solid black;'>
+            <h3 style='font-size:9pt;'> Decision Tomada</h3>
+        </td>
+        <td width='70%' style='text-align: justify; border-bottom: 1px solid black;'>
+            <h3 style='font-size:9pt;'> Observacion</h3>
         </td>
     </tr>";
     $contenido .= "<tr>
-        <td width='100%' style='text-align: justify;'>
-            <p style='font-size:9pt; padding-top:10px;'>" . $consulta->getPlantratamiento() . " </p><br/>
-            ";
-            
-            if($ges=="Si"){
-                $contenido .= "<h3>GES: Si</h3>";
-            }else{
-                $contenido .= "<h3>GES: No</h3>";
-            }
-            $contenido .= "
+        <td width='40%' style='text-align: justify;'>";
+
+    if ($consulta->getCirugia() == 1) {
+        $contenido .= "<h4 style='font-size:9pt;'> Cirugia </h4>";
+    }
+    if ($consulta->getQuimioterapia() == 2) {
+        $contenido .= "<h4 style='font-size:9pt;'> Quimioterapia </h4>";
+    }
+    if ($consulta->getRadioterapia() == 3) {
+        $contenido .= "<h4 style='font-size:9pt;'> Radioterapia </h4>";
+    }
+    if ($consulta->getTratamientosoncologicos() == 4) {
+        $contenido .= "<h4 style='font-size:9pt;'> Otros Tratamientos Oncologicos </h4>";
+    }
+    if ($consulta->getSeguimientosintratamiento() == 5) {
+        $contenido .= "<h4 style='font-size:9pt;'> Seguimiento sin tratamiento activo </h4>";
+    }
+    if ($consulta->getCompletarestudios() == 6) {
+        $contenido .= "<h4 style='font-size:9pt;'> Completar estudios </h4>";
+    }
+    if ($consulta->getRevaluacionposterior() == 7) {
+        $contenido .= "<h4 style='font-size:9pt;'> Revaluacion posterior </h4>";
+    }
+    if ($consulta->getEstudioclinico() == 8) {
+        $contenido .= "<h4 style='font-size:9pt;'> Estudio clínico </h4>";
+    }
+
+
+    $contenido .= "</td>";
+    $contenido .= "<td width='60%' style='text-align: justify;'>";
+    $contenido .= "<p style='font-size:9.5pt;'>" . $consulta->getObservaciondesicion() . "</p>";
+    $contenido .= "</td>";
+    $contenido .= "</tr>
+    </table>";
+    $contenido .= "<br>";
+    $contenido .= "<table width='100%' border='1' cellspacing='0' cellpadding='0' style='font-size:9pt; border: 1px solid black;'>
+    <tr>
+        <td width='30%' style='text-align: justify; border-bottom: 1px solid black;'>
+            <h3 style='font-size:9pt;'>Plan Asistencial</h3>
         </td>
+        <td width='70%' style='text-align: justify; border-bottom: 1px solid black;font-size:9pt;'>
+            <h3 style='font-size:9pt;'> Observacion</h3>
+        </td>
+        
     </tr>";
+
+    $contenido .= "<tr>
+        <td width='40%' style='text-align: justify; font-size:9.5pt;'>";
+    $contenido .= "<h4> Consulta de:" . $consulta->getConsultade() . "</h4>";
+
+    if ($consulta->getProgramacionquirurgica() == 2) {
+        $contenido .= "<h4 style='font-size:9pt;'> Programacion quirurgica </h4>";
+    }
+    if ($consulta->getTraslado() == 3) {
+        $contenido .= "<h4 style='font-size:9pt;'> Traslado a otro centro </h4>";
+    }
+    if ($consulta->getCiudadospaliativos() == 4) {
+        $contenido .= "<h4 style='font-size:9pt;'> Pasa a Cuidados Paliativos </h4>";
+    }
+    if ($consulta->getIngresohospitalario() == 5) {
+        $contenido .= "<h4 style='font-size:9pt;'> Ingreso Hospitalario </h4>";
+    }
+    $contenido .= "</td>";
+    $contenido .= "<td width='60%' style='text-align: justify;'>";
+    $contenido .= "<p style='font-size:9.5pt;'>" . $consulta->getObservacionplan() . "</p>";
+    $contenido .= "</td>";
+    $contenido .= "</tr>";
     $contenido .= "</table>";
     $contenido .= "<hr style='margin:0; margin-top:10px; ' >";
     //Indicaciones

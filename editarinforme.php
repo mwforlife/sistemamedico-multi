@@ -136,8 +136,10 @@ if (!isset($_SESSION['USER_ID'])) {
 		header("Location: lockscreen.php");
 	}
 }
+$idempresa = $_SESSION['CURRENT_ENTERPRISE'];
 $id = $_SESSION['USER_ID'];
 $object = $c->buscarenUsuario1($id);
+$object1 = $c->buscarenUsuarioValores($id, $idempresa);
 
 
 $admingeneralrol = false;
@@ -1127,7 +1129,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 														</div>
 													</div>
 												</div>
-												<!--Interconsultas-->
+												<!--Resolucion Comite-->
 												<div class="card">
 													<div class="card-header" id="interconsulta" role="tab">
 														<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#interconsultas">Resolución Comite</a>
@@ -1135,6 +1137,318 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 													<div aria-labelledby="interconsulta" class="collapse" data-parent="#accordion" id="interconsultas" role="tabpanel">
 														<div class="card-body">
 															<textarea style="height: 200;" name="resolucion" class="form-control" id="resolucion" cols="10" rows="10"><?php echo $informe->getResolucion();?></textarea>
+														</div>
+													</div>
+												</div>
+												<!--Registro Poblacional-->
+												<div class="card">
+													<div class="card-header" id="registropoblacional" role="tab">
+														<a aria-controls="collapseOne" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#registrospoblacional">Registro Poblacional</a>
+													</div>
+													<div aria-labelledby="registropoblacional" class="collapse" data-parent="#accordion" id="registrospoblacional" role="tabpanel">
+														<div class="card-body">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="card">
+																		<div class="card-header">
+																			<h4 class="card-title">Registro Poblacional</h4>
+																			<p>Formulario de Registro caso nuevo de Cáncer</p>
+																		</div>
+																		<div class="card-body">
+
+																			<div class="row">
+																				<div class="col-md-12">
+																					<label for=""><strong>Rama de Actividad</strong></label>
+																				</div>
+																				<div class="col-md-4">
+																					<input type="checkbox" class="mr-1" value="1" name="rama" id="rama1"><span>Agricultura, Caza, Silvicultura y Pesca</span><br />
+																					<input type="checkbox" class="mr-1" value="2" name="rama" id="rama2"><span>Minas y Canteras</span><br />
+																					<input type="checkbox" class="mr-1" value="3" name="rama" id="rama3"><span>Industria Manufacturera</span><br />
+																					<input type="checkbox" class="mr-1" value="4" name="rama" id="rama4"><span>Electricidad, Gas y Agua</span>
+																				</div>
+																				<div class="col-md-4">
+																					<input type="checkbox" class="mr-1" value="5" name="rama" id="rama5"><span>Construcción</span><br />
+																					<input type="checkbox" class="mr-1" value="6" name="rama" id="rama6"><span>Comercio mayor y menor, restaurant y hotel</span><br />
+																					<input type="checkbox" class="mr-1" value="7" name="rama" id="rama7"><span>Transporte, Almacenamiento y Comunicaciones</span><br />
+																					<input type="checkbox" class="mr-1" value="8" name="rama" id="rama8"><span>Servicios Financierios</span>
+																				</div>
+																				<div class="col-md-4">
+																					<input type="checkbox" class="mr-1" value="9" name="rama" id="rama9"><span>Servicios Comunales, Sociales, Personales</span><br />
+																					<input type="checkbox" class="mr-1" value="10" name="rama" id="rama10"><span>Actividad no especificada</span>
+																				</div>
+																			</div>
+																			<hr>
+																			<div class="row">
+																				<div class="col-md-12">
+																					<label for=""><strong>Ocupación</strong></label>
+																				</div>
+																				<div class="col-md-4">
+																					<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion1"><span>Profesionales, Técnicos y Afines</span><br />
+																					<input type="checkbox" class="mr-1" value="2" name="ocupacion" id="ocupacion2"><span>Gerentes, Administradores y Directivos</span><br />
+																					<input type="checkbox" class="mr-1" value="3" name="ocupacion" id="ocupacion3"><span>Empleados oficina y afines</span><br />
+																					<input type="checkbox" class="mr-1" value="4" name="ocupacion" id="ocupacion4"><span>Vendedores y afines</span>
+																				</div>
+																				<div class="col-md-4">
+																					<input type="checkbox" class="mr-1" value="5" name="ocupacion" id="ocupacion5"><span>Agricultores, Ganadores, Pescadores</span><br />
+																					<input type="checkbox" class="mr-1" value="6" name="ocupacion" id="ocupacion6"><span>Conductores y afines</span><br />
+																					<input type="checkbox" class="mr-1" value="7" name="ocupacion" id="ocupacion7"><span>Artesanos y Operarios</span><br />
+																					<input type="checkbox" class="mr-1" value="8" name="ocupacion" id="ocupacion8"><span>Otros Artesanos y Operarios</span>
+																				</div>
+																				<div class="col-md-4">
+																					<input type="checkbox" class="mr-1" value="9" name="ocupacion" id="ocupacion9"><span>Obreros y Jornaleros N.E.O.C</span><br />
+																					<input type="checkbox" class="mr-1" value="10" name="ocupacion" id="ocupacion10"><span>Trabajadores en Servicios Personales</span><br />
+																					<input type="checkbox" class="mr-1" value="11" name="ocupacion" id="ocupacion11"><span>Otros trabajadores N.E.O.C. 2/</span>
+																				</div>
+																			</div>
+																			<hr>
+																			<div class="row">
+																				<div class="col-md-12">
+																					<h5>Características del cáncer</h5>
+																				</div>
+																				<div class="col-md-6">
+																					<div class="row">
+																						<div class="col-md-12">
+																							<div class="row justify-content-end align-items-center">
+																								<div class="col-md-1" style="margin: 0;">
+																									<label for="">C</label>
+																								</div>
+																								<div class="col-md-1" style="margin: 0;">
+																									<input type="text" class="form-control" id="sp1" name="sp1">
+																								</div>
+																								<div class="col-md-1" style="margin: 0;">
+																									<input type="text" class="form-control" id="sp2" name="sp2">
+																								</div>
+																								<div class="col-md-1 text-center" style="margin: 0; font-size:40px;">
+																									<label for="" class="text-center">.</label>
+																								</div>
+																								<div class="col-md-1" style="margin: 0;">
+																									<input type="text" class="form-control" id="sp3" name="sp3">
+																								</div>
+																								<div class="col-md-6" style="margin: 0;">
+																									<label for="">Sitio Primario:<br>(Topografía)</label>
+																								</div>
+																							</div>
+																							<div class="row justify-content-end align-items-center">
+																								<div class="col-md-1">
+																									<input type="text" class="form-control" id="th1" name="th1">
+																								</div>
+																								<div class="col-md-1">
+																									<label for="">_</label>
+																								</div>
+																								<div class="col-md-1">
+																									<input type="text" class="form-control" id="th2" name="th2">
+																								</div>
+																								<div class="col-md-1">
+																									<input type="text" class="form-control" id="th3" name="th3">
+																								</div>
+																								<div class="col-md-1">
+																									<input type="text" class="form-control" id="th4" name="th4">
+																								</div>
+																								<div class="col-md-1">
+																									<input type="text" class="form-control" id="th5" name="th5">
+																								</div>
+																								<div class="col-md-6">
+																									<label for="">Tipo Histológico:<br>(Morfología)</label>
+																								</div>
+																							</div>
+																							<div class="row justify-content-end align-items-center">
+																								<div class="col-md-6">
+																									<input type="text" class="form-control" id="comportamiento" name="comportamiento">
+																								</div>
+																								<div class="col-md-6">
+																									<label for="">Comportamiento</label>
+																								</div>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="col-md-6">
+																					<label for="">Observaciones:</label>
+																					<textarea name="observaciones" id="observaciones" class="form-control" cols="30" rows="10"></textarea>
+																				</div>
+																			</div>
+
+																			<hr>
+																			<div class="row">
+																				<div class="col-md-4">
+																					<label for=""><strong>Grado de diferenciación</strong></label><br />
+																					<input type="checkbox" class="mr-1" value="1" name="grado" id="grado1"><span>Bien diferenciado</span><br />
+																					<input type="checkbox" class="mr-1" value="2" name="grado" id="grado2"><span>Moderadamente diferenciado</span><br />
+																					<input type="checkbox" class="mr-1" value="3" name="grado" id="grado3"><span>Pobremente diferenciado</span><br />
+																					<input type="checkbox" class="mr-1" value="4" name="grado" id="grado4"><span>Indiferenciado o anaplásico</span><br />
+																					<input type="checkbox" class="mr-1" value="5" name="grado" id="grado5"><span>No determinado o inaplicable</span>
+																				</div>
+																				<div class="col-md-4">
+																					<label for=""><strong>Extensión</strong></label><br />
+																					<input type="checkbox" class="mr-1" value="1" name="extension" id="extension1"><span>In situ</span><br />
+																					<input type="checkbox" class="mr-1" value="2" name="extension" id="extension2"><span>Localizada</span><br />
+																					<input type="checkbox" class="mr-1" value="3" name="extension" id="extension3"><span>Regional</span><br />
+																					<input type="checkbox" class="mr-1" value="4" name="extension" id="extension4"><span>Metástasis</span><br />
+																					<input type="checkbox" class="mr-1" value="5" name="extension" id="extension5"><span>Desconocido</span>
+																				</div>
+																				<div class="col-md-4">
+																					<label for=""><strong>Lateralidad</strong></label><br />
+																					<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad1"><span>Derecho</span><br />
+																					<input type="checkbox" class="mr-1" value="2" name="lateralidad" id="lateralidad2"><span>Izquierdo</span><br />
+																					<input type="checkbox" class="mr-1" value="3" name="lateralidad" id="lateralidad3"><span>Bilateral</span><br />
+																					<input type="checkbox" class="mr-1" value="4" name="lateralidad" id="lateralidad4"><span>No corresponde</span><br />
+																					<input type="checkbox" class="mr-1" value="5" name="lateralidad" id="lateralidad5"><span>Desconocido</span>
+																				</div>
+																			</div>
+																			<hr>
+																			<div class="row">
+																				<div class="col-md-12">
+																					<div class="row">
+																						<div class="col-md-3">
+																							<label for="">Fecha Incidencia</label>
+																						</div>
+																						<div class="col-md-3">
+																							<input type="date" class="form-control" id="fechaIncidencia" name="fechaIncidencia">
+																						</div>
+																						<div class="col-md-3">
+																							<input type="time" class="form-control" id="horaIncidencia" name="horaIncidencia">
+																						</div>
+																					</div>
+																				</div>
+																				<div class="col-md-12">
+																					<label for=""><strong>Base del Diágnóstico (El principal)</strong></label>
+																				</div>
+																				<div class="col-md-4">
+																					<input type="checkbox" class="mr-1" value="1" name="baseDiagnostico" id="baseDiagnostico1"><span>Sólo certificado de defunción</span><br />
+																					<input type="checkbox" class="mr-1" value="2" name="baseDiagnostico" id="baseDiagnostico2"><span>Sólo Clínica</span><br />
+																					<input type="checkbox" class="mr-1" value="3" name="baseDiagnostico" id="baseDiagnostico3"><span>Investigación clínica</span><br />
+																				</div>
+																				<div class="col-md-4">
+																					<input type="checkbox" class="mr-1" value="4" name="baseDiagnostico" id="baseDiagnostico4"><span>Extámenes bioquímicos / inmunológicos</span><br />
+																					<input type="checkbox" class="mr-1" value="5" name="baseDiagnostico" id="baseDiagnostico5"><span>Citología / hematología</span><br />
+																					<input type="checkbox" class="mr-1" value="6" name="baseDiagnostico" id="baseDiagnostico6"><span>Histología de Metástasis</span><br />
+																				</div>
+																				<div class="col-md-4">
+																					<input type="checkbox" class="mr-1" value="7" name="baseDiagnostico" id="baseDiagnostico7"><span>Histología de cáncer primario</span><br />
+																					<input type="checkbox" class="mr-1" value="8" name="baseDiagnostico" id="baseDiagnostico8"><span>Desconocido</span>
+																				</div>
+																			</div>
+																			<hr>
+																			<div class="row">
+																				<div class="col-md-12">
+																					<h5>Fuente de Incidencia</h5>
+																				</div>
+																				<div class="col-md-4">
+																					<div class="row">
+																						<div class="col-md-12">
+																							<label for="">Fuente Nº 1</label>
+																						</div>
+																						<div class="col-md-12">
+																							<label for="">Nombre</label>
+																							<input type="text" class="form-control" id="fuente1" name="fuente1">
+																						</div>
+																						<div class="col-md-12">
+																							<label for="">Fecha del paciente o del examen</label>
+																						</div>
+																						<div class="col-md-12">
+																							<input type="date" class="form-control" id="fechaPaciente1" name="fechaPaciente1">
+																						</div>
+																						<div class="col-md-12">
+																							<label for="">Fecha de la hospitalización o exámen</label>
+																						</div>
+																						<div class="col-md-6">
+																							<input type="date" class="form-control" id="fechaHospital1" name="fechaHospital1">
+																						</div>
+																						<div class="col-md-6">
+																							<input type="time" class="form-control" id="horaHospital1" name="horaHospital1">
+																						</div>
+																					</div>
+																				</div>
+																				<div class="col-md-4">
+																					<div class="row">
+																						<div class="col-md-12">
+																							<label for="">Fuente Nº 2</label>
+																						</div>
+																						<div class="col-md-12">
+																							<label for="">Nombre</label>
+																							<input type="text" class="form-control" id="fuente2" name="fuente2">
+																						</div>
+																						<div class="col-md-12">
+																							<label for="">Fecha del paciente o del examen</label>
+																						</div>
+																						<div class="col-md-12">
+																							<input type="date" class="form-control" id="fechaPaciente2" name="fechaPaciente2">
+																						</div>
+																						<div class="col-md-12">
+																							<label for="">Fecha de la hospitalización o exámen</label>
+																						</div>
+																						<div class="col-md-6">
+																							<input type="date" class="form-control" id="fechaHospital2" name="fechaHospital2">
+																						</div>
+																						<div class="col-md-6">
+																							<input type="time" class="form-control" id="horaHospital2" name="horaHospital2">
+																						</div>
+																					</div>
+																				</div>
+																				<div class="col-md-4">
+																					<div class="row">
+																						<div class="col-md-12">
+																							<label for="">Fuente Nº 3</label>
+																						</div>
+																						<div class="col-md-12">
+																							<label for="">Nombre</label>
+																							<input type="text" class="form-control" id="fuente3" name="fuente3">
+																						</div>
+																						<div class="col-md-12">
+																							<label for="">Fecha del paciente o del examen</label>
+																						</div>
+																						<div class="col-md-12">
+																							<input type="date" class="form-control" id="fechaPaciente3" name="fechaPaciente3">
+																						</div>
+																						<div class="col-md-12">
+																							<label for="">Fecha de la hospitalización o exámen</label>
+																						</div>
+																						<div class="col-md-6">
+																							<input type="date" class="form-control" id="fechaHospital3" name="fechaHospital3">
+																						</div>
+																						<div class="col-md-6">
+																							<input type="time" class="form-control" id="horaHospital3" name="horaHospital3">
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			<hr>
+																			<div class="row">
+																				<div class="col-md-6">
+																					<label for="">Fecha último contacto</label>
+																					<input type="date" class="form-control" id="fechacontacto" name="fechacontacto">
+																				</div>
+																				<div class="col-md-6">
+																					<label for="">Estadio</label> <br>
+																					<input type="checkbox" id="estadio1" name="estadio" value="1"><span class="ml-2">Vivo</span>
+																					<input type="checkbox" id="estadio2" name="estadio" value="2"><span class="ml-2">Muerto</span>
+																					<input type="checkbox" id="estadio3" name="estadio" value="3"><span class="ml-2">Sin información</span>
+																				</div>
+																			</div>
+																			<hr>
+																			<div class="row">
+																				<div class="col-md-6">
+																					<label for="">Defunción</label>
+																					<input type="date" class="form-control" id="defuncion" name="defuncion">
+																				</div>
+																				<div class="col-md-6">
+																					<label for="">Causa</label><br>
+																					<input type="checkbox" id="causa1" name="causa" value="1"><span class="ml-2">Cáncer</span>
+																					<input type="checkbox" id="causa2" name="causa" value="2"><span class="ml-2">Otra</span>
+																					<input type="checkbox" id="causa3" name="causa" value="3"><span class="ml-2">Desconocido</span>
+																				</div>
+																			</div>
+																			<hr>
+																			<div class="row">
+																				<div class="col-md-12">
+																					<label for="">Observacion</label>
+																					<textarea name="observacionfinal" id="observacionfinal" class="form-control" cols="30" rows="10"></textarea>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
 														</div>
 													</div>
 												</div>

@@ -3,9 +3,9 @@ require 'php/validation/config.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-session_start();
 require 'php/controller.php';
 $c = new Controller();
+session_start();
 $empresa = null;
 if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
@@ -166,8 +166,10 @@ if (!isset($_SESSION['USER_ID'])) {
 		header("Location: lockscreen.php");
 	}
 }
+$idempresa = $_SESSION['CURRENT_ENTERPRISE'];
 $id = $_SESSION['USER_ID'];
 $object = $c->buscarenUsuario1($id);
+$object1 = $c->buscarenUsuarioValores($id, $idempresa);
 $object2 = null;
 if ($empresa != null) {
 	$object2 = $c->buscarenUsuario($id, $empresa->getId());
@@ -742,54 +744,53 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 							<div class="card">
 								<div class="card-body">
 									<div class="row justify-content-between">
-									<div class="col-lg-9">
+										<div class="col-lg-9">
 											<div class="row">
 												<div class="col-md-12">
 													<h5 class="card-title">Información Paciente</h5>
 												</div>
 												<div class="col-md-3">
-													<?php 
-														echo "<h6 class='card-title'>Rut: ".$pac->getRut()."</h6>";
-														echo "<h6 class='card-title'>Nombre: ".$pac->getNombre()." ".$pac->getApellido1()." ".$pac->getApellido2()."</h6>";
-														echo "<h6 class='card-title'>Fecha Nacimiento: ".date("d-m-Y", strtotime($pac->getFechanacimiento()))."</h6>";
-														echo "<h6 class='card-title'>Edad: ".$edad." Años</h6>";
+													<?php
+													echo "<h6 class='card-title'>Rut: " . $pac->getRut() . "</h6>";
+													echo "<h6 class='card-title'>Nombre: " . $pac->getNombre() . " " . $pac->getApellido1() . " " . $pac->getApellido2() . "</h6>";
+													echo "<h6 class='card-title'>Fecha Nacimiento: " . date("d-m-Y", strtotime($pac->getFechanacimiento())) . "</h6>";
+													echo "<h6 class='card-title'>Edad: " . $edad . " Años</h6>";
 													?>
 												</div>
 												<div class="col-md-3">
-													<?php 
-														echo "<h6 class='card-title'>Genero: ".$pac->getGenero()."</h6>";
-														echo "<h6 class='card-title'>Nacionalidad: ".$pac->getNacionalidad()."</h6>";
-														echo "<h6 class='card-title'>Estado Civil: ".$pac->getEstadocivil()."</h6>";
-														echo "<h6 class='card-title'>Previsión: ".$inscripcion->getRegistro()." ".$inscripcion->getTipoprevision()."</h6>";
+													<?php
+													echo "<h6 class='card-title'>Genero: " . $pac->getGenero() . "</h6>";
+													echo "<h6 class='card-title'>Nacionalidad: " . $pac->getNacionalidad() . "</h6>";
+													echo "<h6 class='card-title'>Estado Civil: " . $pac->getEstadocivil() . "</h6>";
+													echo "<h6 class='card-title'>Previsión: " . $inscripcion->getRegistro() . " " . $inscripcion->getTipoprevision() . "</h6>";
 													?>
 												</div>
 												<div class="col-md-3">
-													<?php 
-														echo "<h6 class='card-title'>Dirección: ".$datosubicacion->getNombrecalle()." ".$datosubicacion->getNumerocalle().", ".$datosubicacion->getRestodireccion()."</h6>";
-														echo "<h6 class='card-title'>Comuna: ".$datosubicacion->getComuna()."</h6>";
-														echo "<h6 class='card-title'>Región: ".$datosubicacion->getRegion()."</h6>";
-														echo "<h6 class='card-title'>Teléfono: ".$pac->getFonomovil()."</h6>";
+													<?php
+													echo "<h6 class='card-title'>Dirección: " . $datosubicacion->getNombrecalle() . " " . $datosubicacion->getNumerocalle() . ", " . $datosubicacion->getRestodireccion() . "</h6>";
+													echo "<h6 class='card-title'>Comuna: " . $datosubicacion->getComuna() . "</h6>";
+													echo "<h6 class='card-title'>Región: " . $datosubicacion->getRegion() . "</h6>";
+													echo "<h6 class='card-title'>Teléfono: " . $pac->getFonomovil() . "</h6>";
 													?>
 												</div>
 												<div class="col-md-3">
-													<?php 
-														echo "<h6 class='card-title'>Pueblo Originario: ".$otros->getPueblooriginario()."</h6>";
-														echo "<h6 class='card-title'>N° Ficha: ".$inscripcion->getFicha()."</h6>";
-														echo "<h6 class='card-title'>Fecha Admision: ".$inscripcion->getFechaadmision()."</h6>";
-														echo "<h6 class='card-title'>Inscrito En: ".$inscripcion->getInscrito()."</h6>";
+													<?php
+													echo "<h6 class='card-title'>Pueblo Originario: " . $otros->getPueblooriginario() . "</h6>";
+													echo "<h6 class='card-title'>N° Ficha: " . $inscripcion->getFicha() . "</h6>";
+													echo "<h6 class='card-title'>Fecha Admision: " . $inscripcion->getFechaadmision() . "</h6>";
+													echo "<h6 class='card-title'>Inscrito En: " . $inscripcion->getInscrito() . "</h6>";
 													?>
 												</div>
-												
+
 											</div>
 										</div>
-										<!--<div class="col-lg-3 d-flex justify-content-end align-items-center">
-											<label for="">Estado Atención</label>
-											<select name="estadoatencion" id="estadoatencion" class="form-control">
-												<option value="4">En Atención</option>
-												<option value="5" selected>Atendido</option>
-												<option value="7">Paciente No se Presenta</option>
+										<div class="col-lg-3 d-flex justify-content-end align-items-center">
+											<label for="">Modalidad Atención</label>
+											<select name="modalidad" id="modalidad" class="form-control select2">
+												<option value="1">Presencial</option>
+												<option value="2">Remota</option>
 											</select>
-										</div>-->
+										</div>
 									</div>
 								</div>
 							</div>
@@ -892,23 +893,143 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	</div>
 																	<div aria-labelledby="procedimiento" class="collapse" data-parent="#accordion" id="procedimientos" role="tabpanel">
 																		<div class="card-body">
-																			<textarea style="height: 200;" name="procedimientotext" class="form-control" id="procedimientotext" cols="10" rows="10"></textarea>
+																			<textarea style="height: 200;" name="estudiocomplementarios" class="form-control" id="estudiocomplementarios" cols="10" rows="10"></textarea>
 
 																		</div>
 																	</div>
 																</div>
-																<!--Interconsultas-->
 																<div class="card">
-																	<div class="card-header" id="interconsulta" role="tab">
-																		<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#interconsultas">Plan de Tratamiento</a>
+																	<div class="card-header" id="decisionyplan" role="tab">
+																		<a aria-controls="collapseTwo" aria-expanded="false" class="collapsed" data-toggle="collapse" href="#decisionyplans">Decisión tomada y plan</a>
 																	</div>
-																	<div aria-labelledby="interconsulta" class="collapse" data-parent="#accordion" id="interconsultas" role="tabpanel">
+																	<div aria-labelledby="decisionyplan" class="collapse" data-parent="#accordion" id="decisionyplans" role="tabpanel">
 																		<div class="card-body">
-																			<textarea style="height: 200;" name="resolucion" class="form-control" id="resolucion" cols="10" rows="10"></textarea>
+																			<div class="row">
+																				<div class="col-md-4">
+																					<div class="card">
+																						<div class="card-body">
+																							<div class="row">
+																								<div class="col-md-12">
+																									<p>Decisión Tomada:</p>
+																								</div>
+																								<div class="col-md-12 d-flex align-items-center">
+																									<input type="checkbox" class="mr-1" value="1" id="cirugia">
+																									<label style="margin: 0;" for="">Cirugía</label>
+																								</div>
+																								<div class="col-md-12 d-flex  align-items-center">
+																									<input type="checkbox" class="mr-1" value="2" id="quimioterapia">
+																									<label style="margin: 0;" for="">Quimioterapiaa</label>
+																								</div>
+																								<div class="col-md-12 d-flex  align-items-center">
+																									<input type="checkbox" class="mr-1" value="3" id="radioterapia">
+																									<label style="margin: 0;" for="">Radioterapia</label>
+																								</div>
+																								<div class="col-md-12 d-flex  align-items-center">
+																									<input type="checkbox" class="mr-1" value="4" id="otros">
+																									<label style="margin: 0;" for="">Otros Tratamientos Oncológicos</label>
+																								</div>
+																								<div class="col-md-12 d-flex  align-items-center">
+																									<input type="checkbox" class="mr-1" value="5" id="seguimiento">
+																									<label style="margin: 0;" for="">Seguimiento sin tratamiento activo</label>
+																								</div>
+																								<div class="col-md-12 d-flex  align-items-center">
+																									<input type="checkbox" class="mr-1" value="6" id="completar">
+																									<label style="margin: 0;" for="">Completar estudios</label>
+																								</div>
+																								<div class="col-md-12 d-flex  align-items-center">
+																									<input type="checkbox" class="mr-1" value="7" id="revaluacion">
+																									<label style="margin: 0;" for="">Revaluación Posterior en Comité</label>
+																								</div>
+																								<div class="col-md-12 d-flex  align-items-center">
+																									<input type="checkbox" class="mr-1" value="8" id="estudioclinico">
+																									<label style="margin: 0;" for="">Estudio Clínico</label>
+																								</div>
+																							</div>
+
+																						</div>
+																					</div>
+																				</div>
+																				<div class="col-md-8">
+																					<div class="card">
+																						<div class="card-body">
+
+																							<p>Observaciones:</p>
+																							<textarea placeholder="Ingrese el texto" style="height: 200;" name="observacionesdecision" class="form-control" id="observacionesdecision" cols="10" rows="10"></textarea>
+
+																						</div>
+																					</div>
+
+																				</div>
+																			</div>
+																			<hr />
+																			<div class="row">
+																				<div class="col-md-4">
+																					<div class="card">
+																						<div class="card-body">
+																							<div class="row">
+																								<div class="col-md-12">
+																									<p>Plan Asistencial:</p>
+																								</div>
+																								<div class="col-md-12">
+																									<div class="row">
+																										<div class="col-md-12 d-flex align-items-center">
+																											<label for="" style="margin: 0;">Citación en Consulta de:</label>
+																										</div>
+																									</div>
+																									<div class="row">
+																										<div class="col-md-12">
+																											<select name="consultade" id="consultade" class="form-control select2">
+																												<option value="1">Cirugía</option>
+																												<option value="2">Quimioterapia</option>
+																											</select>
+																										</div>
+																									</div>
+
+																									</select>
+																								</div>
+																								<div class="col-md-12 mt-3 d-flex  align-items-center">
+																									<input type="checkbox" class="mr-1" value="2" id="programacion">
+																									<label style="margin: 0;" for="">Programación Quirúrgica</label>
+																								</div>
+																								<div class="col-md-12 d-flex  align-items-center">
+																									<input type="checkbox" class="mr-1" value="3" id="traslado">
+																									<label style="margin: 0;" for="">Traslado a otro Centro</label>
+																								</div>
+																								<div class="col-md-12 d-flex  align-items-center">
+																									<input type="checkbox" class="mr-1" value="4" id="paliativos">
+																									<label style="margin: 0;" for="">Pasa a Cuidados Paliativos</label>
+																								</div>
+																								<div class="col-md-12 d-flex  align-items-center">
+																									<input type="checkbox" class="mr-1" value="5" id="ingresohospitalario">
+																									<label style="margin: 0;" for="">Ingreso hospitalario</label>
+																								</div>
+																							</div>
+
+																						</div>
+																					</div>
+																				</div>
+																				<div class="col-md-8">
+																					<div class="card">
+																						<div class="card-body">
+																							<p>Observaciones:</p>
+																							<textarea placeholder="Ingrese el texto" style="height: 200;" name="observacionplan" class="form-control" id="observacionplan" cols="10" rows="10"></textarea>
+
+																						</div>
+																					</div>
+
+																				</div>
+																			</div>
 																		</div>
 																	</div>
 																</div>
 															</div>
+															<input type="hidden" id="atpacienteid" value="<?php echo $pa->getId(); ?>">
+															<input type="hidden" id="atempresaid" value="<?php echo $empresa->getId(); ?>">
+															<input type="hidden" id="atprofesionalid" value="<?php echo $object->getId(); ?>">
+															<input type="hidden" id="atreservaid" value="<?php echo $reserva->getId(); ?>">
+															<input type="hidden" id="atfolio" value="0">
+															<input type="hidden" id="previo" value="<?php echo $previous_page; ?>">
+
 														</div>
 													</div>
 													<div class="row mt-4">
@@ -916,9 +1037,9 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 															<input type="hidden" id="previo" value="<?php echo $previous_page; ?>">
 															<a class="btn btn-danger" href="<?php echo $previous_page; ?>"> <i class="fa fa-arrow-left"></i> Volver</a>
 															<!--Boton Vista Previa-->
-															<button type="button" class="btn btn-info" onclick="vistapreviaatencion(<?php echo $pa->getId(); ?>,<?php echo $empresa->getId(); ?>,<?php echo $object->getId(); ?>,<?php echo $reserva->getId(); ?>,0)"> <i class="fa fa-eye"></i> Vista Previa</button>
+															<button type="button" class="btn btn-info" onclick="vistapreviaatencion()"> <i class="fa fa-eye"></i> Vista Previa</button>
 															<!--Boton Guardar-->
-															<button type="button" class="btn btn-success" onclick="registraratencion(<?php echo $pa->getId(); ?>,<?php echo $empresa->getId(); ?>,<?php echo $object->getId(); ?>,<?php echo $reserva->getId(); ?>)"> <i class="fa fa-save"></i> Registrar</button>
+															<button type="button" class="btn btn-success" onclick="registraratencion()"> <i class="fa fa-save"></i> Registrar</button>
 														</div>
 													</div>
 												</div>
@@ -1513,11 +1634,6 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 		</div>
 	</div>
 
-
-
-
-
-
 	<!-- Back-to-top -->
 	<a href="#top" id="back-to-top"><i class="fe fe-arrow-up"></i></a>
 
@@ -1569,8 +1685,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 	<script src="JsFunctions/Alert/toastify.js"></script>
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
-	<script src="JsFunctions/function.js"></script>
-	<script src="JsFunctions/informe.js"></script>
+	<script src="JsFunctions/atencionpaciente.js"></script>
 	<script>
 		//Cargar Tabla
 		$(document).ready(function() {

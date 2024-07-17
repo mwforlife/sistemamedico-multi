@@ -4,11 +4,11 @@ require '../plugins/vendor/autoload.php';
 $c = new Controller();
 session_start();
 $empresa = null;
-if(isset($_SESSION['CURRENT_ENTERPRISE'])){
-	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
-	$empresa = $c->buscarEmpresa($enterprise);
-}else{
-return;
+if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
+    $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+    $empresa = $c->buscarEmpresa($enterprise);
+} else {
+    return;
 }
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -33,30 +33,15 @@ if (isset($_GET['id'])) {
     $histologico = $c->buscarenhistologico($informe->getHistologico());
     $invasiontumoral = $c->buscareninvaciontumoral($informe->getInvaciontumoral());
     $listaprofesionales = $c->buscarprofesionalescomite($comite->getId(), $empresa->getid());
-    $profesionales ="";
+    $profesionales = "";
     foreach ($listaprofesionales as $listaprofesional) {
         $nombreprofesional = $listaprofesional->getnombre();
         $profesionprofesional = $listaprofesional->getprofesion();
         $profesionales .= $nombreprofesional . " - " . $profesionprofesional . " /";
     }
     $sc = $c->calculateBSA($med->getPeso(), $med->getTalla());
-    //PDF Inicio
-    $mpdf = new \Mpdf\Mpdf();
-    $mpdf->SetTitle("Informe Comite");
-    $mpdf->SetAuthor("Oncoway");
-    $mpdf->SetCreator("Oncoway");
-    $mpdf->SetSubject("Informe Comite");
-    $mpdf->SetKeywords("Oncoway, Informe, Comite");
-    $mpdf->SetDisplayMode('fullpage');
-    $mpdf->SetWatermarkText('Oncoway');
-    //$mpdf->showWatermarkText = true;
-    $mpdf->watermark_font = 'DejaVuSansCondensed';
-    $mpdf->watermarkTextAlpha = 0.1;
-    //$mpdf->SetHTMLHeader('<div style="text-align: right; font-weight: bold; font-size: 9pt; font-family: sans-serif;">{DATE j-m-Y}</div>');
-    $mpdf->SetHTMLFooter('
-    <div style="text-align: center; font-weight: bold; font-size: 9pt; font-family: sans-serif;">Oncoway</div>
-    <div style="text-align: right; font-weight: bold; font-size: 9pt; font-family: sans-serif;">{PAGENO}/{nbpg}</div>
-    ');
+
+
 
     $contenido = "<table width='100%' border='0' cellspacing='0' cellpadding='0'>
     <tr>
@@ -91,7 +76,7 @@ if (isset($_GET['id'])) {
     </tr>
     <tr>
         <td width='100%' style='text-align: justify;'>
-            <h3 style='font-size:9pt'> Centro de Atencion: ".$empresa->getRazonSocial()."</h3>
+            <h3 style='font-size:9pt'> Centro de Atencion: " . $empresa->getRazonSocial() . "</h3>
         </td>
     </tr>
     <tr>
@@ -157,8 +142,9 @@ if (isset($_GET['id'])) {
         </td>
     </tr>";
     $contenido .= "</table>";
+
     $contenido .= "<hr style='margin:0; margin-top:10px;'>";
-    $contenido.="<h3 style='text-decoration: underline;font-size:18px; margin-top:0;'> Decision Tomada y Plan</h3>";
+    $contenido .= "<h3 style='text-decoration: underline;font-size:18px; margin-top:0;'> Decision Tomada y Plan</h3>";
     $contenido .= "<table width='100%' border='1' cellspacing='0' cellpadding='0' style='font-size:9pt; border: 1px solid black;'>
     <tr style='padding-top:10px;'>
         <td width='30%' style='text-align: justify; border-bottom: 1px solid black;'>
@@ -251,18 +237,34 @@ if (isset($_GET['id'])) {
     </tr>";
     $contenido .= "</table>";
 
-    
+
     /***********Auditoria******************* */
     $titulo = "Generaracón de informe de comité";
-	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+    $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
     $idUsuario = $_SESSION['USER_ID'];
     $object = $c->buscarenUsuario1($idUsuario);
     $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha generado un informe de Comité para el paciente " . $paciente->getNombre() . " " . $paciente->getApellido1() . " " . $paciente->getApellido2();
-    $c->registrarAuditoria($_SESSION['USER_ID'],$enterprise, 1, $titulo, $evento);
+    $c->registrarAuditoria($_SESSION['USER_ID'], $enterprise, 1, $titulo, $evento);
     /**************************************** */
-
+    //PDF Inicio
+    $mpdf = new \Mpdf\Mpdf();
+    $mpdf->SetTitle("Informe Comite");
+    $mpdf->SetAuthor("Oncoway");
+    $mpdf->SetCreator("Oncoway");
+    $mpdf->SetSubject("Informe Comite");
+    $mpdf->SetKeywords("Oncoway, Informe, Comite");
+    $mpdf->SetDisplayMode('fullpage');
+    $mpdf->SetWatermarkText('Oncoway');
+    //$mpdf->showWatermarkText = true;
+    $mpdf->watermark_font = 'DejaVuSansCondensed';
+    $mpdf->watermarkTextAlpha = 0.1;
+    //$mpdf->SetHTMLHeader('<div style="text-align: right; font-weight: bold; font-size: 9pt; font-family: sans-serif;">{DATE j-m-Y}</div>');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align: center; font-weight: bold; font-size: 9pt; font-family: sans-serif;">Oncoway</div>
+        <div style="text-align: right; font-weight: bold; font-size: 9pt; font-family: sans-serif;">{PAGENO}/{nbpg}</div>
+        ');
     $mpdf->WriteHTML($contenido);
-    $nombrecontenido = "Informe_" . $paciente->getRut()."_".date("dmyHis") . ".pdf";
+    $nombrecontenido = "Informe_" . $paciente->getRut() . "_" . date("dmyHis") . ".pdf";
     $mpdf->Output($nombrecontenido, 'I');
 } else {
     echo "<div class='col-md-12 alert alert-danger' role='alert'><i class='fas fa-exclamation-triangle'></i>Ups! No se ha podido cargar el informe</div>";

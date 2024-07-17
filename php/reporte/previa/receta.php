@@ -4,6 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require '../../controller.php';
 require '../../plugins/vendor/autoload.php';
+require '../../validation/config.php';
 $c = new Controller();
 session_start();
 if (!isset($_SESSION['USER_ID'])) {
@@ -20,8 +21,8 @@ if (
     isset($_GET['neoadyuvante']) && isset($_GET['primera']) && isset($_GET['traemedicamentos']) && isset($_GET['diabetes']) &&
     isset($_GET['hipertension']) && isset($_GET['alergia']) && isset($_GET['otrocor']) && isset($_GET['alergiadetalle']) && isset($_GET['otrcormo']) && isset($_GET['urgente']) &&
     isset($_GET['esquema']) && isset($_GET['medicamentoscheck']) && isset($_GET['premedicaciones']) &&
-    isset($_GET['estimulador']) && isset($_GET['cantidades']) && isset($_GET['rango']) && isset($_GET['anamnesis']) &&
-    isset($_GET['observaciones'])
+    isset($_GET['estimulador']) && isset($_GET['cantidades']) && isset($_GET['rango']) &&
+    isset($_GET['observaciones']) && isset($_GET['carbovalid'])
 ) {
     // Capturar los datos del formulario
     $paciente = $_GET['paciente'];
@@ -56,9 +57,8 @@ if (
     $otrcormo = $_GET['otrcormo'];
     $urgente = $_GET['urgente'];
     $esquema = $_GET['esquema'];
-
-    $anamnesis = $_GET['anamnesis'];
     $observaciones = $_GET['observaciones'];
+    $carbovalid = is_bool($_GET['carbovalid']) ? $_GET['carbovalid'] : $_GET['carbovalid'] === 'true';
 
 
     // Capturar medicamentoscheck
@@ -103,16 +103,6 @@ if (
         return;
     }
 
-    if (empty($creatinina)) {
-        echo json_encode(array('error' => true, 'message' => 'La creatinina no puede estar vacía'));
-        return;
-    }
-
-    if (empty($auc)) {
-        echo json_encode(array('error' => true, 'message' => 'El AUC no puede estar vacío'));
-        return;
-    }
-
     if (empty($fechaadmin)) {
         echo json_encode(array('error' => true, 'message' => 'La fecha de administración no puede estar vacía'));
         return;
@@ -154,6 +144,16 @@ if (
         echo json_encode(array('error' => true, 'message' => 'Seleccione un esquema'));
         return;
     }
+    if ($carbovalid === true) {
+        if ($creatinina <= 0) {
+            echo json_encode(array('error' => true, 'message' => 'La creatinina no puede ser menor o igual a 0'));
+            return;
+        }
+        if ($auc <= 0) {
+            echo json_encode(array('error' => true, 'message' => 'El AUC no puede ser menor o igual a 0'));
+            return;
+        }
+    }
 
     // Validar medicamentos
     if (empty($medicamentoscheck)) {
@@ -180,25 +180,20 @@ if (
         }
     }
 
-    if (empty($anamnesis)) {
-        echo json_encode(array('error' => true, 'message' => 'La anamnesis no puede estar vacía'));
-        return;
-    }
-
     if (empty($observaciones)) {
         echo json_encode(array('error' => true, 'message' => 'Las observaciones no pueden estar vacías'));
         return;
     }
 
     $fecha = date('Y-m-d');
-    $folio = $c->buscarultimofolioreceta($empresa,$medico) + 1;
-    if(isset($_GET['folio'])){
-        if($_GET['folio']!="" && $_GET['folio']>0){
+    $folio = $c->buscarultimofolioreceta($empresa, $medico) + 1;
+    if (isset($_GET['folio'])) {
+        if ($_GET['folio'] != "" && $_GET['folio'] > 0) {
             $folio = $_GET['folio'];
         }
     }
 
-    
+
     $idUsuario = $_SESSION['USER_ID'];
     $consulta = $c->buscarconsultaporid($consulta);
     $paciente = $c->buscarpaciente($paciente);
@@ -219,23 +214,6 @@ if (
         $ges = "Si";
     }
 
-    //PDF Inicio
-    $mpdf = new \Mpdf\Mpdf();
-    $mpdf->SetTitle("Receta Medica");
-    $mpdf->SetAuthor("Oncoway");
-    $mpdf->SetCreator("Oncoway");
-    $mpdf->SetSubject("Consutla Medica");
-    $mpdf->SetKeywords("Oncoway, Receta, Medica");
-    $mpdf->SetDisplayMode('fullpage');
-    $mpdf->SetWatermarkText('Oncoway');
-    //$mpdf->showWatermarkText = true;
-    $mpdf->watermark_font = 'DejaVuSansCondensed';
-    $mpdf->watermarkTextAlpha = 0.1;
-    //$mpdf->SetHTMLHeader('<div style="text-align: right; font-weight: bold; font-size: 9pt; font-family: sans-serif;">{DATE j-m-Y}</div>');
-    $mpdf->SetHTMLFooter('
-    <div style="text-align: center; font-weight: bold; font-size: 9pt; font-family: sans-serif;">Oncoway</div>
-    <div style="text-align: right; font-weight: bold; font-size: 9pt; font-family: sans-serif;">{PAGENO}/{nbpg}</div>
-    ');
     //Encabezado E informacion paciente
     $contenido = "<table width='100%' border='0' cellspacing='0' cellpadding='0'>
     <tr>
@@ -302,20 +280,20 @@ if (
             <h3 style='font-size:12pt'> Especialidad: " . $especialidad->getNombre() . "</h3>
         </td>
         <td width='50%' style='text-align: right;'>";
-        if($anticipada==1){
-            $contenido .= "<h3 style='font-size:12pt'>Anticipada: Si</h3>";
-        }
-    $contenido .="</td>
+    if ($anticipada == 1) {
+        $contenido .= "<h3 style='font-size:12pt'>Anticipada: Si</h3>";
+    }
+    $contenido .= "</td>
     </tr>
     <tr>
         <td width='50%' style='text-align: justify;'>
             <h3 style='font-size:12pt'> Medico: " . $medico->getNombre() . " " . $medico->getApellido1() . " " . $medico->getApellido2() . "</h3>
         </td>
         <td width='50%' style='text-align: right;'>";
-            if($urgente==1){
-                $contenido .= "<h3 style='font-size:12pt'>Urgente: Si</h3>";
-            }
-        $contenido .="</td>
+    if ($urgente == 1) {
+        $contenido .= "<h3 style='font-size:12pt'>Urgente: Si</h3>";
+    }
+    $contenido .= "</td>
     </tr>
     </table>";
     $contenido .= "<hr style='margin-top:10px; ' >";
@@ -426,12 +404,14 @@ if (
             break;
     }
     $contenido .= "</td>";
-    $contenido .= "<td width='' style='text-align: justify;'>
+    if ($carbovalid === true) {
+        $contenido .= "<td width='' style='text-align: justify;'>
                                     <h3 style='font-size:9pt'> Creatinina: " . $creatinina . "</h3>
                                 </td>";
-    $contenido .= "<td width='' style='text-align: justify;'>
+        $contenido .= "<td width='' style='text-align: justify;'>
                                                 <h3 style='font-size:9pt'> AUC: " . $auc . "</h3>
                                             </td>";
+    }
     $contenido .= "</tr>";
     $contenido .= "</table>";
 
@@ -457,7 +437,7 @@ if (
     }
 
     $contenido .= "</div>";
-    
+
     $contenido .= "<h2 style='font-size:10pt; margin-top:10px; margin-bottom:0px; text-decoration:underline;'>Comorbilidades</h2>";
     $contenido .= "<div style='width:100%;margin-top:2px;display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;'>";
     if ($diabetes == 1) {
@@ -483,11 +463,11 @@ if (
     $contenido .= "<hr style='margin:0; margin-top:10px; ' >";
 
 
-//Seccion Premedicaciones
-$premedicamentos = json_decode($premedicaciones, true);
-if (count($premedicamentos) > 0) {
-    $contenido .= "<h2 style='font-size:12pt; margin-top:10px;'>PREMEDICACIÓN</h2>";
-    $contenido .= "<table width='100%' border='1' cellspacing='0' cellpadding='0' style='font-size:9pt; '>
+    //Seccion Premedicaciones
+    $premedicamentos = json_decode($premedicaciones, true);
+    if (count($premedicamentos) > 0) {
+        $contenido .= "<h2 style='font-size:12pt; margin-top:10px;'>PREMEDICACIÓN</h2>";
+        $contenido .= "<table width='100%' border='1' cellspacing='0' cellpadding='0' style='font-size:9pt; '>
     <tr>
         <td width='20%' style='padding: 1px; text-align: left;'>
             <h3 style='font-size:9pt'> Medicamentos</h3>
@@ -502,36 +482,36 @@ if (count($premedicamentos) > 0) {
             <h3 style='font-size:9pt'> Observación
         </td>
     </tr>";
-    foreach ($premedicamentos as $premedicacion) {
-        $premedic = $c->buscarpremedicacion($premedicacion['premedicacion']);
-        $contenido .= "<tr >";
-        $contenido .= "<td width='10%' style='padding: 1px; text-align: left;'>
+        foreach ($premedicamentos as $premedicacion) {
+            $premedic = $c->buscarpremedicacion($premedicacion['premedicacion']);
+            $contenido .= "<tr >";
+            $contenido .= "<td width='10%' style='padding: 1px; text-align: left;'>
                     " . $premedic->getNombre() . "
                     </td>";
-                        $contenido .= "<td width='10%' style='padding: 1px; text-align: left;'>
-                        " . $premedicacion['dosis']."
+            $contenido .= "<td width='10%' style='padding: 1px; text-align: left;'>
+                        " . $premedicacion['dosis'] . "
                     </td>";
-                        $contenido .= "<td width='10%' style='padding: 1px; text-align: left;'>";
-                        if ($premedicacion['oral'] == 1) {
-                            $contenido .= "Oral";
-                        }
-                        if ($premedicacion['ev'] == 1) {
-                            $contenido .= "EV";
-                        }
-                        if ($premedicacion['sc'] == 1) {
-                            $contenido .= "SC";
-                        }
-                        $contenido .= "</td>";
-                        $contenido .= "<td width='10%' style='padding: 1px; text-align: left;'>
+            $contenido .= "<td width='10%' style='padding: 1px; text-align: left;'>";
+            if ($premedicacion['oral'] == 1) {
+                $contenido .= "Oral";
+            }
+            if ($premedicacion['ev'] == 1) {
+                $contenido .= "EV";
+            }
+            if ($premedicacion['sc'] == 1) {
+                $contenido .= "SC";
+            }
+            $contenido .= "</td>";
+            $contenido .= "<td width='10%' style='padding: 1px; text-align: left;'>
                         " . $premedicacion['observacion'] . "
                     </td>";
-        $contenido .= "</tr>";
+            $contenido .= "</tr>";
+        }
+        $contenido .= "</table>";
+        $contenido .= "<hr style='margin:0; margin-top:10px; ' >";
     }
-    $contenido .= "</table>";
-    $contenido .= "<hr style='margin:0; margin-top:10px; ' >";
-}
 
-$medicamentoscheck = json_decode($medicamentoscheck, true);
+    $medicamentoscheck = json_decode($medicamentoscheck, true);
 
     //Seccion Medicamentos
     if (count($medicamentoscheck) > 0) {
@@ -547,7 +527,10 @@ $medicamentoscheck = json_decode($medicamentoscheck, true);
             </td>>
             </td>
             <td width='10%' style='padding: 1px; text-align: left;'>
-                <h3 style='font-size:9pt'>Dosis (mg)</h3>
+                <h3 style='font-size:9pt'>Dosis(mg) Esquema</h3>
+            </td>
+            <td width='10%' style='padding: 1px; text-align: left;'>
+                <h3 style='font-size:9pt'>Dosis Total (mg)</h3>
             </td>
         <td width='10%' style='padding: 1px; text-align: left;'>
             <h3 style='font-size:9pt'>Vía de administración</h3>
@@ -567,6 +550,9 @@ $medicamentoscheck = json_decode($medicamentoscheck, true);
         </td>";
             $contenido .= "<td style='padding: 1px;text-align: left;'>
             " . $medicamento['medida'] . "
+        </td>";
+            $contenido .= "<td style='padding: 1px;text-align: left;'>
+            " . $medicamento['totalMg'] . "
         </td>";
             $contenido .= "<td style='padding: 1px;text-align: left;'>";
             if ($medicamento['oral'] == 1) {
@@ -593,7 +579,7 @@ $medicamentoscheck = json_decode($medicamentoscheck, true);
         $contenido .= "</table>";
     }
 
-    
+
     //SEssion Estimulador
     if ($estimulador == 1) {
         $contenido .= "<h2 style='font-size:12pt; margin-top:10px;'>ESTIMULADORES</h2>";
@@ -610,29 +596,16 @@ $medicamentoscheck = json_decode($medicamentoscheck, true);
             <h3 style='font-size:9pt'> Rango de dias</h3>
         </td>
         </tr>";
-            $contenido .= "<tr>";
-            $contenido .= "<td style='text-align: left;'>FILGRASTIM</td>";
-            $contenido .= "<td style='padding: 1px;text-align: left;'>" . $cantidades . "</td>";
-            $contenido .= "<td style='text-align: left;'>" . $rango . "</td>";
-            $contenido .= "</tr>";
+        $contenido .= "<tr>";
+        $contenido .= "<td style='text-align: left;'>FILGRASTIM</td>";
+        $contenido .= "<td style='padding: 1px;text-align: left;'>" . $cantidades . "</td>";
+        $contenido .= "<td style='text-align: left;'>" . $rango . "</td>";
+        $contenido .= "</tr>";
         $contenido .= "</table>";
     }
 
     $contenido .= "<hr style='margin:0; margin-top:10px; ' >";
     //Seccion Observaciones
-    //Anamnesis
-    $contenido .= "<h2 style='font-size:12pt; margin-top:10px;'>OBSERVACIONES GENERALES</h2>";
-    $contenido .= "<table width='100%' border='1' cellspacing='0' cellpadding='0' style='font-size:9pt; border-collapse: collapse; padding:5px;'>
-    <tr>
-    <td><h3 style='font-size:9pt'>Anamnesis</h3></td>
-    </tr>
-    <tr>
-        <td width='100%' style='text-align: justify;padding:5px;'>
-             " . $anamnesis . "
-        </td>
-    </tr>
-    </table>";
-
     $contenido .= "<br/>";
     //Observacion
     $contenido .= "<table width='100%' border='1' cellspacing='0' cellpadding='0' style='font-size:9pt; border-collapse: collapse; padding:5px;'>
@@ -641,7 +614,7 @@ $medicamentoscheck = json_decode($medicamentoscheck, true);
     </tr>
     <tr>
         <td width='100%' style='text-align: justify;padding:5px;'>
-            " . $observaciones. "
+            " . $observaciones . "
         </td>
         </tr>
     </table>";
@@ -664,12 +637,28 @@ $medicamentoscheck = json_decode($medicamentoscheck, true);
 
 
 
+    //PDF Inicio
+    $mpdf = new \Mpdf\Mpdf();
+    $mpdf->SetTitle("Receta Medica");
+    $mpdf->SetAuthor("Oncoway");
+    $mpdf->SetCreator("Oncoway");
+    $mpdf->SetSubject("Consutla Medica");
+    $mpdf->SetKeywords("Oncoway, Receta, Medica");
+    $mpdf->SetDisplayMode('fullpage');
+    $mpdf->SetWatermarkText('Oncoway');
+    //$mpdf->showWatermarkText = true;
+    $mpdf->watermark_font = 'DejaVuSansCondensed';
+    $mpdf->watermarkTextAlpha = 0.1;
+    //$mpdf->SetHTMLHeader('<div style="text-align: right; font-weight: bold; font-size: 9pt; font-family: sans-serif;">{DATE j-m-Y}</div>');
+    $mpdf->SetHTMLFooter('
+    <div style="text-align: center; font-weight: bold; font-size: 9pt; font-family: sans-serif;">Oncoway</div>
+    <div style="text-align: right; font-weight: bold; font-size: 9pt; font-family: sans-serif;">{PAGENO}/{nbpg}</div>
+    ');
 
     $mpdf->WriteHTML($contenido);
     $nombrecontenido = "Receta_" . $paciente->getRut() . "_" . date("dmyHis") . ".pdf";
     $mpdf->Output($nombrecontenido, 'I');
-
-}else{
+} else {
     echo json_encode(array('error' => true, 'message' => 'Faltan datos'));
     return;
 }

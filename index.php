@@ -24,6 +24,7 @@ if (!isset($_SESSION['USER_ID'])) {
 }
 $id = $_SESSION['USER_ID'];
 $object = $c->buscarenUsuario1($id);
+$object1 = $c->buscarenUsuarioValores($id, $idempresa);
 
 $admingeneralrol = false;
 $adminsistemarol = false;
@@ -536,6 +537,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							<div class="header-navheading">
 								<h6 class="main-notification-title">
 									<?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
+									<p class="main-notification-text"><?php echo $object1->getProfesion(); ?>
 							</div>
 							<a class="dropdown-item" href="close.php">
 								<i class="fe fe-power"></i> Cerrar Sesíon
@@ -573,6 +575,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							<div class="dropdown-menu">
 								<div class="header-navheading">
 									<h6 class="main-notification-title"><?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
+									<p class="main-notification-text"><?php echo $object1->getProfesion(); ?>
 								</div>
 
 								<a class="dropdown-item" href="close.php">
