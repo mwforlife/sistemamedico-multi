@@ -1,5 +1,6 @@
 function registropoblacional() {
   var idpaciente = $("#pacientepoblacional").val();
+  var provenencia = $("#proveniencia").val();
   //Variables Rama
   var rama1 = 0;
   var rama2 = 0;
@@ -124,22 +125,7 @@ function registropoblacional() {
     if ($("#rama10").is(":checked")) {
       rama10 = 1;
     }
-    //Validar que se haya seleccionado al menos una rama
-    if (
-      rama1 == 0 &&
-      rama2 == 0 &&
-      rama3 == 0 &&
-      rama4 == 0 &&
-      rama5 == 0 &&
-      rama6 == 0 &&
-      rama7 == 0 &&
-      rama8 == 0 &&
-      rama9 == 0 &&
-      rama10 == 0
-    ) {
-      ToastifyError("Debe seleccionar al menos una Rama de actividad");
-      return false;
-    }
+    
   } catch (error) {
     ToastifyError(error);
     return false;
@@ -180,23 +166,7 @@ function registropoblacional() {
     if ($("#ocupacion11").is(":checked")) {
       ocupacion11 = 1;
     }
-    //Validar que se haya seleccionado al menos una ocupacion
-    if (
-      ocupacion1 == 0 &&
-      ocupacion2 == 0 &&
-      ocupacion3 == 0 &&
-      ocupacion4 == 0 &&
-      ocupacion5 == 0 &&
-      ocupacion6 == 0 &&
-      ocupacion7 == 0 &&
-      ocupacion8 == 0 &&
-      ocupacion9 == 0 &&
-      ocupacion10 == 0 &&
-      ocupacion11 == 0
-    ) {
-      ToastifyError("Debe seleccionar al menos una Ocupación");
-      return false;
-    }
+    
   } catch (error) {
     ToastifyError(error);
     return false;
@@ -228,15 +198,6 @@ function registropoblacional() {
     if ($("#th5").is(":checked")) {
       th5 = 1;
     }
-    if ($("#comportamiento").val() == "") {
-      ToastifyError("Debe seleccionar un comportamiento");
-      return false;
-    }
-    comportamiento = $("#comportamiento").val();
-    if ($("#comportamientoobservacion").val() == "") {
-      ToastifyError("Debe ingresar una observación del comportamiento");
-      return false;
-    }
     comportamientoobservacion = $("#comportamientoobservacion").val();
   } catch (error) {
     ToastifyError(error);
@@ -261,16 +222,7 @@ function registropoblacional() {
       grado5 = 1;
     }
     //Validar que se haya seleccionado al menos un grado
-    if (
-      grado1 == 0 &&
-      grado2 == 0 &&
-      grado3 == 0 &&
-      grado4 == 0 &&
-      grado5 == 0
-    ) {
-      ToastifyError("Debe seleccionar al menos un Grado");
-      return false;
-    }
+    
   } catch (error) {
     ToastifyError(error);
     return false;
@@ -293,17 +245,7 @@ function registropoblacional() {
     if ($("#extension5").is(":checked")) {
       extension5 = 1;
     }
-    //Validar que se haya seleccionado al menos una extension
-    if (
-      extension1 == 0 &&
-      extension2 == 0 &&
-      extension3 == 0 &&
-      extension4 == 0 &&
-      extension5 == 0
-    ) {
-      ToastifyError("Debe seleccionar al menos una Extensión");
-      return false;
-    }
+    
   } catch (error) {
     ToastifyError(error);
     return false;
@@ -326,17 +268,7 @@ function registropoblacional() {
     if ($("#lateralidad5").is(":checked")) {
       lateralidad5 = 1;
     }
-    //Validar que se haya seleccionado al menos una lateralidad
-    if (
-      lateralidad1 == 0 &&
-      lateralidad2 == 0 &&
-      lateralidad3 == 0 &&
-      lateralidad4 == 0 &&
-      lateralidad5 == 0
-    ) {
-      ToastifyError("Debe seleccionar al menos una Lateralidad");
-      return false;
-    }
+    
   } catch (error) {
     ToastifyError(error);
     return false;
@@ -371,21 +303,7 @@ function registropoblacional() {
     if ($("#basediagnostico9").is(":checked")) {
       basediagnostico9 = 1;
     }
-    //Validar que se haya seleccionado al menos una base del diagnóstico
-    if (
-      basediagnostico1 == 0 &&
-      basediagnostico2 == 0 &&
-      basediagnostico3 == 0 &&
-      basediagnostico4 == 0 &&
-      basediagnostico5 == 0 &&
-      basediagnostico6 == 0 &&
-      basediagnostico7 == 0 &&
-      basediagnostico8 == 0 &&
-      basediagnostico9 == 0
-    ) {
-      ToastifyError("Debe seleccionar al menos una Base del Diagnóstico");
-      return false;
-    }
+    
   } catch (error) {
     ToastifyError(error);
     return false;
@@ -411,11 +329,7 @@ function registropoblacional() {
       fechahospex3 = $("#fechahospex3").val();
       horahospex3 = $("#horahospex3").val();
     }
-    //Validar que se haya seleccionado al menos una fuente de incidencia
-    if (fuente1 == 0 && fuente2 == 0 && fuente3 == 0) {
-      ToastifyError("Debe seleccionar al menos una Fuente de Incidencia");
-      return false;
-    }
+    
   } catch (error) {
     ToastifyError(error);
     return false;
@@ -450,6 +364,7 @@ function registropoblacional() {
     type: "POST",
     data: {
       idpaciente: idpaciente,
+      provenencia: provenencia,
       rama1: rama1,
       rama2: rama2,
       rama3: rama3,
@@ -550,6 +465,7 @@ function registropoblacional() {
 
 function actualziarregistropoblacional() {
     var idregistro = $("#idregistropoblacional").val();
+    var provenencia = $("#proveniencia").val();
     //Variables Rama
     var rama1 = 0;
     var rama2 = 0;
@@ -730,23 +646,7 @@ function actualziarregistropoblacional() {
       if ($("#ocupacion11").is(":checked")) {
         ocupacion11 = 1;
       }
-      //Validar que se haya seleccionado al menos una ocupacion
-      if (
-        ocupacion1 == 0 &&
-        ocupacion2 == 0 &&
-        ocupacion3 == 0 &&
-        ocupacion4 == 0 &&
-        ocupacion5 == 0 &&
-        ocupacion6 == 0 &&
-        ocupacion7 == 0 &&
-        ocupacion8 == 0 &&
-        ocupacion9 == 0 &&
-        ocupacion10 == 0 &&
-        ocupacion11 == 0
-      ) {
-        ToastifyError("Debe seleccionar al menos una Ocupación");
-        return false;
-      }
+      
     } catch (error) {
       ToastifyError(error);
       return false;
@@ -778,15 +678,6 @@ function actualziarregistropoblacional() {
       if ($("#th5").is(":checked")) {
         th5 = 1;
       }
-      if ($("#comportamiento").val() == "") {
-        ToastifyError("Debe seleccionar un comportamiento");
-        return false;
-      }
-      comportamiento = $("#comportamiento").val();
-      if ($("#comportamientoobservacion").val() == "") {
-        ToastifyError("Debe ingresar una observación del comportamiento");
-        return false;
-      }
       comportamientoobservacion = $("#comportamientoobservacion").val();
     } catch (error) {
       ToastifyError(error);
@@ -811,16 +702,7 @@ function actualziarregistropoblacional() {
         grado5 = 1;
       }
       //Validar que se haya seleccionado al menos un grado
-      if (
-        grado1 == 0 &&
-        grado2 == 0 &&
-        grado3 == 0 &&
-        grado4 == 0 &&
-        grado5 == 0
-      ) {
-        ToastifyError("Debe seleccionar al menos un Grado");
-        return false;
-      }
+      
     } catch (error) {
       ToastifyError(error);
       return false;
@@ -843,17 +725,7 @@ function actualziarregistropoblacional() {
       if ($("#extension5").is(":checked")) {
         extension5 = 1;
       }
-      //Validar que se haya seleccionado al menos una extension
-      if (
-        extension1 == 0 &&
-        extension2 == 0 &&
-        extension3 == 0 &&
-        extension4 == 0 &&
-        extension5 == 0
-      ) {
-        ToastifyError("Debe seleccionar al menos una Extensión");
-        return false;
-      }
+      
     } catch (error) {
       ToastifyError(error);
       return false;
@@ -876,17 +748,7 @@ function actualziarregistropoblacional() {
       if ($("#lateralidad5").is(":checked")) {
         lateralidad5 = 1;
       }
-      //Validar que se haya seleccionado al menos una lateralidad
-      if (
-        lateralidad1 == 0 &&
-        lateralidad2 == 0 &&
-        lateralidad3 == 0 &&
-        lateralidad4 == 0 &&
-        lateralidad5 == 0
-      ) {
-        ToastifyError("Debe seleccionar al menos una Lateralidad");
-        return false;
-      }
+      
     } catch (error) {
       ToastifyError(error);
       return false;
@@ -921,21 +783,7 @@ function actualziarregistropoblacional() {
       if ($("#basediagnostico9").is(":checked")) {
         basediagnostico9 = 1;
       }
-      //Validar que se haya seleccionado al menos una base del diagnóstico
-      if (
-        basediagnostico1 == 0 &&
-        basediagnostico2 == 0 &&
-        basediagnostico3 == 0 &&
-        basediagnostico4 == 0 &&
-        basediagnostico5 == 0 &&
-        basediagnostico6 == 0 &&
-        basediagnostico7 == 0 &&
-        basediagnostico8 == 0 &&
-        basediagnostico9 == 0
-      ) {
-        ToastifyError("Debe seleccionar al menos una Base del Diagnóstico");
-        return false;
-      }
+      
     } catch (error) {
       ToastifyError(error);
       return false;
@@ -961,11 +809,7 @@ function actualziarregistropoblacional() {
         fechahospex3 = $("#fechahospex3").val();
         horahospex3 = $("#horahospex3").val();
       }
-      //Validar que se haya seleccionado al menos una fuente de incidencia
-      if (fuente1 == 0 && fuente2 == 0 && fuente3 == 0) {
-        ToastifyError("Debe seleccionar al menos una Fuente de Incidencia");
-        return false;
-      }
+      
     } catch (error) {
       ToastifyError(error);
       return false;
@@ -1000,6 +844,7 @@ function actualziarregistropoblacional() {
       type: "POST",
       data: {
         idregistro: idregistro,
+        provenencia: provenencia,
         rama1: rama1,
         rama2: rama2,
         rama3: rama3,

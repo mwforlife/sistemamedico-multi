@@ -36,7 +36,7 @@ if (isset($_GET['code']) && isset($_GET['comite'])) {
 		header("Location: $previous_page");
 		exit();
 	}
-	$idcomite = $pacientecomite->getobservaciones();
+	$idcomite = $comite;
 } else {
 	//Redireccionar a la página anterior
 	header("Location: $previous_page");
@@ -76,7 +76,6 @@ if ($ubicacion != null) {
 	$comuna = $c->buscarencomuna($comuna);
 	$comuna = $comuna->getNombre();
 }
-$idcomite = $pacientecomite->getobservaciones();
 $rut = $r->getRut();
 $nombre = $r->getNombre();
 $apellido1 = $r->getApellido1();
@@ -1485,6 +1484,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 									<div class="row mt-4">
 										<div class="col-md-12 text-right">
 											<input type="hidden" name="previo" id="previo" value="<?php echo $previous_page; ?>">
+											<input type="hidden" name="proveniencia" id="proveniencia" value="2">
 											<a class="btn btn-danger" href="<?php echo $previous_page; ?>"> <i class="fa fa-arrow-left"></i> Volver</a>
 											<button class="btn btn-outline-primary" onclick="vistapreviainforme(<?php echo $dipaciente ?>,<?php echo $idcomite; ?>)"> <i class="fa fa-eye"></i> Vista Previa</button>
 											<button class="btn btn-outline-success" onclick="guardarinforme(<?php echo $dipaciente ?>,<?php echo $idcomite; ?>)"> <i class="fa fa-save"></i> Guardar</button>

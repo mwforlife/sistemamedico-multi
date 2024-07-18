@@ -680,6 +680,7 @@ create table signosvitales(
     peso float  null,
     registro datetime not null default current_timestamp
 );
+
 /********Medidas Antopométricas*/
 create table pe(
     id int not null auto_increment primary key,
@@ -1157,7 +1158,6 @@ create table informecomite(
     id int not null auto_increment primary key,
     folio int not null,
     paciente int not null references pacientes(id),
-    diagnosticos int not null references informecomitediagnostico(id),
     comite int not null references comite(id),
     ecog int not null references ecog(id),
     histologico int not null references histologico(id),
@@ -1181,6 +1181,7 @@ create table informecomite(
     ingresohospitalario int not null default 0,
     observacionplan text  null,
     resolucion text  null,
+    empresa int not null references empresa(id),
     registro datetime not null default current_timestamp
 );
 
@@ -1294,6 +1295,7 @@ create table registropoblacional(
     defuncion date null,
     causa int null,
     obsersavacionfinal text null,
+    proveniencia text not null,
     registro datetime not null default current_timestamp
 );
 

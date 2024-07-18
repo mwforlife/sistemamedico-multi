@@ -21,7 +21,7 @@ if (isset($_GET['id'])) {
         echo "<div class='col-md-12 alert alert-danger' role='alert'><i class='fas fa-exclamation-triangle'></i>Ups! No se ha podido cargar el informe</div>";
         return;
     }
-    $diagnosticosinforme = $c->buscardiagnosticoscomite($informe->getDiagnosticos());
+    $diagnosticosinforme = $c->buscardiagnosticoscomite($id);
     $paciente = $c->buscarpaciente($informe->getPaciente());
     $fechanacimiento = $paciente->getFechanacimiento();
     $edad = $c->calcularEdad($fechanacimiento);
@@ -31,7 +31,7 @@ if (isset($_GET['id'])) {
     $pacientecomite = $c->buscarpacientecomiteval($informe->getPaciente(), $informe->getComite());
     $ecog = $c->buscarenecog($informe->getEcog());
     $histologico = $c->buscarenhistologico($informe->getHistologico());
-    $invasiontumoral = $c->buscareninvaciontumoral($informe->getInvaciontumoral());
+    $invasiontumoral = $c->buscareninvaciontumoral($informe->getInvasionTumoral());
     $listaprofesionales = $c->buscarprofesionalescomite($comite->getId(), $empresa->getid());
     $profesionales = "";
     foreach ($listaprofesionales as $listaprofesional) {
@@ -40,6 +40,7 @@ if (isset($_GET['id'])) {
         $profesionales .= $nombreprofesional . " - " . $profesionprofesional . " /";
     }
     $sc = $c->calculateBSA($med->getPeso(), $med->getTalla());
+    $tnm = $c->listartnmcomite($informe->getId());
 
 
 
@@ -49,7 +50,7 @@ if (isset($_GET['id'])) {
             <h1>Informe Comite</h1>
         </td>
         <td width='50%' style='text-align: right;'>
-            <h3> FOLIO: " . $comite->getFolio() . "</h3>
+            <h3> FOLIO: " . $informe->getFolio() . "</h3>
         </td>
     </tr>
     </table>";
@@ -100,7 +101,7 @@ if (isset($_GET['id'])) {
     $contenido .= "<h3 style='text-decoration: underline; font-size: 18px; margin:0; margin-bottom:5px;'> Anamnesis</h3>";
     $contenido .= "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-size:9pt'>
     <tr>
-        <td width='100%' style='text-align:'> <h3 style='font-size:9pt'>Peso: " . $med->getPeso() . " kG,  Talla: " . $med->getTalla() . "CM, Superficie Corporal: " . $sc . " m2</h3>
+        <td width='100%' style='text-align:'> <h3 style='font-size:9pt'>Peso: " . $med->getPeso() . " kG,  Talla: " . $med->getTalla() . "CM, Superficie Corporal: " . $sc . " m<sup>2</sup>, IMC: " . $med->getIMC() . " </h3></td>
         </td>
     </tr>
     <tr>
@@ -110,26 +111,81 @@ if (isset($_GET['id'])) {
         </td>
     </tr>
     </table>";
-    $contenido .= "<table width='100%' border='0' cellspacing='0' cellpadding='0' >
+    //TNM
+    $contenido .= "<hr style='margin:0; margin-top:10px; '>";
+    $contenido .= "<h3 style='text-decoration: underline; font-size: 18px; margin:0; margin-bottom:5px;'> TNM</h3>";
+    $contenido .= "<table width='100%' border='1' cellspacing='0' cellpadding='0' style='font-size:9pt; border: 1px solid black;'>
     <tr>
-        <td width='6%' style='text-align: justify; '>
-            <h3 style='font-size:9pt'> TNM:</h3>
+        <td width='10%' style='text-align: justify; border-bottom: 1px solid black;'>
+            <h3 style='font-size:9pt;'> _T</h3>
         </td>
-        <td width='96%' style='text-align: justify; '>
-        <h3 style='font-size:9pt'>Primario Clinico: " . $informe->getTnmprimario() . "</h3>
+        <td width='10%' style='text-align: justify; border-bottom: 1px solid black;'>
+            <h3 style='font-size:9pt;'> _T</h3>
         </td>
-        </tr>
-        <tr>
-        <td width='6%' style='text-align: justify; '>
-            <h3 style='text-decoration: underline; font-size:13px;'> </h3>
+        <td width='10%' style='text-align: justify; border-bottom: 1px solid black;'>
+            <h3 style='font-size:9pt;'> T </h3>
         </td>
-        <td width='96%' style='text-align: justify; '>
-        <h3 style='font-size:9pt'> Regionales Clinico: " . $informe->getTnmregionales() . "</h3>
-        <h3 style='font-size:9pt'>Distancia Clinico: " . $informe->getTnmdistancia() . "</h3>
+        <td width='10%' style='text-align: justify; border-bottom: 1px solid black;'>
+            <h3 style='font-size:9pt;'> _N</h3>
         </td>
-    </tr>
-    </table>
-    <hr style='margin:0; margin-top:10px; ' >
+        <td width='10%' style='text-align: justify; border-bottom: 1px solid black;'>
+            <h3 style='font-size:9pt;'> N</h3>
+        </td>
+        <td width='10%' style='text-align: justify; border-bottom: 1px solid black;'>
+            <h3 style='font-size:9pt;'> _M</h3>
+        </td>
+        <td width='10%' style='text-align: justify; border-bottom: 1px solid black;'>
+            <h3 style='font-size:9pt;'> M</h3>
+        </td>
+        <td width='30%' style='text-align: justify; border-bottom: 1px solid black;'>
+            <h3 style='font-size:9pt;'> M_</h3>
+        </td>
+        </tr>";
+        foreach ($tnm as $tn) {
+            $contenido .= "<tr>";
+            $contenido .= "<td width='10%' style='text-align: justify; border-bottom: 1px solid black;'>";
+            $contenido .= "<h4 style='font-size:9pt;'>" . $tn['t1'] . "</h4>";
+            $contenido .= "</td>";
+            $contenido .= "<td width='10%' style='text-align: justify; border-bottom: 1px solid black;'>";
+            $contenido .= "<h4 style='font-size:9pt;'>" . $tn['t2'] . "</h4>";
+            $contenido .= "</td>";
+            $contenido .= "<td width='15%' style='text-align: justify; border-bottom: 1px solid black;'>";
+            $contenido .= "<h4 style='font-size:9pt;'>" . $tn['ttexto'] . "</h4>";
+            $contenido .= "</td>";
+            $contenido .= "<td width='10%' style='text-align: justify; border-bottom: 1px solid black;'>";
+            $contenido .= "<h4 style='font-size:9pt;'>" . $tn['n1'] . "</h4>";
+            $contenido .= "</td>";
+            $contenido .= "<td width='15%' style='text-align: justify; border-bottom: 1px solid black;'>";
+            $contenido .= "<h4 style='font-size:9pt;'>" . $tn['ntexto'] . "</h4>";
+            $contenido .= "</td>";
+            $contenido .= "<td width='10%' style='text-align: justify; border-bottom: 1px solid black;'>";
+            $contenido .= "<h4 style='font-size:9pt;'>" . $tn['m1'] . "</h4>";
+            $contenido .= "</td>";
+            $contenido .= "<td width='15%' style='text-align: justify; border-bottom: 1px solid black;'>";
+            $contenido .= "<h4 style='font-size:9pt;'>" . $tn['mtexto'] . "</h4>";
+            $contenido .= "</td>";
+            $contenido .= "<td width='10%' style='text-align: justify; border-bottom: 1px solid black;'>";
+            $contenido .= "<h4 style='font-size:9pt;'>" . $tn['m2'] . "</h4>";
+            $contenido .= "</td>";
+            $contenido .= "</tr>";
+        }
+    $contenido .= "</table>";
+
+    $contenido .= "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-size:9pt; '>
+    <tr>
+        <td width='100%' style='text-align: justify; '>
+            <h3 style='font-size:9pt;'> Observaciones: </h3>
+        </td>
+    </tr>";
+    $contenido .= "<tr>
+        <td width='100%' style='text-align: justify;'>
+            <p style='font-size:9pt;'>" . $observaciontnm . "</p>
+        </td>
+    </tr>";
+    $contenido .= "</table>";
+
+    //Fin TNM
+    $contenido .= "<hr style='margin:0; margin-top:10px; ' >
     <h3 style='text-decoration: underline; font-size:18px; margin-top:0;'> Anamnesis y Examen Fisico</h3>";
     $contenido .= "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-size:9pt; '>
     <tr>
@@ -138,7 +194,7 @@ if (isset($_GET['id'])) {
     </tr>";
     $contenido .= "<tr>
         <td width='100%' style='text-align: justify;'>
-            <p style='font-size:9pt; padding-top:10px;'>" . $informe->getAnamesis() . "</p>
+            <p style='font-size:9pt; padding-top:10px;'>" . $informe->getAnamnesis() . "</p>
         </td>
     </tr>";
     $contenido .= "</table>";
@@ -166,16 +222,16 @@ if (isset($_GET['id'])) {
     if ($informe->getRadioterapia() == 3) {
         $contenido .= "<h4 style='font-size:9pt;'> Radioterapia </h4>";
     }
-    if ($informe->getTratamientosoncologicos() == 4) {
+    if ($informe->getOtros() == 4) {
         $contenido .= "<h4 style='font-size:9pt;'> Otros Tratamientos Oncologicos </h4>";
     }
-    if ($informe->getSeguimientosintratamiento() == 5) {
+    if ($informe->getSeguimiento() == 5) {
         $contenido .= "<h4 style='font-size:9pt;'> Seguimiento sin tratamiento activo </h4>";
     }
-    if ($informe->getCompletarestudios() == 6) {
+    if ($informe->getCompletar() == 6) {
         $contenido .= "<h4 style='font-size:9pt;'> Completar estudios </h4>";
     }
-    if ($informe->getRevaluacionposterior() == 7) {
+    if ($informe->getRevaluacion() == 7) {
         $contenido .= "<h4 style='font-size:9pt;'> Revaluacion posterior </h4>";
     }
     if ($informe->getEstudioclinico() == 8) {
@@ -185,7 +241,7 @@ if (isset($_GET['id'])) {
 
     $contenido .= "</td>";
     $contenido .= "<td width='60%' style='text-align: justify;'>";
-    $contenido .= "<p style='font-size:9.5pt;'>" . $informe->getObservaciondesicion() . "</p>";
+    $contenido .= "<p style='font-size:9.5pt;'>" . $informe->getObservacionesDecision() . "</p>";
     $contenido .= "</td>";
     $contenido .= "</tr>
     </table>";
@@ -205,16 +261,16 @@ if (isset($_GET['id'])) {
         <td width='40%' style='text-align: justify; font-size:9.5pt;'>";
     $contenido .= "<h4> Consulta de:" . $informe->getConsultade() . "</h4>";
 
-    if ($informe->getProgramacionquirurgica() == 2) {
+    if ($informe->getProgramacion() == 2) {
         $contenido .= "<h4 style='font-size:9pt;'> Programacion quirurgica </h4>";
     }
     if ($informe->getTraslado() == 3) {
         $contenido .= "<h4 style='font-size:9pt;'> Traslado a otro centro </h4>";
     }
-    if ($informe->getCiudadospaliativos() == 4) {
+    if ($informe->getPaliativos() == 4) {
         $contenido .= "<h4 style='font-size:9pt;'> Pasa a Cuidados Paliativos </h4>";
     }
-    if ($informe->getIngresohospitalario() == 5) {
+    if ($informe->getIngreso() == 5) {
         $contenido .= "<h4 style='font-size:9pt;'> Ingreso Hospitalario </h4>";
     }
     $contenido .= "</td>";

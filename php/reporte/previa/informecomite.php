@@ -18,9 +18,6 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
     echo json_encode(array("status" => false, "status_code" => 500, "message" => "No se ha seleccionado una empresa"));
     exit();
 }
-/*informe: {"paciente":1,"comite":10,"diagnostico":"9","diagnosticotext":"Cáncer de pulmón","diagnosticocie10":"4","diagnosticocie10text":"CÓLERA DEBIDO A VIBRIO CHOLERAE 01, BIOTIPO CHOLERAE ","fechabiopsia":"","reingreso":0,"ecog":"1","ecogtext":"8 - PRUEBA","histologico":"1","histologicotext":"8 - PRIMER TRAMO","invasiontumoral":"1","invasiontumoraltext":"PRIMER TRAMO","mitotico":"1","tnm":[{"t1":"","t2":"","t":"3","ttext":"To","n1":"","n":"7","ntext":"Ne","m1":"","m":"11","mtext":"Mc","m2":""}],"observaciontnm":"","anamnesis":"","cirugia":"1","quimioterapia":0,"radioterapia":0,"otros":0,"seguimiento":0,"completar":0,"revaluacion":0,"estudioclinicno":0,"observacionesdecision":"","consultade":"1","consultadetext":"Cirugía","programacion":0,"traslado":0,"paliativos":0,"ingreso":0,"observacionplan":"","resolucion":""}*/
-
-
 if(isset($_GET['informe'])){
     $informe = json_decode($_GET['informe']);
     $paciente = $informe->paciente;

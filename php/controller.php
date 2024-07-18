@@ -3622,109 +3622,50 @@ class Controller
         return null;
     }
 
+    /****************************************** */
     //Informe Comité
-    //Registrar informecomite diagnostico
-    function registrarcomitediagnostico($diagnosticos, $diagnosticosid, $diagnosticocie10text, $diagnosticocie10id, $fechabiopsia, $reingreso)
+    /*create table informecomite(
+    id int not null auto_increment primary key,
+    folio int not null,
+    paciente int not null references pacientes(id),
+    comite int not null references comite(id),
+    ecog int not null references ecog(id),
+    histologico int not null references histologico(id),
+    invaciontumoral int not null references invaciontumoral(id),
+    mitotico int not null,
+    anamesis text  null,
+    cirugia int not null default 0,
+    quimioterapia int not null default 0,
+    radioterapia int not null default 0,
+    tratamientosoncologicos int not null default 0,
+    seguimientosintratamiento int not null default 0,
+    completarestudios int not null default 0,
+    revaluacionposterior int not null default 0,
+    estudioclinico int not null default 0,
+    observaciondesicion text  null,
+    consultade text not null,
+    consultadeid int not null,
+    programacionquirurgica int not null default 0,
+    traslado int not null default 0,
+    ciudadospaliativos int not null default 0,
+    ingresohospitalario int not null default 0,
+    observacionplan text  null,
+    resolucion text  null,
+    empresa int not null references empresa(id),
+    registro datetime not null default current_timestamp
+    );*/
+    //Registrar informecomite
+    function registrarinformecomite($folio, $paciente,$comite, $ecog, $histologico, $invaciontumoral, $mitotico, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $empresa)
     {
         $this->conexion();
-        //Registrar y devolver el id del informe comite diagnostico
-        $sql = "insert into informecomitediagnostico values(null, '$diagnosticos', $diagnosticosid, '$diagnosticocie10text', $diagnosticocie10id, '$fechabiopsia', $reingreso, now())";
-        $this->mi->query($sql);
+        $sql = "insert into informecomite values(null, $folio, $paciente, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, '$anamesis', $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, '$observaciondesicion', '$consultade', $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, '$observacionplan', '$resolucion', $empresa, now())";
+        $result = $this->mi->query($sql);
         $id = $this->mi->insert_id;
         $this->desconexion();
         return $id;
     }
 
-    //Listar informecomite diagnostico
-    function listardiagnosticoscomite($paciente)
-    {
-        $this->conexion();
-        $sql = "select * from informecomitediagnostico where paciente = $paciente order by registro desc";
-        $result = $this->mi->query($sql);
-        $array = array();
-        while ($rs = mysqli_fetch_array($result)) {
-            $id = $rs["id"];
-            $diagnosticos = $rs["diagnosticos"];
-            $diagnosticosid = $rs["diagnosticosid"];
-            $diagnosticocie10text = $rs["diagnosticocie10"];
-            $diagnosticocie10id = $rs["diagnosticocie10id"];
-            $fechabiopsia = $rs["fechabiopsia"];
-            $reingreso = $rs["reingreso"];
-            $registro = $rs["registro"];
-            $object = new PacienteDiagnosticos($id, $diagnosticos, $diagnosticosid, $diagnosticocie10text, $diagnosticocie10id, $fechabiopsia, $reingreso, $registro);
-            array_push($array, $object);
-        }
-        $this->desconexion();
-        return $array;
-    }
-
-
-
-    //Registrar informecomite
-    function registrarinformecomite($paciente, $diagnosticos, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, $tnmprimario, $tnmprimarioid, $observacionprimario, $tnmregionales, $tnmregionalesid, $observacionregionales, $tnmdistancia, $tnmdistanciaid, $observaciondistancia, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion)
-    {
-        $this->conexion();
-        $sql = "insert into informecomite values(null, $paciente, $diagnosticos, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, '$tnmprimario', $tnmprimarioid, '$observacionprimario', '$tnmregionales', $tnmregionalesid, '$observacionregionales', '$tnmdistancia', $tnmdistanciaid, '$observaciondistancia', '$anamesis', $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, '$observaciondesicion', '$consultade', $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, '$observacionplan', '$resolucion', now())";
-        $result = $this->mi->query($sql);
-        $this->desconexion();
-        return json_encode($result);
-    }
-
-    //Listar Informe Comite
-    function listainformecomite($paciente, $comite)
-    {
-        $this->conexion();
-        $sql = "select * from informecomite where paciente = $paciente and comite = $comite order by registro desc";
-        $result = $this->mi->query($sql);
-        $array = array();
-        while ($rs = mysqli_fetch_array($result)) {
-            $id = $rs["id"];
-            $paciente = $rs["paciente"];
-            $diagnosticos = $rs["diagnosticos"];
-            $comite = $rs["comite"];
-            $ecog = $rs["ecog"];
-            $histologico = $rs["histologico"];
-            $invaciontumoral = $rs["invaciontumoral"];
-            $mitotico = $rs["mitotico"];
-            $tnmprimario = $rs["tnmprimario"];
-            $tnmprimarioid = $rs["tnmprimarioid"];
-            $observacionprimario = $rs["observacionprimario"];
-            $tnmregionales = $rs["tnmregionales"];
-            $tnmregionalesid = $rs["tnmregionalesid"];
-            $observacionregionales = $rs["observacionregionales"];
-            $tnmdistancia = $rs["tnmdistancia"];
-            $tnmdistanciaid = $rs["tnmdistanciaid"];
-            $observaciondistancia = $rs["observaciondistancia"];
-            $anamesis = $rs["anamesis"];
-            $cirugia = $rs["cirugia"];
-            $quimioterapia = $rs["quimioterapia"];
-            $radioterapia = $rs["radioterapia"];
-            $tratamientosoncologicos = $rs["tratamientosoncologicos"];
-            $seguimientosintratamiento = $rs["seguimientosintratamiento"];
-            $completarestudios = $rs["completarestudios"];
-            $revaluacionposterior = $rs["revaluacionposterior"];
-            $estudioclinico = $rs["estudioclinico"];
-            $observaciondesicion = $rs["observaciondesicion"];
-            $consultade = $rs["consultade"];
-            $consultadeid = $rs["consultadeid"];
-            $programacionquirurgica = $rs["programacionquirurgica"];
-            $traslado = $rs["traslado"];
-            $ciudadospaliativos = $rs["ciudadospaliativos"];
-            $ingresohospitalario = $rs["ingresohospitalario"];
-            $observacionplan = $rs["observacionplan"];
-            $resolucion = $rs["resolucion"];
-            $registro = $rs["registro"];
-            $informecomite = new InformeComite($id, $paciente, $diagnosticos, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, $tnmprimario, $tnmprimarioid, $observacionprimario, $tnmregionales, $tnmregionalesid, $observacionregionales, $tnmdistancia, $tnmdistanciaid, $observaciondistancia, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $registro);
-            array_push($array, $informecomite);
-        }
-        $this->desconexion();
-        return $array;
-    }
-
-    //Buscar informe comite
-
-
-    //Ultimo informe comite
+    //Buscar Informe Comite por paciente y Comite
     function ultimoinformecomite($paciente, $comite)
     {
         $this->conexion();
@@ -3732,22 +3673,13 @@ class Controller
         $result = $this->mi->query($sql);
         if ($rs = mysqli_fetch_array($result)) {
             $id = $rs["id"];
+            $folio = $rs["folio"];
             $paciente = $rs["paciente"];
-            $diagnosticos = $rs["diagnosticos"];
             $comite = $rs["comite"];
             $ecog = $rs["ecog"];
             $histologico = $rs["histologico"];
             $invaciontumoral = $rs["invaciontumoral"];
             $mitotico = $rs["mitotico"];
-            $tnmprimario = $rs["tnmprimario"];
-            $tnmprimarioid = $rs["tnmprimarioid"];
-            $observacionprimario = $rs["observacionprimario"];
-            $tnmregionales = $rs["tnmregionales"];
-            $tnmregionalesid = $rs["tnmregionalesid"];
-            $observacionregionales = $rs["observacionregionales"];
-            $tnmdistancia = $rs["tnmdistancia"];
-            $tnmdistanciaid = $rs["tnmdistanciaid"];
-            $observaciondistancia = $rs["observaciondistancia"];
             $anamesis = $rs["anamesis"];
             $cirugia = $rs["cirugia"];
             $quimioterapia = $rs["quimioterapia"];
@@ -3766,39 +3698,31 @@ class Controller
             $ingresohospitalario = $rs["ingresohospitalario"];
             $observacionplan = $rs["observacionplan"];
             $resolucion = $rs["resolucion"];
+            $empresa = $rs["empresa"];
             $registro = $rs["registro"];
-            $informecomite = new InformeComite($id, $paciente, $diagnosticos, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, $tnmprimario, $tnmprimarioid, $observacionprimario, $tnmregionales, $tnmregionalesid, $observacionregionales, $tnmdistancia, $tnmdistanciaid, $observaciondistancia, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $registro);
+            $object = new Informecomite($id, $folio, $paciente, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $empresa, $registro);
             $this->desconexion();
-            return $informecomite;
+            return $object;
         }
         $this->desconexion();
         return null;
     }
 
-    //Ultimo informe comite
-    function buscarinformecomite($id)
+    //Buscar Informe Comite por id
+    function buscarinformecomite($informe)
     {
         $this->conexion();
-        $sql = "select * from informecomite where id = $id";
+        $sql = "select * from informecomite where id = $informe";
         $result = $this->mi->query($sql);
         if ($rs = mysqli_fetch_array($result)) {
             $id = $rs["id"];
+            $folio = $rs["folio"];
             $paciente = $rs["paciente"];
-            $diagnosticos = $rs["diagnosticos"];
             $comite = $rs["comite"];
             $ecog = $rs["ecog"];
             $histologico = $rs["histologico"];
             $invaciontumoral = $rs["invaciontumoral"];
             $mitotico = $rs["mitotico"];
-            $tnmprimario = $rs["tnmprimario"];
-            $tnmprimarioid = $rs["tnmprimarioid"];
-            $observacionprimario = $rs["observacionprimario"];
-            $tnmregionales = $rs["tnmregionales"];
-            $tnmregionalesid = $rs["tnmregionalesid"];
-            $observacionregionales = $rs["observacionregionales"];
-            $tnmdistancia = $rs["tnmdistancia"];
-            $tnmdistanciaid = $rs["tnmdistanciaid"];
-            $observaciondistancia = $rs["observaciondistancia"];
             $anamesis = $rs["anamesis"];
             $cirugia = $rs["cirugia"];
             $quimioterapia = $rs["quimioterapia"];
@@ -3817,15 +3741,68 @@ class Controller
             $ingresohospitalario = $rs["ingresohospitalario"];
             $observacionplan = $rs["observacionplan"];
             $resolucion = $rs["resolucion"];
+            $empresa = $rs["empresa"];
             $registro = $rs["registro"];
-            $informecomite = new InformeComite($id, $paciente, $diagnosticos, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, $tnmprimario, $tnmprimarioid, $observacionprimario, $tnmregionales, $tnmregionalesid, $observacionregionales, $tnmdistancia, $tnmdistanciaid, $observaciondistancia, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $registro);
+            $object = new Informecomite($id, $folio, $paciente, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $empresa, $registro);
             $this->desconexion();
-            return $informecomite;
+            return $object;
         }
         $this->desconexion();
         return null;
     }
 
+    //Buscar ultimo folio registrado por empresa
+    function buscarultimofolioinformecomite($empresa)
+    {
+        $this->conexion();
+        $sql = "select * from informecomite where empresa = $empresa order by folio desc limit 1";
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $folio = $rs["folio"];
+            $this->desconexion();
+            return $folio;
+        }
+        $this->desconexion();
+        return 0;
+    }
+
+
+    //Registrar informecomite diagnostico
+    function registrarcomitediagnostico($informecomite, $diagnosticos, $diagnosticosid, $diagnosticocie10text, $diagnosticocie10id, $fechabiopsia, $reingreso)
+    {
+        $this->conexion();
+        //Registrar y devolver el id del informe comite diagnostico
+        $sql = "insert into informecomitediagnostico values(null,$informecomite, '$diagnosticos', $diagnosticosid, '$diagnosticocie10text', $diagnosticocie10id, '$fechabiopsia', $reingreso, now())";
+        $this->mi->query($sql);
+        $id = $this->mi->insert_id;
+        $this->desconexion();
+        return $id;
+    }
+
+
+    //Listar informecomite diagnostico
+    function listardiagnosticoscomite($informe)
+    {
+        $this->conexion();
+        $sql = "select * from informecomitediagnostico where informecomite = $informe order by registro desc";
+        $result = $this->mi->query($sql);
+        $array = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $diagnosticos = $rs["diagnosticos"];
+            $informecomite = $rs["informecomite"];
+            $diagnosticosid = $rs["diagnosticosid"];
+            $diagnosticocie10text = $rs["diagnosticocie10"];
+            $diagnosticocie10id = $rs["diagnosticocie10id"];
+            $fechabiopsia = $rs["fechabiopsia"];
+            $reingreso = $rs["reingreso"];
+            $registro = $rs["registro"];
+            $object = new PacienteDiagnosticos($id,$informecomite, $diagnosticos, $diagnosticosid, $diagnosticocie10text, $diagnosticocie10id, $fechabiopsia, $reingreso, $registro);
+            array_push($array, $object);
+        }
+        $this->desconexion();
+        return $array;
+    }
 
     //Buscar informecomite diagnostico
     function buscardiagnosticoscomite($diagnostico)
@@ -3835,23 +3812,79 @@ class Controller
         $result = $this->mi->query($sql);
         if ($rs = mysqli_fetch_array($result)) {
             $id = $rs["id"];
+            $informe = $rs["informecomite"];
             $diagnosticos = $rs["diagnosticos"];
             $diagnosticosid = $rs["diagnosticosid"];
-            $diagnosticocieotoptext = $rs["diagnosticocieotop"];
-            $diagnosticocieotopid = $rs["diagnosticocieotopid"];
-            $diagnosticocieomortext = $rs["diagnosticocieomor"];
-            $diagnosticocieomorid = $rs["diagnosticocieomorid"];
             $diagnosticocie10text = $rs["diagnosticocie10"];
             $diagnosticocie10id = $rs["diagnosticocie10id"];
             $fechabiopsia = $rs["fechabiopsia"];
             $reingreso = $rs["reingreso"];
             $registro = $rs["registro"];
-            $object = new PacienteDiagnosticos($id, $diagnosticos, $diagnosticosid, $diagnosticocieotoptext, $diagnosticocieotopid, $diagnosticocieomortext, $diagnosticocieomorid, $diagnosticocie10text, $diagnosticocie10id, $fechabiopsia, $reingreso, $registro);
+            $object = new PacienteDiagnosticos($id,$informe, $diagnosticos, $diagnosticosid,$diagnosticocie10text, $diagnosticocie10id, $fechabiopsia, $reingreso, $registro);
             $this->desconexion();
             return $object;
         }
         $this->desconexion();
         return null;
+    }
+
+
+
+    /*
+    create table tnminforme(
+        id int not null auto_increment primary key,
+        informecomite int not null references informecomite(id),
+        t1 text null,
+        t2 text null,
+        t int not null references tnm(id),
+        ttexto text null,
+        n1 text null,
+        n int not null references tnm(id),
+        ntexto text null,
+        m1 text null,
+        m int not null references tnm(id),
+        mtexto text null,
+        m2 text null,
+        registro datetime not null default current_timestamp
+    );
+    */
+    //Registrar informecomite tnm
+    function registrarcomitetnm($informecomite, $t1, $t2, $t, $ttexto, $n1, $n, $ntexto, $m1, $m, $mtexto, $m2)
+    {
+        $this->conexion();
+        $sql = "insert into tnminforme values(null,$informecomite, '$t1', '$t2', $t, '$ttexto', '$n1', $n, '$ntexto', '$m1', $m, '$mtexto', '$m2', now())";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Listar informecomite tnm
+    function listartnmcomite($informe)
+    {
+        $this->conexion();
+        $sql = "select * from tnminforme where informecomite = $informe order by registro desc";
+        $result = $this->mi->query($sql);
+        $array = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $informecomite = $rs["informecomite"];
+            $t1 = $rs["t1"];
+            $t2 = $rs["t2"];
+            $t = $rs["t"];
+            $ttexto = $rs["ttexto"];
+            $n1 = $rs["n1"];
+            $n = $rs["n"];
+            $ntexto = $rs["ntexto"];
+            $m1 = $rs["m1"];
+            $m = $rs["m"];
+            $mtexto = $rs["mtexto"];
+            $m2 = $rs["m2"];
+            $registro = $rs["registro"];
+            $object = array("id" => $id, "informecomite" => $informecomite, "t1" => $t1, "t2" => $t2, "t" => $t, "ttexto" => $ttexto, "n1" => $n1, "n" => $n, "ntexto" => $ntexto, "m1" => $m1, "m" => $m, "mtexto" => $mtexto, "m2" => $m2, "registro" => $registro);
+            array_push($array, $object);
+        }
+        $this->desconexion();
+        return $array;
     }
 
     /******************************************Empresa***************************************** */

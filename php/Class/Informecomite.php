@@ -1,98 +1,111 @@
 <?php
+/*create table informecomite(
+    id int not null auto_increment primary key,
+    folio int not null,
+    paciente int not null references pacientes(id),
+    comite int not null references comite(id),
+    ecog int not null references ecog(id),
+    histologico int not null references histologico(id),
+    invaciontumoral int not null references invaciontumoral(id),
+    mitotico int not null,
+    anamesis text  null,
+    cirugia int not null default 0,
+    quimioterapia int not null default 0,
+    radioterapia int not null default 0,
+    tratamientosoncologicos int not null default 0,
+    seguimientosintratamiento int not null default 0,
+    completarestudios int not null default 0,
+    revaluacionposterior int not null default 0,
+    estudioclinico int not null default 0,
+    observaciondesicion text  null,
+    consultade text not null,
+    consultadeid int not null,
+    programacionquirurgica int not null default 0,
+    traslado int not null default 0,
+    ciudadospaliativos int not null default 0,
+    ingresohospitalario int not null default 0,
+    observacionplan text  null,
+    resolucion text  null,
+    empresa int not null references empresa(id),
+    registro datetime not null default current_timestamp
+);
+*/
 class InformeComite
 {
-    public $id;
-    public $paciente;
-    public $diagnosticos;
-    public $comite;
-    public $ecog;
-    public $histologico;
-    public $invaciontumoral;
-    public $mitotico;
-    public $tnmprimario;
-    public $tnmprimarioid;
-    public $observacionprimario;
-    public $tnmregionales;
-    public $tnmregionalesid;
-    public $observacionregionales;
-    public $tnmdistancia;
-    public $tnmdistanciaid;
-    public $observaciondistancia;
-    public $anamesis;
-    public $cirugia;
-    public $quimioterapia;
-    public $radioterapia;
-    public $tratamientosoncologicos;
-    public $seguimientosintratamiento;
-    public $completarestudios;
-    public $revaluacionposterior;
-    public $estudioclinico;
-    public $observaciondesicion;
-    public $consultade;
-    public $consultadeid;
-    public $programacionquirurgica;
-    public $traslado;
-    public $ciudadospaliativos;
-    public $ingresohospitalario;
-    public $observacionplan;
-    public $resolucion;
-    public $registro;
+    private $id;
+    private $folio;
+    private $paciente;
+    private $comite;
+    private $ecog;
+    private $histologico;
+    private $invasiontumoral;
+    private $mitotico;
+    private $anamnesis;
+    private $cirugia;
+    private $quimioterapia;
+    private $radioterapia;
+    private $otros;
+    private $seguimiento;
+    private $completar;
+    private $revaluacion;
+    private $estudioclinicno;
+    private $observacionesdecision;
+    private $consultadetext;
+    private $consultade;
+    private $programacion;
+    private $traslado;
+    private $paliativos;
+    private $ingreso;
+    private $observacionplan;
+    private $resolucion;
+    private $empresa;
+    private $registro;
 
-    // Constructor para inicializar los datos
-    public function __construct($id, $paciente, $diagnosticos, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, $tnmprimario, $tnmprimarioid, $observacionprimario, $tnmregionales, $tnmregionalesid, $observacionregionales, $tnmdistancia, $tnmdistanciaid, $observaciondistancia, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $registro)
+    public function __construct($id, $folio, $paciente, $comite, $ecog, $histologico, $invasiontumoral, $mitotico, $anamnesis, $cirugia, $quimioterapia, $radioterapia, $otros, $seguimiento, $completar, $revaluacion, $estudioclinicno, $observacionesdecision, $consultadetext, $consultade, $programacion, $traslado, $paliativos, $ingreso, $observacionplan, $resolucion, $empresa, $registro)
     {
         $this->id = $id;
+        $this->folio = $folio;
         $this->paciente = $paciente;
-        $this->diagnosticos = $diagnosticos;
         $this->comite = $comite;
         $this->ecog = $ecog;
         $this->histologico = $histologico;
-        $this->invaciontumoral = $invaciontumoral;
+        $this->invasiontumoral = $invasiontumoral;
         $this->mitotico = $mitotico;
-        $this->tnmprimario = $tnmprimario;
-        $this->tnmprimarioid = $tnmprimarioid;
-        $this->observacionprimario = $observacionprimario;
-        $this->tnmregionales = $tnmregionales;
-        $this->tnmregionalesid = $tnmregionalesid;
-        $this->observacionregionales = $observacionregionales;
-        $this->tnmdistancia = $tnmdistancia;
-        $this->tnmdistanciaid = $tnmdistanciaid;
-        $this->observaciondistancia = $observaciondistancia;
-        $this->anamesis = $anamesis;
+        $this->anamnesis = $anamnesis;
         $this->cirugia = $cirugia;
         $this->quimioterapia = $quimioterapia;
         $this->radioterapia = $radioterapia;
-        $this->tratamientosoncologicos = $tratamientosoncologicos;
-        $this->seguimientosintratamiento = $seguimientosintratamiento;
-        $this->completarestudios = $completarestudios;
-        $this->revaluacionposterior = $revaluacionposterior;
-        $this->estudioclinico = $estudioclinico;
-        $this->observaciondesicion = $observaciondesicion;
+        $this->otros = $otros;
+        $this->seguimiento = $seguimiento;
+        $this->completar = $completar;
+        $this->revaluacion = $revaluacion;
+        $this->estudioclinicno = $estudioclinicno;
+        $this->observacionesdecision = $observacionesdecision;
+        $this->consultadetext = $consultadetext;
         $this->consultade = $consultade;
-        $this->consultadeid = $consultadeid;
-        $this->programacionquirurgica = $programacionquirurgica;
+        $this->programacion = $programacion;
         $this->traslado = $traslado;
-        $this->ciudadospaliativos = $ciudadospaliativos;
-        $this->ingresohospitalario = $ingresohospitalario;
+        $this->paliativos = $paliativos;
+        $this->ingreso = $ingreso;
         $this->observacionplan = $observacionplan;
         $this->resolucion = $resolucion;
+        $this->empresa = $empresa;
         $this->registro = $registro;
     }
 
-    // Getters
     public function getId()
     {
         return $this->id;
     }
 
+    public function getFolio()
+    {
+        return $this->folio;
+    }
+
     public function getPaciente()
     {
         return $this->paciente;
-    }
-
-    public function getDiagnosticos()
-    {
-        return $this->diagnosticos;
     }
 
     public function getComite()
@@ -110,9 +123,9 @@ class InformeComite
         return $this->histologico;
     }
 
-    public function getInvaciontumoral()
+    public function getInvasionTumoral()
     {
-        return $this->invaciontumoral;
+        return $this->invasiontumoral;
     }
 
     public function getMitotico()
@@ -120,54 +133,9 @@ class InformeComite
         return $this->mitotico;
     }
 
-    public function getTnmprimario()
+    public function getAnamnesis()
     {
-        return $this->tnmprimario;
-    }
-
-    public function getTnmprimarioid()
-    {
-        return $this->tnmprimarioid;
-    }
-
-    public function getObservacionprimario()
-    {
-        return $this->observacionprimario;
-    }
-
-    public function getTnmregionales()
-    {
-        return $this->tnmregionales;
-    }
-
-    public function getTnmregionalesid()
-    {
-        return $this->tnmregionalesid;
-    }
-
-    public function getObservacionregionales()
-    {
-        return $this->observacionregionales;
-    }
-
-    public function getTnmdistancia()
-    {
-        return $this->tnmdistancia;
-    }
-
-    public function getTnmdistanciaid()
-    {
-        return $this->tnmdistanciaid;
-    }
-
-    public function getObservaciondistancia()
-    {
-        return $this->observaciondistancia;
-    }
-
-    public function getAnamesis()
-    {
-        return $this->anamesis;
+        return $this->anamnesis;
     }
 
     public function getCirugia()
@@ -185,49 +153,49 @@ class InformeComite
         return $this->radioterapia;
     }
 
-    public function getTratamientosoncologicos()
+    public function getOtros()
     {
-        return $this->tratamientosoncologicos;
+        return $this->otros;
     }
 
-    public function getSeguimientosintratamiento()
+    public function getSeguimiento()
     {
-        return $this->seguimientosintratamiento;
+        return $this->seguimiento;
     }
 
-    public function getCompletarestudios()
+    public function getCompletar()
     {
-        return $this->completarestudios;
+        return $this->completar;
     }
 
-    public function getRevaluacionposterior()
+    public function getRevaluacion()
     {
-        return $this->revaluacionposterior;
+        return $this->revaluacion;
     }
 
-    public function getEstudioclinico()
+    public function getEstudioClinico()
     {
-        return $this->estudioclinico;
+        return $this->estudioclinicno;
     }
 
-    public function getObservaciondesicion()
+    public function getObservacionesDecision()
     {
-        return $this->observaciondesicion;
+        return $this->observacionesdecision;
     }
 
-    public function getConsultade()
+    public function getConsultaDeText()
+    {
+        return $this->consultadetext;
+    }
+
+    public function getConsultaDe()
     {
         return $this->consultade;
     }
 
-    public function getConsultadeid()
+    public function getProgramacion()
     {
-        return $this->consultadeid;
-    }
-
-    public function getProgramacionquirurgica()
-    {
-        return $this->programacionquirurgica;
+        return $this->programacion;
     }
 
     public function getTraslado()
@@ -235,17 +203,17 @@ class InformeComite
         return $this->traslado;
     }
 
-    public function getCiudadospaliativos()
+    public function getPaliativos()
     {
-        return $this->ciudadospaliativos;
+        return $this->paliativos;
     }
 
-    public function getIngresohospitalario()
+    public function getIngreso()
     {
-        return $this->ingresohospitalario;
+        return $this->ingreso;
     }
 
-    public function getObservacionplan()
+    public function getObservacionPlan()
     {
         return $this->observacionplan;
     }
@@ -253,6 +221,11 @@ class InformeComite
     public function getResolucion()
     {
         return $this->resolucion;
+    }
+
+    public function getEmpresa()
+    {
+        return $this->empresa;
     }
 
     public function getRegistro()

@@ -2,59 +2,33 @@
 require '../controller.php';
 $c = new Controller();
 session_start();
-/*paciente: 1
-comite: 2
-diagnostico: 5
-diagnosticotext: Cáncer de colon
-diagnosticocie10: 3
-diagnosticocie10text: Cólera
-fechabiopsia: 
-reingreso: 0
-ecog: 1
-ecogtext: 1 - PRUEBA
-histologico: 1
-histologicotext: 1 - PRUEBA
-invasiontumoral: 1
-invasiontumoraltext: PRUEBA
-mitotico: 1
-tnm[0][t1]: 
-tnm[0][t2]: 
-tnm[0][t]: 5
-tnm[0][ttext]: Tis
-tnm[0][n1]: 
-tnm[0][n]: 6
-tnm[0][ntext]: Ne
-tnm[0][m1]: 
-tnm[0][m]: 7
-tnm[0][mtext]: Mx
-tnm[0][m2]: 
-observaciontnm: 
-anamnesis: asdasd sa
-cirugia: 1
-quimioterapia: 0
-radioterapia: 0
-otros: 0
-seguimiento: 0
-completar: 1
-revaluacion: 0
-estudioclinicno: 0
-observacionesdecision: asdsa
-consultade: 1
-consultadetext: Cirugía
-programacion: 0
-traslado: 0
-paliativos: 0
-ingreso: 0
-observacionplan: asdsa
-resolucion: asdsadasdsad*/
+if(!isset($_SESSION['USER_ID'])){
+    echo json_encode(array("status"=> false, "message"=> "Ups! se ha expirado la sesión"));
+    return;
+}
 
-if(isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagnostico']) && isset($_POST['diagnosticotext']) && isset($_POST['diagnosticocie10']) && isset($_POST['diagnosticocie10text']) && isset($_POST['reingreso']) && isset($_POST['ecog']) && isset($_POST['ecogtext']) && isset($_POST['histologico']) && isset($_POST['histologicotext']) && isset($_POST['invasiontumoral']) && isset($_POST['invasiontumoraltext']) && isset($_POST['mitotico']) && isset($_POST['tnm']) && isset($_POST['observaciontnm']) && isset($_POST['anamnesis']) && isset($_POST['cirugia']) && isset($_POST['quimioterapia']) && isset($_POST['radioterapia']) && isset($_POST['otros']) && isset($_POST['seguimiento']) && isset($_POST['completar']) && isset($_POST['revaluacion']) && isset($_POST['estudioclinicno']) && isset($_POST['observacionesdecision']) && isset($_POST['consultade']) && isset($_POST['consultadetext']) && isset($_POST['programacion']) && isset($_POST['traslado']) && isset($_POST['paliativos']) && isset($_POST['ingreso']) && isset($_POST['observacionplan']) && isset($_POST['resolucion'])){
+$empresa = null;
+if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
+	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+	$empresa = $c->buscarEmpresa($enterprise);
+    if($empresa == null){
+        echo json_encode(array("status"=> false, "message"=> "Ups! No se ha podido obtener la información del centro de Salud"));
+        return;
+    }
+}else{
+    echo json_encode(array("status"=> false, "message"=> "Ups! No se ha podido obtener la información del centro de Salud"));
+    return;
+
+}
+
+if(isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagnostico']) && isset($_POST['diagnosticotext']) && isset($_POST['diagnosticocie10']) && isset($_POST['diagnosticocie10text']) && isset($_POST['fechabiopsia']) && isset($_POST['reingreso']) && isset($_POST['ecog']) && isset($_POST['ecogtext']) && isset($_POST['histologico']) && isset($_POST['histologicotext']) && isset($_POST['invasiontumoral']) && isset($_POST['invasiontumoraltext']) && isset($_POST['mitotico']) && isset($_POST['tnm']) && isset($_POST['observaciontnm']) && isset($_POST['anamnesis']) && isset($_POST['cirugia']) && isset($_POST['quimioterapia']) && isset($_POST['radioterapia']) && isset($_POST['otros']) && isset($_POST['seguimiento']) && isset($_POST['completar']) && isset($_POST['revaluacion']) && isset($_POST['estudioclinicno']) && isset($_POST['observacionesdecision']) && isset($_POST['consultade']) && isset($_POST['consultadetext']) && isset($_POST['programacion']) && isset($_POST['traslado']) && isset($_POST['paliativos']) && isset($_POST['ingreso']) && isset($_POST['observacionplan']) && isset($_POST['resolucion'])){
     $paciente = $_POST['paciente'];
     $comite = $_POST['comite'];
     $diagnostico = $_POST['diagnostico'];
     $diagnosticotext = $_POST['diagnosticotext'];
     $diagnosticocie10 = $_POST['diagnosticocie10'];
     $diagnosticocie10text = $_POST['diagnosticocie10text'];
+    $fechabiopsia = $_POST['fechabiopsia'];
     $reingreso = $_POST['reingreso'];
     $ecog = $_POST['ecog'];
     $ecogtext = $_POST['ecogtext'];
@@ -233,15 +207,22 @@ if(isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagnos
         return;
     }
 
-    //Insertar Informe
+    //Obtener Folio
+    $folio = $c->buscarultimofolioinformecomite($empresa->getId())+1;
 
+    //Registrar Informe
+    $informe_id = $c->registrarinformecomite($folio, $paciente,$comite,$ecog,$histologico,$invasiontumoral,$mitotico,$anamnesis,$cirugia,$quimioterapia,$radioterapia,$otros,$seguimiento,$completar,$revaluacion,$estudioclinicno,$observacionesdecision,$consultadetext,$consultade,$programacion,$traslado,$paliativos,$ingreso,$observacionplan,$resolucion,$empresa->getId());
 
-
-
-
-
-
-
+    if($informe_id>0){
+        //Registrar Diagnosticos
+        $c->registrarcomitediagnostico($informe_id,$diagnosticotext,$diagnostico,$diagnosticocie10text,$diagnosticocie10,$fechabiopsia,$reingreso);
+        foreach ($tnm as $t) {
+            $c->registrarcomitetnm($informe_id,$t['t1'],$t['t2'],$t['t'],$t['ttext'], $t['n1'],$t['n'],$t['ntext'], $t['m1'],$t['m'],$t['mtext'], $t['m2']);
+        }
+        echo json_encode(array("status"=> true, "message"=> "Se ha registrado el informe correctamente"));
+    }else{
+        echo json_encode(array("status"=> false, "message"=> "Ups! No se ha podido registrar el informe"));
+    }
 }else{
     echo json_encode(array("status"=> false, "message"=> "Ups! No se han enviado los datos necesarios"));
 }

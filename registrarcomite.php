@@ -691,13 +691,14 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 															$profesionalid = $listapaciente->getprofesionalid();
 															$profesional = $listapaciente->getprofesional();
 															$observaciones = $listapaciente->getobservaciones();
-															$folio = $listapaciente->getid();
+															$folio = "-";
 															$informe = $c->ultimoinformecomite($id, $idcomite);
 															$diagnosticosinforme = null;
 															$idinforme = 0;
 															if ($informe != null) {
 																$idinforme = $informe->getId();
-																$diagnosticosinforme = $c->buscardiagnosticoscomite($informe->getDiagnosticos());
+																$diagnosticosinforme = $c->buscardiagnosticoscomite($idinforme);
+																$folio = $informe->getFolio();
 															}else{
 																$completo = false;
 															}
@@ -709,8 +710,6 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 															$reingreso = "";
 															if ($diagnosticosinforme != null) {
 																$diagnostico = $diagnosticosinforme->getDiagnosticos();
-																$cieomorfologico = $diagnosticosinforme->getDiagnosticocieomor();
-																$cieotopografico = $diagnosticosinforme->getDiagnosticocieotop();
 																$cie10 = $diagnosticosinforme->getDiagnosticocie10();
 																$reingreso = $diagnosticosinforme->getReingreso();
 																if ($reingreso == 0) {
@@ -732,7 +731,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 															echo "<td>" . $observaciones . "</td>";
 															echo "<td>";
 															if ($idinforme > 0) {
-																echo "<a href='javascript:void(0)' class='btn btn-outline-info' title='Ver Informe' data-toggle='modal' data-target='#modalinforme' onclick='verinforme($idinforme)'><i class='fa fa-file-pdf-o'></i></a>";
+																echo "<a href='php/reporte/informecomite.php?id=$idinforme' target='_blank'  class='btn btn-outline-info' title='Ver Informe' ><i class='fa fa-file-pdf-o'></i></a>";
 															} else {
 																echo "-";
 															}
@@ -740,8 +739,8 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 															echo "<td>";
 															if ($idinforme <= 0) {
 																$idinf = $id;
-																$comfo = $folio;
-																echo "<a href='informepaciente.php?comite=$comfo&code=$idinf'  title='Evaluar Paciente' class='btn btn-outline-success mr-1'><i class='fa fa-user-plus'></i></a>";
+																$comfo = $idcomite;
+																echo "<a href='informepaciente.php?comite=$idcomite&code=$idinf'  title='Evaluar Paciente' class='btn btn-outline-success mr-1'><i class='fa fa-user-plus'></i></a>";
 															}
 															if ($idinforme > 0) {
 																$id = $idinforme;
