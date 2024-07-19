@@ -725,16 +725,16 @@ insert into clasificacioncintura values(3,"Obesidad Abdominal",now());
 create table medidasantropometricas(
     id int not null auto_increment primary key,
     paciente int not null references pacientes(id),
-    peso float not null,
-    talla float not null,
-    pcee float not null,
+    peso float null,
+    talla float null,
+    pcee float null,
     pe int not null references pe(id),
     pt int not null references pt(id),
     te int not null references te(id),
-    imc float not null,
-    clasifimc float not null,
-    pce float not null,
-    clasificacioncintura int not null references clasificacioncintura(id),
+    imc float  null,
+    clasifimc float null,
+    pce float null,
+    clasificacioncintura int null references clasificacioncintura(id),
     registro datetime not null default current_timestamp
 );
 

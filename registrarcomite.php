@@ -684,7 +684,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 														$idcomite = $comite->getId();
 														$listapacientes = $c->buscarpacientescomite($comite->getId());
 														foreach ($listapacientes as $listapaciente) {
-															$id = $listapaciente->getregistro();
+															$paciente = $listapaciente->getregistro();
 															$rut = $listapaciente->getrut();
 															$nombre = $listapaciente->getnombre();
 															$contacto = $listapaciente->getcontacto();
@@ -692,7 +692,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 															$profesional = $listapaciente->getprofesional();
 															$observaciones = $listapaciente->getobservaciones();
 															$folio = "-";
-															$informe = $c->ultimoinformecomite($id, $idcomite);
+															$informe = $c->ultimoinformecomite($paciente, $idcomite);
 															$diagnosticosinforme = null;
 															$idinforme = 0;
 															if ($informe != null) {
@@ -747,7 +747,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																echo "<a href='editarinforme.php?id=$id'  title='Editar Evaluación' class='btn btn-outline-success mr-1'><i class='fa fa-edit'></i></a>";
 															}
 															if ($idinforme > 0) {
-																echo "<a href='javascript:void(0)' class='btn btn-outline-info' title='Historial' data-toggle='modal' data-target='#modalhistorial' onclick='historial($id,$idcomite,\"" . $observaciones . "\")'><i class='fa fa-history'></i></a>";
+																echo "<a href='javascript:void(0)' class='btn btn-outline-info' title='Historial' data-toggle='modal' data-target='#modalhistorial' onclick='historial($paciente,$idcomite,\"" . $observaciones . "\")'><i class='fa fa-history'></i></a>";
 															}
 															echo "</td>";
 															echo "</tr>";

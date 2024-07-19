@@ -1,3 +1,12 @@
+function newregispoblacional() {
+  if(registropoblacional()==true){
+    setTimeout(function(){
+      location.reload();
+    }, 500);
+  }else{
+    return false;
+  }
+}
 function registropoblacional() {
   var idpaciente = $("#pacientepoblacional").val();
   var provenencia = $("#proveniencia").val();
@@ -36,7 +45,7 @@ function registropoblacional() {
   var th4 = 0;
   var th5 = 0;
   var comportamiento = "";
-  var comportamientoobservacion = "";
+  var comportamientoobservacion = $("#comportamientoobservaciones").val();
 
   //Variables Grado
   var grado1 = 0;
@@ -88,7 +97,16 @@ function registropoblacional() {
 
   //Ultimos Detalles
   var fechaultimocontacto = $("#fechacontacto").val();
-  var estadio = document.getElementsByName("estadio");
+  var estadio = 0;
+  if($("#estadio1").is(":checked")){
+    estadio = 1;
+  }else if($("#estadio2").is(":checked")){
+    estadio = 2;
+  }else if($("#estadio3").is(":checked")){
+    estadio = 3;
+  }else{
+    estadio = 0;
+  }
   var defuncion = "";
   var causa = 0;
   var observacionfinal = $("#observacionfinal").val();
@@ -198,7 +216,6 @@ function registropoblacional() {
     if ($("#th5").is(":checked")) {
       th5 = 1;
     }
-    comportamientoobservacion = $("#comportamientoobservacion").val();
   } catch (error) {
     ToastifyError(error);
     return false;
@@ -341,129 +358,147 @@ function registropoblacional() {
       var defuncion = $("#defuncion").val();
       if (defuncion.trim().length < 10) {
         ToastifyError("Debe ingresar la fecha de defunción");
+        $("#defuncion").focus();
         return false;
       }
-      if ($("#causa").val() == "") {
+      var causa1 = 0;
+      var causa2 = 0;
+      var causa3 = 0;
+      if($("#causa1").is(":checked")){
+        causa1 = 1;
+        causa = 1;
+      }
+      if($("#causa2").is(":checked")){
+        causa2 = 1;
+        causa = 2;
+      }
+      if($("#causa3").is(":checked")){
+        causa3 = 1;
+        causa = 3;
+      }
+      if(causa1==0 && causa2==0 && causa3==0){
         ToastifyError("Debe seleccionar una causa");
-        return false;
-      }
-      causa = $("#causa").val();
-      if (observacionfinal.trim().length == 0) {
-        ToastifyError("Debe ingresar una observación final");
         return false;
       }
     }
   } catch (error) {
-    ToastifyError(error);
+    ToastifyError("Pwwww!"+error);
     return false;
   }
 
   //Enviar Datos
-  $.ajax({
-    url: "php/insert/registropoblacional.php",
-    type: "POST",
-    data: {
-      idpaciente: idpaciente,
-      provenencia: provenencia,
-      rama1: rama1,
-      rama2: rama2,
-      rama3: rama3,
-      rama4: rama4,
-      rama5: rama5,
-      rama6: rama6,
-      rama7: rama7,
-      rama8: rama8,
-      rama9: rama9,
-      rama10: rama10,
-      ocupacion1: ocupacion1,
-      ocupacion2: ocupacion2,
-      ocupacion3: ocupacion3,
-      ocupacion4: ocupacion4,
-      ocupacion5: ocupacion5,
-      ocupacion6: ocupacion6,
-      ocupacion7: ocupacion7,
-      ocupacion8: ocupacion8,
-      ocupacion9: ocupacion9,
-      ocupacion10: ocupacion10,
-      ocupacion11: ocupacion11,
-      sp1: sp1,
-      sp2: sp2,
-      sp3: sp3,
-      th1: th1,
-      th2: th2,
-      th3: th3,
-      th4: th4,
-      th5: th5,
-      comportamiento: comportamiento,
-      comportamientoobservacion: comportamientoobservacion,
-      grado1: grado1,
-      grado2: grado2,
-      grado3: grado3,
-      grado4: grado4,
-      grado5: grado5,
-      extension1: extension1,
-      extension2: extension2,
-      extension3: extension3,
-      extension4: extension4,
-      extension5: extension5,
-      lateralidad1: lateralidad1,
-      lateralidad2: lateralidad2,
-      lateralidad3: lateralidad3,
-      lateralidad4: lateralidad4,
-      lateralidad5: lateralidad5,
-      fechaincidencia: fechaincidencia,
-      horaincidencia: horaincidencia,
-      basediagnostico1: basediagnostico1,
-      basediagnostico2: basediagnostico2,
-      basediagnostico3: basediagnostico3,
-      basediagnostico4: basediagnostico4,
-      basediagnostico5: basediagnostico5,
-      basediagnostico6: basediagnostico6,
-      basediagnostico7: basediagnostico7,
-      basediagnostico8: basediagnostico8,
-      basediagnostico9: basediagnostico9,
-      fuente1: fuente1,
-      fechapacex1: fechapacex1,
-      fechahospex1: fechahospex1,
-      horahospex1: horahospex1,
-      fuente2: fuente2,
-      fechapacex2: fechapacex2,
-      fechahospex2: fechahospex2,
-      horahospex2: horahospex2,
-      fuente3: fuente3,
-      fechapacex3: fechapacex3,
-      fechahospex3: fechahospex3,
-      horahospex3: horahospex3,
-      fechaultimocontacto: fechaultimocontacto,
-      estadio: estadio,
-      defuncion: defuncion,
-      causa: causa,
-      observacionfinal: observacionfinal,
-    },
-    success: function (data) {
-      try {
-        var json = JSON.parse(data);
-        if(json.status==true){
-            ToastifySuccess(json.message);
-            return true;
-        }else{
-            ToastifyError(json.message);
-            return false;
+  try {
+    $.ajax({
+      url: "php/insert/registropoblacional.php",
+      type: "POST",
+      data: {
+        idpaciente: idpaciente,
+        provenencia: provenencia,
+        rama1: rama1,
+        rama2: rama2,
+        rama3: rama3,
+        rama4: rama4,
+        rama5: rama5,
+        rama6: rama6,
+        rama7: rama7,
+        rama8: rama8,
+        rama9: rama9,
+        rama10: rama10,
+        ocupacion1: ocupacion1,
+        ocupacion2: ocupacion2,
+        ocupacion3: ocupacion3,
+        ocupacion4: ocupacion4,
+        ocupacion5: ocupacion5,
+        ocupacion6: ocupacion6,
+        ocupacion7: ocupacion7,
+        ocupacion8: ocupacion8,
+        ocupacion9: ocupacion9,
+        ocupacion10: ocupacion10,
+        ocupacion11: ocupacion11,
+        sp1: sp1,
+        sp2: sp2,
+        sp3: sp3,
+        th1: th1,
+        th2: th2,
+        th3: th3,
+        th4: th4,
+        th5: th5,
+        comportamiento: comportamiento,
+        comportamientoobservacion: comportamientoobservacion,
+        grado1: grado1,
+        grado2: grado2,
+        grado3: grado3,
+        grado4: grado4,
+        grado5: grado5,
+        extension1: extension1,
+        extension2: extension2,
+        extension3: extension3,
+        extension4: extension4,
+        extension5: extension5,
+        lateralidad1: lateralidad1,
+        lateralidad2: lateralidad2,
+        lateralidad3: lateralidad3,
+        lateralidad4: lateralidad4,
+        lateralidad5: lateralidad5,
+        fechaincidencia: fechaincidencia,
+        horaincidencia: horaincidencia,
+        basediagnostico1: basediagnostico1,
+        basediagnostico2: basediagnostico2,
+        basediagnostico3: basediagnostico3,
+        basediagnostico4: basediagnostico4,
+        basediagnostico5: basediagnostico5,
+        basediagnostico6: basediagnostico6,
+        basediagnostico7: basediagnostico7,
+        basediagnostico8: basediagnostico8,
+        basediagnostico9: basediagnostico9,
+        fuente1: fuente1,
+        fechapacex1: fechapacex1,
+        fechahospex1: fechahospex1,
+        horahospex1: horahospex1,
+        fuente2: fuente2,
+        fechapacex2: fechapacex2,
+        fechahospex2: fechahospex2,
+        horahospex2: horahospex2,
+        fuente3: fuente3,
+        fechapacex3: fechapacex3,
+        fechahospex3: fechahospex3,
+        horahospex3: horahospex3,
+        fechaultimocontacto: fechaultimocontacto,
+        estadio: estadio,
+        defuncion: defuncion,
+        causa: causa,
+        observacionfinal: observacionfinal,
+      },
+      success: function (data) {
+        try {
+          var json = JSON.parse(data);
+          if(json.status==true){
+              ToastifySuccess(json.message);
+              return true;
+          }else{
+              ToastifyError(json.message);
+              return false;
+          }
+        } catch (error) {
+          ToastifyError("Ups!"+error);
+          return false;
+          
         }
-      } catch (error) {
-        ToastifyError(error);
+      },
+      error: function (data) {
+        ToastifyError("Ups2!"+"Error al guardar el registro poblacional");
         return false;
-        
-      }
-    },
-    error: function (data) {
-      ToastifyError("Error al guardar el registro poblacional");
-      return false;
-    },
-  });
+      },
+    });
+  } catch (error) {
+    ToastifyError("Ups3!"+error);
+    return false;
+    
+  }
+  
 }
 
-function actualziarregistropoblacional() {
+function actualizarregistropoblacional() {
     var idregistro = $("#idregistropoblacional").val();
     var provenencia = $("#proveniencia").val();
     //Variables Rama

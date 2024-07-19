@@ -16,7 +16,7 @@ foreach ($medidasant as $row) {
     echo "<td>" . $row->getTrect() . "</td>";
     echo "<td>" . $row->getTotra() . "</td>";
     echo "<td>" . $row->getHgt() . "</td>";
-    echo "<td>" . $row->getPeso() . "</td>";
+    echo "<td>-</td>";
     echo "<td>" . $row->getId() . "</td>";
     echo "</tr>";
 }

@@ -24,6 +24,7 @@ if (isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['observ
     <table class="table table-bordered w-100" id="">
         <thead>
         <tr>
+        <th scope="col">Folio</th>
         <th scope="col">Diagnostico</th>
         <th scope="col">CIEO Morfologicos</th>
         <th scope="col">CIEO Topograficos</th>
@@ -36,10 +37,10 @@ if (isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['observ
     echo '<tbody>';
     foreach ($informes as $informe) {
         $idinforme = $informe->getId();
-        $diagnosticosinforme = $c->buscardiagnosticoscomite($informe->getDiagnosticos());
+        $diagnosticosinforme = $c->buscardiagnosticoscomite($informe->getId());
         $diagnostico = $diagnosticosinforme->getDiagnosticos();
-        $cieomorfologico = $diagnosticosinforme->getDiagnosticocieomor();
-        $cieotopografico = $diagnosticosinforme->getDiagnosticocieotop();
+        $cieomorfologico = "";
+        $cieotopografico = "";
         $cie10 = $diagnosticosinforme->getDiagnosticocie10();
         $reingreso = $diagnosticosinforme->getReingreso();
         if($reingreso==0){
@@ -49,6 +50,7 @@ if (isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['observ
         }
         if($i > 1){
             echo '<tr class="list-group-item-danger">';
+            echo "<td class='list-group-item-danger'>" . $informe->getFolio() . "</td>";
             echo "<td class='list-group-item-danger'>" . $diagnostico . "</td>";
             echo "<td class='list-group-item-danger'>" . $cieomorfologico . "</td>";
             echo "<td class='list-group-item-danger'>" . $cieotopografico . "</td>";
@@ -59,6 +61,7 @@ if (isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['observ
             echo '</tr>';
         }else{
         echo '<tr>';
+        echo "<td>" . $informe->getFolio() . "</td>";
         echo "<td>" . $diagnostico . "</td>";
         echo "<td>" . $cieomorfologico . "</td>";
         echo "<td>" . $cieotopografico . "</td>";

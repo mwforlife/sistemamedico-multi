@@ -18,9 +18,9 @@ $comite = null;
 $previous_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 $idcomite = 0;
 $idpaciente = 0;
+$tnm = array();
 if (isset($_GET['id'])) {
 	$id = $_GET['id'];
-	$id = $c->decrypt($id, "thechallengeofcoding");
 	$informe = $c->buscarinformecomite($id);
 	if ($informe == null) {
 		// Redireccionar a la página anterior
@@ -29,7 +29,7 @@ if (isset($_GET['id'])) {
 	}
 	$idpaciente = $informe->getpaciente();
 	$idcomite = $informe->getcomite();
-	$diagnosticos = $c->buscardiagnosticoscomite($informe->getDiagnosticos());
+	$diagnosticos = $c->buscardiagnosticoscomite($informe->getId());
 	if ($diagnosticos == null) {
 		// Redireccionar a la página anterior
 		header("Location: $previous_page");
@@ -784,18 +784,6 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																	<input type="hidden" class="form-control" id="iddiag" value="<?php echo $diagnosticos->getDiagnosticosid(); ?>">
 																</div>
 																<div class="col-md-4">
-																	<label for="">Diagnostico CIEO TOPOGRÁFICO</label>
-																	<button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modaldiagcieotop"><i class="fa fa-search"></i></button>
-																	<input type="text" class="form-control" id="diagnosticocieotop" value="<?php echo $diagnosticos->getDiagnosticocieotop(); ?>">
-																	<input type="hidden" class="form-control" id="idcieotop" value="<?php echo $diagnosticos->getDiagnosticocieotopid(); ?>">
-																</div>
-																<div class="col-md-4">
-																	<label for="">Diagnostico CIEO MORFOLOGICO</label>
-																	<button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modaldiagcieomor"><i class="fa fa-search"></i></button>
-																	<input type="text" class="form-control" id="diagnosticocieomor" value="<?php echo $diagnosticos->getDiagnosticocieomor(); ?>">
-																	<input type="hidden" class="form-control" id="idcieomor" value="<?php echo $diagnosticos->getDiagnosticocieomorid(); ?>">
-																</div>
-																<div class="col-md-4">
 																	<label for="">Diagnostico CIE10</label>
 																	<button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modaldiagcie10"><i class="fa fa-search"></i></button>
 																	<input type="text" class="form-control" id="diagnosticocie10" value="<?php echo $diagnosticos->getDiagnosticocie10(); ?>">
@@ -860,7 +848,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																	<select name="invasiontumoral" id="invasiontumoral" class="form-control select2">
 																		<?php
 																		$primario = $c->listarinvaciontumoral();
-																		$invasiontumoral = $informe->getInvaciontumoral();
+																		$invasiontumoral = $informe->getInvasionTumoral();
 																		foreach ($primario as $row) {
 																			if ($invasiontumoral == $row->getId()) {
 																				echo "<option value='" . $row->getId() . "' selected>" . $row->getNombre() . "</option>";
@@ -899,89 +887,109 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 													</div>
 													<div aria-labelledby="hospitalizacion" class="collapse" data-parent="#accordion" id="hospitalizaciones" role="tabpanel">
 														<div class="card-body">
-															<div class="row">
+														<div class="row">
 																<div class="col-md-12">
 																	<div class="row">
-																		<div class="col-3">
-																			<label for="">Primario Clinico:</label>
-																		</div>
-																		<div class="col-6">
-																			<select name="primarioclinico" id="primarioclinico" class="form-control select2">
-																				<?php
-																				$primario = $c->listartnm(1);
-																				$primarioclinico = $informe->getTnmprimario();
-																				foreach ($primario as $row) {
-																					if ($primarioclinico == $row->getId()) {
-																						echo "<option value='" . $row->getId() . "' selected>" . $row->getNombre() . "</option>";
-																					} else {
-																						echo "<option value='" . $row->getId() . "'>" . $row->getNombre() . "</option>";
-																					}
-																				}
-																				?>
-																			</select>
+																		<div class="col-12">
+																			<div class="row align-items-center">
+																				<div class="col-md-1">
+																					<select name="t1" id="t1" class="form-control">
+																						<option value=""></option>
+																						<option value="y">y</option>
+																						<option value="r">r</option>
+																					</select>
+																				</div>
+																				<div class="col-md-1">
+																					<select name="t2" id="t2" class="form-control">
+																						<option value=""></option>
+																						<option value="c">c</option>
+																						<option value="p">p</option>
+																					</select>
+																				</div>
+																				<div class="col-md-1">
+																					<select name="t" id="t" class="form-control">
+																						<?php
+																						$t = $c->listartnm(1);
+																						foreach ($t as $row) {
+																							echo "<option value='" . $row->getId() . "'>" . $row->getNombre() . "</option>";
+																						}
+																						?>
+																					</select>
+																				</div>
+																				<div class="col-md-1">
+																					<select name="n1" id="n1" class="form-control">
+																						<option value=""></option>
+																						<option value="a">a</option>
+																						<option value="v">v</option>
+																						<option value="m">m</option>
+																					</select>
+																				</div>
+																				<div class="col-md-1">
+																					<select name="n" id="n" class="form-control">
+																						<?php
+																						$t = $c->listartnm(2);
+																						foreach ($t as $row) {
+																							echo "<option value='" . $row->getId() . "'>" . $row->getNombre() . "</option>";
+																						}
+																						?>
+																					</select>
+																				</div>
+																				<div class="col-md-1">
+																					<select name="m1" id="m1" class="form-control">
+																						<option value=""></option>
+																						<option value="a">a</option>
+																						<option value="v">v</option>
+																					</select>
+																				</div>
+																				<div class="col-md-1">
+																					<select name="m" id="m" class="form-control">
+																						<?php
+																						$t = $c->listartnm(3);
+																						foreach ($t as $row) {
+																							echo "<option value='" . $row->getId() . "'>" . $row->getNombre() . "</option>";
+																						}
+																						?>
+																					</select>
+																				</div>
+																				<div class="col-md-1">
+																					<select name="m2" id="m2" class="form-control">
+																						<option value=""></option>
+																						<option value="a">a</option>
+																						<option value="v">v</option>
+																					</select>
+																				</div>
+																				<div class="col-md-1">
+																					<button class="btn btn-outline-primary btn-sm" onclick="addtnm()"><i class="fa fa-plus"></i> Agregar</button>
+																				</div>
+																			</div>
 																		</div>
 																	</div>
 																</div>
-																<div class="col-md-12">
-																	<label for="">Observación</label>
-																	<textarea style="height: 100px;" name="observacionprimario" class="form-control" id="observacionprimario" cols="10" rows="10"><?php echo $informe->getObservacionprimario();?></textarea>
-																</div>
-															</div>
-															<div class="row mt-4">
-																<div class="col-md-12">
-																	<div class="row">
-																		<div class="col-3">
-																			<label for="">Regionales Clinico:</label>
-																		</div>
-																		<div class="col-6">
-																			<select name="regionalesclinico" id="regionalesclinico" class="form-control select2">
-																			<?php
-																				$primario = $c->listartnm(2);
-																				$primarioclinico = $informe->getTnmregionales();
-																				foreach ($primario as $row) {
-																					if ($primarioclinico == $row->getId()) {
-																						echo "<option value='" . $row->getId() . "' selected>" . $row->getNombre() . "</option>";
-																					} else {
-																						echo "<option value='" . $row->getId() . "'>" . $row->getNombre() . "</option>";
-																					}
-																				}
-																				?>
-																			</select>
-																		</div>
-																	</div>
-																</div>
-																<div class="col-md-12">
-																	<label for="">Observación</label>
-																	<textarea style="height: 100px;" name="observacionregional" class="form-control" id="observacionregional" cols="10" rows="10"><?php echo $informe->getObservacionregionales();?></textarea>
-																</div>
-															</div>
-															<div class="row mt-4">
-																<div class="col-md-12">
-																	<div class="row">
-																		<div class="col-3">
-																			<label for="">Distancia Clinico:</label>
-																		</div>
-																		<div class="col-6">
-																			<select name="distanciaclinico" id="distanciaclinico" class="form-control select2">
-																			<?php
-																				$primario = $c->listartnm(3);
-																				$primarioclinico = $informe->getTnmdistancia();
-																				foreach ($primario as $row) {
-																					if ($primarioclinico == $row->getId()) {
-																						echo "<option value='" . $row->getId() . "' selected>" . $row->getNombre() . "</option>";
-																					} else {
-																						echo "<option value='" . $row->getId() . "'>" . $row->getNombre() . "</option>";
-																					}
-																				}
-																				?>
+																<div class="col-md-12 mt-2">
+																	<div class="table-tnm table-responsive">
+																		<table class="table table-bordered w-100">
+																			<thead>
+																				<tr>
+																					<th style="width: 10%;">_T</th>
+																					<th style="width: 10%;">_T</th>
+																					<th style="width: 10%;">T</th>
+																					<th style="width: 10%;">_N</th>
+																					<th style="width: 10%;">N</th>
+																					<th style="width: 10%;">_M</th>
+																					<th style="width: 10%;">M</th>
+																					<th style="width: 10%;">M_</th>
+																					<th>Eliminar</th>
+																				</tr>
+																			</thead>
+																			<tbody id="tnmbody">
 
-																			</select>
-																		</div>
+																			</tbody>
+																		</table>
 																	</div>
 																</div>
 																<div class="col-md-12">
 																	<label for="">Observación</label>
-																	<textarea style="height: 100px;" name="observaciondistancia" class="form-control" id="observaciondistancia" cols="10" rows="10"><?php echo $informe->getObservaciondistancia()?></textarea>
+																	<textarea style="height: 100px;" name="observaciontnm" class="form-control" id="observaciontnm" cols="10" rows="10"></textarea>
 																</div>
 															</div>
 														</div>
@@ -997,7 +1005,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 															<div class="col-xl-12 col-lg-12 col-md-12">
 																<div class="card transcation-crypto1" id="transcation-crypto1">
 																	<div class="card-body">
-																		<textarea style="height: 200;" name="anamnesis" class="form-control" id="anamnesis" cols="10" rows="10"><?php echo $informe->getAnamesis();?></textarea>
+																		<textarea style="height: 200;" name="anamnesis" class="form-control" id="anamnesis" cols="10" rows="10"><?php echo $informe->getAnamnesis();?></textarea>
 																	</div>
 																</div>
 															</div>
@@ -1032,19 +1040,19 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																					<label style="margin: 0;" for="">Radioterapia</label>
 																				</div>
 																				<div class="col-md-12 d-flex  align-items-center">
-																					<input type="checkbox" class="mr-1" value="4" id="otros" <?php if($informe->getTratamientosoncologicos() == 4){echo "checked";}?>>
+																					<input type="checkbox" class="mr-1" value="4" id="otros" <?php if($informe->getOtros() == 4){echo "checked";}?>>
 																					<label style="margin: 0;" for="">Otros Tratamientos Oncológicos</label>
 																				</div>
 																				<div class="col-md-12 d-flex  align-items-center">
-																					<input type="checkbox" class="mr-1" value="5" id="seguimiento" <?php if($informe->getSeguimientosintratamiento() == 5){echo "checked";}?>>
+																					<input type="checkbox" class="mr-1" value="5" id="seguimiento" <?php if($informe->getSeguimiento() == 5){echo "checked";}?>>
 																					<label style="margin: 0;" for="">Seguimiento sin tratamiento activo</label>
 																				</div>
 																				<div class="col-md-12 d-flex  align-items-center">
-																					<input type="checkbox" class="mr-1" value="6" id="completar" <?php if($informe->getCompletarestudios() == 6){echo "checked";}?>>
+																					<input type="checkbox" class="mr-1" value="6" id="completar" <?php if($informe->getCompletar() == 6){echo "checked";}?>>
 																					<label style="margin: 0;" for="">Completar estudios</label>
 																				</div>
 																				<div class="col-md-12 d-flex  align-items-center">
-																					<input type="checkbox" class="mr-1" value="7" id="revaluacion" <?php if($informe->getRevaluacionposterior() == 7){echo "checked";}?>>
+																					<input type="checkbox" class="mr-1" value="7" id="revaluacion" <?php if($informe->getRevaluacion() == 7){echo "checked";}?>>
 																					<label style="margin: 0;" for="">Revaluación Posterior en Comité</label>
 																				</div>
 																				<div class="col-md-12 d-flex  align-items-center">
@@ -1061,7 +1069,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																		<div class="card-body">
 
 																			<p>Observaciones:</p>
-																			<textarea placeholder="Ingrese el texto" style="height: 200;" name="observacionesdecision" class="form-control" id="observacionesdecision" cols="10" rows="10"><?php echo $informe->getObservaciondesicion();?></textarea>
+																			<textarea placeholder="Ingrese el texto" style="height: 200;" name="observacionesdecision" class="form-control" id="observacionesdecision" cols="10" rows="10"><?php echo $informe->getObservacionesDecision();?></textarea>
 
 																		</div>
 																	</div>
@@ -1095,7 +1103,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																					</select>
 																				</div>
 																				<div class="col-md-12 mt-3 d-flex  align-items-center">
-																					<input type="checkbox" class="mr-1" value="2" id="programacion" <?php if($informe->getProgramacionquirurgica() == 2){echo "checked";}?>>
+																					<input type="checkbox" class="mr-1" value="2" id="programacion" <?php if($informe->getProgramacion() == 2){echo "checked";}?>>
 																					<label style="margin: 0;" for="">Programación Quirúrgica</label>
 																				</div>
 																				<div class="col-md-12 d-flex  align-items-center">
@@ -1103,11 +1111,11 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																					<label style="margin: 0;" for="">Traslado a otro Centro</label>
 																				</div>
 																				<div class="col-md-12 d-flex  align-items-center">
-																					<input type="checkbox" class="mr-1" value="4" id="paliativos" <?php if($informe->getCiudadospaliativos() == 4){echo "checked";}?>>
+																					<input type="checkbox" class="mr-1" value="4" id="paliativos" <?php if($informe->getPaliativos() == 4){echo "checked";}?>>
 																					<label style="margin: 0;" for="">Pasa a Cuidados Paliativos</label>
 																				</div>
 																				<div class="col-md-12 d-flex  align-items-center">
-																					<input type="checkbox" class="mr-1" value="5" id="ingreso" <?php if($informe->getIngresohospitalario() == 5){echo "checked";}?>>
+																					<input type="checkbox" class="mr-1" value="5" id="ingreso" <?php if($informe->getIngreso() == 5){echo "checked";}?>>
 																					<label style="margin: 0;" for="">Ingreso hospitalario</label>
 																				</div>
 																			</div>
@@ -1153,9 +1161,14 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																		<div class="card-header">
 																			<h4 class="card-title">Registro Poblacional</h4>
 																			<p>Formulario de Registro caso nuevo de Cáncer</p>
+																			<label class="custom-switch">
+																				<input type="checkbox" name="completereg" class="custom-switch-input" value="1" id="completereg">
+																				<span class="custom-switch-indicator"></span>
+																				<span class="custom-switch-description">¿Completar Registro Poblacional?</span>
+																			</label>
 																		</div>
 																		<div class="card-body">
-
+																			<input type="hidden" id="pacientepoblacional" name="pacientepoblacional" value="<?php echo $dipaciente; ?>">
 																			<div class="row">
 																				<div class="col-md-12">
 																					<label for=""><strong>Rama de Actividad</strong></label>
@@ -1264,7 +1277,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																				</div>
 																				<div class="col-md-6">
 																					<label for="">Observaciones:</label>
-																					<textarea name="observaciones" id="observaciones" class="form-control" cols="30" rows="10"></textarea>
+																					<textarea name="comportamientoobservaciones" id="comportamientoobservaciones" class="form-control" cols="30" rows="10"></textarea>
 																				</div>
 																			</div>
 
@@ -1420,9 +1433,9 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																				</div>
 																				<div class="col-md-6">
 																					<label for="">Estadio</label> <br>
-																					<input type="checkbox" id="estadio1" name="estadio" value="1"><span class="ml-2">Vivo</span>
-																					<input type="checkbox" id="estadio2" name="estadio" value="2"><span class="ml-2">Muerto</span>
-																					<input type="checkbox" id="estadio3" name="estadio" value="3"><span class="ml-2">Sin información</span>
+																					<input type="radio" id="estadio1" selected name="estadio" value="1"><span class="ml-2">Vivo</span>
+																					<input type="radio" id="estadio2" name="estadio" value="2"><span class="ml-2">Muerto</span>
+																					<input type="radio" id="estadio3" name="estadio" value="3"><span class="ml-2">Sin información</span>
 																				</div>
 																			</div>
 																			<hr>
@@ -1433,9 +1446,9 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																				</div>
 																				<div class="col-md-6">
 																					<label for="">Causa</label><br>
-																					<input type="checkbox" id="causa1" name="causa" value="1"><span class="ml-2">Cáncer</span>
-																					<input type="checkbox" id="causa2" name="causa" value="2"><span class="ml-2">Otra</span>
-																					<input type="checkbox" id="causa3" name="causa" value="3"><span class="ml-2">Desconocido</span>
+																					<input type="radio" id="causa1" name="causa" value="1"><span class="ml-2">Cáncer</span>
+																					<input type="radio" id="causa2" name="causa" value="2"><span class="ml-2">Otra</span>
+																					<input type="radio" id="causa3" name="causa" value="3"><span class="ml-2">Desconocido</span>
 																				</div>
 																			</div>
 																			<hr>
@@ -1457,8 +1470,13 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 									</div>
 									<div class="row mt-4">
 										<div class="col-md-12 text-right">
+											<input type="hidden" name="previo" id="previo" value="<?php echo $previous_page; ?>">
+											<input type="hidden" name="proveniencia" id="proveniencia" value="2">
+											<input type="hidden" name="idinforme" id="idinforme" value="<?php echo $informe->getId(); ?>">
+											<input type="hidden" name="folio" id="folio" value="<?php echo $informe->getFolio(); ?>">
 											<a class="btn btn-danger" href="<?php echo $previous_page; ?>"> <i class="fa fa-arrow-left"></i> Volver</a>
-											<button class="btn btn-success" onclick="guardarinforme(<?php echo $idpaciente ?>,<?php echo $idcomite; ?>)"> <i class="fa fa-save"></i> Guardar</button>
+											<button class="btn btn-outline-primary" onclick="vistapreviainforme(<?php echo $idpaciente ?>,<?php echo $idcomite; ?>)"> <i class="fa fa-eye"></i> Vista Previa</button>
+											<button class="btn btn-success" onclick="editarinforme(<?php echo $idpaciente ?>,<?php echo $idcomite; ?>)"> <i class="fa fa-save"></i> Actualizar</button>
 										</div>
 									</div>
 								</div>
@@ -1527,43 +1545,43 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																<input type="hidden" name="idpac" value="<?php echo $idpaciente; ?>">
 																<div class="col-md-1">
 																	<label>F RESP</label>
-																	<input type="number" class="form-control" min="1" id="sfresp" name="sfresp" required step="0.01">
+																	<input type="number" class="form-control" min="1" id="sfresp" name="sfresp"  step="0.01">
 																</div>
 																<div class="col-md-1">
 																	<label>P SIST</label>
-																	<input type="number" class="form-control" min="1" id="spsist" name="spsist" required step="0.01">
+																	<input type="number" class="form-control" min="1" id="spsist" name="spsist"  step="0.01">
 																</div>
 																<div class="col-md-1">
 																	<label>P DIAS</label>
-																	<input type="number" class="form-control" min="1" id="spdias" name="spdias" required step="0.01">
+																	<input type="number" class="form-control" min="1" id="spdias" name="spdias"  step="0.01">
 																</div>
 																<div class="col-md-1">
 																	<label>% STAT 02</label>
-																	<input type="number" class="form-control" min="1" id="ssat" name="ssat" required step="0.01">
+																	<input type="number" class="form-control" min="1" id="ssat" name="ssat"  step="0.01">
 																</div>
 																<div class="col-md-1">
 																	<label>FC</label>
-																	<input type="number" class="form-control" min="1" id="sfc" name="sfc" required step="0.01">
+																	<input type="number" class="form-control" min="1" id="sfc" name="sfc"  step="0.01">
 																</div>
 																<div class="col-md-1">
 																	<label>T. AUXILIAR</label>
-																	<input type="number" class="form-control" min="1" id="staux" name="staux" required step="0.01">
+																	<input type="number" class="form-control" min="1" id="staux" name="staux"  step="0.01">
 																</div>
 																<div class="col-md-1">
 																	<label>T. RECT</label>
-																	<input type="number" class="form-control" min="1" id="strect" name="strect" required step="0.01">
+																	<input type="number" class="form-control" min="1" id="strect" name="strect"  step="0.01">
 																</div>
 																<div class="col-md-1">
 																	<label>T. OTRA</label>
-																	<input type="text" class="form-control" min="1" id="stotra" name="stotra" required>
+																	<input type="text" class="form-control" min="1" id="stotra" name="stotra" >
 																</div>
 																<div class="col-md-1">
 																	<label>HGT</label>
-																	<input type="number" class="form-control" min="1" id="shgt" name="shgt" required step="0.01">
+																	<input type="number" class="form-control" min="1" id="shgt" name="shgt"  step="0.01">
 																</div>
 																<div class="col-md-1">
 																	<label>PESO</label>
-																	<input type="number" class="form-control" min="1" id="speso" name="speso" required step="0.01">
+																	<input type="number" class="form-control" min="1" id="speso" name="speso"  step="0.01">
 																</div>
 																<div class="col-md-1 d-flex align-items-end">
 																	<button class="btn btn-outline-success" type="submit"><i class="fa fa-save"></i> Registrar</button>
@@ -1613,15 +1631,15 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																<div class="col-md-1">
 																	<label>Peso</label>
 																	<!--Valores Hasta con 2 decimales-->
-																	<input type="number" class="form-control" min="1" id="peso" name="peso" required step="0.01">
+																	<input type="number" class="form-control" min="1" id="peso" name="peso"  step="0.01">
 																</div>
 																<div class="col-md-1">
 																	<label>Estatura</label>
-																	<input type="number" class="form-control" min="1" id="estatura" name="estatura" required step="0.01">
+																	<input type="number" class="form-control" min="1" id="estatura" name="estatura"  step="0.01">
 																</div>
 																<div class="col-md-1">
 																	<label>PCe/E</label>
-																	<input type="number" class="form-control" min="1" id="pce" name="pce" required step="0.01">
+																	<input type="number" class="form-control" min="1" id="pce" name="pce"  step="0.01">
 																</div>
 																<div class="col-md-1">
 																	<label>P/E</label>
@@ -1652,15 +1670,15 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																</div>
 																<div class="col-md-1">
 																	<label>IMC</label>
-																	<input type="number" class="form-control" min="1" id="imc" name="imc" required step="0.01">
+																	<input type="number" class="form-control" min="1" id="imc" name="imc"  step="0.01">
 																</div>
 																<div class="col-md-1">
 																	<label>Clasif. IMC</label>
-																	<input type="text" class="form-control" min="1" id="clasifimc" name="clasifimc" required>
+																	<input type="text" class="form-control" min="1" id="clasifimc" name="clasifimc" >
 																</div>
 																<div class="col-md-1">
 																	<label>PC/E</label>
-																	<input type="number" class="form-control" min="1" id="pc" name="pc" required step="0.01">
+																	<input type="number" class="form-control" min="1" id="pc" name="pc"  step="0.01">
 																</div>
 																<div class="col-md-2">
 																	<label>Clasif P.Cintura</label>
@@ -1794,120 +1812,6 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 				</div>
 			</div>
 		</div>
-		<!-- Modal Diagnosticos CIEO -->
-		<div class="modal fade" id="modaldiagcieomor" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-xl">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="staticBackdropLabel">Diagnosticos CIEO</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-
-						<div class="row">
-							<div class="col-xl-12 col-lg-12 col-md-12">
-								<div class="card transcation-crypto1" id="transcation-crypto1">
-									<div class="card-header bd-b-0">
-										<h4 class="card-title font-weight-semibold mb-0">Listado de Diagnosticos CIEO Morfologicos</h4>
-									</div>
-									<div class="card-body">
-										<div class="row">
-											<div class="col-md-12">
-
-												<div class="table-responsive">
-													<table class="table text-wrap w-100 " id="tablecieo1">
-														<thead class="border-top text-center">
-															<tr>
-																<th class="bg-transparent">Codigo</th>
-																<th class="bg-transparent">Descripcion Completo</th>
-																<th class="bg-transparent text-center">Agregar</th>
-															</tr>
-														</thead>
-														<tbody class="text-center">
-															<?php
-															$lista = $c->listarDiagnosticosCIEOMorfologicos();
-															foreach ($lista as $object) {
-																echo "<tr>";
-																echo "<td>" . $object->getCodigo() . "</td>";
-																echo "<td>" . $object->getDescripcionCompleto() . "</td>";
-																echo "<td class='text-center'>";
-																echo "<a href='#' class='btn btn-outline-primary btn-sm' onclick='agregarDiagnosticoCIEOmorfologicos(" . $object->getId() . ",\"" . $object->getDescripcionCompleto() . "\")'><i class='fa fa-plus'></i></a>";
-																echo "</td>";
-																echo "</tr>";
-															}
-															?>
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Modal Diagnosticos CIEO -->
-		<div class="modal fade" id="modaldiagcieotop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-xl">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="staticBackdropLabel">Diagnosticos CIEO</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-
-						<div class="row">
-							<div class="col-xl-12 col-lg-12 col-md-12">
-								<div class="card transcation-crypto1" id="transcation-crypto1">
-									<div class="card-header bd-b-0">
-										<h4 class="card-title font-weight-semibold mb-0">Listado de Diagnosticos CIEO Topograficos</h4>
-									</div>
-									<div class="card-body">
-										<div class="row">
-											<div class="col-md-12">
-
-												<div class="table-responsive">
-													<table class="table text-wrap w-100 " id="tablecieo2">
-														<thead class="border-top text-center">
-															<tr>
-																<th class="bg-transparent">Codigo</th>
-																<th class="bg-transparent">Descripcion Completo</th>
-																<th class="bg-transparent text-center">Agregar</th>
-															</tr>
-														</thead>
-														<tbody class="text-center">
-															<?php
-															$lista = $c->listarDiagnosticosCIEOTopograficos();
-															foreach ($lista as $object) {
-																echo "<tr>";
-																echo "<td>" . $object->getCodigo() . "</td>";
-																echo "<td>" . $object->getDescripcionCompleto() . "</td>";
-																echo "<td class='text-center'>";
-																echo "<a href='#' class='btn btn-outline-primary btn-sm' onclick='agregarDiagnosticoCIEOtopograficos(" . $object->getId() . ",\"" . $object->getDescripcionCompleto() . "\")'><i class='fa fa-plus'></i></a>";
-																echo "</td>";
-																echo "</tr>";
-															}
-															?>
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 
 		<!-- Modal Diagnosticos CIEO -->
 		<div class="modal fade" id="modaldiagcie10" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -1962,6 +1866,28 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 								</div>
 							</div>
 						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal" id="modalprevia">
+			<div class="modal-dialog modal-xl" role="document">
+				<div class="modal-content modal-content-demo">
+					<div class="modal-header">
+						<h6 class="modal-title">Vista Previa</h6><button aria-label="Close" class="close"
+							data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<iframe id="frameprevia" style="min-height: 700px;" class="w-100"
+									frameborder="0"></iframe>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn ripple btn-primary" type="button" data-dismiss="modal">Cerrar</button>
 					</div>
 				</div>
 			</div>
@@ -2021,7 +1947,14 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
 	<script src="JsFunctions/function.js"></script>
+	<script src="JsFunctions/registropoblacional.js"></script>
 	<script src="JsFunctions/informe.js"></script>
+	<script>
+		//Cargar Tabla
+		$(document).ready(function() {
+			cargartnm1();
+		});
+	</script>
 	<script>
 		//Cargar Tabla
 		$(document).ready(function() {

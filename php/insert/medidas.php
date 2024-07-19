@@ -15,6 +15,36 @@ if(isset($_POST['idpac']) && isset($_POST['peso']) && isset($_POST['estatura']) 
     $clasifimc = $_POST['clasifimc'];
     $pc = $_POST['pc'];
     $cpc = $_POST['cpc'];
+
+    if($peso<=0){
+        $peso = 'null';
+    }
+
+    if($estatura<=0){
+        $estatura = 'null';
+    }
+
+    if($pce<=0){
+        $pce = 'null';
+    }
+
+
+    if($imc<=0){
+        $imc = 'null';
+    }
+
+    if(strlen($clasifimc)==0){
+        $clasifimc = 'null';
+    }
+
+    if($pc<=0){
+        $pc = 'null';
+    }
+
+    if($cpc<=0){
+        $cpc = 'null';
+    }
+
     $result = $c->registrarmedidas($idpac, $peso, $estatura, $pce, $pe, $pt, $te, $imc, $clasifimc, $pc, $cpc);
     if($result=true){
         echo 1;

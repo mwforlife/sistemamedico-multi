@@ -3622,38 +3622,6 @@ class Controller
         return null;
     }
 
-    /****************************************** */
-    //Informe Comité
-    /*create table informecomite(
-    id int not null auto_increment primary key,
-    folio int not null,
-    paciente int not null references pacientes(id),
-    comite int not null references comite(id),
-    ecog int not null references ecog(id),
-    histologico int not null references histologico(id),
-    invaciontumoral int not null references invaciontumoral(id),
-    mitotico int not null,
-    anamesis text  null,
-    cirugia int not null default 0,
-    quimioterapia int not null default 0,
-    radioterapia int not null default 0,
-    tratamientosoncologicos int not null default 0,
-    seguimientosintratamiento int not null default 0,
-    completarestudios int not null default 0,
-    revaluacionposterior int not null default 0,
-    estudioclinico int not null default 0,
-    observaciondesicion text  null,
-    consultade text not null,
-    consultadeid int not null,
-    programacionquirurgica int not null default 0,
-    traslado int not null default 0,
-    ciudadospaliativos int not null default 0,
-    ingresohospitalario int not null default 0,
-    observacionplan text  null,
-    resolucion text  null,
-    empresa int not null references empresa(id),
-    registro datetime not null default current_timestamp
-    );*/
     //Registrar informecomite
     function registrarinformecomite($folio, $paciente,$comite, $ecog, $histologico, $invaciontumoral, $mitotico, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $empresa)
     {
@@ -3751,6 +3719,48 @@ class Controller
         return null;
     }
 
+    //listainformecomite
+    function listainformecomite($paciente, $comite){
+        $this->conexion();
+        $sql = "select * from informecomite where paciente = $paciente and comite = $comite order by registro desc";
+        $result = $this->mi->query($sql);
+        $array = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $folio = $rs["folio"];
+            $paciente = $rs["paciente"];
+            $comite = $rs["comite"];
+            $ecog = $rs["ecog"];
+            $histologico = $rs["histologico"];
+            $invaciontumoral = $rs["invaciontumoral"];
+            $mitotico = $rs["mitotico"];
+            $anamesis = $rs["anamesis"];
+            $cirugia = $rs["cirugia"];
+            $quimioterapia = $rs["quimioterapia"];
+            $radioterapia = $rs["radioterapia"];
+            $tratamientosoncologicos = $rs["tratamientosoncologicos"];
+            $seguimientosintratamiento = $rs["seguimientosintratamiento"];
+            $completarestudios = $rs["completarestudios"];
+            $revaluacionposterior = $rs["revaluacionposterior"];
+            $estudioclinico = $rs["estudioclinico"];
+            $observaciondesicion = $rs["observaciondesicion"];
+            $consultade = $rs["consultade"];
+            $consultadeid = $rs["consultadeid"];
+            $programacionquirurgica = $rs["programacionquirurgica"];
+            $traslado = $rs["traslado"];
+            $ciudadospaliativos = $rs["ciudadospaliativos"];
+            $ingresohospitalario = $rs["ingresohospitalario"];
+            $observacionplan = $rs["observacionplan"];
+            $resolucion = $rs["resolucion"];
+            $empresa = $rs["empresa"];
+            $registro = $rs["registro"];
+            $object = new Informecomite($id, $folio, $paciente, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $empresa, $registro);
+            array_push($array, $object);
+        }
+        $this->desconexion();
+        return $array;
+    }
+
     //Buscar ultimo folio registrado por empresa
     function buscarultimofolioinformecomite($empresa)
     {
@@ -3829,25 +3839,6 @@ class Controller
     }
 
 
-
-    /*
-    create table tnminforme(
-        id int not null auto_increment primary key,
-        informecomite int not null references informecomite(id),
-        t1 text null,
-        t2 text null,
-        t int not null references tnm(id),
-        ttexto text null,
-        n1 text null,
-        n int not null references tnm(id),
-        ntexto text null,
-        m1 text null,
-        m int not null references tnm(id),
-        mtexto text null,
-        m2 text null,
-        registro datetime not null default current_timestamp
-    );
-    */
     //Registrar informecomite tnm
     function registrarcomitetnm($informecomite, $t1, $t2, $t, $ttexto, $n1, $n, $ntexto, $m1, $m, $mtexto, $m2)
     {
@@ -3885,6 +3876,284 @@ class Controller
         }
         $this->desconexion();
         return $array;
+    }
+
+    /***********************Registro Poblacional***********************************/
+    /*create table registropoblacional(
+    id int not null auto_increment primary key,
+    paciente int not null references pacientes(id),
+    rama1 int null,
+    rama2 int null,
+    rama3 int null,
+    rama4 int null,
+    rama5 int null,
+    rama6 int null,
+    rama7 int null,
+    rama8 int null,
+    rama9 int null,
+    rama10 int null,
+    ocupacion1 int null,
+    ocupacion2 int null,
+    ocupacion3 int null,
+    ocupacion4 int null,
+    ocupacion5 int null,
+    ocupacion6 int null,
+    ocupacion7 int null,
+    ocupacion8 int null,
+    ocupacion9 int null,
+    ocupacion10 int null,
+    ocupacion11 int null,
+    sp1 int null,
+    sp2 int null,
+    sp3 int null,
+    th1 int null,
+    th2 int null,
+    th3 int null,
+    th4 int null,
+    th5 int null,
+    comportamiento text null,
+    comportamientoobservaciones text null,
+    grado1 int null,
+    grado2 int null,
+    grado3 int null,
+    grado4 int null,
+    grado5 int null,
+    extension1 int null,
+    extension2 int null,
+    extension3 int null,
+    extension4 int null,
+    extension5 int null,
+    lateralidad1 int null,
+    lateralidad2 int null,
+    lateralidad3 int null,
+    lateralidad4 int null,
+    lateralidad5 int null,
+    fechaincidencia date null,
+    horaincidencia time null,
+    basediagnostico1 int null,
+    basediagnostico2 int null,
+    basediagnostico3 int null,
+    basediagnostico4 int null,
+    basediagnostico5 int null,
+    basediagnostico6 int null,
+    basediagnostico7 int null,
+    basediagnostico8 int null,
+    basediagnostico9 int null,
+    fuente1 text null,
+    fechapacex1 date null,
+    fechahospex1 date null,
+    horahospex1 time null,
+    fuente2 text null,
+    fechapacex2 date null,
+    fechahospex2 date null,
+    horahospex2 time null,
+    fuente3 text null,
+    fechapacex3 date null,
+    fechahospex3 date null,
+    horahospex3 time null,
+    fechaultimocontacto date null,
+    estadio int null,
+    defuncion date null,
+    causa int null,
+    obsersavacionfinal text null,
+    proveniencia text not null,
+    registro datetime not null default current_timestamp
+    );
+    */
+    //Registrar Registro Poblacional
+    function registrarregistropoblacional($paciente, $rama1, $rama2, $rama3, $rama4, $rama5, $rama6, $rama7, $rama8, $rama9, $rama10, $ocupacion1, $ocupacion2, $ocupacion3, $ocupacion4, $ocupacion5, $ocupacion6, $ocupacion7, $ocupacion8, $ocupacion9, $ocupacion10, $ocupacion11, $sp1, $sp2, $sp3, $th1, $th2, $th3, $th4, $th5, $comportamiento, $comportamientoobservaciones, $grado1, $grado2, $grado3, $grado4, $grado5, $extension1, $extension2, $extension3, $extension4, $extension5, $lateralidad1, $lateralidad2, $lateralidad3, $lateralidad4, $lateralidad5, $fechaincidencia, $horaincidencia, $basediagnostico1, $basediagnostico2, $basediagnostico3, $basediagnostico4, $basediagnostico5, $basediagnostico6, $basediagnostico7, $basediagnostico8, $basediagnostico9, $fuente1, $fechapacex1, $fechahospex1, $horahospex1, $fuente2, $fechapacex2, $fechahospex2, $horahospex2, $fuente3, $fechapacex3, $fechahospex3, $horahospex3, $fechaultimocontacto, $estadio, $defuncion, $causa, $obsersavacionfinal, $proveniencia)
+    {
+        $this->conexion();
+        $sql = "insert into registropoblacional values(null, $paciente, $rama1, $rama2, $rama3, $rama4, $rama5, $rama6, $rama7, $rama8, $rama9, $rama10, $ocupacion1, $ocupacion2, $ocupacion3, $ocupacion4, $ocupacion5, $ocupacion6, $ocupacion7, $ocupacion8, $ocupacion9, $ocupacion10, $ocupacion11, $sp1, $sp2, $sp3, $th1, $th2, $th3, $th4, $th5, '$comportamiento', '$comportamientoobservaciones', $grado1, $grado2, $grado3, $grado4, $grado5, $extension1, $extension2, $extension3, $extension4, $extension5, $lateralidad1, $lateralidad2, $lateralidad3, $lateralidad4, $lateralidad5, '$fechaincidencia', '$horaincidencia', $basediagnostico1, $basediagnostico2, $basediagnostico3, $basediagnostico4, $basediagnostico5, $basediagnostico6, $basediagnostico7, $basediagnostico8, $basediagnostico9, '$fuente1', '$fechapacex1', '$fechahospex1', '$horahospex1', '$fuente2', '$fechapacex2', '$fechahospex2', '$horahospex2', '$fuente3', '$fechapacex3', '$fechahospex3', '$horahospex3', '$fechaultimocontacto', $estadio, '$defuncion', $causa, '$obsersavacionfinal', '$proveniencia', now())";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Listar Registro Poblacional
+    function listarregistropoblacional($paciente)
+    {
+        $this->conexion();
+        $sql = "select * from registropoblacional where paciente = $paciente order by registro desc";
+        $result = $this->mi->query($sql);
+        $array = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $paciente = $rs["paciente"];
+            $rama1 = $rs["rama1"];
+            $rama2 = $rs["rama2"];
+            $rama3 = $rs["rama3"];
+            $rama4 = $rs["rama4"];
+            $rama5 = $rs["rama5"];
+            $rama6 = $rs["rama6"];
+            $rama7 = $rs["rama7"];
+            $rama8 = $rs["rama8"];
+            $rama9 = $rs["rama9"];
+            $rama10 = $rs["rama10"];
+            $ocupacion1 = $rs["ocupacion1"];
+            $ocupacion2 = $rs["ocupacion2"];
+            $ocupacion3 = $rs["ocupacion3"];
+            $ocupacion4 = $rs["ocupacion4"];
+            $ocupacion5 = $rs["ocupacion5"];
+            $ocupacion6 = $rs["ocupacion6"];
+            $ocupacion7 = $rs["ocupacion7"];
+            $ocupacion8 = $rs["ocupacion8"];
+            $ocupacion9 = $rs["ocupacion9"];
+            $ocupacion10 = $rs["ocupacion10"];
+            $ocupacion11 = $rs["ocupacion11"];
+            $sp1 = $rs["sp1"];
+            $sp2 = $rs["sp2"];
+            $sp3 = $rs["sp3"];
+            $th1 = $rs["th1"];
+            $th2 = $rs["th2"];
+            $th3 = $rs["th3"];
+            $th4 = $rs["th4"];
+            $th5 = $rs["th5"];
+            $comportamiento = $rs["comportamiento"];
+            $comportamientoobservaciones = $rs["comportamientoobservaciones"];
+            $grado1 = $rs["grado1"];
+            $grado2 = $rs["grado2"];
+            $grado3 = $rs["grado3"];
+            $grado4 = $rs["grado4"];
+            $grado5 = $rs["grado5"];
+            $extension1 = $rs["extension1"];
+            $extension2 = $rs["extension2"];
+            $extension3 = $rs["extension3"];
+            $extension4 = $rs["extension4"];
+            $extension5 = $rs["extension5"];
+            $lateralidad1 = $rs["lateralidad1"];
+            $lateralidad2 = $rs["lateralidad2"];
+            $lateralidad3 = $rs["lateralidad3"];
+            $lateralidad4 = $rs["lateralidad4"];
+            $lateralidad5 = $rs["lateralidad5"];
+            $fechaincidencia = $rs["fechaincidencia"];
+            $horaincidencia = $rs["horaincidencia"];
+            $basediagnostico1 = $rs["basediagnostico1"];
+            $basediagnostico2 = $rs["basediagnostico2"];
+            $basediagnostico3 = $rs["basediagnostico3"];
+            $basediagnostico4 = $rs["basediagnostico4"];
+            $basediagnostico5 = $rs["basediagnostico5"];
+            $basediagnostico6 = $rs["basediagnostico6"];
+            $basediagnostico7 = $rs["basediagnostico7"];
+            $basediagnostico8 = $rs["basediagnostico8"];
+            $basediagnostico9 = $rs["basediagnostico9"];
+            $fuente1 = $rs["fuente1"];
+            $fechapacex1 = $rs["fechapacex1"];
+            $fechahospex1 = $rs["fechahospex1"];
+            $horahospex1 = $rs["horahospex1"];
+            $fuente2 = $rs["fuente2"];
+            $fechapacex2 = $rs["fechapacex2"];
+            $fechahospex2 = $rs["fechahospex2"];
+            $horahospex2 = $rs["horahospex2"];
+            $fuente3 = $rs["fuente3"];
+            $fechapacex3 = $rs["fechapacex3"];
+            $fechahospex3 = $rs["fechahospex3"];
+            $horahospex3 = $rs["horahospex3"];
+            $fechaultimocontacto = $rs["fechaultimocontacto"];
+            $estadio = $rs["estadio"];
+            $defuncion = $rs["defuncion"];
+            $causa = $rs["causa"];
+            $obsersavacionfinal = $rs["obsersavacionfinal"];
+            $proveniencia = $rs["proveniencia"];
+            $registro = $rs["registro"];
+            $object = array("id" => $id, "paciente" => $paciente, "rama1" => $rama1, "rama2" => $rama2, "rama3" => $rama3, "rama4" => $rama4, "rama5" => $rama5, "rama6" => $rama6, "rama7" => $rama7, "rama8" => $rama8, "rama9" => $rama9, "rama10" => $rama10, "ocupacion1" => $ocupacion1, "ocupacion2" => $ocupacion2, "ocupacion3" => $ocupacion3, "ocupacion4" => $ocupacion4, "ocupacion5" => $ocupacion5, "ocupacion6" => $ocupacion6, "ocupacion7" => $ocupacion7, "ocupacion8" => $ocupacion8, "ocupacion9" => $ocupacion9, "ocupacion10" => $ocupacion10, "ocupacion11" => $ocupacion11, "sp1" => $sp1, "sp2" => $sp2, "sp3" => $sp3, "th1" => $th1, "th2" => $th2, "th3" => $th3, "th4" => $th4, "th5" => $th5, "comportamiento" => $comportamiento, "comportamientoobservaciones" => $comportamientoobservaciones, "grado1" => $grado1, "grado2" => $grado2, "grado3" => $grado3, "grado4" => $grado4, "grado5" => $grado5, "extension1" => $extension1, "extension2" => $extension2, "extension3" => $extension3, "extension4" => $extension4, "extension5" => $extension5, "lateralidad1" => $lateralidad1, "lateralidad2" => $lateralidad2, "lateralidad3" => $lateralidad3, "lateralidad4" => $lateralidad4, "lateralidad5" => $lateralidad5, "fechaincidencia" => $fechaincidencia, "horaincidencia" => $horaincidencia, "basediagnostico1" => $basediagnostico1, "basediagnostico2" => $basediagnostico2, "basediagnostico3" => $basediagnostico3, "basediagnostico4" => $basediagnostico4, "basediagnostico5" => $basediagnostico5, "basediagnostico6" => $basediagnostico6, "basediagnostico7" => $basediagnostico7, "basediagnostico8" => $basediagnostico8, "basediagnostico9" => $basediagnostico9, "fuente1" => $fuente1, "fechapacex1" => $fechapacex1, "fechahospex1" => $fechahospex1, "horahospex1" => $horahospex1, "fuente2" => $fuente2, "fechapacex2" => $fechapacex2, "fechahospex2" => $fechahospex2, "horahospex2" => $horahospex2, "fuente3" => $fuente3, "fechapacex3" => $fechapacex3, "fechahospex3" => $fechahospex3, "horahospex3" => $horahospex3, "fechaultimocontacto" => $fechaultimocontacto, "estadio" => $estadio, "defuncion" => $defuncion, "causa" => $causa, "obsersavacionfinal" => $obsersavacionfinal, "proveniencia" => $proveniencia, "registro" => $registro);
+            array_push($array, $object);
+        }
+        $this->desconexion();
+        return $array;
+    }
+
+    //Ultimo Registro Poblacional
+    function ultimoregistropoblacional($paciente)
+    {
+        $this->conexion();
+        $sql = "select * from registropoblacional where paciente = $paciente order by registro desc limit 1";
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $paciente = $rs["paciente"];
+            $rama1 = $rs["rama1"];
+            $rama2 = $rs["rama2"];
+            $rama3 = $rs["rama3"];
+            $rama4 = $rs["rama4"];
+            $rama5 = $rs["rama5"];
+            $rama6 = $rs["rama6"];
+            $rama7 = $rs["rama7"];
+            $rama8 = $rs["rama8"];
+            $rama9 = $rs["rama9"];
+            $rama10 = $rs["rama10"];
+            $ocupacion1 = $rs["ocupacion1"];
+            $ocupacion2 = $rs["ocupacion2"];
+            $ocupacion3 = $rs["ocupacion3"];
+            $ocupacion4 = $rs["ocupacion4"];
+            $ocupacion5 = $rs["ocupacion5"];
+            $ocupacion6 = $rs["ocupacion6"];
+            $ocupacion7 = $rs["ocupacion7"];
+            $ocupacion8 = $rs["ocupacion8"];
+            $ocupacion9 = $rs["ocupacion9"];
+            $ocupacion10 = $rs["ocupacion10"];
+            $ocupacion11 = $rs["ocupacion11"];
+            $sp1 = $rs["sp1"];
+            $sp2 = $rs["sp2"];
+            $sp3 = $rs["sp3"];
+            $th1 = $rs["th1"];
+            $th2 = $rs["th2"];
+            $th3 = $rs["th3"];
+            $th4 = $rs["th4"];
+            $th5 = $rs["th5"];
+            $comportamiento = $rs["comportamiento"];
+            $comportamientoobservaciones = $rs["comportamientoobservaciones"];
+            $grado1 = $rs["grado1"];
+            $grado2 = $rs["grado2"];
+            $grado3 = $rs["grado3"];
+            $grado4 = $rs["grado4"];
+            $grado5 = $rs["grado5"];
+            $extension1 = $rs["extension1"];
+            $extension2 = $rs["extension2"];
+            $extension3 = $rs["extension3"];
+            $extension4 = $rs["extension4"];
+            $extension5 = $rs["extension5"];
+            $lateralidad1 = $rs["lateralidad1"];
+            $lateralidad2 = $rs["lateralidad2"];
+            $lateralidad3 = $rs["lateralidad3"];
+            $lateralidad4 = $rs["lateralidad4"];
+            $lateralidad5 = $rs["lateralidad5"];
+            $fechaincidencia = $rs["fechaincidencia"];
+            $horaincidencia = $rs["horaincidencia"];
+            $basediagnostico1 = $rs["basediagnostico1"];
+            $basediagnostico2 = $rs["basediagnostico2"];
+            $basediagnostico3 = $rs["basediagnostico3"];
+            $basediagnostico4 = $rs["basediagnostico4"];
+            $basediagnostico5 = $rs["basediagnostico5"];
+            $basediagnostico6 = $rs["basediagnostico6"];
+            $basediagnostico7 = $rs["basediagnostico7"];
+            $basediagnostico8 = $rs["basediagnostico8"];
+            $basediagnostico9 = $rs["basediagnostico9"];
+            $fuente1 = $rs["fuente1"];
+            $fechapacex1 = $rs["fechapacex1"];
+            $fechahospex1 = $rs["fechahospex1"];
+            $horahospex1 = $rs["horahospex1"];
+            $fuente2 = $rs["fuente2"];
+            $fechapacex2 = $rs["fechapacex2"];
+            $fechahospex2 = $rs["fechahospex2"];
+            $horahospex2 = $rs["horahospex2"];
+            $fuente3 = $rs["fuente3"];
+            $fechapacex3 = $rs["fechapacex3"];
+            $fechahospex3 = $rs["fechahospex3"];
+            $horahospex3 = $rs["horahospex3"];
+            $fechaultimocontacto = $rs["fechaultimocontacto"];
+            $estadio = $rs["estadio"];
+            $defuncion = $rs["defuncion"];
+            $causa = $rs["causa"];
+            $obsersavacionfinal = $rs["obsersavacionfinal"];
+            $proveniencia = $rs["proveniencia"];
+            $registro = $rs["registro"];
+            $object = array("id" => $id, "paciente" => $paciente, "rama1" => $rama1, "rama2" => $rama2, "rama3" => $rama3, "rama4" => $rama4, "rama5" => $rama5, "rama6" => $rama6, "rama7" => $rama7, "rama8" => $rama8, "rama9" => $rama9, "rama10" => $rama10, "ocupacion1" => $ocupacion1, "ocupacion2" => $ocupacion2, "ocupacion3" => $ocupacion3, "ocupacion4" => $ocupacion4, "ocupacion5" => $ocupacion5, "ocupacion6" => $ocupacion6, "ocupacion7" => $ocupacion7, "ocupacion8" => $ocupacion8, "ocupacion9" => $ocupacion9, "ocupacion10" => $ocupacion10, "ocupacion11" => $ocupacion11, "sp1" => $sp1, "sp2" => $sp2, "sp3" => $sp3, "th1" => $th1, "th2" => $th2, "th3" => $th3, "th4" => $th4, "th5" => $th5, "comportamiento" => $comportamiento, "comportamientoobservaciones" => $comportamientoobservaciones, "grado1" => $grado1, "grado2" => $grado2, "grado3" => $grado3, "grado4" => $grado4, "grado5" => $grado5, "extension1" => $extension1, "extension2" => $extension2, "extension3" => $extension3, "extension4" => $extension4, "extension5" => $extension5, "lateralidad1" => $lateralidad1, "lateralidad2" => $lateralidad2, "lateralidad3" => $lateralidad3, "lateralidad4" => $lateralidad4, "lateralidad5" => $lateralidad5, "fechaincidencia" => $fechaincidencia, "horaincidencia" => $horaincidencia, "basediagnostico1" => $basediagnostico1, "basediagnostico2" => $basediagnostico2, "basediagnostico3" => $basediagnostico3, "basediagnostico4" => $basediagnostico4, "basediagnostico5" => $basediagnostico5, "basediagnostico6" => $basediagnostico6, "basediagnostico7" => $basediagnostico7, "basediagnostico8" => $basediagnostico8, "basediagnostico9" => $basediagnostico9, "fuente1" => $fuente1, "fechapacex1" => $fechapacex1, "fechahospex1" => $fechahospex1, "horahospex1" => $horahospex1, "fuente2" => $fuente2, "fechapacex2" => $fechapacex2, "fechahospex2" => $fechahospex2, "horahospex2" => $horahospex2, "fuente3" => $fuente3, "fechapacex3" => $fechapacex3, "fechahospex3" => $fechahospex3, "horahospex3" => $horahospex3, "fechaultimocontacto" => $fechaultimocontacto, "estadio" => $estadio, "defuncion" => $defuncion, "causa" => $causa, "obsersavacionfinal" => $obsersavacionfinal, "proveniencia" => $proveniencia, "registro" => $registro);
+            $this->desconexion();
+            return $object;
+        }
+        $this->desconexion();
+        return null;
     }
 
     /******************************************Empresa***************************************** */
