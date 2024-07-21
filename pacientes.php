@@ -710,6 +710,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 											<div class="col-md-12 text-right mt-3">
 												<hr>
 												<button class="btn btn-outline-success" onclick="searchother()" type="button"><i class="fa fa-search"></i> Buscar Otro</button>
+												<a href="registropoblacional.php?code=" class="btn btn-outline-success" id="btnregpob"><i class="fa fa-user"></i> Registro Poblacional</a>
 												<a href="pacientes.php?code=" class="btn btn-outline-success" id="btncargar"><i class="fa fa-user"></i> Cargar Ficha</a>
 
 											</div>

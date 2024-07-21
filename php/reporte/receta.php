@@ -11,6 +11,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
     $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
     $empresa = $c->buscarEmpresa($enterprise);
 } else {
+    echo "Ups! Hubo un problema con su sesión, por favor vuelva a iniciar sesión";
     return;
 }
 
@@ -43,23 +44,6 @@ if (isset($_GET['r'])) {
     if ($c->esges($paciente->getId()) == true) {
         $ges = "Si";
     }
-    //PDF Inicio
-    $mpdf = new \Mpdf\Mpdf();
-    $mpdf->SetTitle("Receta Medica");
-    $mpdf->SetAuthor("Oncoway");
-    $mpdf->SetCreator("Oncoway");
-    $mpdf->SetSubject("Consutla Medica");
-    $mpdf->SetKeywords("Oncoway, Receta, Medica");
-    $mpdf->SetDisplayMode('fullpage');
-    $mpdf->SetWatermarkText('Oncoway');
-    //$mpdf->showWatermarkText = true;
-    $mpdf->watermark_font = 'DejaVuSansCondensed';
-    $mpdf->watermarkTextAlpha = 0.1;
-    //$mpdf->SetHTMLHeader('<div style="text-align: right; font-weight: bold; font-size: 9pt; font-family: sans-serif;">{DATE j-m-Y}</div>');
-    $mpdf->SetHTMLFooter('
-    <div style="text-align: center; font-weight: bold; font-size: 9pt; font-family: sans-serif;">Oncoway</div>
-    <div style="text-align: right; font-weight: bold; font-size: 9pt; font-family: sans-serif;">{PAGENO}/{nbpg}</div>
-    ');
 
     //Encabezado E informacion paciente
     $contenido = "<table width='100%' border='0' cellspacing='0' cellpadding='0'>
@@ -495,6 +479,23 @@ if (isset($_GET['r'])) {
     $c->registrarAuditoria($_SESSION['USER_ID'], $enterprise, 1, $titulo, $evento);
     /**************************************** */
 
+    //PDF Inicio
+    $mpdf = new \Mpdf\Mpdf();
+    $mpdf->SetTitle("Receta Medica");
+    $mpdf->SetAuthor("Oncoway");
+    $mpdf->SetCreator("Oncoway");
+    $mpdf->SetSubject("Consutla Medica");
+    $mpdf->SetKeywords("Oncoway, Receta, Medica");
+    $mpdf->SetDisplayMode('fullpage');
+    $mpdf->SetWatermarkText('Oncoway');
+    //$mpdf->showWatermarkText = true;
+    $mpdf->watermark_font = 'DejaVuSansCondensed';
+    $mpdf->watermarkTextAlpha = 0.1;
+    //$mpdf->SetHTMLHeader('<div style="text-align: right; font-weight: bold; font-size: 9pt; font-family: sans-serif;">{DATE j-m-Y}</div>');
+    $mpdf->SetHTMLFooter('
+    <div style="text-align: center; font-weight: bold; font-size: 9pt; font-family: sans-serif;">Oncoway</div>
+    <div style="text-align: right; font-weight: bold; font-size: 9pt; font-family: sans-serif;">{PAGENO}/{nbpg}</div>
+    ');
     $mpdf->WriteHTML($contenido);
     $nombrecontenido = "Receta_" . $paciente->getRut() . "_" . date("dmyHis") . ".pdf";
     $mpdf->Output($nombrecontenido, 'I');

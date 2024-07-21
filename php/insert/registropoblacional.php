@@ -82,9 +82,9 @@ if(isset($_POST['idpaciente']) && isset($_POST['provenencia']) && isset($_POST['
 
     $result = $c->registrarregistropoblacional($idpaciente,$rama1,$rama2,$rama3,$rama4,$rama5,$rama6,$rama7,$rama8,$rama9,$rama10,$ocupacion1,$ocupacion2,$ocupacion3,$ocupacion4,$ocupacion5,$ocupacion6,$ocupacion7,$ocupacion8,$ocupacion9,$ocupacion10,$ocupacion11,$sp1,$sp2,$sp3,$th1,$th2,$th3,$th4,$th5,$comportamiento,$comportamientoobservacion,$grado1,$grado2,$grado3,$grado4,$grado5,$extension1,$extension2,$extension3,$extension4,$extension5,$lateralidad1,$lateralidad2,$lateralidad3,$lateralidad4,$lateralidad5,$fechaincidencia,$horaincidencia,$basediagnostico1,$basediagnostico2,$basediagnostico3,$basediagnostico4,$basediagnostico5,$basediagnostico6,$basediagnostico7,$basediagnostico8,$basediagnostico9,$fuente1,$fechapacex1,$fechahospex1,$horahospex1,$fuente2,$fechapacex2,$fechahospex2,$horahospex2,$fuente3,$fechapacex3,$fechahospex3,$horahospex3,$fechaultimocontacto,$estadio,$defuncion,$causa,$observacionfinal,$provenencia);
     if($result==true){
-        echo json_encode(array("status"=>true,"message"=>"Registro poblacional insertado correctamente"));
+        echo json_encode(array("status"=> true,"message"=>"Registro poblacional Registrado correctamente"));
     }else{
-        echo json_encode(array("status"=>false,"message"=>"Error al insertar el registro poblacional"));
+        echo json_encode(array("status"=> false,"message"=>"Error al insertar el registro poblacional"));
     }
 
 }else{

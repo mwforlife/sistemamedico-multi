@@ -2359,6 +2359,7 @@ function searchpaciente(element) {
                         $("#fonosearch").val(datos.paciente.fonomovil);
                         $("#correosearch").val(datos.paciente.email);
                         $("#inscritosearch").val(datos.paciente.inscrito);
+                        $("#btnregpob").attr("href", "registropoblacional.php?code=" + datos.paciente.id);
                         $("#btncargar").attr("href", "pacientes.php?code=" + datos.paciente.id);
                         $(".datospaciente").removeClass("d-none");
                         $(".datospaciente input").attr("readonly", true);

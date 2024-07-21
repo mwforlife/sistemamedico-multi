@@ -27,6 +27,7 @@ if (!isset($_SESSION['USER_ID'])) {
 }
 $id = $_SESSION['USER_ID'];
 $object = $c->buscarenUsuario($id, $empresa->getId());
+$object1 = $c->buscarenUsuario1($id);
 
 $pacienteid = 0;
 $paciente = null;
@@ -487,6 +488,8 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 		<!-- End Sidemenu -->
 
 		<!-- Main Header-->
+		<!-- Main Header-->
+		<!-- Main Header-->
 		<div class="main-header side-header sticky">
 			<div class="container-fluid">
 				<div class="main-header-left">
@@ -497,17 +500,9 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 						<a href="index.php"><img src="assets/img/brand/dark-logo.png" class="mobile-logo" alt="logo"></a>
 						<a href="index.php"><img src="assets/img/brand/logo.png" class="mobile-logo-dark" alt="logo"></a>
 					</div>
-					<div class="input-group">
-						<div class="mt-0">
-							<form class="form-inline">
-								<div class="search-element">
-									
-								</div>
-							</form>
-						</div>
-					</div>
 				</div>
 				<div class="main-header-right">
+					
 					<div class="dropdown d-md-flex">
 						<a class="nav-link icon full-screen-link fullscreen-button" href="">
 							<i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
@@ -528,6 +523,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							<div class="header-navheading">
 								<h6 class="main-notification-title">
 									<?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
+									<p class="main-notification-text"><?php echo $object1->getProfesion(); ?>
 							</div>
 							<a class="dropdown-item" href="close.php">
 								<i class="fe fe-power"></i> Cerrar Sesíon
@@ -540,6 +536,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 				</div>
 			</div>
 		</div>
+		<!-- End Main Header-->
 		<!-- End Main Header-->
 
 		<!-- Mobile-header -->
@@ -711,6 +708,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 											<div class="col-md-12 text-right mt-3">
 												<hr>
 											<button class="btn btn-outline-success" onclick="searchother()" type="button"><i class="fa fa-search"></i> Buscar Otro</button>
+											<a href="registropoblacional.php?code=" class="btn btn-outline-success" id="btnregpob"><i class="fa fa-user"></i> Registro Poblacional</a>
 											<a href="pacientes.php?code=" class="btn btn-outline-success" id="btncargar"><i class="fa fa-user"></i> Cargar Ficha</a>
 
 											</div>
