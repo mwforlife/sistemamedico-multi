@@ -241,17 +241,70 @@ if (isset($_GET['id'])) {
         $contenido .= "</th>";
     $contenido .= "</tr>";
     /***************************************************************************************************** */
+    /*<div class="row">
+										<div class="col-md-4">
+											<label for=""><strong>Grado de diferenciación</strong></label><br />
+											<input type="checkbox" class="mr-1" value="1" name="grado" id="grado1" <?php if($ultimoregistro!=null){if($ultimoregistro['grado1']==1){ echo "checked";}}?>><span>Bien diferenciado</span><br />
+											<input type="checkbox" class="mr-1" value="1" name="grado" id="grado2" <?php if($ultimoregistro!=null){if($ultimoregistro['grado2']==1){ echo "checked";}}?>><span>Moderadamente diferenciado</span><br />
+											<input type="checkbox" class="mr-1" value="1" name="grado" id="grado3" <?php if($ultimoregistro!=null){if($ultimoregistro['grado3']==1){ echo "checked";}}?>><span>Pobremente diferenciado</span><br />
+											<input type="checkbox" class="mr-1" value="1" name="grado" id="grado4" <?php if($ultimoregistro!=null){if($ultimoregistro['grado4']==1){ echo "checked";}}?>><span>Indiferenciado o anaplásico</span><br />
+											<input type="checkbox" class="mr-1" value="1" name="grado" id="grado5" <?php if($ultimoregistro!=null){if($ultimoregistro['grado5']==1){ echo "checked";}}?>><span>No determinado o inaplicable</span>
+										</div>
+										<div class="col-md-4">
+											<label for=""><strong>Extensión</strong></label><br />
+											<input type="checkbox" class="mr-1" value="1" name="extension" id="extension1" <?php if($ultimoregistro!=null){if($ultimoregistro['extension1']==1){ echo "checked";}}?>><span>In situ</span><br />
+											<input type="checkbox" class="mr-1" value="1" name="extension" id="extension2" <?php if($ultimoregistro!=null){if($ultimoregistro['extension2']==1){ echo "checked";}}?>><span>Localizada</span><br />
+											<input type="checkbox" class="mr-1" value="1" name="extension" id="extension3" <?php if($ultimoregistro!=null){if($ultimoregistro['extension3']==1){ echo "checked";}}?>><span>Regional</span><br />
+											<input type="checkbox" class="mr-1" value="1" name="extension" id="extension4" <?php if($ultimoregistro!=null){if($ultimoregistro['extension4']==1){ echo "checked";}}?>><span>Metástasis</span><br />
+											<input type="checkbox" class="mr-1" value="1" name="extension" id="extension5" <?php if($ultimoregistro!=null){if($ultimoregistro['extension5']==1){ echo "checked";}}?>><span>Desconocido</span>
+										</div>
+										<div class="col-md-4">
+											<label for=""><strong>Lateralidad</strong></label><br />
+											<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad1" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad1']==1){ echo "checked";}}?>><span>Derecho</span><br />
+											<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad2" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad2']==1){ echo "checked";}}?>><span>Izquierdo</span><br />
+											<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad3" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad3']==1){ echo "checked";}}?>><span>Bilateral</span><br />
+											<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad4" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad4']==1){ echo "checked";}}?>><span>No corresponde</span><br />
+											<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad5" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad5']==1){ echo "checked";}}?>><span>Desconocido</span>
+										</div>
+									</div>*/
+    //Grado de Diferenciación
+    /************************************************************************************************* */
+    $contenido .= "<tr style='width:100%; text-align:left;'>";
+    
+    $contenido .= "<th style='width:100%; text-align:left;'>";
 
-
-
-
-
-
-
-
-
-
-
+    $contenido .= "<table border='0' style='width:100%; font-size:7px; border-collapse: collapse; border: 1px solid #fff;'>";
+    $contenido .= "<tr style='width:100%; text-align:left;'>";
+    $contenido .= "<th style='width:33%; text-align:left;'>";
+    $contenido .= "<h3>Grado de Diferenciación</h3><br/>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['grado1']==1){$contenido .= "value='X'";} $contenido .= ">Bien diferenciado<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['grado2']==1){$contenido .= "value='X'";} $contenido .= ">Moderadamente diferenciado<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['grado3']==1){$contenido .= "value='X'";} $contenido .= ">Pobremente diferenciado<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['grado4']==1){$contenido .= "value='X'";} $contenido .= ">Indiferenciado o anaplásico<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['grado5']==1){$contenido .= "value='X'";} $contenido .= ">No determinado o inaplicable<br>";
+    $contenido .= "</th>";
+    $contenido .= "<th style='width:33%; text-align:left;'>";
+    $contenido .= "<h3>Extensión</h3><br/>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['extension1']==1){$contenido .= "value='X'";} $contenido .= ">In situ<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['extension2']==1){$contenido .= "value='X'";} $contenido .= ">Localizada<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['extension3']==1){$contenido .= "value='X'";} $contenido .= ">Regional<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['extension4']==1){$contenido .= "value='X'";} $contenido .= ">Metástasis<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['extension5']==1){$contenido .= "value='X'";} $contenido .= ">Desconocido<br>";
+    $contenido .= "</th>";
+    $contenido .= "<th style='width:33%; text-align:left;'>";
+    $contenido .= "<h3>Lateralidad<br/>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['lateralidad1']==1){$contenido .= "value='X'";} $contenido .= ">Derecho<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['lateralidad2']==1){$contenido .= "value='X'";} $contenido .= ">Izquierdo<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['lateralidad3']==1){$contenido .= "value='X'";} $contenido .= ">Bilateral<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['lateralidad4']==1){$contenido .= "value='X'";} $contenido .= ">No corresponde<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['lateralidad5']==1){$contenido .= "value='X'";} $contenido .= ">Desconocido<br>";
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
+    $contenido .= "</table>";
+    /***************************************************************************************************** */
+    
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
     $contenido .= "</table>";
 
 

@@ -436,15 +436,14 @@ function registropoblacional() {
         try {
           var jsonobject = JSON.parse(datos);
           if (jsonobject.status == true || jsonobject.status == "true") {
+            response = true;
             ToastifySuccess(jsonobject.message);
             if(provenencia==1){
               setTimeout(function () {
                 location.reload();
               }, 500);
             }else{
-              setTimeout(function () {
-                cargarhistorialregistros();
-              }, 500);
+              return true;
             }
           } else {
             ToastifyError(jsonobject.message);
