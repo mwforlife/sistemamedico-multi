@@ -751,7 +751,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 							<div class="card">
 								<div class="card-body">
 									<div class="row justify-content-between">
-										<div class="col-lg-9">
+									<div class="col-lg-9">
 											<div class="row">
 												<div class="col-md-12">
 													<h5 class="card-title">Información Paciente</h5>
@@ -769,7 +769,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 													echo "<h6 class='card-title'>Genero: " . $pac->getGenero() . "</h6>";
 													echo "<h6 class='card-title'>Nacionalidad: " . $pac->getNacionalidad() . "</h6>";
 													echo "<h6 class='card-title'>Estado Civil: " . $pac->getEstadocivil() . "</h6>";
-													echo "<h6 class='card-title'>Previsión: " . $inscripcion->getRegistro() . " " . $inscripcion->getTipoprevision() . "</h6>";
+													echo "<h6 class='card-title'>Previsión: "; if($inscripcion!=null){echo $inscripcion->getRegistro() . " " . $inscripcion->getTipoprevision();} echo "</h6>";
 													?>
 												</div>
 												<div class="col-md-3">
@@ -783,9 +783,9 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 												<div class="col-md-3">
 													<?php
 													echo "<h6 class='card-title'>Pueblo Originario: " . $otros->getPueblooriginario() . "</h6>";
-													echo "<h6 class='card-title'>N° Ficha: " . $inscripcion->getFicha() . "</h6>";
-													echo "<h6 class='card-title'>Fecha Admision: " . $inscripcion->getFechaadmision() . "</h6>";
-													echo "<h6 class='card-title'>Inscrito En: " . $inscripcion->getInscrito() . "</h6>";
+													echo "<h6 class='card-title'>N° Ficha: "; if($inscripcion!=null){echo  $inscripcion->getFicha() ;} echo"</h6>";
+													echo "<h6 class='card-title'>Fecha Admision: "; if($inscripcion!=null){echo  $inscripcion->getFechaadmision() ;} echo "</h6>";
+													echo "<h6 class='card-title'>Inscrito En: "; if($inscripcion!=null){echo  $inscripcion->getInscrito();} echo "</h6>";
 													?>
 												</div>
 

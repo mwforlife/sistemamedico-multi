@@ -693,6 +693,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 															$observaciones = $listapaciente->getobservaciones();
 															$folio = "-";
 															$informe = $c->ultimoinformecomite($paciente, $idcomite);
+															$registropoblacional = $c->ultimoregistropoblacional($paciente);
 															$diagnosticosinforme = null;
 															$idinforme = 0;
 															if ($informe != null) {
@@ -706,6 +707,10 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 															$diagnostico = "";
 															$cieomorfologico = "";
 															$cieotopografico = "";
+															if($registropoblacional!=null){
+																$cieomorfologico = $registropoblacional['th1']."_".$registropoblacional['th2'].$registropoblacional['th3'].$registropoblacional['th4'].$registropoblacional['th5'];
+																$cieotopografico = "C".$registropoblacional['sp1'].$registropoblacional['sp2'].".".$registropoblacional['sp3'];
+															}
 															$cie10 = "";
 															$reingreso = "";
 															if ($diagnosticosinforme != null) {
@@ -738,9 +743,8 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 															echo "</td>";
 															echo "<td>";
 															if ($idinforme <= 0) {
-																$idinf = $id;
 																$comfo = $idcomite;
-																echo "<a href='informepaciente.php?comite=$idcomite&code=$idinf'  title='Evaluar Paciente' class='btn btn-outline-success mr-1'><i class='fa fa-user-plus'></i></a>";
+																echo "<a href='informepaciente.php?comite=$idcomite&code=$paciente'  title='Evaluar Paciente' class='btn btn-outline-success mr-1'><i class='fa fa-user-plus'></i></a>";
 															}
 															if ($idinforme > 0) {
 																$id = $idinforme;

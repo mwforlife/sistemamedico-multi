@@ -241,32 +241,48 @@ if (isset($_GET['id'])) {
         $contenido .= "</th>";
     $contenido .= "</tr>";
     /***************************************************************************************************** */
-    /*<div class="row">
-										<div class="col-md-4">
-											<label for=""><strong>Grado de diferenciación</strong></label><br />
-											<input type="checkbox" class="mr-1" value="1" name="grado" id="grado1" <?php if($ultimoregistro!=null){if($ultimoregistro['grado1']==1){ echo "checked";}}?>><span>Bien diferenciado</span><br />
-											<input type="checkbox" class="mr-1" value="1" name="grado" id="grado2" <?php if($ultimoregistro!=null){if($ultimoregistro['grado2']==1){ echo "checked";}}?>><span>Moderadamente diferenciado</span><br />
-											<input type="checkbox" class="mr-1" value="1" name="grado" id="grado3" <?php if($ultimoregistro!=null){if($ultimoregistro['grado3']==1){ echo "checked";}}?>><span>Pobremente diferenciado</span><br />
-											<input type="checkbox" class="mr-1" value="1" name="grado" id="grado4" <?php if($ultimoregistro!=null){if($ultimoregistro['grado4']==1){ echo "checked";}}?>><span>Indiferenciado o anaplásico</span><br />
-											<input type="checkbox" class="mr-1" value="1" name="grado" id="grado5" <?php if($ultimoregistro!=null){if($ultimoregistro['grado5']==1){ echo "checked";}}?>><span>No determinado o inaplicable</span>
-										</div>
-										<div class="col-md-4">
-											<label for=""><strong>Extensión</strong></label><br />
-											<input type="checkbox" class="mr-1" value="1" name="extension" id="extension1" <?php if($ultimoregistro!=null){if($ultimoregistro['extension1']==1){ echo "checked";}}?>><span>In situ</span><br />
-											<input type="checkbox" class="mr-1" value="1" name="extension" id="extension2" <?php if($ultimoregistro!=null){if($ultimoregistro['extension2']==1){ echo "checked";}}?>><span>Localizada</span><br />
-											<input type="checkbox" class="mr-1" value="1" name="extension" id="extension3" <?php if($ultimoregistro!=null){if($ultimoregistro['extension3']==1){ echo "checked";}}?>><span>Regional</span><br />
-											<input type="checkbox" class="mr-1" value="1" name="extension" id="extension4" <?php if($ultimoregistro!=null){if($ultimoregistro['extension4']==1){ echo "checked";}}?>><span>Metástasis</span><br />
-											<input type="checkbox" class="mr-1" value="1" name="extension" id="extension5" <?php if($ultimoregistro!=null){if($ultimoregistro['extension5']==1){ echo "checked";}}?>><span>Desconocido</span>
-										</div>
-										<div class="col-md-4">
-											<label for=""><strong>Lateralidad</strong></label><br />
-											<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad1" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad1']==1){ echo "checked";}}?>><span>Derecho</span><br />
-											<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad2" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad2']==1){ echo "checked";}}?>><span>Izquierdo</span><br />
-											<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad3" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad3']==1){ echo "checked";}}?>><span>Bilateral</span><br />
-											<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad4" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad4']==1){ echo "checked";}}?>><span>No corresponde</span><br />
-											<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad5" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad5']==1){ echo "checked";}}?>><span>Desconocido</span>
-										</div>
-									</div>*/
+    //Características del cáncer
+    /************************************************************************************************* */
+    $contenido .= "<tr style='width:100%; text-align:left; border: 1px solid #000;'>";
+        $contenido .= "<th style='width:100%; text-align:left;'>";
+        $contenido .= "Características del cáncer";
+        $contenido .= "</th>";
+    $contenido .= "</tr>";
+
+    $contenido .= "<tr style='width:100%; text-align:left;'>";
+        $contenido .= "<th style='width:100%; text-align:left;'>";
+
+        $contenido .= "<table border='0' style='width:100%; font-size:7px; border-collapse: collapse; border: 1px solid #fff;'>";
+        $contenido .= "<tr style='width:100%; text-align:left;'>";
+        $contenido .= "<th style='width:50%; text-align:left;'>";
+        $contenido .= "<label> Sitio Primario: (Topografia)</label><br/>";
+        $contenido .= "<label>C</label>";
+        $contenido .= "<input style=' text-align:center;' type='text' value='". $registro['sp1'] ."'>";
+        $contenido .= "<input style=' text-align:center;' type='text' value='". $registro['sp2'] ."'>";
+        $contenido .= "<label>.</label>";
+        $contenido .= "<input style=' text-align:center;' type='text' value='". $registro['sp3'] ."'><br/>";
+
+        $contenido .= "<br/><label>Tipo Morfológico: (Morfología)</label><br/>";
+        $contenido .= "<input style=' text-align:center;' type='text' value='". $registro['th1'] ."'>";
+        $contenido .= "<label>_</label>";
+        $contenido .= "<input style=' text-align:center;' type='text' value='". $registro['th2'] ."'>";
+        $contenido .= "<input style=' text-align:center;' type='text' value='". $registro['th3'] ."'>";
+        $contenido .= "<input style=' text-align:center;' type='text' value='". $registro['th4'] ."'>";
+        $contenido .= "<input style=' text-align:center;' type='text' value='". $registro['th5'] ."'>";
+
+        $contenido .= "<br/><label> Comportamiento: (Comportamiento)</label><br/>";
+        $contenido .= "<input style='text-align:center;' type='text' value='". $registro['comportamiento'] ."'>";
+        $contenido .= "</th>";
+        $contenido .= "<th style='width:50%; text-align:left;'>";
+        $contenido .= "<label>Observaciones</label><br/>";
+        $contenido .= $registro['comportamientoobservaciones'];
+        $contenido .= "</th>";
+        $contenido .= "</tr>";
+
+        $contenido .= "</table>";
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
+
     //Grado de Diferenciación
     /************************************************************************************************* */
     $contenido .= "<tr style='width:100%; text-align:left;'>";
@@ -302,7 +318,129 @@ if (isset($_GET['id'])) {
     $contenido .= "</tr>";
     $contenido .= "</table>";
     /***************************************************************************************************** */
-    
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
+
+
+    //Fecha de Incidencia
+    /************************************************************************************************* */
+    $contenido .= "<tr style='width:100%; text-align:left; border: 1px solid #000;'>";
+    $contenido .= "<th style='width:100%; text-align:left;'>";
+    $contenido .= "<table border='0' style='width:100%; font-size:7px; border-collapse: collapse; border: 1px solid #fff;'>";
+    $contenido .= "<tr style='width:100%; text-align:left;'>";
+    $contenido .= "<th style='width:100%; text-align:left;'>";
+    $contenido .= "<label>Fecha de Incidencia: </label>".date("d-m-Y", strtotime($registro['fechaincidencia']))." ".date("H:i", strtotime($registro['horaincidencia']));
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
+    $contenido .= "<tr style='width:100%; text-align:left;'>";
+    $contenido .= "<th style='width:100%; text-align:left;'>";
+    $contenido .= "<h3>Base de Diagnóstico</h3><br/>";
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
+
+    $contenido .= "<tr style='width:100%; text-align:left;'>";
+    $contenido .= "<th style='width:100%; text-align:left;'>";
+    $contenido .= "<table border='0' style='width:100%; font-size:7px; border-collapse: collapse; border: 1px solid #fff;'>";
+    $contenido .= "<tr style='width:100%; text-align:left;'>";
+    $contenido .= "<th style='width:33%; text-align:left;'>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['basediagnostico1']==1){$contenido .= "value='X'";} $contenido .= ">Clínico<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['basediagnostico2']==1){$contenido .= "value='X'";} $contenido .= ">Laboratorio<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['basediagnostico3']==1){$contenido .= "value='X'";} $contenido .= ">Radiológico<br>";
+    $contenido .= "</th>";
+    $contenido .= "<th style='width:33%; text-align:left;'>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['basediagnostico4']==1){$contenido .= "value='X'";} $contenido .= ">Citológico<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['basediagnostico5']==1){$contenido .= "value='X'";} $contenido .= ">Histológico<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['basediagnostico6']==1){$contenido .= "value='X'";} $contenido .= ">Inmunohistoquímico<br>";
+    $contenido .= "</th>";
+    $contenido .= "<th style='width:33%; text-align:left;'>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['basediagnostico7']==1){$contenido .= "value='X'";} $contenido .= ">Molecular<br>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['basediagnostico8']==1){$contenido .= "value='X'";} $contenido .= ">Otros<br>";
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
+    $contenido .= "</table>";
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
+
+    $contenido .= "</table>";
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
+    /***************************************************************************************************** */
+    //Fuente de Información
+    /************************************************************************************************* */
+    $contenido .= "<tr style='width:100%; text-align:left; border: 1px solid #000;'>";
+    $contenido .= "<th style='width:100%; text-align:left;'>";
+    $contenido .= "<table border='0' style='width:100%; font-size:7px; border-collapse: collapse; border: 1px solid #fff;'>";
+    $contenido .= "<tr style='width:100%; text-align:left;'>";
+    $contenido .= "<th style='width:33%; text-align:left;'>";
+    $contenido .= "<h3>Fuente N°1</h3><br/>";
+    $contenido .= "<label>Nombre: </label>".$registro['fuente1']."<br/>";
+    $contenido .= "<label>N° de Ficha del paciente o del examen: </label><br/>".$registro['fichapacex1']."<br/>";
+    $contenido .= "<label>Fecha de la Hospitalización o examen: </label><br/>".date("d-m-Y", strtotime($registro['fechahospex1']))." ".date("H:i", strtotime($registro['horahospex1']))."<br/>";
+    $contenido .= "</th>";
+    $contenido .= "<th style='width:33%; text-align:left;'>";
+    $contenido .= "<h3>Fuente N°2</h3><br/>";
+    $contenido .= "<label>Nombre: </label>".$registro['fuente2']."<br/>";
+    $contenido .= "<label>N° de Ficha del paciente o del examen: </label><br/>".$registro['fichapacex2']."<br/>";
+    $contenido .= "<label>Fecha de la Hospitalización o examen: </label><br/>".date("d-m-Y", strtotime($registro['fechahospex2']))." ".date("H:i", strtotime($registro['horahospex2']))."<br/>";
+    $contenido .= "</th>";
+    $contenido .= "<th style='width:33%; text-align:left;'>";
+    $contenido .= "<h3>Fuente N°3</h3><br/>";
+    $contenido .= "<label>Nombre: </label>".$registro['fuente3']."<br/>";
+    $contenido .= "<label>N° de Ficha del paciente o del examen: </label><br/>".$registro['fichapacex3']."<br/>";
+    $contenido .= "<label>Fecha de la Hospitalización o examen: </label><br/>".date("d-m-Y", strtotime($registro['fechahospex3']))." ".date("H:i", strtotime($registro['horahospex3']))."<br/>";
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
+    $contenido .= "</table>";
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
+    /***************************************************************************************************** */
+    //Ultimo Contacto
+    /************************************************************************************************* */
+    $contenido .= "<tr style='width:100%; text-align:left; border: 1px solid #000;'>";
+    $contenido .= "<th style='width:100%; text-align:left;'>";
+    $contenido .= "<table border='0' style='width:100%; font-size:7px; border-collapse: collapse; border: 1px solid #fff;'>";
+    $contenido .= "<tr style='width:100%; text-align:left;'>";
+    $contenido .= "<th style='width:50%; text-align:left;'>";
+    $contenido .= "<h3>Fecha Ultimo Contacto</h3><br/>";
+    $contenido .= date("d-m-Y", strtotime($registro['fechaultimocontacto']))."<br/>";
+    $contenido .= "</th>";
+    $contenido .= "<th style='width:50%; text-align:left;'>";
+    $contenido .= "<h3>Estadio</h3><br/>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['estadio']==1){$contenido .= "value='X'";} $contenido .= ">Vivo";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['estadio']==2){$contenido .= "value='X'";} $contenido .= ">Muerto";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['estadio']==3){$contenido .= "value='X'";} $contenido .= ">Sin Información<br>";
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
+    $contenido .= "</table>";
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
+    /***************************************************************************************************** */
+    //Defuncion
+    /************************************************************************************************* */
+    $contenido .= "<tr style='width:100%; text-align:left; border: 1px solid #000;'>";
+    $contenido .= "<th style='width:100%; text-align:left;'>";
+    $contenido .= "<table border='0' style='width:100%; font-size:7px; border-collapse: collapse; border: 1px solid #fff;'>";
+    $contenido .= "<tr style='width:100%; text-align:left;'>";
+    $contenido .= "<th style='width:50%; text-align:left;'>";
+    $contenido .= "<h3>Defunción</h3><br/>";
+    $contenido .= "<label>Fecha: </label>".date("d-m-Y", strtotime($registro['defuncion']))."<br/>";
+    $contenido .= "</th>";
+    $contenido .= "<th style='width:50%; text-align:left;'>";
+    $contenido .= "<h3>Causa</h3><br/>";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['causa']==1){$contenido .= "value='X'";} $contenido .= ">Cáncer";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['causa']==2){$contenido .= "value='X'";} $contenido .= ">Otra";
+    $contenido .= "<input style='width:10px; text-align:center;' type='text' ";if($registro['causa']==3){$contenido .= "value='X'";} $contenido .= ">Desconocido<br>";
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
+    $contenido .= "</table>";
+    $contenido .= "</th>";
+    $contenido .= "</tr>";
+    /***************************************************************************************************** */
+    //Observaciones
+    /************************************************************************************************* */
+    $contenido .= "<tr style='width:100%; text-align:left; border: 1px solid #000;'>";
+    $contenido .= "<th style='width:100%; text-align:left;'>";
+    $contenido .= "<p>Observaciones:<br/> ".$registro['obsersavacionfinal']."</p>";
     $contenido .= "</th>";
     $contenido .= "</tr>";
     $contenido .= "</table>";

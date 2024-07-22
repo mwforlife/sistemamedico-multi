@@ -128,10 +128,7 @@ if(isset($_POST['diagnosticoid']) && isset($_POST['diagnosticotext']) && isset($
     $observacionplan = $_POST['observacionplan'];
     $observacionplan = $c->escapeString($observacionplan);
     $observacionplan = mb_strtoupper($observacionplan, 'UTF-8');
-    if(strlen($observacionplan)==0){
-        echo json_encode(array('status' => false, 'message' => 'Debe ingresar observaciones del plan'));
-        return;
-    }
+    
     $atpacienteid = $_POST['atpacienteid'];
     if($atpacienteid<=0){
         echo json_encode(array('status' => false, 'message' => 'Ups! Error al obtener la información del paciente'));

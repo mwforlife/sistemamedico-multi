@@ -27,31 +27,43 @@ if (isset($_POST['action'])) {
             if ($idPaciente > 0 && count($horas) > 0) {
                 $errores = "";
                 $success = "";
+                $validarhora = false;
                 foreach ($horas as $hora) {
                     $val = $c->validarreservahorario($hora);
                     if ($val == true) {
-                        $errores .= "La hora con id " . $hora . " ya se encuentra reservada. ";
+                        $validarhora = true;
+                        $errores .= "La hora " . $c->horarionombre($hora) . " ya se encuentra reservada. ";
                     }
-                    $result = $c->registrarreserva($idPaciente, $hora);
-                    if ($result == true) {
+                    
+                }
+
+                if ($validarhora == true) {
+                    echo json_encode(array('status' => false, 'message' => $errores));
+                }
+
+                $idreserva  = $c->registrarreserva($idPaciente);
+                if ($idreserva > 0) {
+                    foreach ($horas as $hora) {
+                        $c->registrarhoraatencion($idreserva, $hora);
                         $c->cambiarestadohorario($hora, 2);
                         $id = $c->buscariddisponibilidad($hora);
                         $response = $c->comprobarhorariosdisponibles($id);
                         if ($response == false) {
                             $c->cambiarestadodisponibilidad($id, 2);
                         }
-                        /***********Auditoria******************* */
-                        $titulo = "Reserva de hora";
-                        $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
-                        $idUsuario = $_SESSION['USER_ID'];
-                        $object = $c->buscarenUsuario1($idUsuario);
-                        $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado una nueva reserva para el paciente " . $paciente->getNombre() . " " . $paciente->getApellido1() . " " . $paciente->getApellido2() . "";
-                        $c->registrarAuditoria($_SESSION['USER_ID'], $enterprise, 1, $titulo, $evento);
-                        /**************************************** */
-                        $success .= "Reserva registrada correctamente para la hora con id " . $hora . ". ";
-                    } else {
-                        $errores .= "Error al registrar la reserva para la hora con id " . $hora . ". ";
                     }
+                    
+                    /***********Auditoria******************* */
+                    $titulo = "Reserva de hora";
+                    $enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+                    $idUsuario = $_SESSION['USER_ID'];
+                    $object = $c->buscarenUsuario1($idUsuario);
+                    $evento = "El Usuario " . $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2() . " ha registrado una nueva reserva para el paciente " . $paciente->getNombre() . " " . $paciente->getApellido1() . " " . $paciente->getApellido2() . "";
+                    $c->registrarAuditoria($_SESSION['USER_ID'], $enterprise, 1, $titulo, $evento);
+                    /**************************************** */
+                    $success .= "Reserva registrada correctamente para la hora con id " . $hora . ". ";
+                } else {
+                    $errores .= "Error al registrar la reserva para la hora con id " . $hora . ". ";
                 }
 
                 if($errores == "" && $success != ""){

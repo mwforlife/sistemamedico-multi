@@ -1549,10 +1549,10 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																										<input type="text" class="form-control" id="fuente1" name="fuente1" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fuente1'];}?>">
 																									</div>
 																									<div class="col-md-12">
-																										<label for="">Fecha del paciente o del examen</label>
+																										<label for="">N° Ficha del paciente o del examen</label>
 																									</div>
 																									<div class="col-md-12">
-																										<input type="date" class="form-control" id="fechaPaciente1" name="fechaPaciente1" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fechapacex1'];}?>">
+																										<input type="text" class="form-control" id="fichaPaciente1" name="fichaPaciente1" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fichapacex1'];}?>">
 																									</div>
 																									<div class="col-md-12">
 																										<label for="">Fecha de la hospitalización o exámen</label>
@@ -1575,10 +1575,10 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																										<input type="text" class="form-control" id="fuente2" name="fuente2" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fuente2'];}?>">
 																									</div>
 																									<div class="col-md-12">
-																										<label for="">Fecha del paciente o del examen</label>
+																										<label for="">N° Ficha del paciente o del examen</label>
 																									</div>
 																									<div class="col-md-12">
-																										<input type="date" class="form-control" id="fechaPaciente2" name="fechaPaciente2" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fechapacex2'];}?>">
+																										<input type="text" class="form-control" id="fichaPaciente2" name="fichaPaciente2" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fichapacex2'];}?>">
 																									</div>
 																									<div class="col-md-12">
 																										<label for="">Fecha de la hospitalización o exámen</label>
@@ -1601,10 +1601,10 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																										<input type="text" class="form-control" id="fuente3" name="fuente3" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fuente3'];}?>">
 																									</div>
 																									<div class="col-md-12">
-																										<label for="">Fecha del paciente o del examen</label>
+																										<label for="">N° Ficha del paciente o del examen</label>
 																									</div>
 																									<div class="col-md-12">
-																										<input type="date" class="form-control" id="fechaPaciente3" name="fechaPaciente3" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fechapacex3'];}?>">
+																										<input type="text" class="form-control" id="fichaPaciente3" name="fichaPaciente3" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fichapacex3'];}?>">
 																									</div>
 																									<div class="col-md-12">
 																										<label for="">Fecha de la hospitalización o exámen</label>

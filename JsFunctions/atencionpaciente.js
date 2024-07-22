@@ -321,18 +321,8 @@ function registraratencion() {
         ingresohospitalario = $("#ingresohospitalario").val();
     }
 
-    //Validar si ha seleccionado algun plan asistencial
-    if (programacion == 0 && traslado == 0 && paliativos == 0 && ingresohospitalario == 0) {
-        ToastifyError("Debe seleccionar algun plan asistencial");
-        return;
-    }
-
     var observacionplan = $("#observacionplan").val();
     //SI el observacionplan esta vacia, preguntar si esta seguro de dejarlo vacia
-    if (observacionplan.trim().length == 0) {
-        ToastifyError("Debe ingresar una observacion en el plan asistencial");
-        return;
-    }
 
     var atpacienteid = $("#atpacienteid").val();
     var atempresaid = $("#atempresaid").val();

@@ -74,15 +74,15 @@ function registropoblacional() {
 
   //Fuente Incidencia
   var fuente1 = 0;
-  var fechapacex1 = "";
+  var fichapacex1 = "";
   var fechahospex1 = "";
   var horahospex1 = "";
   var fuente2 = 0;
-  var fechapacex2 = "";
+  var fichapacex2 = "";
   var fechahospex2 = "";
   var horahospex2 = "";
   var fuente3 = 0;
-  var fechapacex3 = "";
+  var fichapacex3 = "";
   var fechahospex3 = "";
   var horahospex3 = "";
 
@@ -300,18 +300,18 @@ function registropoblacional() {
 
   //Validaciones de Fuente Incidencia
   fuente1 = $("#fuente1").val();
-  fechapacex1 = $("#fechaPaciente1").val();
+  fichapacex1 = $("#fichaPaciente1").val();
   fechahospex1 = $("#fechaHospital1").val();
   horahospex1 = $("#horaHospital1").val();
 
   fuente2 = $("#fuente2").val();
-  fechapacex2 = $("#fechaPaciente2").val();
+  fichapacex2 = $("#fichaPaciente2").val();
   fechahospex2 = $("#fechaHospital2").val();
   horahospex2 = $("#horaHospital2").val();
 
 
   fuente3 = $("#fuente3").val();
-  fechapacex3 = $("#fechaPaciente3").val();
+  fichapacex3 = $("#fichaPaciente3").val();
   fechahospex3 = $("#fechaHospital3").val();
   horahospex3 = $("#horaHospital3").val();
 
@@ -415,15 +415,15 @@ function registropoblacional() {
         basediagnostico8: basediagnostico8,
         basediagnostico9: basediagnostico9,
         fuente1: fuente1,
-        fechapacex1: fechapacex1,
+        fichapacex1: fichapacex1,
         fechahospex1: fechahospex1,
         horahospex1: horahospex1,
         fuente2: fuente2,
-        fechapacex2: fechapacex2,
+        fichapacex2: fichapacex2,
         fechahospex2: fechahospex2,
         horahospex2: horahospex2,
         fuente3: fuente3,
-        fechapacex3: fechapacex3,
+        fichapacex3: fichapacex3,
         fechahospex3: fechahospex3,
         horahospex3: horahospex3,
         fechaultimocontacto: fechaultimocontacto,
@@ -439,6 +439,7 @@ function registropoblacional() {
             response = true;
             ToastifySuccess(jsonobject.message);
             if(provenencia==1){
+              response = true;
               setTimeout(function () {
                 location.reload();
               }, 500);

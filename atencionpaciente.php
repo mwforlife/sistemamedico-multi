@@ -1174,43 +1174,43 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	<input type="hidden" name="idpac" value="<?php echo $dipaciente; ?>">
 																	<div class="col-md-1">
 																		<label>F RESP</label>
-																		<input type="number" class="form-control" min="1" id="sfresp" name="sfresp" required step="0.01">
+																		<input type="number" class="form-control" min="1" id="sfresp" name="sfresp"  step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>P SIST</label>
-																		<input type="number" class="form-control" min="1" id="spsist" name="spsist" required step="0.01">
+																		<input type="number" class="form-control" min="1" id="spsist" name="spsist"  step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>P DIAS</label>
-																		<input type="number" class="form-control" min="1" id="spdias" name="spdias" required step="0.01">
+																		<input type="number" class="form-control" min="1" id="spdias" name="spdias"  step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>% STAT 02</label>
-																		<input type="number" class="form-control" min="1" id="ssat" name="ssat" required step="0.01">
+																		<input type="number" class="form-control" min="1" id="ssat" name="ssat"  step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>FC</label>
-																		<input type="number" class="form-control" min="1" id="sfc" name="sfc" required step="0.01">
+																		<input type="number" class="form-control" min="1" id="sfc" name="sfc"  step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>T. AUXILIAR</label>
-																		<input type="number" class="form-control" min="1" id="staux" name="staux" required step="0.01">
+																		<input type="number" class="form-control" min="1" id="staux" name="staux"  step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>T. RECT</label>
-																		<input type="number" class="form-control" min="1" id="strect" name="strect" required step="0.01">
+																		<input type="number" class="form-control" min="1" id="strect" name="strect"  step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>T. OTRA</label>
-																		<input type="text" class="form-control" min="1" id="stotra" name="stotra" required>
+																		<input type="text" class="form-control" min="1" id="stotra" name="stotra" >
 																	</div>
 																	<div class="col-md-1">
 																		<label>HGT</label>
-																		<input type="number" class="form-control" min="1" id="shgt" name="shgt" required step="0.01">
+																		<input type="number" class="form-control" min="1" id="shgt" name="shgt"  step="0.01">
 																	</div>
-																	<div class="col-md-1">
+																	<div class="col-md-1 d-none">
 																		<label>PESO</label>
-																		<input type="number" class="form-control" min="1" id="speso" name="speso" required step="0.01">
+																		<input type="hidden" class="form-control" min="1" id="speso" name="speso"  step="0.01">
 																	</div>
 																	<div class="col-md-1 d-flex align-items-end">
 																		<button class="btn btn-outline-success" type="submit"><i class="fa fa-save"></i> Registrar</button>
@@ -1267,19 +1267,19 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	<div class="col-md-1">
 																		<label>Peso</label>
 																		<!--Valores Hasta con 2 decimales-->
-																		<input type="number" class="form-control" min="1" id="peso" name="peso" required step="0.01">
+																		<input type="number" class="form-control" min="1" id="peso" name="peso"  step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>Estatura</label>
-																		<input type="number" class="form-control" min="1" id="estatura" name="estatura" required step="0.01">
+																		<input type="number" class="form-control" min="1" id="estatura" name="estatura"  step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>PCe/E</label>
-																		<input type="number" class="form-control" min="1" id="pce" name="pce" required step="0.01">
+																		<input type="number" class="form-control" min="1" id="pce" name="pce"  step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>P/E</label>
-																		<select type="number" class="form-control" id="pe" name="pe" required>
+																		<select type="number" class="form-control" id="pe" name="pe" >
 																			<option value="1">Normal</option>
 																			<option value="2">Desnutrición</option>
 																			<option value="3">Sobrepeso</option>
@@ -1288,7 +1288,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	</div>
 																	<div class="col-md-1">
 																		<label>P/T</label>
-																		<select type="number" class="form-control" id="pt" name="pt" required>
+																		<select type="number" class="form-control" id="pt" name="pt" >
 																			<option value="1">Normal</option>
 																			<option value="2">Desnutrición</option>
 																			<option value="3">Sobrepeso</option>
@@ -1297,7 +1297,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	</div>
 																	<div class="col-md-1">
 																		<label>T/E</label>
-																		<select type="number" class="form-control" id="te" name="te" required>
+																		<select type="number" class="form-control" id="te" name="te" >
 																			<option value="1">Normal</option>
 																			<option value="2">Desnutrición</option>
 																			<option value="3">Sobrepeso</option>
@@ -1306,19 +1306,19 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	</div>
 																	<div class="col-md-1">
 																		<label>IMC</label>
-																		<input type="number" class="form-control" min="1" id="imc" name="imc" required step="0.01">
+																		<input type="number" class="form-control" min="1" id="imc" name="imc"  step="0.01">
 																	</div>
 																	<div class="col-md-1">
 																		<label>Clasif. IMC</label>
-																		<input type="text" class="form-control" min="1" id="clasifimc" name="clasifimc" required>
+																		<input type="text" class="form-control" min="1" id="clasifimc" name="clasifimc" >
 																	</div>
 																	<div class="col-md-1">
 																		<label>PC/E</label>
-																		<input type="number" class="form-control" min="1" id="pc" name="pc" required step="0.01">
+																		<input type="number" class="form-control" min="1" id="pc" name="pc"  step="0.01">
 																	</div>
 																	<div class="col-md-2">
 																		<label>Clasif P.Cintura</label>
-																		<select type="number" class="form-control" id="cpc" name="cpc" required>
+																		<select type="number" class="form-control" id="cpc" name="cpc" >
 																			<option value="1">Normal</option>
 																			<option value="2">Riesgo Obésidad abdominal</option>
 																			<option value="3">Obesidad abdominal</option>
@@ -1685,6 +1685,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 	<script src="JsFunctions/Alert/toastify.js"></script>
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
+	<script src="JsFunctions/function.js"></script>
 	<script src="JsFunctions/atencionpaciente.js"></script>
 	<script>
 		//Cargar Tabla

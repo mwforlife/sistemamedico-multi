@@ -796,13 +796,20 @@ insert into estadoatencion values(7,0,"Paciente no asiste");
 create table atenciones(
     id int not null auto_increment primary key,
     paciente int not null references pacientes(id),
-    horario int not null references horarios(id),
     observacion text null,
     estado int not null default 1 references estadoatencion(id),
     horainicioespera time null,
     horafinespera time null,
     horafinatencion time null,
     registro datetime not null default current_timestamp
+);
+
+create table horarioatencion(
+    id int not null auto_increment primary key,
+    atencion int not null references atenciones(id),
+    horario int not null references horarios(id),
+    estado int not null default 1,
+    registro datetime not null default current_timestamp    
 );
 
 create table historialestado(
@@ -1279,15 +1286,15 @@ create table registropoblacional(
     basediagnostico8 int null,
     basediagnostico9 int null,
     fuente1 text null,
-    fechapacex1 date null,
+    fichapacex1 text null,
     fechahospex1 date null,
     horahospex1 time null,
     fuente2 text null,
-    fechapacex2 date null,
+    fichapacex2 text null,
     fechahospex2 date null,
     horahospex2 time null,
     fuente3 text null,
-    fechapacex3 date null,
+    fichapacex3 text null,
     fechahospex3 date null,
     horahospex3 time null,
     fechaultimocontacto date null,

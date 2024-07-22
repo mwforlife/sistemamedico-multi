@@ -163,6 +163,7 @@ function otroPaciente() {
 }
 
 function reservar() {
+    $("#global-loader").fadeIn(200);
     var idPaciente = $("#idPaciente").val();
     //Comprobar si se selecciono una hora
     var hora = document.getElementsByName("hora");
@@ -182,6 +183,7 @@ function reservar() {
                 type: "POST",
                 data: { action: 'reservar', idPaciente: idPaciente , hora: JSON.stringify(horaId) },
                 success: function (data) {
+                    $("#global-loader").fadeOut(200);
                     //Recorrer el array de datos
                     var datos = JSON.parse(data);
                     if (datos.status == true) {
@@ -200,4 +202,5 @@ function reservar() {
     } else {
         ToastifyError("Debe seleccionar una hora");
     }
+    $("#global-loader").fadeOut(200);
 }
