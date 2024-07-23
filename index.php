@@ -7,13 +7,6 @@ require 'php/controller.php';
 $c = new Controller();
 
 session_start();
-$empresa = null;
-$idempresa = 1;
-if(isset($_SESSION['CURRENT_ENTERPRISE'])){
-	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
-	$empresa = $c->buscarEmpresa($enterprise);
-	$idempresa = $empresa->getId();
-}
 if (!isset($_SESSION['USER_ID'])) {
 	header("Location: signin.php");
 } else {
@@ -24,7 +17,6 @@ if (!isset($_SESSION['USER_ID'])) {
 }
 $id = $_SESSION['USER_ID'];
 $object = $c->buscarenUsuario1($id);
-$object1 = $c->buscarenUsuarioValores($id, $idempresa);
 
 $admingeneralrol = false;
 $adminsistemarol = false;
@@ -41,6 +33,34 @@ $comiterol = false;
 $usersrol = false;
 $fichaclinicasecre = false;
 $gestiontratamientorol = false;
+if($c->validarroladmin($object->getId())==true){
+	$admingeneralrol = true;
+}
+if(!isset($_SESSION['CURRENT_ENTERPRISE'])){
+if($admingeneralrol == true){
+	$empresas = $c->listarEmpresas();
+	foreach ($empresas as $empresa) {
+		$_SESSION['CURRENT_ENTERPRISE'] = $empresa->getId();
+		break;
+	}
+}else{
+	$empresas = $c->empresasusuario($_SESSION['USER_ID']);
+	foreach ($empresas as $empresa) {
+		$_SESSION['CURRENT_ENTERPRISE'] = $empresa->getId();
+		break;
+	}
+}
+}
+
+$empresa = null;
+$idempresa = 0;
+if(isset($_SESSION['CURRENT_ENTERPRISE'])){
+	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
+	$empresa = $c->buscarEmpresa($enterprise);
+	$idempresa = $empresa->getId();
+}
+$object1 = $c->buscarenUsuarioValores($id, $idempresa);
+
 if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	if($c->validarroladmin($object->getId())==true){
 		$admingeneralrol = true;
@@ -95,9 +115,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 		}
 	}
 }else{
-	if($c->validarroladmin($object->getId())==true){
-		$admingeneralrol = true;
-	}
+	header("Location: lockscreen.php");
 }
 
 ?>

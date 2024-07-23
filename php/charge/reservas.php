@@ -73,7 +73,7 @@ if (isset($_POST['fechainicio']) && isset($_POST['fechatermino'])) {
                         $registro = $l->getRegistro();
                         $contenido .= "<tr class='text-center'>";
                         $contenido .= "<td class='bg-transparent'>" . date("d-m-Y", strtotime($fecha)) . "</td>";
-                        $contenido .= "<td class='bg-transparent'>" . $horainicio. "</td>";
+                        $contenido .= "<td class='bg-transparent'>" . $horainicio . " - " . $horatermino . "</td>";
                         $contenido .= "<td class='bg-transparent'>" . $rut . "</td>";
                         $contenido .= "<td class='bg-transparent'>" . $paciente . "</td>";
                         $contenido .= "<td class='bg-transparent'>" . $profesional . "</td>";
