@@ -443,7 +443,6 @@ class Controller
     {
         $this->conexion();
         $sql = "insert into diagnosticoscie10 values(null,'$codigo','$nombre', $nodofinal, $manifestacion, $perinatal, $pediatrico, $obstetrico, $adulto, $mujer, $hombre, $poaexento, $dpnoprincipal, $vcdp, now())";
-        echo $sql;
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
@@ -5018,7 +5017,7 @@ class Controller
     function validarreservahorario($horario)
     {
         $this->conexion();
-        $sql = "select * from horarioatencion where horario = $horario";
+        $sql = "select * from horarioatencion where horario = $horario and estado = 1";
         $result = $this->mi->query($sql);
         if ($rs = mysqli_fetch_array($result)) {
             $this->desconexion();
@@ -5026,6 +5025,16 @@ class Controller
         }
         $this->desconexion();
         return false;
+    }
+
+    //Cambiar estado horario atencion
+    function cambiarestadohorarioatencion($id, $estado)
+    {
+        $this->conexion();
+        $sql = "update horarioatencion set estado = $estado where horario = $id";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
     }
 
     function horarionombre($id)
@@ -5149,14 +5158,13 @@ class Controller
         if ($rs = mysqli_fetch_array($result)) {
             $id = $rs["id"];
             $paciente = $rs["paciente"];
-            $horario = $rs["horario"];
             $observacion = $rs["observacion"];
             $estado = $rs["estado"];
             $horainicioespera = $rs["horainicioespera"];
             $horafinespera = $rs["horafinespera"];
             $horafinatencion = $rs["horafinatencion"];
             $registro = $rs["registro"];
-            $atencion = new Atencion($id, $paciente, "", "", "", "", $horario, "", "", $observacion, $estado, $horainicioespera, $horafinespera, $horafinatencion, $registro);
+            $atencion = new Atencion($id, "",$paciente, "", "", "", "", "", "", $observacion, $estado, $horainicioespera, $horafinespera, $horafinatencion, $registro);
             $this->desconexion();
             return $atencion;
         }
@@ -5409,6 +5417,24 @@ class Controller
         }
         $this->desconexion();
         return $lista;
+    }
+
+    function buscarhorarioatencion($atencion){
+        $this->conexion();
+        $sql = "select * from horarioatencion where atencion = $atencion";
+        $result = $this->mi->query($sql);
+        $horarios = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $atencion = $rs["atencion"];
+            $horario = $rs["horario"];
+            $estado = $rs["estado"];
+            $registro = $rs["registro"];
+            $horarioatencion = array("id" => $id, "atencion" => $atencion, "horario" => $horario, "estado" => $estado, "registro" => $registro);
+            $horarios[] = $horarioatencion;
+        }
+        $this->desconexion();
+        return $horarios;
     }
 
     ///Buscar todas las reservas del paciente
@@ -6405,7 +6431,6 @@ class Controller
     {
         $this->conexion();
         $sql = "INSERT INTO recetas (paciente, usuario, empresa, consulta, fecha, folio, estadio, nivel, ges, peso, talla, scorporal, creatinina, auc, fechaadministracion, pendiente, nciclo, anticipada, curativo, paliativo, adyuvante, concomitante, noeadyuvante, primeringreso, traemedicamentos, diabetes, hipertension, alergias,otrocor, detallealergias, otrcormo, urgente, esquema, observacion, estado,carboplatino) VALUES ($paciente, $usuario, $empresa, $consulta, '$fecha', '$folio', $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, '$fechaadministracion', $pendiente, $nciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primeringreso, $traemedicamentos, $diabetes, $hipertension, $alergias,$otrocor, '$detallealergias','$otrcormo', $urgente, $esquema, '$observacion',1,$carboplatino);";
-        //echo $sql;
         $result = $this->mi->query($sql);
         // Obtener el ID de la receta recién registrada
         $recetaId = $this->mi->insert_id;

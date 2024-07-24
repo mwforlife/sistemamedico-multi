@@ -41,6 +41,10 @@ if (isset($_POST['action'])) {
                     echo json_encode(array('status' => false, 'message' => $errores));
                 }
 
+                if($errores != ""){
+                    echo json_encode(array('status' => false, 'message' => $errores));
+                    exit();
+                }
                 $idreserva  = $c->registrarreserva($idPaciente);
                 if ($idreserva > 0) {
                     foreach ($horas as $hora) {

@@ -34,8 +34,13 @@ if(isset($_POST['id']) && isset($_POST['estado']) && isset($_POST['observacion']
             echo json_encode(array('status' => false, 'message' => 'No se encontró la atención'));
             return;
         }
-        $horario = $atencion->getHoraInicio();
-        $c->cambiarestadohorario($horario, 1);
+        $horarios = $c->buscarhorarioatencion($id);
+        foreach($horarios as $horario){
+            $c->cambiarestadohorario($horario['horario'], 1);
+            $c->cambiarestadohorarioatencion($horario['horario'], 2);
+            $dis = $c->buscariddisponibilidad($horario['horario']);
+            $c->cambiarestadodisponibilidad($dis, 1);
+        }
     }
     if($estado==3){
         $c->registrarinicioespera($id);
