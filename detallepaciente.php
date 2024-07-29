@@ -1437,12 +1437,12 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 											</div>
 										</div><!-- accordion -->
 										<div class="row">
-											<div class="col-md-12 text-right">
-												<a href="consultas.php" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Volver</a>
+											<div class="col-md-12 d-flex justify-content-end align-items-center mt-3">
+												<a href="consultas.php" class="btn btn-outline-danger"><i class="fa fa-arrow-left"></i> Volver</a>
 											<?php
 											if ($check == true){
 												if($estadoatencion != 5){
-													echo "<button onclick='finalizaratencion(".$atencionid.")' class='btn btn-danger mt-2'>Finalizar Atención<i class='fe fe-arrow-right ml-2'></i></button>";
+													echo "<button onclick='finalizaratencion(".$atencionid.")' class='btn btn-outline-success ml-2'>Finalizar Atención <i class='fe fe-arrow-right ml-2'></i></button>";
 												}
 											}
 											?>

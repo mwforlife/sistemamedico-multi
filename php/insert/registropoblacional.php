@@ -1,6 +1,16 @@
 <?php
+session_start();
 require '../controller.php';
 $c = new Controller();
+
+$usuarioid = 0;
+if (!isset($_SESSION['USER_ID'])) {
+    echo json_encode(array("status" => false, "message" => "Sesión Expirada"));
+    return;
+}
+
+$usuarioid = $_SESSION['USER_ID'];
+
 
 if(isset($_POST['idpaciente']) && isset($_POST['provenencia']) && isset($_POST['rama1']) && isset($_POST['rama2']) && isset($_POST['rama3']) && isset($_POST['rama4']) && isset($_POST['rama5']) && isset($_POST['rama6']) && isset($_POST['rama7']) && isset($_POST['rama8']) && isset($_POST['rama9']) && isset($_POST['rama10']) && isset($_POST['ocupacion1']) && isset($_POST['ocupacion2']) && isset($_POST['ocupacion3']) && isset($_POST['ocupacion4']) && isset($_POST['ocupacion5']) && isset($_POST['ocupacion6']) && isset($_POST['ocupacion7']) && isset($_POST['ocupacion8']) && isset($_POST['ocupacion9']) && isset($_POST['ocupacion10']) && isset($_POST['ocupacion11']) && isset($_POST['sp1']) && isset($_POST['sp2']) && isset($_POST['sp3']) && isset($_POST['th1']) && isset($_POST['th2']) && isset($_POST['th3']) && isset($_POST['th4']) && isset($_POST['th5']) && isset($_POST['comportamiento']) && isset($_POST['comportamientoobservacion']) && isset($_POST['grado1']) && isset($_POST['grado2']) && isset($_POST['grado3']) && isset($_POST['grado4']) && isset($_POST['grado5']) && isset($_POST['extension1']) && isset($_POST['extension2']) && isset($_POST['extension3']) && isset($_POST['extension4']) && isset($_POST['extension5']) && isset($_POST['lateralidad1']) && isset($_POST['lateralidad2']) && isset($_POST['lateralidad3']) && isset($_POST['lateralidad4']) && isset($_POST['lateralidad5']) && isset($_POST['fechaincidencia']) && isset($_POST['horaincidencia']) && isset($_POST['basediagnostico1']) && isset($_POST['basediagnostico2']) && isset($_POST['basediagnostico3']) && isset($_POST['basediagnostico4']) && isset($_POST['basediagnostico5']) && isset($_POST['basediagnostico6']) && isset($_POST['basediagnostico7']) && isset($_POST['basediagnostico8']) && isset($_POST['basediagnostico9']) && isset($_POST['fuente1']) && isset($_POST['fichapacex1']) && isset($_POST['fechahospex1']) && isset($_POST['horahospex1']) && isset($_POST['fuente2']) && isset($_POST['fichapacex2']) && isset($_POST['fechahospex2']) && isset($_POST['horahospex2']) && isset($_POST['fuente3']) && isset($_POST['fichapacex3']) && isset($_POST['fechahospex3']) && isset($_POST['horahospex3']) && isset($_POST['fechaultimocontacto']) && isset($_POST['estadio']) && isset($_POST['defuncion']) && isset($_POST['causa']) && isset($_POST['observacionfinal'])){
     $idpaciente = $_POST['idpaciente'];
@@ -80,7 +90,7 @@ if(isset($_POST['idpaciente']) && isset($_POST['provenencia']) && isset($_POST['
     $causa = $_POST['causa'];
     $observacionfinal = $_POST['observacionfinal'];
 
-    $result = $c->registrarregistropoblacional($idpaciente,$rama1,$rama2,$rama3,$rama4,$rama5,$rama6,$rama7,$rama8,$rama9,$rama10,$ocupacion1,$ocupacion2,$ocupacion3,$ocupacion4,$ocupacion5,$ocupacion6,$ocupacion7,$ocupacion8,$ocupacion9,$ocupacion10,$ocupacion11,$sp1,$sp2,$sp3,$th1,$th2,$th3,$th4,$th5,$comportamiento,$comportamientoobservacion,$grado1,$grado2,$grado3,$grado4,$grado5,$extension1,$extension2,$extension3,$extension4,$extension5,$lateralidad1,$lateralidad2,$lateralidad3,$lateralidad4,$lateralidad5,$fechaincidencia,$horaincidencia,$basediagnostico1,$basediagnostico2,$basediagnostico3,$basediagnostico4,$basediagnostico5,$basediagnostico6,$basediagnostico7,$basediagnostico8,$basediagnostico9,$fuente1,$fichapacex1,$fechahospex1,$horahospex1,$fuente2,$fichapacex2,$fechahospex2,$horahospex2,$fuente3,$fichapacex3,$fechahospex3,$horahospex3,$fechaultimocontacto,$estadio,$defuncion,$causa,$observacionfinal,$provenencia);
+    $result = $c->registrarregistropoblacional($idpaciente,$rama1,$rama2,$rama3,$rama4,$rama5,$rama6,$rama7,$rama8,$rama9,$rama10,$ocupacion1,$ocupacion2,$ocupacion3,$ocupacion4,$ocupacion5,$ocupacion6,$ocupacion7,$ocupacion8,$ocupacion9,$ocupacion10,$ocupacion11,$sp1,$sp2,$sp3,$th1,$th2,$th3,$th4,$th5,$comportamiento,$comportamientoobservacion,$grado1,$grado2,$grado3,$grado4,$grado5,$extension1,$extension2,$extension3,$extension4,$extension5,$lateralidad1,$lateralidad2,$lateralidad3,$lateralidad4,$lateralidad5,$fechaincidencia,$horaincidencia,$basediagnostico1,$basediagnostico2,$basediagnostico3,$basediagnostico4,$basediagnostico5,$basediagnostico6,$basediagnostico7,$basediagnostico8,$basediagnostico9,$fuente1,$fichapacex1,$fechahospex1,$horahospex1,$fuente2,$fichapacex2,$fechahospex2,$horahospex2,$fuente3,$fichapacex3,$fechahospex3,$horahospex3,$fechaultimocontacto,$estadio,$defuncion,$causa,$observacionfinal,$provenencia,$usuarioid);
     if($result==true){
         echo json_encode(array("status"=> true,"message"=>"Registro poblacional Registrado correctamente"));
     }else{

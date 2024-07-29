@@ -186,7 +186,13 @@ if (
     $recetaId = $c->registrarReceta($paciente, $medico, $empresa, $consulta,$fecha,$folio, $estadio, $nivel, $ges, $peso, $talla, $scorporal, $creatinina, $auc, $fechaadmin, $examen, $ciclo, $anticipada, $curativo, $paliativo, $adyuvante, $concomitante, $neoadyuvante, $primera, $traemedicamentos, $diabetes, $hipertension, $alergia,$otrocor, $alergiadetalle,$otrcormo, $urgente, $esquema, $observaciones,$carboplatino);
 
 
-    if ($recetaId > 0) {    
+    if ($recetaId > 0) {  
+        $signosvitales = $c->buscarmedidaantropometrica($paciente);
+        if($signosvitales != null){
+            if($signosvitales->getPeso() != $peso || $signosvitales->getTalla() != $talla ){
+                $c->registrarmedidas($paciente, $peso, $talla,$signosvitales->getPcee(),$signosvitales->getPe(),$signosvitales->getPt(), $signosvitales->getTe(), $signosvitales->getImc(), $signosvitales->getClasifimc(), $signosvitales->getPce(),$signosvitales->getClasificacioncintura());
+            }
+        }    
         // Registrar premedicaciones
         $c->registrarPremedicaciones($recetaId, $premedicaciones);
     

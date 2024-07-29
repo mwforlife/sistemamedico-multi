@@ -3910,10 +3910,10 @@ class Controller
 
     /***********************Registro Poblacional***********************************/
     //Registrar Registro Poblacional
-    function registrarregistropoblacional($paciente, $rama1, $rama2, $rama3, $rama4, $rama5, $rama6, $rama7, $rama8, $rama9, $rama10, $ocupacion1, $ocupacion2, $ocupacion3, $ocupacion4, $ocupacion5, $ocupacion6, $ocupacion7, $ocupacion8, $ocupacion9, $ocupacion10, $ocupacion11, $sp1, $sp2, $sp3, $th1, $th2, $th3, $th4, $th5, $comportamiento, $comportamientoobservaciones, $grado1, $grado2, $grado3, $grado4, $grado5, $extension1, $extension2, $extension3, $extension4, $extension5, $lateralidad1, $lateralidad2, $lateralidad3, $lateralidad4, $lateralidad5, $fechaincidencia, $horaincidencia, $basediagnostico1, $basediagnostico2, $basediagnostico3, $basediagnostico4, $basediagnostico5, $basediagnostico6, $basediagnostico7, $basediagnostico8, $basediagnostico9, $fuente1, $fichapacex1, $fechahospex1, $horahospex1, $fuente2, $fichapacex2, $fechahospex2, $horahospex2, $fuente3, $fichapacex3, $fechahospex3, $horahospex3, $fechaultimocontacto, $estadio, $defuncion, $causa, $obsersavacionfinal, $proveniencia)
+    function registrarregistropoblacional($paciente, $rama1, $rama2, $rama3, $rama4, $rama5, $rama6, $rama7, $rama8, $rama9, $rama10, $ocupacion1, $ocupacion2, $ocupacion3, $ocupacion4, $ocupacion5, $ocupacion6, $ocupacion7, $ocupacion8, $ocupacion9, $ocupacion10, $ocupacion11, $sp1, $sp2, $sp3, $th1, $th2, $th3, $th4, $th5, $comportamiento, $comportamientoobservaciones, $grado1, $grado2, $grado3, $grado4, $grado5, $extension1, $extension2, $extension3, $extension4, $extension5, $lateralidad1, $lateralidad2, $lateralidad3, $lateralidad4, $lateralidad5, $fechaincidencia, $horaincidencia, $basediagnostico1, $basediagnostico2, $basediagnostico3, $basediagnostico4, $basediagnostico5, $basediagnostico6, $basediagnostico7, $basediagnostico8, $basediagnostico9, $fuente1, $fichapacex1, $fechahospex1, $horahospex1, $fuente2, $fichapacex2, $fechahospex2, $horahospex2, $fuente3, $fichapacex3, $fechahospex3, $horahospex3, $fechaultimocontacto, $estadio, $defuncion, $causa, $obsersavacionfinal, $proveniencia,$usuarioid)
     {
         $this->conexion();
-        $sql = "insert into registropoblacional values(null, $paciente, $rama1, $rama2, $rama3, $rama4, $rama5, $rama6, $rama7, $rama8, $rama9, $rama10, $ocupacion1, $ocupacion2, $ocupacion3, $ocupacion4, $ocupacion5, $ocupacion6, $ocupacion7, $ocupacion8, $ocupacion9, $ocupacion10, $ocupacion11, '$sp1', '$sp2', '$sp3', '$th1', '$th2', '$th3', '$th4', '$th5', '$comportamiento', '$comportamientoobservaciones', $grado1, $grado2, $grado3, $grado4, $grado5, $extension1, $extension2, $extension3, $extension4, $extension5, $lateralidad1, $lateralidad2, $lateralidad3, $lateralidad4, $lateralidad5, '$fechaincidencia', '$horaincidencia', $basediagnostico1, $basediagnostico2, $basediagnostico3, $basediagnostico4, $basediagnostico5, $basediagnostico6, $basediagnostico7, $basediagnostico8, $basediagnostico9, '$fuente1', '$fichapacex1', '$fechahospex1', '$horahospex1', '$fuente2', '$fichapacex2', '$fechahospex2', '$horahospex2', '$fuente3', '$fichapacex3', '$fechahospex3', '$horahospex3', '$fechaultimocontacto', $estadio, '$defuncion', $causa, '$obsersavacionfinal', '$proveniencia', now())";
+        $sql = "insert into registropoblacional values(null, $paciente, $rama1, $rama2, $rama3, $rama4, $rama5, $rama6, $rama7, $rama8, $rama9, $rama10, $ocupacion1, $ocupacion2, $ocupacion3, $ocupacion4, $ocupacion5, $ocupacion6, $ocupacion7, $ocupacion8, $ocupacion9, $ocupacion10, $ocupacion11, '$sp1', '$sp2', '$sp3', '$th1', '$th2', '$th3', '$th4', '$th5', '$comportamiento', '$comportamientoobservaciones', $grado1, $grado2, $grado3, $grado4, $grado5, $extension1, $extension2, $extension3, $extension4, $extension5, $lateralidad1, $lateralidad2, $lateralidad3, $lateralidad4, $lateralidad5, '$fechaincidencia', '$horaincidencia', $basediagnostico1, $basediagnostico2, $basediagnostico3, $basediagnostico4, $basediagnostico5, $basediagnostico6, $basediagnostico7, $basediagnostico8, $basediagnostico9, '$fuente1', '$fichapacex1', '$fechahospex1', '$horahospex1', '$fuente2', '$fichapacex2', '$fechahospex2', '$horahospex2', '$fuente3', '$fichapacex3', '$fechahospex3', '$horahospex3', '$fechaultimocontacto', $estadio, '$defuncion', $causa, '$obsersavacionfinal', '$proveniencia', now(),$usuarioid)";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
@@ -3923,7 +3923,7 @@ class Controller
     function listarregistropoblacional($paciente)
     {
         $this->conexion();
-        $sql = "select * from registropoblacional where paciente = $paciente order by id desc";
+        $sql = "select registropoblacional.id as id, registropoblacional.paciente as paciente, registropoblacional.rama1 as rama1, registropoblacional.rama2 as rama2, registropoblacional.rama3 as rama3, registropoblacional.rama4 as rama4, registropoblacional.rama5 as rama5, registropoblacional.rama6 as rama6, registropoblacional.rama7 as rama7, registropoblacional.rama8 as rama8, registropoblacional.rama9 as rama9, registropoblacional.rama10 as rama10, registropoblacional.ocupacion1 as ocupacion1, registropoblacional.ocupacion2 as ocupacion2, registropoblacional.ocupacion3 as ocupacion3, registropoblacional.ocupacion4 as ocupacion4, registropoblacional.ocupacion5 as ocupacion5, registropoblacional.ocupacion6 as ocupacion6, registropoblacional.ocupacion7 as ocupacion7, registropoblacional.ocupacion8 as ocupacion8, registropoblacional.ocupacion9 as ocupacion9, registropoblacional.ocupacion10 as ocupacion10, registropoblacional.ocupacion11 as ocupacion11, registropoblacional.sp1 as sp1, registropoblacional.sp2 as sp2, registropoblacional.sp3 as sp3, registropoblacional.th1 as th1, registropoblacional.th2 as th2, registropoblacional.th3 as th3, registropoblacional.th4 as th4, registropoblacional.th5 as th5, registropoblacional.comportamiento as comportamiento, registropoblacional.comportamientoobservaciones as comportamientoobservaciones, registropoblacional.grado1 as grado1, registropoblacional.grado2 as grado2, registropoblacional.grado3 as grado3, registropoblacional.grado4 as grado4, registropoblacional.grado5 as grado5, registropoblacional.extension1 as extension1, registropoblacional.extension2 as extension2, registropoblacional.extension3 as extension3, registropoblacional.extension4 as extension4, registropoblacional.extension5 as extension5, registropoblacional.lateralidad1 as lateralidad1, registropoblacional.lateralidad2 as lateralidad2, registropoblacional.lateralidad3 as lateralidad3, registropoblacional.lateralidad4 as lateralidad4, registropoblacional.lateralidad5 as lateralidad5, registropoblacional.fechaincidencia as fechaincidencia, registropoblacional.horaincidencia as horaincidencia, registropoblacional.basediagnostico1 as basediagnostico1, registropoblacional.basediagnostico2 as basediagnostico2, registropoblacional.basediagnostico3 as basediagnostico3, registropoblacional.basediagnostico4 as basediagnostico4, registropoblacional.basediagnostico5 as basediagnostico5, registropoblacional.basediagnostico6 as basediagnostico6, registropoblacional.basediagnostico7 as basediagnostico7, registropoblacional.basediagnostico8 as basediagnostico8, registropoblacional.basediagnostico9 as basediagnostico9, registropoblacional.fuente1 as fuente1, registropoblacional.fichapacex1 as fichapacex1, registropoblacional.fechahospex1 as fechahospex1, registropoblacional.horahospex1 as horahospex1, registropoblacional.fuente2 as fuente2, registropoblacional.fichapacex2 as fichapacex2, registropoblacional.fechahospex2 as fechahospex2, registropoblacional.horahospex2 as horahospex2, registropoblacional.fuente3 as fuente3, registropoblacional.fichapacex3 as fichapacex3, registropoblacional.fechahospex3 as fechahospex3, registropoblacional.horahospex3 as horahospex3, registropoblacional.fechaultimocontacto as fechaultimocontacto, registropoblacional.estadio as estadio, registropoblacional.defuncion as defuncion, registropoblacional.causa as causa, registropoblacional.obsersavacionfinal as obsersavacionfinal, registropoblacional.proveniencia as proveniencia, registropoblacional.registro as registro, usuarios.nombre as nombre, usuarios.apellido1 as apellido1, usuarios.apellido2 as apellido2 from registropoblacional inner join usuarios on registropoblacional.usuario = usuarios.id where paciente = $paciente order by registro desc";
         $result = $this->mi->query($sql);
         $array = array();
         while ($rs = mysqli_fetch_array($result)) {
@@ -4005,7 +4005,8 @@ class Controller
             $obsersavacionfinal = $rs["obsersavacionfinal"];
             $proveniencia = $rs["proveniencia"];
             $registro = $rs["registro"];
-            $object = array("id" => $id, "paciente" => $paciente, "rama1" => $rama1, "rama2" => $rama2, "rama3" => $rama3, "rama4" => $rama4, "rama5" => $rama5, "rama6" => $rama6, "rama7" => $rama7, "rama8" => $rama8, "rama9" => $rama9, "rama10" => $rama10, "ocupacion1" => $ocupacion1, "ocupacion2" => $ocupacion2, "ocupacion3" => $ocupacion3, "ocupacion4" => $ocupacion4, "ocupacion5" => $ocupacion5, "ocupacion6" => $ocupacion6, "ocupacion7" => $ocupacion7, "ocupacion8" => $ocupacion8, "ocupacion9" => $ocupacion9, "ocupacion10" => $ocupacion10, "ocupacion11" => $ocupacion11, "sp1" => $sp1, "sp2" => $sp2, "sp3" => $sp3, "th1" => $th1, "th2" => $th2, "th3" => $th3, "th4" => $th4, "th5" => $th5, "comportamiento" => $comportamiento, "comportamientoobservaciones" => $comportamientoobservaciones, "grado1" => $grado1, "grado2" => $grado2, "grado3" => $grado3, "grado4" => $grado4, "grado5" => $grado5, "extension1" => $extension1, "extension2" => $extension2, "extension3" => $extension3, "extension4" => $extension4, "extension5" => $extension5, "lateralidad1" => $lateralidad1, "lateralidad2" => $lateralidad2, "lateralidad3" => $lateralidad3, "lateralidad4" => $lateralidad4, "lateralidad5" => $lateralidad5, "fechaincidencia" => $fechaincidencia, "horaincidencia" => $horaincidencia, "basediagnostico1" => $basediagnostico1, "basediagnostico2" => $basediagnostico2, "basediagnostico3" => $basediagnostico3, "basediagnostico4" => $basediagnostico4, "basediagnostico5" => $basediagnostico5, "basediagnostico6" => $basediagnostico6, "basediagnostico7" => $basediagnostico7, "basediagnostico8" => $basediagnostico8, "basediagnostico9" => $basediagnostico9, "fuente1" => $fuente1, "fichapacex1" => $fichapacex1, "fechahospex1" => $fechahospex1, "horahospex1" => $horahospex1, "fuente2" => $fuente2, "fichapacex2" => $fichapacex2, "fechahospex2" => $fechahospex2, "horahospex2" => $horahospex2, "fuente3" => $fuente3, "fichapacex3" => $fichapacex3, "fechahospex3" => $fechahospex3, "horahospex3" => $horahospex3, "fechaultimocontacto" => $fechaultimocontacto, "estadio" => $estadio, "defuncion" => $defuncion, "causa" => $causa, "obsersavacionfinal" => $obsersavacionfinal, "proveniencia" => $proveniencia, "registro" => $registro);
+            $usuario = $rs["nombre"]." ".$rs["apellido1"]." ".$rs["apellido2"];
+            $object = array("id" => $id, "paciente" => $paciente, "rama1" => $rama1, "rama2" => $rama2, "rama3" => $rama3, "rama4" => $rama4, "rama5" => $rama5, "rama6" => $rama6, "rama7" => $rama7, "rama8" => $rama8, "rama9" => $rama9, "rama10" => $rama10, "ocupacion1" => $ocupacion1, "ocupacion2" => $ocupacion2, "ocupacion3" => $ocupacion3, "ocupacion4" => $ocupacion4, "ocupacion5" => $ocupacion5, "ocupacion6" => $ocupacion6, "ocupacion7" => $ocupacion7, "ocupacion8" => $ocupacion8, "ocupacion9" => $ocupacion9, "ocupacion10" => $ocupacion10, "ocupacion11" => $ocupacion11, "sp1" => $sp1, "sp2" => $sp2, "sp3" => $sp3, "th1" => $th1, "th2" => $th2, "th3" => $th3, "th4" => $th4, "th5" => $th5, "comportamiento" => $comportamiento, "comportamientoobservaciones" => $comportamientoobservaciones, "grado1" => $grado1, "grado2" => $grado2, "grado3" => $grado3, "grado4" => $grado4, "grado5" => $grado5, "extension1" => $extension1, "extension2" => $extension2, "extension3" => $extension3, "extension4" => $extension4, "extension5" => $extension5, "lateralidad1" => $lateralidad1, "lateralidad2" => $lateralidad2, "lateralidad3" => $lateralidad3, "lateralidad4" => $lateralidad4, "lateralidad5" => $lateralidad5, "fechaincidencia" => $fechaincidencia, "horaincidencia" => $horaincidencia, "basediagnostico1" => $basediagnostico1, "basediagnostico2" => $basediagnostico2, "basediagnostico3" => $basediagnostico3, "basediagnostico4" => $basediagnostico4, "basediagnostico5" => $basediagnostico5, "basediagnostico6" => $basediagnostico6, "basediagnostico7" => $basediagnostico7, "basediagnostico8" => $basediagnostico8, "basediagnostico9" => $basediagnostico9, "fuente1" => $fuente1, "fichapacex1" => $fichapacex1, "fechahospex1" => $fechahospex1, "horahospex1" => $horahospex1, "fuente2" => $fuente2, "fichapacex2" => $fichapacex2, "fechahospex2" => $fechahospex2, "horahospex2" => $horahospex2, "fuente3" => $fuente3, "fichapacex3" => $fichapacex3, "fechahospex3" => $fechahospex3, "horahospex3" => $horahospex3, "fechaultimocontacto" => $fechaultimocontacto, "estadio" => $estadio, "defuncion" => $defuncion, "causa" => $causa, "obsersavacionfinal" => $obsersavacionfinal, "proveniencia" => $proveniencia, "registro" => $registro, "usuario" => $usuario);
             array_push($array, $object);
         }
         $this->desconexion();
@@ -5419,6 +5420,90 @@ class Controller
         return $lista;
     }
 
+    public function buscarreservaporid($id)
+    {
+        $this->conexion();
+        $sql = "SELECT 
+            atenciones.id as id,
+            atenciones.horainicioespera as horainicioespera,
+            atenciones.horafinespera as horafinespera,
+            atenciones.horafinatencion as horafinatencion,
+            horarios.tipohorario as tipo,
+            horarios.fecha as fecha,
+            horarios.intervalo as intervalo,
+            pacientes.rut as rut,
+            pacientes.nombre as nombre,
+            pacientes.apellido1 as apellido1,
+            pacientes.apellido2 as apellido2,
+            usuarios.nombre as nombremedico,
+            usuarios.apellido1 as ape1medico,
+            usuarios.apellido2 as ape2medico,
+            profesiones.nombre as profesion,
+            GROUP_CONCAT(DISTINCT CONCAT(horarios.horainicio, ';', horarios.horafin) ORDER BY horarios.horainicio ASC SEPARATOR ', ') as horas,
+            atenciones.observacion as observacion,
+            atenciones.estado as estado,
+            atenciones.registro as registro
+        FROM 
+            atenciones
+        JOIN 
+            horarioatencion ON atenciones.id = horarioatencion.atencion
+        JOIN 
+            horarios ON horarioatencion.horario = horarios.id
+        JOIN 
+            pacientes ON atenciones.paciente = pacientes.id
+        JOIN 
+            usuarios ON horarios.usuario = usuarios.id
+        JOIN 
+            usuarioprofesion ON usuarios.id = usuarioprofesion.usuario
+        JOIN 
+            profesiones ON usuarioprofesion.profesion = profesiones.id
+        WHERE 
+            atenciones.id = $id
+        GROUP BY
+            atenciones.id
+        ORDER BY
+            horarios.horainicio ASC";
+        
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $tipo = $rs["tipo"];
+            $intervalo = $rs["intervalo"];
+            $fecha = $rs["fecha"];
+            $rut = $rs["rut"];
+            $nombre = $rs["nombre"] . " " . $rs["apellido1"] . " " . $rs["apellido2"];
+            $nombremedico = $rs["nombremedico"] . " " . $rs["ape1medico"] . " " . $rs["ape2medico"];
+            $profesion = $rs["profesion"];
+            $horas = $rs["horas"];
+            $horasarray = explode(",", $horas);
+            $horas = "";
+            foreach ($horasarray as $hora) {
+                $horas .= $hora . " ";
+            }
+            $horasarray = explode(";", $horas);
+            $horas = "";
+            foreach ($horasarray as $hora) {
+                $horas .= $hora . " ";
+            }
+            $cantidadhoras = count($horasarray);
+            $horainit = $horasarray[0];
+            $horafin = $horasarray[$cantidadhoras - 1];
+            $horainit = date("H:i", strtotime($horainit));
+            $horafin = date("H:i", strtotime($horafin));
+            $observacion = $rs["observacion"];
+            $estado = $rs["estado"];
+            $horainicioespera = $rs["horainicioespera"];
+            $horafinespera = $rs["horafinespera"];
+            $horafinatencion = $rs["horafinatencion"];
+            $registro = $rs["registro"];
+            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainit, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $horafinespera, $horafinatencion, $registro);
+            $this->desconexion();
+            return $reserva;
+        }
+        $this->desconexion();
+        return null;
+    }
+
     function buscarhorarioatencion($atencion){
         $this->conexion();
         $sql = "select * from horarioatencion where atencion = $atencion";
@@ -5469,35 +5554,7 @@ class Controller
     }
 
     //Buscar Reserva por id
-    public function buscarreservaporid($id)
-    {
-        $this->conexion();
-        $sql = "select atenciones.id as id,atenciones.horainicioespera as horainicioespera,atenciones.horafinespera as horafinespera, atenciones.horafinatencion as horafinatencion,  pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and atenciones.id = $id group by id order by horarios.horainicio asc";
-        $result = $this->mi->query($sql);
-        if ($rs = mysqli_fetch_array($result)) {
-            $id = $rs["id"];
-            $tipo = $rs["tipo"];
-            $rut = $rs["rut"];
-            $nombre = $rs["nombre"] . " " . $rs["apellido1"] . " " . $rs["apellido2"];
-            $nombremedico = $rs["nombremedico"] . " " . $rs["ape1medico"] . " " . $rs["ape2medico"];
-            $profesion = $rs["profesion"];
-            $fecha = $rs["fecha"];
-            $horainicio = $rs["horainicio"];
-            $horafin = $rs["horafin"];
-            $intervalo = $rs["intervalo"];
-            $observacion = $rs["observacion"];
-            $estado = $rs["estado"];
-            $horainicioespera = $rs["horainicioespera"];
-            $horafinespera = $rs["horafinespera"];
-            $horafinatencion = $rs["horafinatencion"];
-            $registro = $rs["registro"];
-            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $horafinespera, $horafinatencion, $registro);
-            $this->desconexion();
-            return $reserva;
-        }
-        $this->desconexion();
-        return null;
-    }
+    
 
     //Registrar Historial Estado
     function registrarhistorialestado($atencion, $estado, $observacion, $usuario)

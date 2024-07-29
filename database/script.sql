@@ -1303,7 +1303,8 @@ create table registropoblacional(
     causa int null,
     obsersavacionfinal text null,
     proveniencia text not null,
-    registro datetime not null default current_timestamp
+    registro datetime not null default current_timestamp,
+    usuario int not null references usuarios(id)
 );
 
 

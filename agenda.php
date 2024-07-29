@@ -587,7 +587,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            Medico: <?php echo $object->getNombre(). " " . $object->getApellido1(). " " . $object->getApellido2(); ?>
+                                            Funcionario: <?php echo $object->getNombre(). " " . $object->getApellido1(). " " . $object->getApellido2(); ?>
                                         </div>
                                         <div class="col-md-4">
                                             Hospital: <?php echo $empresa->getRazonSocial(); ?>

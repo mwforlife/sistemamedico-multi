@@ -202,6 +202,12 @@ if (
 
 
     if ($recetaId > 0) {    
+        $signosvitales = $c->buscarmedidaantropometrica($paciente);
+        if($signosvitales != null){
+            if($signosvitales->getPeso() != $peso || $signosvitales->getTalla() != $talla ){
+                $c->registrarmedidas($paciente, $peso, $talla,$signosvitales->getPcee(),$signosvitales->getPe(),$signosvitales->getPt(), $signosvitales->getTe(), $signosvitales->getImc(), $signosvitales->getClasifimc(), $signosvitales->getPce(),$signosvitales->getClasificacioncintura());
+            }
+        }
         // Registrar premedicaciones
         $c->registrarPremedicaciones($recetaId, $premedicaciones);
     

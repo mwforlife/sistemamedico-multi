@@ -24,6 +24,7 @@ if(isset($_POST['paciente'])){
     $content .= "<th>Fecha de Registro</th>";
     $content .= "<th>Provenecia</th>";
     $content .= "<th>PDF</th>";
+    $content .= "<th>Usuario</th>";
     $content .= "</tr>";
     $content .= "</thead>";
     $content .= "<tbody>";
@@ -39,6 +40,7 @@ if(isset($_POST['paciente'])){
         }
         $content .= "<td>".$provenencia."</td>"; 
         $content .= "<td><a href='php/reporte/registropoblacional.php?id=".$registro['id']."' target='_blank'><i class='fa fa-file-pdf-o'></i></a></td>";
+        $content .= "<td>".$registro['usuario']."</td>";
         $content .= "</tr>";
     }
     $content .= "</tbody>";
