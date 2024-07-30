@@ -30328,7 +30328,10 @@ module.exports = function(list, options) {
 	// tags it will allow on a page
 	if (!options.singleton && typeof options.singleton !== "boolean") options.singleton = isOldIE();
 
-	// By default, add <style> tags to the <head> element
+	// By default, add <style> tags to the <head>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" /> element
         if (!options.insertInto) options.insertInto = "head";
 
 	// By default, add <style> tags to the bottom of the target

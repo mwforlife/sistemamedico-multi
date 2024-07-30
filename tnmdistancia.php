@@ -107,6 +107,9 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 <html lang="es">
 
 <head>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
 
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
@@ -574,7 +577,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 					<!-- Page Header -->
 					<div class="page-header">
 						<div class="page-header-1">
-							<h1 class="main-content-title tx-30">Registro de TNM-Primario Clinico</h1>
+							<h1 class="main-content-title tx-30">Registro de TNM-Distancia Clinico</h1>
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
 							</ol>
@@ -586,7 +589,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							<div class="card orverflow-hidden">
 								<div class="card-body">
 									<div>
-										<h6 class="main-content-label mb-1">Registro de TNM-Primario Clinico</h6>
+										<h6 class="main-content-label mb-1">Registro de TNM-Distancia Clinico</h6>
 										<p class="text-mutted card-sub-title"></p>
 									</div>
 									<form id="tnmform" name="tnmform" class="needs-validation was-validated">
@@ -598,6 +601,19 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 													<input type="hidden" name="tipo" id="tipo" value="3">
 												</div>
 											</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label>Diagnostico</label>
+														<select class="form-control select2" name="diagnostico" id="diagnostico" required="">
+															<?php
+															$diagnosticos = $c->listarDiagnosticos();
+															foreach ($diagnosticos as $diagnostico) {
+																echo "<option value='" . $diagnostico->getId() . "'>" . $diagnostico->getNombre() . "</option>";
+															}
+															?>
+														</select>
+													</div>
+												</div>
 											<div class="col-md-12 mt-3 text-right">
 												<button type="reset" href="#" class="btn btn-warning btn-md"> <i class="fa fa-refresh"></i> Restablecer</button>
 												<button type="submit" href="#" class="btn btn-primary btn-md"> <i class="fa fa-save"></i> Registrar</button>
@@ -622,6 +638,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 												<thead class="border-top text-center">
 													<tr>
 														<th class="bg-transparent">Nombre</th>
+														<th class="bg-transparent text-center">Diagnostico</th>
 														<th class="bg-transparent text-center">Accion</th>
 													</tr>
 												</thead>
@@ -631,6 +648,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 														foreach ($lista as $row) {
 															echo "<tr>";
 															echo "<td>".$row->getNombre()."</td>";
+															echo "<td>".$row->getDiagnostico()."</td>";
 															echo "<td class='text-center'>";
 															echo "<a href='#' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#modaledit' onclick='cargarTNM(".$row->getId().")'><i class='fa fa-edit'></i></a>";
 															echo "<a href='#' class='btn btn-danger btn-sm' onclick='EliminarTNM(".$row->getId().")'><i class='fas fa-trash-alt'></i></a>";

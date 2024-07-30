@@ -12,6 +12,10 @@ function agregarDiagnosticos(id, nombre) {
   $("#diagnostico").val(nombre);
   $("#iddiag").val(id);
   $("#modaldiagnosticos").modal("hide");
+  cargartnmdiagnostico(1, id);
+  cargartnmdiagnostico(2, id);
+  cargartnmdiagnostico(3, id);
+  limpiartnm();
 }
 
 /*************************************************************************************************************************************************************************** */

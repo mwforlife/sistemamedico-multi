@@ -8,17 +8,17 @@ $c = new Controller();
 
 session_start();
 $empresa = null;
-if(isset($_SESSION['CURRENT_ENTERPRISE'])){
+if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 	$enterprise = $_SESSION['CURRENT_ENTERPRISE'];
 	$empresa = $c->buscarEmpresa($enterprise);
-}else{
-    header("Location: index.php");
+} else {
+	header("Location: index.php");
 }
 
 if (!isset($_SESSION['USER_ID'])) {
 	header("Location: signin.php");
 } else {
-	$valid  = $c->validarsesion($_SESSION['USER_ID'], $_SESSION['USER_TOKEN']);
+	$valid = $c->validarsesion($_SESSION['USER_ID'], $_SESSION['USER_TOKEN']);
 	if ($valid == false) {
 		header("Location: lockscreen.php");
 	}
@@ -44,8 +44,8 @@ $comiterol = false;
 $usersrol = false;
 $fichaclinicasecre = false;
 $gestiontratamientorol = false;
-if(isset($_SESSION['CURRENT_ENTERPRISE'])){
-	if($c->validarroladmin($object->getId())==true){
+if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
+	if ($c->validarroladmin($object->getId()) == true) {
 		$admingeneralrol = true;
 	}
 	$idempresa = $_SESSION['CURRENT_ENTERPRISE'];
@@ -97,8 +97,8 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 			$gestiontratamientorol = true;
 		}
 	}
-}else{
-	if($c->validarroladmin($object->getId())==true){
+} else {
+	if ($c->validarroladmin($object->getId()) == true) {
 		$admingeneralrol = true;
 	}
 }
@@ -107,6 +107,9 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 <html lang="es">
 
 <head>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
 
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
@@ -177,107 +180,113 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 				<a class="main-logo" href="index.php">
 					<img src="assets/img/brand/logo.png" class="header-brand-img desktop-logo" alt="logo">
 					<img src="assets/img/brand/icon.png" class="header-brand-img icon-logo" alt="logo">
-					<img src="assets/img/brand/dark-logo.png" class="header-brand-img desktop-logo theme-logo" alt="logo">
+					<img src="assets/img/brand/dark-logo.png" class="header-brand-img desktop-logo theme-logo"
+						alt="logo">
 					<img src="assets/img/brand/icon.png" class="header-brand-img icon-logo theme-logo" alt="logo">
 				</a>
 			</div>
 			<div class="main-sidebar-body">
-			<ul class="nav">
-					<?php 
-						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionescomiterol == true || $definicionesgeneralesrol == true){
-					?>
-					<li class="nav-header"><span class="nav-label">Dashboard</span></li>
+				<ul class="nav">
 					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $definicionescomiterol == true){
-					?>
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones de Comité</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="diagnosticos1.php">Diagnosticos CIE10</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="ecog.php">Ecog</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="histologico.php">Histologico</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="invasiontumoral.php">Invasión Tumoral</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="tnmprimario.php">TNM-Primario clinico</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="tnmregionales.php">TNM-Regionales clinico</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="tnmdistancia.php">TNM-Distancia clinico</a>
-							</li>
-						</ul>
-					</li>
-					<?php
-						}
-						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true){
-					?>
-					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span class="sidemenu-label">Definiciones Generales</span><i class="angle fe fe-chevron-right"></i></a>
-						<ul class="nav-sub">
+					if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionescomiterol == true || $definicionesgeneralesrol == true) {
+						?>
+						<li class="nav-header"><span class="nav-label">Dashboard</span></li>
 						<?php
+						if ($admingeneralrol == true || $adminsistemarol == true || $definicionescomiterol == true) {
+							?>
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span
+										class="sidemenu-label">Definiciones de Comité</span><i
+										class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="diagnosticos.php">Diagnosticos CIEO</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="diagnosticos1.php">Diagnosticos CIE10</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="ecog.php">Ecog</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="histologico.php">Histologico</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="invasiontumoral.php">Invasión Tumoral</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="tnmprimario.php">TNM-Primario clinico</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="tnmregionales.php">TNM-Regionales clinico</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="tnmdistancia.php">TNM-Distancia clinico</a>
+									</li>
+								</ul>
+							</li>
+							<?php
 						}
-							if($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true){
+						if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true) {
 							?>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="regiones.php">Regiones</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="comunas.php">Comunas</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="nacionalidad.php">Nacionalidades</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="generos.php">Generos</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="especialidad.php">Especialidad</a>
-							</li>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
-							</li>
-							<?php
-								}
-								if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true){
-							?>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="esquema.php">Esquema</a>
-							</li>
-							<?php
-								}
-								if($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true){
-							?>
-							<li class="nav-sub-item">
-								<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
-							</li>
-							<?php
-								}
-							?>
-						</ul>
-					</li>
-					<?php
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><i class="fe fe-home sidemenu-icon"></i><span
+										class="sidemenu-label">Definiciones Generales</span><i
+										class="angle fe fe-chevron-right"></i></a>
+								<ul class="nav-sub">
+									<?php
 						}
-						
+						if ($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true) {
+							?>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="regiones.php">Regiones</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="comunas.php">Comunas</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="nacionalidad.php">Nacionalidades</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="generos.php">Generos</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="especialidad.php">Especialidad</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="medicamentos.php">Medicamentos</a>
+									</li>
+									<?php
+						}
+						if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true || $suupervisorrol == true || $definicionesgeneralesrol == true) {
+							?>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="esquema.php">Esquema</a>
+									</li>
+									<?php
+						}
+						if ($admingeneralrol == true || $adminsistemarol == true || $definicionesgeneralesrol == true) {
+							?>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="diasferiados.php">DIAS FERIADOS</a>
+									</li>
+									<?php
+						}
+						?>
+							</ul>
+						</li>
+						<?php
+					}
+
 					?>
 					<li class="nav-header"><span class="nav-label">FUNCIONES</span></li>
 					<!--------------------------Inicio Empresa--------------------------->
 					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true){
-					?>
+					if ($admingeneralrol == true || $adminsistemarol == true || $adminempresarol == true) {
+						?>
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-message-square sidemenu-icon"></i><span
+								class="sidemenu-label">Empresas</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="empresas.php">Registro de Empresas</a>
@@ -285,35 +294,38 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 						</ul>
 					</li>
 					<?php
-						}
+					}
 					?>
 					<!--------------------------Fin Empresa--------------------------->
 
 					<!--------------------------Inicio Agenda--------------------------->
 					<li class="nav-item">
-						<a class="nav-link" href="agenda.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Agenda</span></a>
+						<a class="nav-link" href="agenda.php"><i class="fe fe-calendar sidemenu-icon"></i><span
+								class="sidemenu-label">Agenda</span></a>
 					</li>
 					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $reservasrol == true){
-					?>
+					if ($admingeneralrol == true || $adminsistemarol == true || $reservasrol == true) {
+						?>
 					<!--------------------------Inicio Reservas--------------------------->
 					<li class="nav-item">
-						<a class="nav-link" href="reservas.php"><i class="fe fe-calendar sidemenu-icon"></i><span class="sidemenu-label">Reservas</span></a>
+						<a class="nav-link" href="reservas.php"><i class="fe fe-calendar sidemenu-icon"></i><span
+								class="sidemenu-label">Reservas</span></a>
 					</li>
 					<!--------------------------Inicio Atencion--------------------------->
 					<li class="nav-item">
-						<a class="nav-link" href="atencion.php"><i class="fe fe-user sidemenu-icon"></i><span class="sidemenu-label">Atención</span></a>
+						<a class="nav-link" href="atencion.php"><i class="fe fe-user sidemenu-icon"></i><span
+								class="sidemenu-label">Atención</span></a>
 					</li>
 					<!--------------------------Fin Atencion--------------------------->
 					<!--------------------------Inicio Tratamiento--------------------------->
 					<?php
-						}
-						if($admingeneralrol == true || $adminsistemarol == true || $gestiontratamientorol == true){
-					?>
+					}
+					if ($admingeneralrol == true || $adminsistemarol == true || $gestiontratamientorol == true) {
+						?>
 					<li class="nav-item">
 						<a class="nav-link with-sub" href="#"><i class="fa fa-user-md sidemenu-icon"></i>
-						<span class="sidemenu-label">Gestión de tratamiento</span>
-						<i class="angle fe fe-chevron-right"></i></a>
+							<span class="sidemenu-label">Gestión de tratamiento</span>
+							<i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="recepcionreceta.php">Recepción de Receta</a>
@@ -339,17 +351,18 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 						</ul>
 					</li>
 					<?php
-						}
+					}
 					?>
 					<!--------------------------Fin Agenda--------------------------->
 
-					
+
 					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $auditoriarol == true){
-					?>
+					if ($admingeneralrol == true || $adminsistemarol == true || $auditoriarol == true) {
+						?>
 					<!--------------------------Inicio Auditoria--------------------------->
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-droplet sidemenu-icon"></i><span
+								class="sidemenu-label">Auditoria</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="auditoria.php">Auditoria</a>
@@ -358,16 +371,17 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 					</li>
 					<!--------------------------Fin Auditoria--------------------------->
 					<?php
-						}
+					}
 					?>
 
 
 					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true || $fichaclinicasecre == true){
-					?>
+					if ($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true || $fichaclinicasecre == true) {
+						?>
 					<!--------------------------Inicio Ficha Pacientes----------------->
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-map-pin sidemenu-icon"></i><span
+								class="sidemenu-label">Ficha Clinica</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="pacientes.php">Ficha Pacientes</a>
@@ -376,29 +390,30 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 								<a class="nav-sub-link" href="registropacientes.php">Registro Pacientes</a>
 							</li>
 							<?php
-								if($admingeneralrol == true || $adminsistemarol == true || $fichaclinicas == true){
-							?>
+							if ($admingeneralrol == true || $adminsistemarol == true || $fichaclinicas == true) {
+								?>
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="listadopacientes.php">Listado Pacientes</a>
 							</li>
 							<?php
-								}
+							}
 							?>
 
 						</ul>
 					</li>
 					<!--------------------------Fin Ficha Pacientes----------------->
 					<?php
-						}
+					}
 					?>
 
 
 					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $medicorol == true){
-					?>
+					if ($admingeneralrol == true || $adminsistemarol == true || $medicorol == true) {
+						?>
 					<!--------------------------Inicio Consulta Medica----------------->
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span
+								class="sidemenu-label">Medico</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="pacientesmedico.php">Ficha Pacientes</a>
@@ -413,16 +428,17 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 					</li>
 					<!--------------------------Fin Consulta Medica----------------->
 					<?php
-						}
+					}
 					?>
 
 
 					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $comiterol == true){
-					?>
+					if ($admingeneralrol == true || $adminsistemarol == true || $comiterol == true) {
+						?>
 					<!--------------------------Inicio Comite----------------->
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-layout sidemenu-icon"></i><span
+								class="sidemenu-label">Comité</span><i class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="comite.php">Crear Comité</a>
@@ -437,16 +453,18 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 					</li>
 					<!--------------------------Fin Comite----------------->
 					<?php
-						}
-						?>
-
-					
-					<?php
-						if($admingeneralrol == true || $adminsistemarol == true || $usersrol == true){
+					}
 					?>
+
+
+					<?php
+					if ($admingeneralrol == true || $adminsistemarol == true || $usersrol == true) {
+						?>
 					<!--------------------------Inicio Usuarios----------------->
 					<li class="nav-item">
-						<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span class="sidemenu-label">Gestion de Usuarios</span><i class="angle fe fe-chevron-right"></i></a>
+						<a class="nav-link with-sub" href="#"><i class="fe fe-box sidemenu-icon"></i><span
+								class="sidemenu-label">Gestion de Usuarios</span><i
+								class="angle fe fe-chevron-right"></i></a>
 						<ul class="nav-sub">
 							<li class="nav-sub-item">
 								<a class="nav-sub-link" href="profesiones.php">Registrar de profesiones</a>
@@ -462,7 +480,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 					</li>
 					<!--------------------------Fin Usuarios----------------->
 					<?php
-						}
+					}
 					?>
 				</ul>
 			</div>
@@ -477,14 +495,18 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 				</div>
 				<div class="main-header-center">
 					<div class="responsive-logo">
-						<a href="index.php"><img src="assets/img/brand/dark-logo.png" class="mobile-logo" alt="logo"></a>
-						<a href="index.php"><img src="assets/img/brand/logo.png" class="mobile-logo-dark" alt="logo"></a>
+						<a href="index.php"><img src="assets/img/brand/dark-logo.png" class="mobile-logo"
+								alt="logo"></a>
+						<a href="index.php"><img src="assets/img/brand/logo.png" class="mobile-logo-dark"
+								alt="logo"></a>
 					</div>
 					<div class="input-group">
 						<div class="mt-0">
 							<form class="form-inline">
 								<div class="search-element">
-									<input type="search" class="form-control header-search text-dark" readonly value="<?php echo $empresa->getRazonSocial();?>" aria-label="Search" tabindex="1">
+									<input type="search" class="form-control header-search text-dark" readonly
+										value="<?php echo $empresa->getRazonSocial(); ?>" aria-label="Search"
+										tabindex="1">
 									<button class="btn" type="submit">
 										<i class="fa fa-"></i>
 									</button>
@@ -496,13 +518,17 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 				<div class="main-header-right">
 					<div class="dropdown d-md-flex">
 						<a class="nav-link icon full-screen-link fullscreen-button" href="">
-							<i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+							<i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+									viewBox="0 0 24 24" width="24">
 									<path d="M0 0h24v24H0V0z" fill="none" />
-									<path d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+									<path
+										d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
 								</svg></i>
-							<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+							<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+									viewBox="0 0 24 24" width="24">
 									<path d="M0 0h24v24H0V0z" fill="none" />
-									<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
+									<path
+										d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
 								</svg></i>
 						</a>
 					</div>
@@ -513,14 +539,17 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 						<div class="dropdown-menu">
 							<div class="header-navheading">
 								<h6 class="main-notification-title">
-									<?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
+									<?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?>
+								</h6>
 							</div>
 							<a class="dropdown-item" href="close.php">
 								<i class="fe fe-power"></i> Cerrar Sesíon
 							</a>
 						</div>
 					</div>
-					<button class="navbar-toggler navresponsive-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
+					<button class="navbar-toggler navresponsive-toggler" type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent-4" aria-controls="navbarSupportedContent-4"
+						aria-expanded="false" aria-label="Toggle navigation">
 						<i class="fe fe-more-vertical header-icons navbar-toggler-icon"></i>
 					</button><!-- Navresponsive closed -->
 				</div>
@@ -534,13 +563,18 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 				<div class="collapse navbar-collapse" id="navbarSupportedContent-4">
 					<div class="d-flex order-lg-2 ml-auto">
 						<div class="dropdown">
-							<a class="nav-link icon full-screen-link fullscreen-button" href=""><i class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+							<a class="nav-link icon full-screen-link fullscreen-button" href=""><i
+									class="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+										viewBox="0 0 24 24" width="24">
 										<path d="M0 0h24v24H0V0z" fill="none" />
-										<path d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+										<path
+											d="M5 15H3v4c0 1.1.9 2 2 2h4v-2H5v-4zM5 5h4V3H5c-1.1 0-2 .9-2 2v4h2V5zm14-2h-4v2h4v4h2V5c0-1.1-.9-2-2-2zm0 16h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
 									</svg></i>
-								<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+								<i class="exit-fullscreen"><svg xmlns="http://www.w3.org/2000/svg" height="24"
+										viewBox="0 0 24 24" width="24">
 										<path d="M0 0h24v24H0V0z" fill="none" />
-										<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
+										<path
+											d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
 									</svg></i>
 							</a>
 						</div>
@@ -550,9 +584,11 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							</a>
 							<div class="dropdown-menu">
 								<div class="header-navheading">
-									<h6 class="main-notification-title"><?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
+									<h6 class="main-notification-title">
+										<?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?>
+									</h6>
 								</div>
-								
+
 								<a class="dropdown-item" href="close.php">
 									<i class="fe fe-power"></i> Cerrar Sesión
 								</a>
@@ -594,13 +630,30 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 											<div class="col-lg-6">
 												<div class="form-group has-success mg-b-0">
 													<label>Nombre</label>
-													<input class="form-control" id="Nombre" name="Nombre" placeholder="Ejemplo: Ne" required="" type="text" value="">
+													<input class="form-control" id="Nombre" name="Nombre"
+														placeholder="Ejemplo: Ne" required="" type="text" value="">
 													<input type="hidden" name="tipo" id="tipo" value="2">
 												</div>
 											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Diagnostico</label>
+													<select class="form-control select2" name="diagnostico"
+														id="diagnostico" required="">
+														<?php
+														$diagnosticos = $c->listarDiagnosticos();
+														foreach ($diagnosticos as $diagnostico) {
+															echo "<option value='" . $diagnostico->getId() . "'>" . $diagnostico->getNombre() . "</option>";
+														}
+														?>
+													</select>
+												</div>
+											</div>
 											<div class="col-md-12 mt-3 text-right">
-												<button type="reset" href="#" class="btn btn-warning btn-md"> <i class="fa fa-refresh"></i> Restablecer</button>
-												<button type="submit" href="#" class="btn btn-primary btn-md"> <i class="fa fa-save"></i> Registrar</button>
+												<button type="reset" href="#" class="btn btn-warning btn-md"> <i
+														class="fa fa-refresh"></i> Restablecer</button>
+												<button type="submit" href="#" class="btn btn-primary btn-md"> <i
+														class="fa fa-save"></i> Registrar</button>
 											</div>
 										</div>
 									</form>
@@ -613,7 +666,8 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 						<div class="col-xl-12 col-lg-12 col-md-12">
 							<div class="card transcation-crypto1" id="transcation-crypto1">
 								<div class="card-header bd-b-0">
-									<h4 class="card-title font-weight-semibold mb-0">Listado de TNM-Primario Clinico</h4>
+									<h4 class="card-title font-weight-semibold mb-0">Listado de TNM-Regionales Clinico
+									</h4>
 								</div>
 								<div class="card-body">
 									<div class="">
@@ -622,23 +676,25 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 												<thead class="border-top text-center">
 													<tr>
 														<th class="bg-transparent">Nombre</th>
+														<th class="bg-transparent">Diagnostico</th>
 														<th class="bg-transparent text-center">Accion</th>
 													</tr>
 												</thead>
 												<tbody class="text-center">
 													<?php
-														$lista = $c->listartnm(2);
-														foreach ($lista as $row) {
-															echo "<tr>";
-															echo "<td>".$row->getNombre()."</td>";
-															echo "<td class='text-center'>";
-															echo "<a href='#' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#modaledit' onclick='cargarTNM(".$row->getId().")'><i class='fa fa-edit'></i></a>";
-															echo "<a href='#' class='btn btn-danger btn-sm' onclick='EliminarTNM(".$row->getId().")'><i class='fas fa-trash-alt'></i></a>";
-															echo "</td>";
-															echo "</tr>";
-														}
+													$lista = $c->listartnm(2);
+													foreach ($lista as $row) {
+														echo "<tr>";
+														echo "<td>" . $row->getNombre() . "</td>";
+														echo "<td>".$row->getDiagnostico()."</td>";
+														echo "<td class='text-center'>";
+														echo "<a href='#' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#modaledit' onclick='cargarTNM(" . $row->getId() . ")'><i class='fa fa-edit'></i></a>";
+														echo "<a href='#' class='btn btn-danger btn-sm' onclick='EliminarTNM(" . $row->getId() . ")'><i class='fas fa-trash-alt'></i></a>";
+														echo "</td>";
+														echo "</tr>";
+													}
 													?>
-													
+
 												</tbody>
 											</table>
 										</div>
@@ -670,7 +726,8 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 
 
 		<!-- Edit Modal -->
-		<div class="modal fade" id="modaledit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal fade" id="modaledit" data-backdrop="static" data-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">

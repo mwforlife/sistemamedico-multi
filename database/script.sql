@@ -91,7 +91,8 @@ create table tipotnm(
 create table tnm(
     id int not null auto_increment primary key,
     nombre varchar(400) not null,
-    tipotnm int not null references tipotnm(id),
+    diagnostico int not null references diagnosticos(id) on delete cascade,
+    tipotnm int not null references tipotnm(id) on delete cascade,
     registro datetime not null default current_timestamp
 );
 

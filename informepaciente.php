@@ -235,6 +235,9 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 <html lang="es">
 
 <head>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
 
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
@@ -985,12 +988,6 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				<div class="col-md-1">
 																					<select name="t" id="t"
 																						class="form-control">
-																						<?php
-																						$t = $c->listartnm(1);
-																						foreach ($t as $row) {
-																							echo "<option value='" . $row->getId() . "'>" . $row->getNombre() . "</option>";
-																						}
-																						?>
 																					</select>
 																				</div>
 																				<div class="col-md-1">
@@ -1005,12 +1002,6 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				<div class="col-md-1">
 																					<select name="n" id="n"
 																						class="form-control">
-																						<?php
-																						$t = $c->listartnm(2);
-																						foreach ($t as $row) {
-																							echo "<option value='" . $row->getId() . "'>" . $row->getNombre() . "</option>";
-																						}
-																						?>
 																					</select>
 																				</div>
 																				<div class="col-md-1">
@@ -1024,12 +1015,6 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				<div class="col-md-1">
 																					<select name="m" id="m"
 																						class="form-control">
-																						<?php
-																						$t = $c->listartnm(3);
-																						foreach ($t as $row) {
-																							echo "<option value='" . $row->getId() . "'>" . $row->getNombre() . "</option>";
-																						}
-																						?>
 																					</select>
 																				</div>
 																				<div class="col-md-1">
@@ -2283,6 +2268,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
 	<script src="JsFunctions/registropoblacional.js"></script>
+	<script src="JsFunctions/tnm.js"></script>
 	<script src="JsFunctions/informe.js"></script>
 	<script>
 		//Cargar Tabla

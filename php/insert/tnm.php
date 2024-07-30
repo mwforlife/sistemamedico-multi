@@ -2,14 +2,15 @@
 require '../controller.php';
 $c = new Controller();
 
-if(isset($_POST['Nombre']) && isset($_POST['tipo'])){
+if(isset($_POST['Nombre']) && isset($_POST['diagnostico']) && isset($_POST['tipo'])){
     $nombre = $_POST['Nombre'];
+    $diagnostico = $_POST['diagnostico'];
     $tipo = $_POST['tipo'];
-    if(strlen($nombre) > 0 && strlen($tipo)){
+    if(strlen($nombre) > 0 && strlen($diagnostico) > 0 && strlen($tipo) > 0){
         $nombre = $c->escapeString($nombre);
+        $diagnostico = $c->escapeString($diagnostico);
         $tipo = $c->escapeString($tipo);
-        $tipo = strtoupper($tipo);
-        $result = $c->registrartnm($nombre,$tipo);
+        $result = $c->registrartnm($nombre, $diagnostico, $tipo);
         if($result==true){
             echo json_encode(array("status"=>true, "message"=>"Registro exitoso de tnm"));
         }else{

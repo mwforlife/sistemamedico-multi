@@ -44,7 +44,7 @@ class Controller
     private $mi;
 
     private $host = "localhost";
-    /*Variables*/
+    /*Variables
     private $user = "root";
     private $pass = "";
     private $bd = "oncoway";
@@ -54,7 +54,7 @@ class Controller
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server
+    /*Variables BD Server*/
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
@@ -770,10 +770,10 @@ class Controller
     }
 
     //TNM
-    public function registrartnm($nombre, $tipo)
+    public function registrartnm($nombre,$diagnostico, $tipo)
     {
         $this->conexion();
-        $sql = "insert into tnm values(null, '$nombre',$tipo,now())";
+        $sql = "insert into tnm values(null, '$nombre',$diagnostico,$tipo,now())";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
@@ -783,15 +783,35 @@ class Controller
     public function listartnm($tipo)
     {
         $this->conexion();
-        $sql = "select * from tnm where tipotnm = $tipo order by nombre asc";
+        $sql = "select tnm.id as id, tnm.nombre as nombre, diagnosticos.nombre as diagnostico, tnm.tipotnm as tipotnm, tnm.registro as registro from tnm inner join diagnosticos on tnm.diagnostico = diagnosticos.id where tnm.tipotnm = $tipo order by tnm.nombre asc";
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {
             $id = $rs['id'];
             $nombre = $rs['nombre'];
+            $diagnostico = $rs['diagnostico'];
             $tipo = $rs['tipotnm'];
             $registro = $rs['registro'];
-            $tnm = new Tnm($id, $nombre, $tipo, $registro);
+            $tnm = new Tnm($id, $nombre, $diagnostico, $tipo, $registro);
+            $lista[] = $tnm;
+        }
+        $this->desconexion();
+        return $lista;
+    }
+
+    public function listartnmpordiagnostico($tipo, $diagnostico)
+    {
+        $this->conexion();
+        $sql = "select tnm.id as id, tnm.nombre as nombre, diagnosticos.nombre as diagnostico, tnm.tipotnm as tipotnm, tnm.registro as registro from tnm inner join diagnosticos on tnm.diagnostico = diagnosticos.id where tnm.tipotnm = $tipo and tnm.diagnostico = $diagnostico order by tnm.nombre asc";
+        $result = $this->mi->query($sql);
+        $lista = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs['id'];
+            $nombre = $rs['nombre'];
+            $diagnostico = $rs['diagnostico'];
+            $tipo = $rs['tipotnm'];
+            $registro = $rs['registro'];
+            $tnm = new Tnm($id, $nombre, $diagnostico, $tipo, $registro);
             $lista[] = $tnm;
         }
         $this->desconexion();
@@ -807,9 +827,10 @@ class Controller
         if ($rs = mysqli_fetch_array($result)) {
             $id = $rs['id'];
             $nombre = $rs['nombre'];
+            $diagnotico = $rs['diagnostico'];
             $tipo = $rs['tipotnm'];
             $registro = $rs['registro'];
-            $tnm = new Tnm($id, $nombre, $tipo, $registro);
+            $tnm = new Tnm($id, $nombre,$diagnotico, $tipo, $registro);
             $this->desconexion();
             return $tnm;
         }
@@ -818,10 +839,10 @@ class Controller
     }
 
     //Actualizar TNM
-    public function actualizartnm($id, $nombre)
+    public function actualizartnm($id, $nombre,$diagnostico)
     {
         $this->conexion();
-        $sql = "update tnm set nombre = '$nombre' where id = $id";
+        $sql = "update tnm set nombre = '$nombre', diagnostico=$diagnostico where id = $id";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
