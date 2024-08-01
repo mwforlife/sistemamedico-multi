@@ -21,7 +21,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 
 }
 
-if(isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagnostico']) && isset($_POST['diagnosticotext']) && isset($_POST['diagnosticocie10']) && isset($_POST['diagnosticocie10text']) && isset($_POST['fechabiopsia']) && isset($_POST['reingreso']) && isset($_POST['ecog']) && isset($_POST['ecogtext']) && isset($_POST['histologico']) && isset($_POST['histologicotext']) && isset($_POST['invasiontumoral']) && isset($_POST['invasiontumoraltext']) && isset($_POST['mitotico']) && isset($_POST['tnm']) && isset($_POST['observaciontnm']) && isset($_POST['anamnesis']) && isset($_POST['cirugia']) && isset($_POST['quimioterapia']) && isset($_POST['radioterapia']) && isset($_POST['otros']) && isset($_POST['seguimiento']) && isset($_POST['completar']) && isset($_POST['revaluacion']) && isset($_POST['estudioclinicno']) && isset($_POST['observacionesdecision']) && isset($_POST['consultade']) && isset($_POST['consultadetext']) && isset($_POST['programacion']) && isset($_POST['traslado']) && isset($_POST['paliativos']) && isset($_POST['ingreso']) && isset($_POST['observacionplan']) && isset($_POST['resolucion'])){
+if(isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagnostico']) && isset($_POST['diagnosticotext']) && isset($_POST['diagnosticocie10']) && isset($_POST['diagnosticocie10text']) && isset($_POST['fechabiopsia']) && isset($_POST['reingreso']) && isset($_POST['ecog']) && isset($_POST['ecogtext']) && isset($_POST['histologico']) && isset($_POST['histologicotext']) && isset($_POST['invasiontumoral']) && isset($_POST['invasiontumoraltext']) && isset($_POST['mitotico']) && isset($_POST['tnm']) && isset($_POST['observaciontnm']) && isset($_POST['anamnesis']) && isset($_POST['cirugia']) && isset($_POST['quimioterapia']) && isset($_POST['radioterapia']) && isset($_POST['otros']) && isset($_POST['seguimiento']) && isset($_POST['completar']) && isset($_POST['revaluacion']) && isset($_POST['estudioclinicno']) && isset($_POST['observacionesdecision']) && isset($_POST['consultade']) && isset($_POST['consultadetext']) && isset($_POST['programacion']) && isset($_POST['traslado']) && isset($_POST['paliativos']) && isset($_POST['ingreso']) && isset($_POST['observacionplan']) && isset($_POST['resolucion'])  && isset($_POST['peso']) && isset($_POST['talla'])){
     $paciente = $_POST['paciente'];
     $comite = $_POST['comite'];
     $diagnostico = $_POST['diagnostico'];
@@ -61,6 +61,9 @@ if(isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagnos
     $ingreso = $_POST['ingreso'];
     $observacionplan = $_POST['observacionplan'];
     $resolucion = $_POST['resolucion'];
+
+    $peso = $_POST['peso'];
+    $talla = $_POST['talla'];
 
     //Validar Diagnosticos
     if($diagnostico <= 0 || strlen($diagnosticotext) <= 0){
@@ -195,12 +198,6 @@ if(isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagnos
         $ingreso = 0;
     }
 
-    //Validar Observacion Plan
-    if(strlen($observacionplan) <= 0){
-        echo json_encode(array("status"=> false, "message"=> "Ups! Debe ingresar una Observacion Plan"));
-        return;
-    }
-
     //Validar Resolucion
     if(strlen($resolucion) <= 0){
         echo json_encode(array("status"=> false, "message"=> "Ups! Debe ingresar una Resolucion"));
@@ -217,7 +214,53 @@ if(isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagnos
         //Registrar Diagnosticos
         $c->registrarcomitediagnostico($informe_id,$diagnosticotext,$diagnostico,$diagnosticocie10text,$diagnosticocie10,$fechabiopsia,$reingreso);
         foreach ($tnm as $t) {
-            $c->registrarcomitetnm($informe_id,$t['t1'],$t['t2'],$t['t'],$t['ttext'], $t['n1'],$t['n'],$t['ntext'], $t['m1'],$t['m'],$t['mtext'], $t['m2']);
+            $c->registrarcomitetnm($informe_id,$t['t1'],$t['t'],$t['ttext'], $t['n'],$t['ntext'],$t['m'],$t['mtext']);
+        }
+        $medidasant = $c->buscarmedidaantropometrica($paciente);
+        if(strlen($peso) ==0 && strlen($talla) ==0){
+        }else{
+            if($medidasant != null){
+                if($medidasant->getPeso() != $peso || $medidasant->getTalla() != $talla ){
+                    $pcee = $medidasant->getPcee();
+                    if(strlen($pcee) == 0){
+                        $pcee = 'null';
+                    }
+                    $pe = $medidasant->getPe();
+                    if(strlen($pe) == 0){
+                        $pe = 'null';
+                    }
+                    $pt = $medidasant->getPt();
+                    if(strlen($pt) == 0){
+                        $pt = 'null';
+                    }
+                    $te = $medidasant->getTe();
+                    if(strlen($te) == 0){
+                        $te = 'null';
+                    }
+                    $imc = $medidasant->getImc();
+                    if(strlen($imc) == 0){
+                        $imc = 'null';
+                    }
+                    $claimg = $medidasant->getClasifimc();
+                    if(strlen($claimg) == 0){
+                        $claimg = 'null';
+                    }
+                    $pce = $medidasant->getPce();
+                    if(strlen($pce) == 0){
+                        $pce = 'null';
+                    }
+                    $clacintura = $medidasant->getClasificacioncintura();
+                    if(strlen($clacintura) == 0){
+                        $clacintura = 'null';
+                    }
+
+
+
+                    $c->registrarmedidas($paciente, $peso, $talla,$pcee,$pe,$pt, $te, $imc, $claimg,$pce,$clacintura);
+                }
+            }else{
+                $c->registrarmedidas($paciente, $peso, $talla,'null','null','null', 'null', 'null', 'null','null','null');
+            }
         }
         echo json_encode(array("status"=> true, "message"=> "Se ha registrado el informe correctamente"));
     }else{

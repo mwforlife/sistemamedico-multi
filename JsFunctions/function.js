@@ -2299,6 +2299,7 @@ $(document).ready(function () {
                 try {
                     if (json.status == true) {
                         ToastifySuccess(json.message);
+                        $("#formsignos")[0].reset();
                         cargarsignos();
                     } else {
                         ToastifyError(json.message);
@@ -2319,6 +2320,7 @@ $(document).ready(function () {
                 respuesta = respuesta.trim();
                 if (respuesta == 1) {
                     ToastifySuccess("Se registro las medidas correctamente");
+                    $("#formmedidas")[0].reset();
                     cargarmedidas();
                 } else {
                     ToastifyError(respuesta);

@@ -708,15 +708,15 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 									<div class="row">
 										<div class="col-md-2">
 											<label for="">Peso (KG)</label>
-											<input type="text" class="form-control" value="<?php echo $peso; ?>">
+											<input id="peso" class="form-control" onkeyup="calcsup()" step="0.01" placeholder="Ingreso el Peso" value="<?php echo $peso; ?>"></input>
 										</div>
 										<div class="col-md-2">
 											<label for="">Talla (CM)</label>
-											<input type="text" class="form-control" value="<?php echo $talla; ?>">
+											<input id="talla" class="form-control" onkeyup="calcsup()" step="0.01" placeholder="Ingrese la talla" value="<?php echo $talla; ?> "></input>
 										</div>
 										<div class="col-md-2">
-											<label for="">Sup Corporal</label>
-											<input type="text" class="form-control" value="<?php echo $supcop; ?>">
+											<label for="">Sup Corporal (m2)</label>
+											<input id="sup" readonly class="form-control" value="<?php echo $supcop; ?>"></input>
 										</div>
 										<div class="col-md-2">
 											<label for="">Fecha de Nacimiento</label>
@@ -895,21 +895,14 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																	<div class="row">
 																		<div class="col-12">
 																			<div class="row align-items-center">
-																				<div class="col-md-1">
+																				<div class="col-md-2">
 																					<select name="t1" id="t1" class="form-control">
 																						<option value=""></option>
 																						<option value="y">y</option>
 																						<option value="r">r</option>
 																					</select>
 																				</div>
-																				<div class="col-md-1">
-																					<select name="t2" id="t2" class="form-control">
-																						<option value=""></option>
-																						<option value="c">c</option>
-																						<option value="p">p</option>
-																					</select>
-																				</div>
-																				<div class="col-md-1">
+																				<div class="col-md-2">
 																					<select name="t" id="t" class="form-control">
 																						<?php
 																						$t = $c->listartnm(1);
@@ -919,15 +912,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																						?>
 																					</select>
 																				</div>
-																				<div class="col-md-1">
-																					<select name="n1" id="n1" class="form-control">
-																						<option value=""></option>
-																						<option value="a">a</option>
-																						<option value="v">v</option>
-																						<option value="m">m</option>
-																					</select>
-																				</div>
-																				<div class="col-md-1">
+																				<div class="col-md-2">
 																					<select name="n" id="n" class="form-control">
 																						<?php
 																						$t = $c->listartnm(2);
@@ -937,14 +922,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																						?>
 																					</select>
 																				</div>
-																				<div class="col-md-1">
-																					<select name="m1" id="m1" class="form-control">
-																						<option value=""></option>
-																						<option value="a">a</option>
-																						<option value="v">v</option>
-																					</select>
-																				</div>
-																				<div class="col-md-1">
+																				<div class="col-md-2">
 																					<select name="m" id="m" class="form-control">
 																						<?php
 																						$t = $c->listartnm(3);
@@ -954,14 +932,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																						?>
 																					</select>
 																				</div>
-																				<div class="col-md-1">
-																					<select name="m2" id="m2" class="form-control">
-																						<option value=""></option>
-																						<option value="a">a</option>
-																						<option value="v">v</option>
-																					</select>
-																				</div>
-																				<div class="col-md-1">
+																				<div class="col-md-2">
 																					<button class="btn btn-outline-primary btn-sm" onclick="addtnm()"><i class="fa fa-plus"></i> Agregar</button>
 																				</div>
 																			</div>
@@ -973,14 +944,10 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																		<table class="table table-bordered w-100">
 																			<thead>
 																				<tr>
-																					<th style="width: 10%;">_T</th>
-																					<th style="width: 10%;">_T</th>
-																					<th style="width: 10%;">T</th>
-																					<th style="width: 10%;">_N</th>
-																					<th style="width: 10%;">N</th>
-																					<th style="width: 10%;">_M</th>
-																					<th style="width: 10%;">M</th>
-																					<th style="width: 10%;">M_</th>
+																					<th style="width: 20%;">_T</th>
+																					<th style="width: 20%;">T</th>
+																					<th style="width: 20%;">N</th>
+																					<th style="width: 20%;">M</th>
 																					<th>Eliminar</th>
 																				</tr>
 																			</thead>
@@ -2000,6 +1967,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 		//Cargar Tabla
 		$(document).ready(function() {
 			cargartnm1();
+			calcsup();
 		});
 	</script>
 	<script>

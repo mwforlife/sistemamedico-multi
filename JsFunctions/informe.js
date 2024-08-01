@@ -1,5 +1,8 @@
 /********************************************************************************************************************************* */
 var tnm = [];
+$(document).ready(function () {
+cargita();
+});
 //Informe Paciente
 //agregarDiagnosticoCIE10
 function agregarDiagnosticoCIE10(id, nombre) {
@@ -12,60 +15,55 @@ function agregarDiagnosticos(id, nombre) {
   $("#diagnostico").val(nombre);
   $("#iddiag").val(id);
   $("#modaldiagnosticos").modal("hide");
+}
+function cargita(){
+  var id = $("#iddiag").val();
   cargartnmdiagnostico(1, id);
   cargartnmdiagnostico(2, id);
   cargartnmdiagnostico(3, id);
   limpiartnm();
 }
-
 /*************************************************************************************************************************************************************************** */
 
 function addtnm() {
   var t1 = $("#t1").val();
-  var t2 = $("#t2").val();
   const t = $("#t").val();
   var ttext = $("#t option:selected").text();
   if (t <= 0) {
     ToastifyError("Debe seleccionar la T");
     return;
   }
-  var n1 = $("#n1").val();
   var n = $("#n").val();
   var ntext = $("#n option:selected").text();
   if (n <= 0) {
     ToastifyError("Debe seleccionar la N");
     return;
   }
-  var m1 = $("#m1").val();
   var m = $("#m").val();
   var mtext = $("#m option:selected").text();
   if (m <= 0) {
     ToastifyError("Debe seleccionar la M");
     return;
   }
-  var m2 = $("#m2").val();
   //Validar si ya existe el tnm
-  if (validartnm(t1, t2, t, ttext, n1, n, ntext, m1, m, mtext, m2)) {
+  if (validartnm(t1, t, ttext, n, ntext,m, mtext)) {
     ToastifyError("Ya existe el TNM seleccionado");
     return;
   }
-  pushtnm(t1, t2, t, ttext, n1, n, ntext, m1, m, mtext, m2);
+  pushtnm(t1, t, ttext, n, ntext, m, mtext);
   cargartnm();
 }
 
-function validartnm(t1, t2, t, ttext, n1, n, ntext, m1, m, mtext, m2) {
+function validartnm(t1, t, ttext, n, ntext, m, mtext) {
   for (var i = 0; i < tnm.length; i++) {
     if (
       tnm[i].t1 == t1 &&
-      tnm[i].t2 == t2 &&
-      tnm[i].ttext == ttext &&
-      tnm[i].n1 == n1 &&
+      tnm[i].t == t &&
+      tnm[i].ttext == ttext  &&
       tnm[i].n == n &&
       tnm[i].ntext == ntext &&
-      tnm[i].m1 == m1 &&
       tnm[i].m == m &&
-      tnm[i].mtext == mtext &&
-      tnm[i].m2 == m2
+      tnm[i].mtext == mtext
     ) {
       return true;
     }
@@ -73,19 +71,15 @@ function validartnm(t1, t2, t, ttext, n1, n, ntext, m1, m, mtext, m2) {
   return false;
 }
 
-function pushtnm(t1, t2, t, ttext, n1, n, ntext, m1, m, mtext, m2) {
+function pushtnm(t1, t, ttext, n, ntext,m, mtext) {
   tnm.push({
     t1: t1,
-    t2: t2,
     t: t,
     ttext: ttext,
-    n1: n1,
     n: n,
     ntext: ntext,
-    m1: m1,
     m: m,
-    mtext: mtext,
-    m2: m2,
+    mtext: mtext
   });
 }
 function eliminartnm(index) {
@@ -279,7 +273,22 @@ function vistapreviainforme(paciente, comite) {
   $("#modalprevia").modal("show");
 }
 
+function calcsup(){
+  var peso = $("#peso").val();
+  var talla = $("#talla").val();
+  if(peso <= 0 || talla <= 0){
+    $("#sup").val(0);
+    return;
+  }
+  var sup = 0.007184 * Math.pow(peso, 0.425) * Math.pow(talla, 0.725);
+  sup = sup.toFixed(2);
+  $("#sup").val(sup);
+}
+
 function guardarinforme(paciente, comite) {
+  var peso = $("#peso").val();
+  var talla = $("#talla").val();
+  var sup = $("#sup").val();
   //Diagnostico
   var diagnostico = $("#iddiag").val();
   var diagnosticotext = $("#diagnostico").val();
@@ -471,6 +480,9 @@ function guardarinforme(paciente, comite) {
     ingreso: ingreso,
     observacionplan: observacionplan,
     resolucion: resolucion,
+    peso : peso,
+    talla : talla,
+    sup : sup
   };
 
   //Registrar el informe
@@ -483,6 +495,7 @@ function guardarinforme(paciente, comite) {
         var json = JSON.parse(data);
         if (json.status == true) {
           ToastifySuccess(json.message);
+          cargarmedidas();
           setTimeout(function () {
             window.location.href = previo;
           }, 500);
@@ -584,6 +597,9 @@ function editarinforme(paciente, comite) {
   if ($("#estudioclinico").is(":checked")) {
     estudioclinicno = $("#estudioclinico").val();
   }
+
+  var peso = $("#peso").val();
+  var talla = $("#talla").val();
 
   //Validar que se haya seleccionado al menos una decision
   if (
@@ -692,6 +708,8 @@ function editarinforme(paciente, comite) {
     ingreso: ingreso,
     observacionplan: observacionplan,
     resolucion: resolucion,
+    peso : peso,
+    talla : talla
   };
 
   //Registrar el informe
@@ -704,6 +722,7 @@ function editarinforme(paciente, comite) {
         var json = JSON.parse(data);
         if (json.status == true) {
           ToastifySuccess(json.message);
+          cargarmedidas();
           setTimeout(function () {
             window.location.href = previo;
           }, 500);
@@ -723,13 +742,9 @@ function cargartnm() {
   for (var i = 0; i < tnm.length; i++) {
     html += "<tr>";
     html += "<td>" + tnm[i].t1 + "</td>";
-    html += "<td>" + tnm[i].t2 + "</td>";
     html += "<td>" + tnm[i].ttext + "</td>";
-    html += "<td>" + tnm[i].n1 + "</td>";
     html += "<td>" + tnm[i].ntext + "</td>";
-    html += "<td>" + tnm[i].m1 + "</td>";
     html += "<td>" + tnm[i].mtext + "</td>";
-    html += "<td>" + tnm[i].m2 + "</td>";
     html +=
       "<td><button type='button' class='btn btn-danger' onclick='eliminartnm(" +
       i +
@@ -742,7 +757,7 @@ function cargartnm() {
 function cargartnm1() {
   var id = $("#idinforme").val();
   $.ajax({
-    url: "php/charge/tnm.php",
+    url: "php/charge/tnmcomite.php",
     type: "POST",
     data: { id: id },
     success: function (respuesta) {
@@ -753,16 +768,12 @@ function cargartnm1() {
           for (var i = 0; i < tnm.length; i++) {
             pushtnm(
               tnm[i].t1,
-              tnm[i].t2,
               tnm[i].t,
               tnm[i].ttexto,
-              tnm[i].n1,
               tnm[i].n,
               tnm[i].ntexto,
-              tnm[i].m1,
               tnm[i].m,
-              tnm[i].mtexto,
-              tnm[i].m2
+              tnm[i].mtexto
             );
           }
           cargartnm();
@@ -786,41 +797,6 @@ $(document).ready(function () {
       $(".consulta").hide();
       $("#consultade").attr("required", false);
     }
-  });
-
-  $("#formsignos").submit(function (e) {
-    e.preventDefault();
-    $.ajax({
-      url: "php/insert/signos.php",
-      type: "POST",
-      data: $("#formsignos").serialize(),
-      success: function (respuesta) {
-        respuesta = respuesta.trim();
-        if (respuesta == 1) {
-          ToastifySuccess("Se registro los signos vitales correctamente");
-          cargarsignos();
-        } else {
-          ToastifyError(respuesta);
-        }
-      },
-    });
-  });
-  $("#formmedidas").submit(function (e) {
-    e.preventDefault();
-    $.ajax({
-      url: "php/insert/medidas.php",
-      type: "POST",
-      data: $("#formmedidas").serialize(),
-      success: function (respuesta) {
-        respuesta = respuesta.trim();
-        if (respuesta == 1) {
-          ToastifySuccess("Se registro las medidas correctamente");
-          cargarmedidas();
-        } else {
-          ToastifyError(respuesta);
-        }
-      },
-    });
   });
 });
 

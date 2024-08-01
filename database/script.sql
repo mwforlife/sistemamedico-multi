@@ -1171,6 +1171,7 @@ create table informecomite(
     histologico int not null references histologico(id),
     invaciontumoral int not null references invaciontumoral(id),
     mitotico int not null,
+    observaciontnm text not null,
     anamesis text  null,
     cirugia int not null default 0,
     quimioterapia int not null default 0,
@@ -1210,16 +1211,12 @@ create table tnminforme(
     id int not null auto_increment primary key,
     informecomite int not null references informecomite(id),
     t1 text null,
-    t2 text null,
     t int not null references tnm(id),
     ttexto text null,
-    n1 text null,
     n int not null references tnm(id),
     ntexto text null,
-    m1 text null,
     m int not null references tnm(id),
     mtexto text null,
-    m2 text null,
     registro datetime not null default current_timestamp
 );
 

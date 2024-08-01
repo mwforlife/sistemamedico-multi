@@ -44,7 +44,7 @@ class Controller
     private $mi;
 
     private $host = "localhost";
-    /*Variables
+    /*Variables*/
     private $user = "root";
     private $pass = "";
     private $bd = "oncoway";
@@ -54,7 +54,7 @@ class Controller
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server*/
+    /*Variables BD Server
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
@@ -3673,10 +3673,10 @@ class Controller
     }
 
     //Registrar informecomite
-    function registrarinformecomite($folio, $paciente, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $empresa)
+    function registrarinformecomite($folio, $paciente, $comite, $ecog, $histologico, $invaciontumoral, $mitotico,$observaciontnm, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $empresa)
     {
         $this->conexion();
-        $sql = "insert into informecomite values(null, $folio, $paciente, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, '$anamesis', $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, '$observaciondesicion', '$consultade', $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, '$observacionplan', '$resolucion', $empresa, now())";
+        $sql = "insert into informecomite values(null, $folio, $paciente, $comite, $ecog, $histologico, $invaciontumoral, $mitotico,'$observaciontnm', '$anamesis', $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, '$observaciondesicion', '$consultade', $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, '$observacionplan', '$resolucion', $empresa, now())";
         $result = $this->mi->query($sql);
         $id = $this->mi->insert_id;
         $this->desconexion();
@@ -3891,10 +3891,10 @@ class Controller
 
 
     //Registrar informecomite tnm
-    function registrarcomitetnm($informecomite, $t1, $t2, $t, $ttexto, $n1, $n, $ntexto, $m1, $m, $mtexto, $m2)
+    function registrarcomitetnm($informecomite, $t1, $t, $ttexto, $n, $ntexto, $m, $mtexto)
     {
         $this->conexion();
-        $sql = "insert into tnminforme values(null,$informecomite, '$t1', '$t2', $t, '$ttexto', '$n1', $n, '$ntexto', '$m1', $m, '$mtexto', '$m2', now())";
+        $sql = "insert into tnminforme values(null,$informecomite, '$t1',  $t, '$ttexto',  $n, '$ntexto', $m, '$mtexto',now())";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
@@ -3911,18 +3911,14 @@ class Controller
             $id = $rs["id"];
             $informecomite = $rs["informecomite"];
             $t1 = $rs["t1"];
-            $t2 = $rs["t2"];
             $t = $rs["t"];
             $ttexto = $rs["ttexto"];
-            $n1 = $rs["n1"];
             $n = $rs["n"];
             $ntexto = $rs["ntexto"];
-            $m1 = $rs["m1"];
             $m = $rs["m"];
             $mtexto = $rs["mtexto"];
-            $m2 = $rs["m2"];
             $registro = $rs["registro"];
-            $object = array("id" => $id, "informecomite" => $informecomite, "t1" => $t1, "t2" => $t2, "t" => $t, "ttexto" => $ttexto, "n1" => $n1, "n" => $n, "ntexto" => $ntexto, "m1" => $m1, "m" => $m, "mtexto" => $mtexto, "m2" => $m2, "registro" => $registro);
+            $object = array("id" => $id, "informecomite" => $informecomite, "t1" => $t1, "t" => $t, "ttexto" => $ttexto,  "n" => $n, "ntexto" => $ntexto, "m" => $m, "mtexto" => $mtexto,  "registro" => $registro);
             array_push($array, $object);
         }
         $this->desconexion();

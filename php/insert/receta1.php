@@ -202,10 +202,50 @@ if (
 
 
     if ($recetaId > 0) {    
-        $signosvitales = $c->buscarmedidaantropometrica($paciente);
-        if($signosvitales != null){
-            if($signosvitales->getPeso() != $peso || $signosvitales->getTalla() != $talla ){
-                $c->registrarmedidas($paciente, $peso, $talla,$signosvitales->getPcee(),$signosvitales->getPe(),$signosvitales->getPt(), $signosvitales->getTe(), $signosvitales->getImc(), $signosvitales->getClasifimc(), $signosvitales->getPce(),$signosvitales->getClasificacioncintura());
+        $medidasant = $c->buscarmedidaantropometrica($paciente);
+        if(strlen($peso) ==0 && strlen($talla) ==0){
+        }else{
+            if($medidasant != null){
+                if($medidasant->getPeso() != $peso || $medidasant->getTalla() != $talla ){
+                    $pcee = $medidasant->getPcee();
+                    if(strlen($pcee) == 0){
+                        $pcee = 'null';
+                    }
+                    $pe = $medidasant->getPe();
+                    if(strlen($pe) == 0){
+                        $pe = 'null';
+                    }
+                    $pt = $medidasant->getPt();
+                    if(strlen($pt) == 0){
+                        $pt = 'null';
+                    }
+                    $te = $medidasant->getTe();
+                    if(strlen($te) == 0){
+                        $te = 'null';
+                    }
+                    $imc = $medidasant->getImc();
+                    if(strlen($imc) == 0){
+                        $imc = 'null';
+                    }
+                    $claimg = $medidasant->getClasifimc();
+                    if(strlen($claimg) == 0){
+                        $claimg = 'null';
+                    }
+                    $pce = $medidasant->getPce();
+                    if(strlen($pce) == 0){
+                        $pce = 'null';
+                    }
+                    $clacintura = $medidasant->getClasificacioncintura();
+                    if(strlen($clacintura) == 0){
+                        $clacintura = 'null';
+                    }
+
+
+
+                    $c->registrarmedidas($paciente, $peso, $talla,$pcee,$pe,$pt, $te, $imc, $claimg,$pce,$clacintura);
+                }
+            }else{
+                $c->registrarmedidas($paciente, $peso, $talla,'null','null','null', 'null', 'null', 'null','null','null');
             }
         }
         // Registrar premedicaciones
