@@ -106,8 +106,8 @@ if (isset($_GET['id'])) {
     </tr>
     <tr>
         <td width='100%' style='text-align: justify;  '>
-            <h3 style='font-size:9pt'> ECOG: " . $ecog->getCodigo() . "</h3>
-            <h3 style='font-size:9pt'> Diagnostico: " . $diagnosticosinforme->getDiagnosticos() . "</h3>           
+            <h3 style='font-size:9pt'> Diagnostico: " . $diagnosticosinforme->getDiagnosticos() . "</h3>     
+            <h3 style='font-size:9pt'> ECOG: " . $ecog->getCodigo() . "</h3>      
         </td>
     </tr>
     </table>";
@@ -128,7 +128,7 @@ if (isset($_GET['id'])) {
     </tr>";
     $contenido .= "<tr>
         <td width='100%' style='text-align: justify;'>
-            <p style='font-size:9pt;'>" . $observaciontnm . "</p>
+            <p style='font-size:9pt;'>" . $informe->getObservacionTnm() . "</p>
         </td>
     </tr>";
     $contenido .= "</table>";

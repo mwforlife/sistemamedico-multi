@@ -647,6 +647,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 															<th scope="col">Rut</th>
 															<th scope="col">Nombre</th>
 															<th scope="col">Profesión</th>
+															<th scope="col">Cargo</th>
 															<th scope="col">Eliminar</th>
 														</tr>
 													</thead>
@@ -889,6 +890,41 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 								</div>
 							</div>
 
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="modalcargo"   style="z-index: 99999999999;"  data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="staticBackdropLabel">Asignar Cargo: <span id="doc_name"></span></h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<input type="hidden" id="doc_profesion">
+								<input type="hidden" id="doc_rut">
+								<input type="hidden" id="doc_id">
+								<input type="hidden" id="doc_nombre">
+								<label for="">Cargo</label>
+								<select name="cargo" id="cargo" class="form-control">
+									<?php
+									$cargos = $c->listarcargos();
+									foreach ($cargos as $r) {
+										echo "<option value='" . $r['id'] . "'>" . $r['nombre'] . "</option>";
+									}
+									?>
+								</select>
+							</div>
+							<div class="col-md-12 text-right">
+								<button type="button" class="btn btn-primary mt-2" onclick="asignarcargo()">Asignar</button>
+							</div>
 						</div>
 					</div>
 				</div>

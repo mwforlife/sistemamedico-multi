@@ -1,7 +1,7 @@
 /********************************************************************************************************************************* */
 var tnm = [];
 $(document).ready(function () {
-cargita();
+  cargita();
 });
 //Informe Paciente
 //agregarDiagnosticoCIE10
@@ -15,13 +15,16 @@ function agregarDiagnosticos(id, nombre) {
   $("#diagnostico").val(nombre);
   $("#iddiag").val(id);
   $("#modaldiagnosticos").modal("hide");
+  cargita();
 }
-function cargita(){
+function cargita() {
   var id = $("#iddiag").val();
-  cargartnmdiagnostico(1, id);
-  cargartnmdiagnostico(2, id);
-  cargartnmdiagnostico(3, id);
-  limpiartnm();
+  if (id > 0) {
+    cargartnmdiagnostico(1, id);
+    cargartnmdiagnostico(2, id);
+    cargartnmdiagnostico(3, id);
+    limpiartnm();
+  }
 }
 /*************************************************************************************************************************************************************************** */
 
@@ -46,7 +49,7 @@ function addtnm() {
     return;
   }
   //Validar si ya existe el tnm
-  if (validartnm(t1, t, ttext, n, ntext,m, mtext)) {
+  if (validartnm(t1, t, ttext, n, ntext, m, mtext)) {
     ToastifyError("Ya existe el TNM seleccionado");
     return;
   }
@@ -59,7 +62,7 @@ function validartnm(t1, t, ttext, n, ntext, m, mtext) {
     if (
       tnm[i].t1 == t1 &&
       tnm[i].t == t &&
-      tnm[i].ttext == ttext  &&
+      tnm[i].ttext == ttext &&
       tnm[i].n == n &&
       tnm[i].ntext == ntext &&
       tnm[i].m == m &&
@@ -71,7 +74,7 @@ function validartnm(t1, t, ttext, n, ntext, m, mtext) {
   return false;
 }
 
-function pushtnm(t1, t, ttext, n, ntext,m, mtext) {
+function pushtnm(t1, t, ttext, n, ntext, m, mtext) {
   tnm.push({
     t1: t1,
     t: t,
@@ -94,6 +97,8 @@ function limpiartnm() {
 
 function vistapreviainforme(paciente, comite) {
   //Diagnostico
+  var peso = $("#peso").val();
+  var talla = $("#talla").val();
   var diagnostico = $("#iddiag").val();
   var diagnosticotext = $("#diagnostico").val();
   var diagnosticocie10 = $("#idcie10").val();
@@ -262,6 +267,8 @@ function vistapreviainforme(paciente, comite) {
     ingreso: ingreso,
     observacionplan: observacionplan,
     resolucion: resolucion,
+    peso: peso,
+    talla: talla
   };
 
   //Cargar la vista previa
@@ -273,10 +280,10 @@ function vistapreviainforme(paciente, comite) {
   $("#modalprevia").modal("show");
 }
 
-function calcsup(){
+function calcsup() {
   var peso = $("#peso").val();
   var talla = $("#talla").val();
-  if(peso <= 0 || talla <= 0){
+  if (peso <= 0 || talla <= 0) {
     $("#sup").val(0);
     return;
   }
@@ -421,17 +428,7 @@ function guardarinforme(paciente, comite) {
     ingreso = $("#ingreso").val();
   }
 
-  //Revisar si esta chequedar el completereg
-  var completar = 0;
-  //Validar si se selecciono completar
-  if ($("#completereg").is(":checked")) {
-    completar = 1;
-    var valid = registropoblacional();
-    console.log(valid);
-    if (valid == false) {
-      return;
-    }
-  }
+  registropoblacional();
 
   var observacionplan = $("#observacionplan").val();
   //SI el observacionplan esta vacia, preguntar si esta seguro de dejarlo vacia
@@ -480,9 +477,9 @@ function guardarinforme(paciente, comite) {
     ingreso: ingreso,
     observacionplan: observacionplan,
     resolucion: resolucion,
-    peso : peso,
-    talla : talla,
-    sup : sup
+    peso: peso,
+    talla: talla,
+    sup: sup
   };
 
   //Registrar el informe
@@ -650,14 +647,9 @@ function editarinforme(paciente, comite) {
   //Revisar si esta chequedar el completereg
   var completar = 0;
   //Validar si se selecciono completar
-  if ($("#completereg").is(":checked")) {
-    completar = 1;
-    var valid = registropoblacional();
-    console.log(valid);
-    if (valid == false) {
-      return;
-    }
-  }
+
+  registropoblacional();
+  
 
   var observacionplan = $("#observacionplan").val();
   //SI el observacionplan esta vacia, preguntar si esta seguro de dejarlo vacia
@@ -708,8 +700,8 @@ function editarinforme(paciente, comite) {
     ingreso: ingreso,
     observacionplan: observacionplan,
     resolucion: resolucion,
-    peso : peso,
-    talla : talla
+    peso: peso,
+    talla: talla
   };
 
   //Registrar el informe

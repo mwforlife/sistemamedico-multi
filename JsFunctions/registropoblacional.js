@@ -1,3 +1,6 @@
+
+var response = false;
+
 function registropoblacional() {
   var idpaciente = $("#pacientepoblacional").val();
   var provenencia = $("#proveniencia").val();
@@ -348,7 +351,6 @@ function registropoblacional() {
     ToastifyError("Pwwww!" + error);
     return false;
   }
-  var response = false;
   //Enviar Datos
   try {
     $.ajax({
@@ -444,6 +446,7 @@ function registropoblacional() {
                 location.reload();
               }, 500);
             }else{
+              response = true;
               return true;
             }
           } else {

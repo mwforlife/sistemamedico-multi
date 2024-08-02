@@ -1,35 +1,4 @@
 <?php
-/*create table informecomite(
-    id int not null auto_increment primary key,
-    folio int not null,
-    paciente int not null references pacientes(id),
-    comite int not null references comite(id),
-    ecog int not null references ecog(id),
-    histologico int not null references histologico(id),
-    invaciontumoral int not null references invaciontumoral(id),
-    mitotico int not null,
-    anamesis text  null,
-    cirugia int not null default 0,
-    quimioterapia int not null default 0,
-    radioterapia int not null default 0,
-    tratamientosoncologicos int not null default 0,
-    seguimientosintratamiento int not null default 0,
-    completarestudios int not null default 0,
-    revaluacionposterior int not null default 0,
-    estudioclinico int not null default 0,
-    observaciondesicion text  null,
-    consultade text not null,
-    consultadeid int not null,
-    programacionquirurgica int not null default 0,
-    traslado int not null default 0,
-    ciudadospaliativos int not null default 0,
-    ingresohospitalario int not null default 0,
-    observacionplan text  null,
-    resolucion text  null,
-    empresa int not null references empresa(id),
-    registro datetime not null default current_timestamp
-);
-*/
 class InformeComite
 {
     private $id;
@@ -40,6 +9,7 @@ class InformeComite
     private $histologico;
     private $invasiontumoral;
     private $mitotico;
+    private $observaciontnm;
     private $anamnesis;
     private $cirugia;
     private $quimioterapia;
@@ -61,7 +31,7 @@ class InformeComite
     private $empresa;
     private $registro;
 
-    public function __construct($id, $folio, $paciente, $comite, $ecog, $histologico, $invasiontumoral, $mitotico, $anamnesis, $cirugia, $quimioterapia, $radioterapia, $otros, $seguimiento, $completar, $revaluacion, $estudioclinicno, $observacionesdecision, $consultadetext, $consultade, $programacion, $traslado, $paliativos, $ingreso, $observacionplan, $resolucion, $empresa, $registro)
+    public function __construct($id, $folio, $paciente, $comite, $ecog, $histologico, $invasiontumoral, $mitotico,$observaciontnm, $anamnesis, $cirugia, $quimioterapia, $radioterapia, $otros, $seguimiento, $completar, $revaluacion, $estudioclinicno, $observacionesdecision, $consultadetext, $consultade, $programacion, $traslado, $paliativos, $ingreso, $observacionplan, $resolucion, $empresa, $registro)
     {
         $this->id = $id;
         $this->folio = $folio;
@@ -71,6 +41,7 @@ class InformeComite
         $this->histologico = $histologico;
         $this->invasiontumoral = $invasiontumoral;
         $this->mitotico = $mitotico;
+        $this->observaciontnm = $observaciontnm;
         $this->anamnesis = $anamnesis;
         $this->cirugia = $cirugia;
         $this->quimioterapia = $quimioterapia;
@@ -131,6 +102,11 @@ class InformeComite
     public function getMitotico()
     {
         return $this->mitotico;
+    }
+
+    public function getObservacionTnm()
+    {
+        return $this->observaciontnm;
     }
 
     public function getAnamnesis()

@@ -50,9 +50,10 @@ if(isset($_POST['idcomite']) && isset($_POST['profesionales']) && isset($_POST['
         $rutprofesional = $profesional['_rut'];
         $nombreprofesional = $profesional['_nombre'];
         $profesionprofesional = $profesional['_profesion'];
+        $profesionalcargo = $profesional['_cargo'];
         $valid = $c->validarprofesionalescomite($idcomite, $idprofesional);
         if($valid==false){
-            $c->registrarprofesionalescomite($idcomite, $idprofesional);
+            $c->registrarprofesionalescomite($idcomite, $idprofesional, $profesionalcargo);
         }
     }
 

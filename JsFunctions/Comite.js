@@ -9,11 +9,13 @@
 
 //Creando la clase Profesionales Comite
 class Profesionalescomite {
-    constructor(id, rut, nombre, profesion) {
+    constructor(id, rut, nombre, profesion,cargo,cargoname) {
         this.id = id;
         this.rut = rut;
         this.nombre = nombre;
         this.profesion = profesion;
+        this.cargo = cargo;
+        this.cargoname = cargoname;
     }
     get id() {
         return this._id;
@@ -39,6 +41,18 @@ class Profesionalescomite {
     set profesion(profesion) {
         this._profesion = profesion;
     }
+    get cargo() {
+        return this._cargo;
+    }
+    set cargo(cargo) {
+        this._cargo = cargo;
+    }
+    get cargoname() {
+        return this._cargoname;
+    }
+    set cargoname(cargoname) {
+        this._cargoname = cargoname;
+    }
 }
 
 //Crear un array vacio de objetos de la clase Comite
@@ -53,6 +67,7 @@ function mostrarProfesionalesComite() {
         texto += "<td>" + elemento.rut + "</td>";
         texto += "<td>" + elemento.nombre + "</td>";
         texto += "<td>" + elemento.profesion + "</td>";
+        texto += "<td>" + elemento.cargoname + "</td>";
         //Agregar boton para eliminar
         texto += "<td><button type='button' class='btn btn-outline-danger btn-sm' onclick='eliminarProfesionalesComite(" + elemento.id + ")'><i class='fas fa-trash-alt'></i></button></td>";
         texto += "</tr>";
@@ -82,9 +97,9 @@ function existeProfesionalesComite(id) {
 
 
 //Función para agregar un objeto al array de objetos de la clase Comite
-function agregarProfesionalesComite(id, rut, nombre, profesion) {
+function agregarProfesionalesComite(id, rut, nombre, profesion,cargo,cargoname) {
     //Agregar un objeto al array de objetos de la clase Comite
-    profesionales.push(new Profesionalescomite(id, rut, nombre, profesion));
+    profesionales.push(new Profesionalescomite(id, rut, nombre, profesion,cargo,cargoname));
     //Mostrar el array de objetos de la clase Comite
     mostrarProfesionalesComite();
 }
@@ -417,7 +432,7 @@ function cargarprofesionales(id){
             //Recibir el JSON
             var info = JSON.parse(response);info.forEach(function (elemento, indice, array) {
                 //Agregar el elemento al array de profesionales
-                agregarProfesionalesComite(elemento._id, elemento._rut, elemento._nombre, elemento._profesion);
+                agregarProfesionalesComite(elemento._id, elemento._rut, elemento._nombre, elemento._profesion,elemento._cargo,elemento._cargoname);
             }
             );
             //Mostrar el array de objetos de la clase Comite

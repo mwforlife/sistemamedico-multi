@@ -277,8 +277,6 @@ insert into roles(nombre,descripcion) values('Ficha Clinica (Secretaria)','El Us
 insert into roles(nombre,descripcion) values('Gestión de Tratamiento','El Usuario tiene permiso para administrar los tratamientos de los pacientes');
 
 
-
-
 create table rolesusuarios(
     id int not null auto_increment primary key,
     usuario int not null references usuario(id),
@@ -649,10 +647,22 @@ create table comite(
     registro datetime not null default current_timestamp
 );
 
+create table cargocomite(
+    id int not null auto_increment primary key,
+    nombre varchar(400) not null,
+    registro datetime not null default current_timestamp
+);
+
+insert into cargocomite values(1,"Presidente",now());
+insert into cargocomite values(2,"Secretario",now());
+insert into cargocomite values(3,"Miembro",now());
+insert into cargocomite values(4,"Asistente",now());
+
 create table profesionalescomite(
     id int not null auto_increment primary key,
     comite int not null references comite(id),
     profesional int not null references usuarios(id),
+    cargo int not null references cargocomite(id),
     registro datetime not null default current_timestamp
 );
 

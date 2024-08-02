@@ -2582,9 +2582,43 @@ function agregarprofesional(id, rut, nombre, profesion) {
     if (result == true) {
         ToastifyError("El profesional ya se encuentra agregado");
     } else {
-        agregarProfesionalesComite(id, rut, nombre, profesion);
+        $("#doc_name").html(nombre);
+        $("#doc_profesion").val(profesion);
+        $("#doc_rut").val(rut);
+        $("#doc_id").val(id);
+        $("#doc_nombre").val(nombre);
+        $("#modalcargo").modal("show");
     }
 }
+
+function asignarcargo(){
+    var id = $("#doc_id").val();
+    var rut = $("#doc_rut").val();
+    var nombre = $("#doc_nombre").val();
+    var profesion = $("#doc_profesion").val();
+    var cargo = $("#cargo").val();
+    var cargoname = $("#cargo option:selected").text();
+    if (cargo != 0) {
+        add_pro(id, rut, nombre, profesion, cargo,cargoname);
+        $("#modalcargo").modal("hide");
+    } else {
+        ToastifyError("Debe seleccionar un cargo");
+    }
+
+    //Limpiar campos
+    $("#doc_id").val("");
+    $("#doc_nombre").val("");
+    $("#doc_rut").val("");
+    $("#doc_profesion").val("");
+    //Seleccionar el primer valor
+    $("#cargo option:selected").prop("selected", false);
+    $("#cargo option:first").prop("selected", "selected");
+}
+
+function add_pro(id, rut, nombre, profesion, cargo,cargoname) {
+    agregarProfesionalesComite(id, rut, nombre, profesion, cargo,cargoname);
+}
+
 
 
 function mostrar(id) {

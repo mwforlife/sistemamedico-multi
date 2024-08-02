@@ -23,7 +23,7 @@ if(isset($_POST['idcomite'])){
         $rutprofesional = $listaprofesional->getrut();
         $nombreprofesional = $listaprofesional->getnombre();
         $profesionprofesional = $listaprofesional->getprofesion();
-        $array[] = array('_id'=>$idprofesional, '_rut'=>$rutprofesional, '_nombre'=>$nombreprofesional, '_profesion'=>$profesionprofesional);
+        $array[] = array('_id'=>$idprofesional, '_rut'=>$rutprofesional, '_nombre'=>$nombreprofesional, '_profesion'=>$profesionprofesional, '_cargo'=>$listaprofesional->getcargoid(), '_cargoname'=>$listaprofesional->getcargo());
     }
     $listaprofesionales = json_encode($array);
     echo $listaprofesionales;

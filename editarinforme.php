@@ -715,7 +715,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 											<input id="talla" class="form-control" onkeyup="calcsup()" step="0.01" placeholder="Ingrese la talla" value="<?php echo $talla; ?> "></input>
 										</div>
 										<div class="col-md-2">
-											<label for="">Sup Corporal (m2)</label>
+											<label for="">Sup Corporal (m<sup>2</sup>)</label>
 											<input id="sup" readonly class="form-control" value="<?php echo $supcop; ?>"></input>
 										</div>
 										<div class="col-md-2">
@@ -764,7 +764,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							</div>
 						</div>
 					</div>
-
+				<?php $ultimoregistro = $c->ultimoregistropoblacional($idpaciente);?>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="card">
@@ -880,6 +880,33 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																	</select>
 																</div>
 															</div>
+															<hr>
+															<div class="row">
+																							<div class="col-md-4">
+																								<label for=""><strong>Grado de diferenciación</strong></label><br />
+																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado1" <?php if($ultimoregistro!=null){if($ultimoregistro['grado1']==1){ echo "checked";}}?>><span>Bien diferenciado</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado2" <?php if($ultimoregistro!=null){if($ultimoregistro['grado2']==1){ echo "checked";}}?>><span>Moderadamente diferenciado</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado3" <?php if($ultimoregistro!=null){if($ultimoregistro['grado3']==1){ echo "checked";}}?>><span>Pobremente diferenciado</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado4" <?php if($ultimoregistro!=null){if($ultimoregistro['grado4']==1){ echo "checked";}}?>><span>Indiferenciado o anaplásico</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado5" <?php if($ultimoregistro!=null){if($ultimoregistro['grado5']==1){ echo "checked";}}?>><span>No determinado o inaplicable</span>
+																							</div>
+																							<div class="col-md-4">
+																								<label for=""><strong>Extensión</strong></label><br />
+																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension1" <?php if($ultimoregistro!=null){if($ultimoregistro['extension1']==1){ echo "checked";}}?>><span>In situ</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension2" <?php if($ultimoregistro!=null){if($ultimoregistro['extension2']==1){ echo "checked";}}?>><span>Localizada</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension3" <?php if($ultimoregistro!=null){if($ultimoregistro['extension3']==1){ echo "checked";}}?>><span>Regional</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension4" <?php if($ultimoregistro!=null){if($ultimoregistro['extension4']==1){ echo "checked";}}?>><span>Metástasis</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension5" <?php if($ultimoregistro!=null){if($ultimoregistro['extension5']==1){ echo "checked";}}?>><span>Desconocido</span>
+																							</div>
+																							<div class="col-md-4">
+																								<label for=""><strong>Lateralidad</strong></label><br />
+																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad1" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad1']==1){ echo "checked";}}?>><span>Derecho</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad2" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad2']==1){ echo "checked";}}?>><span>Izquierdo</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad3" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad3']==1){ echo "checked";}}?>><span>Bilateral</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad4" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad4']==1){ echo "checked";}}?>><span>No corresponde</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad5" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad5']==1){ echo "checked";}}?>><span>Desconocido</span>
+																							</div>
+																						</div>
 														</div>
 													</div>
 												</div>
@@ -959,7 +986,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																</div>
 																<div class="col-md-12">
 																	<label for="">Observación</label>
-																	<textarea style="height: 100px;" name="observaciontnm" class="form-control" id="observaciontnm" cols="10" rows="10"></textarea>
+																	<textarea style="height: 100px;" name="observaciontnm" class="form-control" id="observaciontnm" cols="10" rows="10"><?php echo $informe->getObservacionTnm();?></textarea>
 																</div>
 															</div>
 														</div>
@@ -1133,22 +1160,9 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																				<div class="col-md-6">
 																					<h4 class="card-title">Registro Poblacional</h4>
 																					<p>Formulario de Registro caso nuevo de Cáncer</p>
-																					
-																					<label class="custom-switch">
-																							<input type="checkbox"
-																								name="completereg"
-																								class="custom-switch-input"
-																								value="1" id="completereg">
-																							<span
-																								class="custom-switch-indicator"></span>
-																							<span
-																								class="custom-switch-description">¿Completar
-																								Registro Poblacional?</span>
-																						</label>
 																				</div>
 																				<div class="col-md-6 d-flex justify-content-end align-items-center">
 																					<?php
-																					$ultimoregistro = $c->ultimoregistropoblacional($idpaciente);
 																					if ($ultimoregistro != null) {
 																						echo "<a href='php/reporte/registropoblacional.php?id=" . $ultimoregistro['id'] . "' target='_blank' class='btn btn-outline-info btn-sm' title='Imprimir'><i class='fa fa-print'></i> Imprimir Registro</a>";
 																						echo "<button type='button' class='btn btn-outline-success' title='Historial de Registros' onclick='cargarhistorialregistros()' ><i class='fa fa-history'></i> Historial de Registros</button>";
@@ -1271,34 +1285,6 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																							<div class="col-md-6">
 																								<label for="">Observaciones:</label>
 																								<textarea name="comportamientoobservaciones" id="comportamientoobservaciones" class="form-control" cols="30" rows="10"><?php if($ultimoregistro!=null){echo $ultimoregistro['comportamientoobservaciones'];}?></textarea>
-																							</div>
-																						</div>
-
-																						<hr>
-																						<div class="row">
-																							<div class="col-md-4">
-																								<label for=""><strong>Grado de diferenciación</strong></label><br />
-																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado1" <?php if($ultimoregistro!=null){if($ultimoregistro['grado1']==1){ echo "checked";}}?>><span>Bien diferenciado</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado2" <?php if($ultimoregistro!=null){if($ultimoregistro['grado2']==1){ echo "checked";}}?>><span>Moderadamente diferenciado</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado3" <?php if($ultimoregistro!=null){if($ultimoregistro['grado3']==1){ echo "checked";}}?>><span>Pobremente diferenciado</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado4" <?php if($ultimoregistro!=null){if($ultimoregistro['grado4']==1){ echo "checked";}}?>><span>Indiferenciado o anaplásico</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado5" <?php if($ultimoregistro!=null){if($ultimoregistro['grado5']==1){ echo "checked";}}?>><span>No determinado o inaplicable</span>
-																							</div>
-																							<div class="col-md-4">
-																								<label for=""><strong>Extensión</strong></label><br />
-																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension1" <?php if($ultimoregistro!=null){if($ultimoregistro['extension1']==1){ echo "checked";}}?>><span>In situ</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension2" <?php if($ultimoregistro!=null){if($ultimoregistro['extension2']==1){ echo "checked";}}?>><span>Localizada</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension3" <?php if($ultimoregistro!=null){if($ultimoregistro['extension3']==1){ echo "checked";}}?>><span>Regional</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension4" <?php if($ultimoregistro!=null){if($ultimoregistro['extension4']==1){ echo "checked";}}?>><span>Metástasis</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension5" <?php if($ultimoregistro!=null){if($ultimoregistro['extension5']==1){ echo "checked";}}?>><span>Desconocido</span>
-																							</div>
-																							<div class="col-md-4">
-																								<label for=""><strong>Lateralidad</strong></label><br />
-																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad1" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad1']==1){ echo "checked";}}?>><span>Derecho</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad2" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad2']==1){ echo "checked";}}?>><span>Izquierdo</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad3" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad3']==1){ echo "checked";}}?>><span>Bilateral</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad4" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad4']==1){ echo "checked";}}?>><span>No corresponde</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad5" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad5']==1){ echo "checked";}}?>><span>Desconocido</span>
 																							</div>
 																						</div>
 																						<hr>
@@ -1960,6 +1946,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 	<script src="JsFunctions/Alert/toastify.js"></script>
 	<script src="JsFunctions/Alert/sweetalert2.all.min.js"></script>
 	<script src="JsFunctions/Alert/alert.js"></script>
+	<script src="JsFunctions/tnm.js"></script>
 	<script src="JsFunctions/function.js"></script>
 	<script src="JsFunctions/registropoblacional.js"></script>
 	<script src="JsFunctions/informe.js"></script>

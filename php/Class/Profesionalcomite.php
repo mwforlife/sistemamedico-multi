@@ -6,14 +6,18 @@ class Profesionalcomite{
     private $profesion;
     private $idcomite;
     private $registro;
+    private $cargoid;
+    private $cargo;
 
-    public function __construct($id, $rut, $nombre, $profesion, $idcomite,$registro){
+    public function __construct($id, $rut, $nombre, $profesion, $idcomite,$registro,$cargoid,$cargo){
         $this->id = $id;
         $this->rut = $rut;
         $this->nombre = $nombre;
         $this->profesion = $profesion;
         $this->idcomite = $idcomite;
         $this->registro = $registro;
+        $this->cargoid = $cargoid;
+        $this->cargo = $cargo;
     }
 
     public function getid(){
@@ -38,5 +42,13 @@ class Profesionalcomite{
 
     public function getregistro(){
         return $this->registro;
+    }
+
+    public function getcargoid(){
+        return $this->cargoid;
+    }
+
+    public function getcargo(){
+        return $this->cargo;
     }
 }

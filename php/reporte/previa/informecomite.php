@@ -56,6 +56,9 @@ if(isset($_GET['informe'])){
     $ingreso = $informe->ingreso;
     $observacionplan = $informe->observacionplan;
     $resolucion = $informe->resolucion;
+    $peso = $informe->peso;
+    $talla = $informe->talla;
+    $sc = $c->calculateBSA($talla, $peso);
 
     $paciente = $c->buscarpaciente($paciente);
     $fechanacimiento = $paciente->getFechanacimiento();
@@ -129,13 +132,13 @@ if(isset($_GET['informe'])){
     $contenido .= "<h3 style='text-decoration: underline; font-size: 18px; margin:0; margin-bottom:5px;'> Anamnesis</h3>";
     $contenido .= "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-size:9pt'>
     <tr>
-        <td width='100%' style='text-align:'> <h3 style='font-size:9pt'>Peso: " . $med->getPeso() . " kG,  Talla: " . $med->getTalla() . "CM, Superficie Corporal: " . $sc . " m2</h3>
+        <td width='100%' style='text-align:'> <h3 style='font-size:9pt'>Peso: " . $peso . " kG,  Talla: " . $talla . "CM, Superficie Corporal: " . $sc . " m<sup>2</sup></h3>
         </td>
     </tr>
     <tr>
         <td width='100%' style='text-align: justify;  '>
-            <h3 style='font-size:9pt'> ECOG: " . $ecog->getCodigo() . "</h3>
-            <h3 style='font-size:9pt'> Diagnostico: " . $diagnosticotext . "</h3>           
+            <h3 style='font-size:9pt'> Diagnostico: " . $diagnosticotext . "</h3>    
+            <h3 style='font-size:9pt'> ECOG: " . $ecog->getCodigo() . "</h3>       
         </td>
     </tr>
     </table>";

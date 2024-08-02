@@ -3305,12 +3305,30 @@ class Controller
         return null;
     }
 
-    //Profesionales Comite
-    //Registrar Profesionales Comite
-    public function registrarprofesionalescomite($idcomite, $idprofesional)
+    //Listar cargos
+    public function listarcargos()
     {
         $this->conexion();
-        $sql = "insert into profesionalescomite values(null,$idcomite, $idprofesional,now())";
+        $sql = "select * from cargocomite";
+        $result = $this->mi->query($sql);
+        $array = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs['id'];
+            $nombre = $rs['nombre'];
+            $registro = $rs['registro'];
+            $object = array('id' => $id, 'nombre' => $nombre, 'registro' => $registro);
+            array_push($array, $object);
+        }
+        $this->desconexion();
+        return $array;
+    }
+
+    //Profesionales Comite
+    //Registrar Profesionales Comite
+    public function registrarprofesionalescomite($idcomite, $idprofesional,$cargo)
+    {
+        $this->conexion();
+        $sql = "insert into profesionalescomite values(null,$idcomite, $idprofesional,$cargo,now())";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return $result;
@@ -3344,7 +3362,7 @@ class Controller
     public function buscarprofesionalescomite($idcomite, $empresa)
     {
         $this->conexion();
-        $sql = "select profesionalescomite.id as id,usuarios.rut as rut, usuarios.nombre as nombre, usuarios.apellido1 as apellido1, usuarios.apellido2 as apellido2, profesionalescomite.profesional as profesional, profesionalescomite.registro, profesiones.nombre as profesion from profesionalescomite, usuarios, profesiones,usuarioprofesion where profesionalescomite.profesional = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and profesionalescomite.comite = $idcomite and usuarioprofesion.empresa = $empresa";
+        $sql = "select profesionalescomite.id as id,usuarios.rut as rut, usuarios.nombre as nombre, usuarios.apellido1 as apellido1, usuarios.apellido2 as apellido2, profesionalescomite.profesional as profesional, profesionalescomite.registro, profesiones.nombre as profesion, cargocomite.id as cargoid, cargocomite.nombre as cargo from profesionalescomite, usuarios, profesiones,usuarioprofesion,cargocomite where profesionalescomite.profesional = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and profesionalescomite.comite = $idcomite and usuarioprofesion.empresa = $empresa and profesionalescomite.cargo = cargocomite.id";
         $result = $this->mi->query($sql);
         $array = array();
         while ($rs = mysqli_fetch_array($result)) {
@@ -3354,7 +3372,9 @@ class Controller
             $profesion = $rs['profesion'];
             $idcomite = $rs['profesional'];
             $registro = $rs['registro'];
-            $object = new Profesionalcomite($id, $rut, $nombre, $profesion, $idcomite, $registro);
+            $cargoid = $rs['cargoid'];
+            $cargo = $rs['cargo'];
+            $object = new Profesionalcomite($id, $rut, $nombre, $profesion, $idcomite, $registro, $cargoid, $cargo);
             array_push($array, $object);
         }
         $this->desconexion();
@@ -3698,6 +3718,7 @@ class Controller
             $histologico = $rs["histologico"];
             $invaciontumoral = $rs["invaciontumoral"];
             $mitotico = $rs["mitotico"];
+            $observaciontnm = $rs["observaciontnm"];
             $anamesis = $rs["anamesis"];
             $cirugia = $rs["cirugia"];
             $quimioterapia = $rs["quimioterapia"];
@@ -3718,7 +3739,7 @@ class Controller
             $resolucion = $rs["resolucion"];
             $empresa = $rs["empresa"];
             $registro = $rs["registro"];
-            $object = new Informecomite($id, $folio, $paciente, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $empresa, $registro);
+            $object = new Informecomite($id, $folio, $paciente, $comite, $ecog, $histologico, $invaciontumoral, $mitotico,$observaciontnm, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $empresa, $registro);
             $this->desconexion();
             return $object;
         }
@@ -3741,6 +3762,7 @@ class Controller
             $histologico = $rs["histologico"];
             $invaciontumoral = $rs["invaciontumoral"];
             $mitotico = $rs["mitotico"];
+            $observaciontnm = $rs["observaciontnm"];
             $anamesis = $rs["anamesis"];
             $cirugia = $rs["cirugia"];
             $quimioterapia = $rs["quimioterapia"];
@@ -3761,7 +3783,7 @@ class Controller
             $resolucion = $rs["resolucion"];
             $empresa = $rs["empresa"];
             $registro = $rs["registro"];
-            $object = new Informecomite($id, $folio, $paciente, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $empresa, $registro);
+            $object = new Informecomite($id, $folio, $paciente, $comite, $ecog, $histologico, $invaciontumoral, $mitotico,$observaciontnm, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $empresa, $registro);
             $this->desconexion();
             return $object;
         }
@@ -3785,6 +3807,7 @@ class Controller
             $histologico = $rs["histologico"];
             $invaciontumoral = $rs["invaciontumoral"];
             $mitotico = $rs["mitotico"];
+            $observaciontnm = $rs["observaciontnm"];
             $anamesis = $rs["anamesis"];
             $cirugia = $rs["cirugia"];
             $quimioterapia = $rs["quimioterapia"];
@@ -3805,7 +3828,7 @@ class Controller
             $resolucion = $rs["resolucion"];
             $empresa = $rs["empresa"];
             $registro = $rs["registro"];
-            $object = new Informecomite($id, $folio, $paciente, $comite, $ecog, $histologico, $invaciontumoral, $mitotico, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $empresa, $registro);
+            $object = new Informecomite($id, $folio, $paciente, $comite, $ecog, $histologico, $invaciontumoral, $mitotico,$observaciontnm, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $empresa, $registro);
             array_push($array, $object);
         }
         $this->desconexion();

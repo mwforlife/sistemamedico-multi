@@ -208,7 +208,7 @@ if(isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagnos
     $folio = $c->buscarultimofolioinformecomite($empresa->getId())+1;
 
     //Registrar Informe
-    $informe_id = $c->registrarinformecomite($folio, $paciente,$comite,$ecog,$histologico,$invasiontumoral,$mitotico,$anamnesis,$cirugia,$quimioterapia,$radioterapia,$otros,$seguimiento,$completar,$revaluacion,$estudioclinicno,$observacionesdecision,$consultadetext,$consultade,$programacion,$traslado,$paliativos,$ingreso,$observacionplan,$resolucion,$empresa->getId());
+    $informe_id = $c->registrarinformecomite($folio, $paciente,$comite,$ecog,$histologico,$invasiontumoral,$mitotico,$observaciontnm,$anamnesis,$cirugia,$quimioterapia,$radioterapia,$otros,$seguimiento,$completar,$revaluacion,$estudioclinicno,$observacionesdecision,$consultadetext,$consultade,$programacion,$traslado,$paliativos,$ingreso,$observacionplan,$resolucion,$empresa->getId());
 
     if($informe_id>0){
         //Registrar Diagnosticos
