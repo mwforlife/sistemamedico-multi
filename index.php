@@ -558,7 +558,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							<div class="header-navheading">
 								<h6 class="main-notification-title">
 									<?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
-									<p class="main-notification-text"><?php echo $object1->getProfesion(); ?>
+									<p class="main-notification-text"><?php if($object1!=null){ echo $object1->getProfesion(); }?>
 							</div>
 							<a class="dropdown-item" href="close.php">
 								<i class="fe fe-power"></i> Cerrar Sesíon
@@ -596,7 +596,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 							<div class="dropdown-menu">
 								<div class="header-navheading">
 									<h6 class="main-notification-title"><?php echo $object->getNombre() . " " . $object->getApellido1() . " " . $object->getApellido2(); ?></h6>
-									<p class="main-notification-text"><?php echo $object1->getProfesion(); ?>
+									<p class="main-notification-text"><?php if($object1!=null){ echo $object1->getProfesion(); }?>
 								</div>
 
 								<a class="dropdown-item" href="close.php">
