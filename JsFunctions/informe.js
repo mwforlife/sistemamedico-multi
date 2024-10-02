@@ -729,6 +729,60 @@ function editarinforme(paciente, comite) {
 }
 
 function guardarborrador(paciente, comite) {
+  var peso = $("#peso").val();
+  var talla = $("#talla").val();
+  var sup = $("#sup").val();
+  //Diagnostico
+  var diagnostico = $("#iddiag").val();
+  var diagnosticotext = $("#diagnostico").val();
+  if (diagnostico <= 0 || diagnosticotext.trim().length <= 0) {
+    ToastifyError("Debe seleccionar un diagnostico");
+    return;
+  }
+  var diagnosticocie10 = $("#idcie10").val();
+  var diagnosticocie10text = $("#diagnosticocie10").val();
+  if (diagnosticocie10 <= 0 || diagnosticocie10text.trim().length <= 0) {
+    ToastifyError("Debe seleccionar un diagnostico CIE10");
+    return;
+  }
+
+  //Fecha biopsia
+  var fechabiopsia = $("#fechabiopsia").val();
+  //Reingreso
+  var reingreso = 0;
+  if ($("#reingreso").is(":checked")) {
+    reingreso = 1;
+  }
+
+  //Ecog
+  var ecog = $("#ecog").val();
+  var ecogtext = $("#ecog option:selected").text();
+  //Histologico
+  var histologico = $("#histologico").val();
+  var histologicotext = $("#histologico option:selected").text();
+  //invasiontumoral
+  var invasiontumoral = $("#invasiontumoral").val();
+  var invasiontumoraltext = $("#invasiontumoral option:selected").text();
+  //mitotico
+  var mitotico = $("#mitotico").val();
+
+  //TNM
+  if (tnm.length <= 0) {
+    ToastifyError("Debe ingresar al menos un TNM");
+    return;
+  }
+  var observaciontnm = $("#observaciontnm").val();
+
+  //anamnesis
+  var anamnesis = $("#anamnesis").val();
+
+  //Decision tomada
+  var cirugia = 0;
+  //Validar si se selecciono cirugia
+  if ($("#cirugia").is(":checked")) {
+    cirugia = $("#cirugia").val();
+  }
+  var quimioterapia = 0;
 }
 
 
