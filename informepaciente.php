@@ -946,6 +946,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	<select name="mitotico" id="mitotico"
 																		class="from-control select2">
 																		<?php
+																		echo "<option value='0'>Sin Información</option>";
 																		//porcentajes del 1 al 100
 																		for ($i = 1; $i <= 100; $i++) {
 																			echo "<option value='" . $i . "'>" . $i . "%</option>";
@@ -1629,6 +1630,10 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 											<button class="btn btn-outline-primary"
 												onclick="vistapreviainforme(<?php echo $dipaciente ?>,<?php echo $idcomite; ?>)">
 												<i class="fa fa-eye"></i> Vista Previa</button>
+											<button class="btn btn-outline-warning"
+												onclick="guardarborrador(<?php echo $dipaciente ?>,<?php echo $idcomite; ?>)">
+												<i class="fa fa-eraser"></i>
+												Guardar Borrador</button>
 											<button class="btn btn-outline-success"
 												onclick="guardarinforme(<?php echo $dipaciente ?>,<?php echo $idcomite; ?>)">
 												<i class="fa fa-save"></i> Guardar</button>

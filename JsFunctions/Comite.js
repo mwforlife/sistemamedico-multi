@@ -323,11 +323,7 @@ function agregarmedico(id, rut, nombre, profesion) {
 
 function guardarpaciente() {
     var observacionespaciente = $("#observacion").val();
-    if (observacionespaciente.trim().length <= 0) {
-        ToastifyError("Debe ingresar una observación");
-        return;
-    }
-
+    
     var idpaciente = $("#idpaciente").val();
     var rutpaciente = $("#rutpaciente").val();
     var nombrepaciente = $("#nombrepaciente").val();

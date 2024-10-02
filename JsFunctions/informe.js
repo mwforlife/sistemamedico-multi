@@ -728,6 +728,10 @@ function editarinforme(paciente, comite) {
   });
 }
 
+function guardarborrador(paciente, comite) {
+}
+
+
 function cargartnm() {
   console.log(tnm);
   var html = "";

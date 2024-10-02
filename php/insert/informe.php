@@ -95,7 +95,7 @@ if(isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['diagnos
     }
 
     //Validar Mitotico
-    if($mitotico <= 0){
+    if($mitotico < 0){
         echo json_encode(array("status"=> false, "message"=> "Ups! Debe seleccionar un Mitotico"));
         return;
     }

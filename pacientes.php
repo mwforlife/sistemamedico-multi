@@ -739,7 +739,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 														<a class="nav-link active" data-toggle="tab" href="#tabCont1">Datos Basicos</a>
 														<a class="nav-link" data-toggle="tab" href="#tabCont2">Grupo Familiar</a>
 														<?php
-														if ($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true) {
+														if ($admingeneralrol == true || $adminsistemarol == true || $medicorol == true) {
 														?>
 															<a class="nav-link" data-toggle="tab" href="#tabCont3">Historial Clinico</a>
 															<a class="nav-link" data-toggle="tab" href="#tabCont4">Signos Vitales</a>
@@ -1674,7 +1674,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 														<!-- End Row -->
 													</div>
 													<?php
-													if ($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true) {
+													if ($admingeneralrol == true || $adminsistemarol == true || $fichaclinicarol == true || $medicorol == true) {
 													?>
 														<div class="tab-pane" id="tabCont3">
 															<!-- Row -->

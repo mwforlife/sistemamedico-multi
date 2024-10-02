@@ -869,6 +869,11 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 																		<?php
 																		//porcentajes del 1 al 100
 																		$mitotico = $informe->getMitotico();
+																		if($mitotico == 0){
+																			echo "<option value='0' selected>Sin Información</option>";
+																		}else{
+																			echo "<option value='0'>Sin Información</option>";
+																		}
 																		for ($i = 1; $i <= 100; $i++) {
 																			if ($mitotico == $i) {
 																				echo "<option value='" . $i . "' selected>" . $i . "%</option>";
