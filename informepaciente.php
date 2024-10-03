@@ -1211,11 +1211,8 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																							<select name="consultade"
 																								id="consultade"
 																								class="form-control select2">
-																								<option value="1">
-																									Cirugía</option>
-																								<option value="2">
-																									Quimioterapia
-																								</option>
+																								<option value="1">Cirugía</option>
+																								<option value="2">Quimioterapia</option>
 																							</select>
 																						</div>
 																					</div>
@@ -1630,10 +1627,10 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 											<button class="btn btn-outline-primary"
 												onclick="vistapreviainforme(<?php echo $dipaciente ?>,<?php echo $idcomite; ?>)">
 												<i class="fa fa-eye"></i> Vista Previa</button>
-											<button class="btn btn-outline-warning"
+											<button class="btn btn-outline-info"
 												onclick="guardarborrador(<?php echo $dipaciente ?>,<?php echo $idcomite; ?>)">
 												<i class="fa fa-eraser"></i>
-												Guardar Borrador</button>
+												Guardar Borrador Y Volver</button>
 											<button class="btn btn-outline-success"
 												onclick="guardarinforme(<?php echo $dipaciente ?>,<?php echo $idcomite; ?>)">
 												<i class="fa fa-save"></i> Guardar</button>
