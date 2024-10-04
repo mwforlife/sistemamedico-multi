@@ -7292,138 +7292,21 @@ class Controller
         return null;
     }
 
-    //Borrador Informe
-    /*create table borradorinformecomite(
-    id int not null auto_increment primary key,
-    paciente int not null references pacientes(id),
-    comite int not null references comite(id),
-    peso int not null,
-    talla int not null,
-    scorporal int not null,
-    --Informacion informe
-    ecog int not null references ecog(id),
-    histologico int not null references histologico(id),
-    invaciontumoral int not null references invaciontumoral(id),
-    mitotico int not null,
-    t1 varchar(20) null,
-    t varchar(20) null,
-    n varchar(20) null,
-    m varchar(20) null,
-    observaciontnm text not null,
-    anamesis text  null,
-    cirugia int not null default 0,
-    quimioterapia int not null default 0,
-    radioterapia int not null default 0,
-    tratamientosoncologicos int not null default 0,
-    seguimientosintratamiento int not null default 0,
-    completarestudios int not null default 0,
-    revaluacionposterior int not null default 0,
-    estudioclinico int not null default 0,
-    observaciondesicion text  null,
-    consultade text not null,
-    consultadeid int not null,
-    programacionquirurgica int not null default 0,
-    traslado int not null default 0,
-    ciudadospaliativos int not null default 0,
-    ingresohospitalario int not null default 0,
-    observacionplan text  null,
-    resolucion text  null,
-    --Informacion diagnostico
-    diagnosticos text null,
-    diagnosticosid int null default 0,
-    diagnosticocie10 text  null,
-    diagnosticocie10id int  null default 0,
-    fechabiopsia date  null,
-    reingreso int  null default 0,
-    --Informacion del registro poblacional
-    rama1 int null,
-    rama2 int null,
-    rama3 int null,
-    rama4 int null,
-    rama5 int null,
-    rama6 int null,
-    rama7 int null,
-    rama8 int null,
-    rama9 int null,
-    rama10 int null,
-    ocupacion1 int null,
-    ocupacion2 int null,
-    ocupacion3 int null,
-    ocupacion4 int null,
-    ocupacion5 int null,
-    ocupacion6 int null,
-    ocupacion7 int null,
-    ocupacion8 int null,
-    ocupacion9 int null,
-    ocupacion10 int null,
-    ocupacion11 int null,
-    sp1 text null,
-    sp2 text null,
-    sp3 text null,
-    th1 text null,
-    th2 text null,
-    th3 text null,
-    th4 text null,
-    th5 text null,
-    comportamiento text null,
-    comportamientoobservaciones text null,
-    grado1 int null,
-    grado2 int null,
-    grado3 int null,
-    grado4 int null,
-    grado5 int null,
-    extension1 int null,
-    extension2 int null,
-    extension3 int null,
-    extension4 int null,
-    extension5 int null,
-    lateralidad1 int null,
-    lateralidad2 int null,
-    lateralidad3 int null,
-    lateralidad4 int null,
-    lateralidad5 int null,
-    fechaincidencia date null,
-    horaincidencia time null,
-    basediagnostico1 int null,
-    basediagnostico2 int null,
-    basediagnostico3 int null,
-    basediagnostico4 int null,
-    basediagnostico5 int null,
-    basediagnostico6 int null,
-    basediagnostico7 int null,
-    basediagnostico8 int null,
-    basediagnostico9 int null,
-    fuente1 text null,
-    fichapacex1 text null,
-    fechahospex1 date null,
-    horahospex1 time null,
-    fuente2 text null,
-    fichapacex2 text null,
-    fechahospex2 date null,
-    horahospex2 time null,
-    fuente3 text null,
-    fichapacex3 text null,
-    fechahospex3 date null,
-    horahospex3 time null,
-    fechaultimocontacto date null,
-    estadio int null,
-    defuncion date null,
-    causa int null,
-    obsersavacionfinal text null,
-    proveniencia text not null,
-    );*/
-
     //Registrar Borrador Informe
-    function registrarborradorinforme($paciente, $comite, $peso, $talla, $scorporal, $ecog, $histologico, $invaciontumoral, $mitotico, $t1, $t, $n, $m, $observaciontnm, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $diagnosticos, $diagnosticosid, $diagnosticocie10, $diagnosticocie10id, $fechabiopsia, $reingreso, $rama1, $rama2, $rama3, $rama4, $rama5, $rama6, $rama7, $rama8, $rama9, $rama10, $ocupacion1, $ocupacion2, $ocupacion3, $ocupacion4, $ocupacion5, $ocupacion6, $ocupacion7, $ocupacion8, $ocupacion9, $ocupacion10, $ocupacion11, $sp1, $sp2, $sp3, $th1, $th2, $th3, $th4, $th5, $comportamiento, $comportamientoobservaciones, $grado1, $grado2, $grado3, $grado4, $grado5, $extension1, $extension2, $extension3, $extension4, $extension5, $lateralidad1, $lateralidad2, $lateralidad3, $lateralidad4, $lateralidad5, $fechaincidencia, $horaincidencia, $basediagnostico1, $basediagnostico2, $basediagnostico3, $basediagnostico4, $basediagnostico5, $basediagnostico6, $basediagnostico7, $basediagnostico8, $basediagnostico9, $fuente1, $fichapac, $fechahospex1, $horahospex1, $fuente2, $fichapacex2, $fechahospex2, $horahospex2, $fuente3, $fichapacex3, $fechahospex3, $horahospex3, $fechaultimocontacto, $estadio, $defuncion, $causa, $obsersavacionfinal, $proveniencia)
+    function registrarborradorinforme($paciente, $comite, $peso, $talla, $scorporal, $diagnostico, $diagnosticotext, $diagnosticocie10, $diagnosticocie10text, $fechabiopsia, $reingreso, $ecog, $histologico, $invaciontumoral, $mitotico, $observaciontnm, $anamesis, $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, $observaciondesicion, $consultade, $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, $observacionplan, $resolucion, $completereg, $rama1, $rama2, $rama3, $rama4, $rama5, $rama6, $rama7, $rama8, $rama9, $rama10, $ocupacion1, $ocupacion2, $ocupacion3, $ocupacion4, $ocupacion5, $ocupacion6, $ocupacion7, $ocupacion8, $ocupacion9, $ocupacion10, $ocupacion11, $sp1, $sp2, $sp3, $th1, $th2, $th3, $th4, $th5, $comportamiento, $comportamientoobservaciones, $grado1, $grado2, $grado3, $grado4, $grado5, $extension1, $extension2, $extension3, $extension4, $extension5, $lateralidad1, $lateralidad2, $lateralidad3, $lateralidad4, $lateralidad5, $fechaincidencia, $horaincidencia, $basediagnostico1, $basediagnostico2, $basediagnostico3, $basediagnostico4, $basediagnostico5, $basediagnostico6, $basediagnostico7, $basediagnostico8, $basediagnostico9, $fuente1, $fichapacex1, $fechahospex1, $horahospex1, $fuente2, $fichapacex2, $fechahospex2, $horahospex2, $fuente3, $fichapacex3, $fechahospex3, $horahospex3, $fechaultimocontacto, $estadio, $defuncion, $causa, $obsersavacionfinal)
     {
         $this->conexion();
-        $sql = "insert into borradorinformecomite (paciente, comite, peso, talla, scorporal, ecog, histologico, invaciontumoral, mitotico, t1, t, n, m, observaciontnm, anamesis, cirugia, quimioterapia, radioterapia, tratamientosoncologicos, seguimientosintratamiento, completarestudios, revaluacionposterior, estudioclinico, observaciondesicion, consultade, consultadeid, programacionquirurgica, traslado, ciudadospaliativos, ingresohospitalario, observacionplan, resolucion, diagnosticos, diagnosticosid, diagnosticocie10, diagnosticocie10id, fechabiopsia, reingreso, rama1, rama2, rama3, rama4, rama5, rama6, rama7, rama8, rama9, rama10, ocupacion1, ocupacion2, ocupacion3, ocupacion4, ocupacion5, ocupacion6, ocupacion7, ocupacion8, ocupacion9, ocupacion10, ocupacion11, sp1, sp2, sp3, th1, th2, th3, th4, th5, comportamiento, comportamientoobservaciones, grado1, grado2, grado3, grado4, grado5, extension1, extension2, extension3, extension4, extension5, lateralidad1, lateralidad2, lateralidad3, lateralidad4, lateralidad5, fechaincidencia, horaincidencia, basediagnostico1, basediagnostico2, basediagnostico3, basediagnostico4, basediagnostico5, basediagnostico6, basediagnostico7, basediagnostico8, basediagnostico9, fuente1, fichapacex1, fechahospex1, horahospex1, fuente2, fichapacex2, fechahospex2, horahospex2, fuente3, fichapacex3, fechahospex3, horahospex3, fechaultimocontacto, estadio, defuncion, causa, obsersavacionfinal, proveniencia) values (" . $paciente . "," . $comite . "," . $peso . "," . $talla . "," . $scorporal . "," . $ecog . "," . $histologico . "," . $invaciontumoral . "," . $mitotico . ",'" . $t1 . "','" . $t . "','" . $n . "','" . $m . "','" . $observaciontnm . "','" . $anamesis . "'," . $cirugia . "," . $quimioterapia . "," . $radioterapia . "," . $tratamientosoncologicos . "," . $seguimientosintratamiento . "," . $completarestudios . "," . $revaluacionposterior . "," . $estudioclinico . ",'" . $observaciondesicion . "','" . $consultade . "'," . $consultadeid . "," . $programacionquirurgica . "," . $traslado . "," . $ciudadospaliativos . "," . $ingresohospitalario . ",'" . $observacionplan . "','" . $resolucion . "','" . $diagnosticos . "'," . $diagnosticosid . ",'" . $diagnosticocie10 . "'," . $diagnosticocie10id . ",'" . $fechabiopsia . "'," . $reingreso . "," . $rama1 . "," . $rama2 . "," . $rama3 . "," . $rama4 . "," . $rama5 . "," . $rama6 . "," . $rama7 . "," . $rama8 . "," . $rama9 . "," . $rama10 . "," . $ocupacion1 . "," . $ocupacion2 . "," . $ocupacion3 . "," . $ocupacion4 . "," . $ocupacion5 . "," . $ocupacion6 . "," . $ocupacion7 . "," . $ocupacion8 . "," . $ocupacion9 . "," . $ocupacion10 . "," . $ocupacion11 . ",'" . $sp1 . "','" . $sp2 . "','" . $sp3 . "','" . $th1 . "','" . $th2 . "','" . $th3 . "','" . $th4 . "','" . $th5 . "','" . $comportamiento . "','" . $comportamientoobservaciones . "'," . $grado1 . "," . $grado2 . "," . $grado3 . "," . $grado4 . "," . $grado5 . "," . $extension1 . "," . $extension2 . "," . $extension3 . "," . $extension4 . "," . $extension5 . "," . $lateralidad1 . "," . $lateralidad2 . "," . $lateralidad3 . "," . $lateralidad4 . "," . $lateralidad5 . ",'" . $fechaincidencia . "','" . $horaincidencia . "'," . $basediagnostico1 . "," . $basediagnostico2 . "," . $basediagnostico3 . "," . $basediagnostico4 . "," . $basediagnostico5 . "," . $basediagnostico6 . "," . $basediagnostico7 . "," . $basediagnostico8 . "," . $basediagnostico9 . ",'" . $fuente1 . "','" . $fichapac . "','" . $fechahospex1 . "','" . $horahospex1 . "','" . $fuente2 . "','" . $fichapacex2 . "','" . $fechahospex2 . "','" . $horahospex2 . "','" . $fuente3 . "','" . $fichapacex3 . "','" . $fechahospex3 . "','" . $horahospex3 . "','" . $fechaultimocontacto . "'," . $estadio . ",'" . $defuncion . "'," . $causa . ",'" . $obsersavacionfinal . "','" . $proveniencia . "')";
+        $sql = "insert into borradorinformecomite (paciente, comite, peso, talla, scorporal, diagnostico, diagnosticotext, diagnosticocie10, diagnosticocie10text, fechabiopsia, reingreso, ecog, histologico, invaciontumoral, mitotico, observaciontnm, anamesis, cirugia, quimioterapia, radioterapia, tratamientosoncologicos, seguimientosintratamiento, completarestudios, revaluacionposterior, estudioclinico, observaciondesicion, consultade, consultadeid, programacionquirurgica, traslado, ciudadospaliativos, ingresohospitalario, observacionplan, resolucion, completereg, rama1, rama2, rama3, rama4, rama5, rama6, rama7, rama8, rama9, rama10, ocupacion1, ocupacion2, ocupacion3, ocupacion4, ocupacion5, ocupacion6, ocupacion7, ocupacion8, ocupacion9, ocupacion10, ocupacion11, sp1, sp2, sp3, th1, th2, th3, th4, th5, comportamiento, comportamientoobservaciones, grado1, grado2, grado3, grado4, grado5, extension1, extension2, extension3, extension4, extension5, lateralidad1, lateralidad2, lateralidad3, lateralidad4, lateralidad5, fechaincidencia, horaincidencia, basediagnostico1, basediagnostico2, basediagnostico3, basediagnostico4, basediagnostico5, basediagnostico6, basediagnostico7, basediagnostico8, basediagnostico9, fuente1, fichapacex1, fechahospex1, horahospex1, fuente2, fichapacex2, fechahospex2, horahospex2, fuente3, fichapacex3, fechahospex3, horahospex3, fechaultimocontacto, estadio, defuncion, causa, obsersavacionfinal) values ($paciente, $comite, $peso, $talla, $scorporal, '$diagnostico', '$diagnosticotext', '$diagnosticocie10', '$diagnosticocie10text', '$fechabiopsia', $reingreso, $ecog, $histologico, $invaciontumoral, $mitotico, '$observaciontnm', '$anamesis', $cirugia, $quimioterapia, $radioterapia, $tratamientosoncologicos, $seguimientosintratamiento, $completarestudios, $revaluacionposterior, $estudioclinico, '$observaciondesicion', '$consultade', $consultadeid, $programacionquirurgica, $traslado, $ciudadospaliativos, $ingresohospitalario, '$observacionplan', '$resolucion', 
+        $completereg, $rama1, $rama2, $rama3, $rama4, $rama5, $rama6, $rama7, $rama8, $rama9, $rama10, $ocupacion1, $ocupacion2, $ocupacion3, $ocupacion4, $ocupacion5, $ocupacion6, $ocupacion7, $ocupacion8, $ocupacion9, $ocupacion10, $ocupacion11, '$sp1', '$sp2', '$sp3', '$th1', '$th2', '$th3', '$th4', '$th5', '$comportamiento', '$comportamientoobservaciones', $grado1, $grado2, $grado3, $grado4, $grado5, $extension1, $extension2, $extension3, $extension4, $extension5, $lateralidad1, $lateralidad2, $lateralidad3, $lateralidad4, $lateralidad5, '$fechaincidencia', '$horaincidencia', $basediagnostico1, $basediagnostico2, $basediagnostico3, $basediagnostico4, $basediagnostico5, $basediagnostico6, $basediagnostico7, $basediagnostico8, $basediagnostico9, '$fuente1', '$fichapacex1', '$fechahospex1', '$horahospex1', '$fuente2', '$fichapacex2', '$fechahospex2', '$horahospex2', '$fuente3', '$fichapacex3', '$fechahospex3', '$horahospex3', '$fechaultimocontacto', $estadio, '$defuncion', $causa, '$obsersavacionfinal')";
         $result = $this->mi->query($sql);
+        $id = $this->mi->insert_id;
         $this->desconexion();
-        return $result;
+        return $id;
     }
 
-    function buscarborrador($paciente, $comite){
+    //Listar Borrador Informe
+    function listaborradorinforme($paciente, $comite)
+    {
         $this->conexion();
         $sql = "select * from borradorinformecomite where paciente = $paciente and comite = $comite";
         $result = $this->mi->query($sql);
@@ -7434,14 +7317,16 @@ class Controller
             $peso = $rs['peso'];
             $talla = $rs['talla'];
             $scorporal = $rs['scorporal'];
+            $diagnostico = $rs['diagnostico'];
+            $diagnosticotext = $rs['diagnosticotext'];
+            $diagnosticocie10 = $rs['diagnosticocie10'];
+            $diagnosticocie10text = $rs['diagnosticocie10text'];
+            $fechabiopsia = $rs['fechabiopsia'];
+            $reingreso = $rs['reingreso'];
             $ecog = $rs['ecog'];
             $histologico = $rs['histologico'];
             $invaciontumoral = $rs['invaciontumoral'];
             $mitotico = $rs['mitotico'];
-            $t1 = $rs['t1'];
-            $t = $rs['t'];
-            $n = $rs['n'];
-            $m = $rs['m'];
             $observaciontnm = $rs['observaciontnm'];
             $anamesis = $rs['anamesis'];
             $cirugia = $rs['cirugia'];
@@ -7461,12 +7346,7 @@ class Controller
             $ingresohospitalario = $rs['ingresohospitalario'];
             $observacionplan = $rs['observacionplan'];
             $resolucion = $rs['resolucion'];
-            $diagnosticos = $rs['diagnosticos'];
-            $diagnosticosid = $rs['diagnosticosid'];
-            $diagnosticocie10 = $rs['diagnosticocie10'];
-            $diagnosticocie10id = $rs['diagnosticocie10id'];
-            $fechabiopsia = $rs['fechabiopsia'];
-            $reingreso = $rs['reingreso'];
+            $completereg = $rs['completereg'];
             $rama1 = $rs['rama1'];
             $rama2 = $rs['rama2'];
             $rama3 = $rs['rama3'];
@@ -7474,7 +7354,7 @@ class Controller
             $rama5 = $rs['rama5'];
             $rama6 = $rs['rama6'];
             $rama7 = $rs['rama7'];
-            $rama8 = $rs['rama8'];
+            $rama8 = $rs['rama8'];  
             $rama9 = $rs['rama9'];
             $rama10 = $rs['rama10'];
             $ocupacion1 = $rs['ocupacion1'];
@@ -7525,7 +7405,7 @@ class Controller
             $basediagnostico8 = $rs['basediagnostico8'];
             $basediagnostico9 = $rs['basediagnostico9'];
             $fuente1 = $rs['fuente1'];
-            $fichapac = $rs['fichapac'];
+            $fichapacex1 = $rs['fichapacex1'];
             $fechahospex1 = $rs['fechahospex1'];
             $horahospex1 = $rs['horahospex1'];
             $fuente2 = $rs['fuente2'];
@@ -7541,12 +7421,77 @@ class Controller
             $defuncion = $rs['defuncion'];
             $causa = $rs['causa'];
             $obsersavacionfinal = $rs['obsersavacionfinal'];
-            $proveniencia = $rs['proveniencia'];
-            $borrador = array("id" => $id, "paciente" => $paciente, "comite" => $comite, "peso" => $peso, "talla" => $talla, "scorporal" => $scorporal, "ecog" => $ecog, "histologico" => $histologico, "invaciontumoral" => $invaciontumoral, "mitotico" => $mitotico, "t1" => $t1, "t" => $t, "n" => $n, "m" => $m, "observaciontnm" => $observaciontnm, "anamesis" => $anamesis, "cirugia" => $cirugia, "quimioterapia" => $quimioterapia, "radioterapia" => $radioterapia, "tratamientosoncologicos" => $tratamientosoncologicos, "seguimientosintratamiento" => $seguimientosintratamiento, "completarestudios" => $completarestudios, "revaluacionposterior" => $revaluacionposterior, "estudioclinico" => $estudioclinico, "observaciondesicion" => $observaciondesicion, "consultade" => $consultade, "consultadeid" => $consultadeid, "programacionquirurgica" => $programacionquirurgica, "traslado" => $traslado, "ciudadospaliativos" => $ciudadospaliativos, "ingresohospitalario" => $ingresohospitalario, "observacionplan" => $observacionplan, "resolucion" => $resolucion, "diagnosticos" => $diagnosticos, "diagnosticosid" => $diagnosticosid, "diagnosticocie10" => $diagnosticocie10, "diagnosticocie10id" => $diagnosticocie10id, "fechabiopsia" => $fechabiopsia, "reingreso" => $reingreso, "rama1" => $rama1, "rama2" => $rama2, "rama3" => $rama3, "rama4" => $rama4, "rama5" => $rama5, "rama6" => $rama6, "rama7" => $rama7, "rama8" => $rama8, "rama9" => $rama9, "rama10" => $rama10, "ocupacion1" => $ocupacion1, "ocupacion2" => $ocupacion2, "ocupacion3" => $ocupacion3, "ocupacion4" => $ocupacion4, "ocupacion5" => $ocupacion5, "ocupacion6" => $ocupacion6, "ocupacion7" => $ocupacion7, "ocupacion8" => $ocupacion8, "ocupacion9" => $ocupacion9, "ocupacion10" => $ocupacion10, "ocupacion11" => $ocupacion11, "sp1" => $sp1, "sp2" => $sp2, "sp3" => $sp3, "th1" => $th1, "th2" => $th2, "th3" => $th3, "th4" => $th4, "th5" => $th5, "comportamiento" => $comportamiento, "comportamientoobservaciones" => $comportamientoobservaciones, "grado1" => $grado1, "grado2" => $grado2, "grado3" => $grado3, "grado4" => $grado4, "grado5" => $grado5, "extension1" => $extension1, "extension2" => $extension2, "extension3" => $extension3, "extension4" => $extension4, "extension5" => $extension5, "lateralidad1" => $lateralidad1, "lateralidad2" => $lateralidad2, "lateralidad3" => $lateralidad3, "lateralidad4" => $lateralidad4, "lateralidad5" => $lateralidad5, "fechaincidencia" => $fechaincidencia, "horaincidencia" => $horaincidencia, "basediagnostico1" => $basediagnostico1, "basediagnostico2" => $basediagnostico2, "basediagnostico3" => $basediagnostico3, "basediagnostico4" => $basediagnostico4, "basediagnostico5" => $basediagnostico5, "basediagnostico6" => $basediagnostico6, "basediagnostico7" => $basediagnostico7, "basediagnostico8" => $basediagnostico8, "basediagnostico9" => $basediagnostico9, "fuente1" => $fuente1, "fichapac" => $fichapac, "fechahospex1" => $fechahospex1, "horahospex1" => $horahospex1, "fuente2" => $fuente2, "fichapacex2" => $fichapacex2, "fechahospex2" => $fechahospex2, "horahospex2" => $horahospex2, "fuente3" => $fuente3, "fichapacex3" => $fichapacex3, "fechahospex3" => $fechahospex3, "horahospex3" => $horahospex3, "fechaultimocontacto" => $fechaultimocontacto, "estadio" => $estadio, "defuncion" => $defuncion, "causa" => $causa, "obsersavacionfinal" => $obsersavacionfinal, "proveniencia" => $proveniencia);
+            $borradorinforme = array("id" => $id, "paciente" => $paciente, "comite" => $comite, "peso" => $peso, "talla" => $talla, "scorporal" => $scorporal, "diagnostico" => $diagnostico, "diagnosticotext" => $diagnosticotext, "diagnosticocie10" => $diagnosticocie10, "diagnosticocie10text" => $diagnosticocie10text, "fechabiopsia" => $fechabiopsia, "reingreso" => $reingreso, "ecog" => $ecog, "histologico" => $histologico, "invaciontumoral" => $invaciontumoral, "mitotico" => $mitotico, "observaciontnm" => $observaciontnm, "anamesis" => $anamesis, "cirugia" => $cirugia, "quimioterapia" => $quimioterapia, "radioterapia" => $radioterapia, "tratamientosoncologicos" => $tratamientosoncologicos, "seguimientosintratamiento" => $seguimientosintratamiento, "completarestudios" => $completarestudios, "revaluacionposterior" => $revaluacionposterior, "estudioclinico" => $estudioclinico, "observaciondesicion" => $observaciondesicion, "consultade" => $consultade, "consultadeid" => $consultadeid, "programacionquirurgica" => $programacionquirurgica, "traslado" => $traslado, "ciudadospaliativos" => $ciudadospaliativos, "ingresohospitalario" => $ingresohospitalario, "observacionplan" => $observacionplan, "resolucion" => $resolucion, "completereg" => $completereg, "rama1" => $rama1, "rama2" => $rama2, "rama3" => $rama3, "rama4" => $rama4, "rama5" => $rama5, "rama6" => $rama6, "rama7" => $rama7, "rama8" => $rama8, "rama9" => $rama9, "rama10" => $rama10, "ocupacion1" => $ocupacion1, "ocupacion2" => $ocupacion2, "ocupacion3" => $ocupacion3, "ocupacion4" => $ocupacion4, "ocupacion5" => $ocupacion5, "ocupacion6" => $ocupacion6, "ocupacion7" => $ocupacion7, "ocupacion8" => $ocupacion8, "ocupacion9" => $ocupacion9, "ocupacion10" => $ocupacion10, "ocupacion11" => $ocupacion11, "sp1" => $sp1, "sp2" => $sp2, "sp3" => $sp3, "th1" => $th1, "th2" => $th2, "th3" => $th3, "th4" => $th4, "th5" => $th5, "comportamiento" => $comportamiento, "comportamientoobservaciones" => $comportamientoobservaciones, "grado1" => $grado1, "grado2" => $grado2, "grado3" => $grado3, "grado4" => $grado4, "grado5" => $grado5, "extension1" => $extension1, "extension2" => $extension2, "extension3" => $extension3, "extension4" => $extension4, "extension5" => $extension5, "lateralidad1" => $lateralidad1, "lateralidad2" => $lateralidad2, "lateralidad3" => $lateralidad3, "lateralidad4" => $lateralidad4, "lateralidad5" => $lateralidad5, "fechaincidencia" => $fechaincidencia, "horaincidencia" => $horaincidencia, "basediagnostico1" => $basediagnostico1, "basediagnostico2" => $basediagnostico2, "basediagnostico3" => $basediagnostico3, "basediagnostico4" => $basediagnostico4, "basediagnostico5" => $basediagnostico5, "basediagnostico6" => $basediagnostico6, "basediagnostico7" => $basediagnostico7, "basediagnostico8" => $basediagnostico8, "basediagnostico9" => $basediagnostico9, "fuente1" => $fuente1, "fichapacex1" => $fichapacex1, "fechahospex1" => $fechahospex1, "horahospex1" => $horahospex1, "fuente2" => $fuente2, "fichapacex2" => $fichapacex2, "fechahospex2" => $fechahospex2, "horahospex2" => $horahospex2, "fuente3" => $fuente3, "fichapacex3" => $fichapacex3, "fechahospex3" => $fechahospex3, "horahospex3" => $horahospex3, "fechaultimocontacto" => $fechaultimocontacto, "estadio" => $estadio, "defuncion" => $defuncion, "causa" => $causa, "obsersavacionfinal" => $obsersavacionfinal);
             $this->desconexion();
-            return $borrador;
+            return $borradorinforme;
         }
         $this->desconexion();
         return null;
     }
+
+    function buscaridborrador($paciente, $comite){
+        $this->conexion();
+        $sql = "select id from borradorinformecomite where paciente = $paciente and comite = $comite";
+        $result = $this->mi->query($sql);
+        if ($rs = mysqli_fetch_array($result)) {
+            $id = $rs['id'];
+            $this->desconexion();
+            return $id;
+        }
+        $this->desconexion();
+        return null;
+    }
+    //Eliminar borrador informe
+    function eliminarborrador($paciente, $comite)
+    {
+        $this->conexion();
+        $sql = "delete from borradorinformecomite where paciente = $paciente and comite = $comite";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return $result;
+    }
+
+    
+    function registrarborradortnm($borrador, $t1, $t, $ttexto, $n, $ntexto, $m, $mtexto)
+    {
+        $this->conexion();
+        $sql = "insert into tnmborradorinformecomite values(null,$borrador, '$t1',  $t, '$ttexto',  $n, '$ntexto', $m, '$mtexto',now())";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
+    //Listar informecomite tnm
+    function listartnmborrador($borrador)
+    {
+        $this->conexion();
+        $sql = "select * from tnmborradorinformecomite where borradorinformecomite = $borrador order by registro desc";
+        $result = $this->mi->query($sql);
+        $array = array();
+        while ($rs = mysqli_fetch_array($result)) {
+            $id = $rs["id"];
+            $informecomite = $rs["borradorinformecomite"];
+            $t1 = $rs["t1"];
+            $t = $rs["t"];
+            $ttexto = $rs["ttexto"];
+            $n = $rs["n"];
+            $ntexto = $rs["ntexto"];
+            $m = $rs["m"];
+            $mtexto = $rs["mtexto"];
+            $registro = $rs["registro"];
+            $object = array("id" => $id, "informecomite" => $informecomite, "t1" => $t1, "t" => $t, "ttexto" => $ttexto,  "n" => $n, "ntexto" => $ntexto, "m" => $m, "mtexto" => $mtexto,  "registro" => $registro);
+            array_push($array, $object);
+        }
+        $this->desconexion();
+        return $array;
+    }
+
+    function eliminartnmborrador($borrador){
+        $this->conexion();
+        $sql = "delete from tnmborradorinformecomite where borradorinformecomite = $borrador";
+        $result = $this->mi->query($sql);
+        $this->desconexion();
+        return json_encode($result);
+    }
+
 }

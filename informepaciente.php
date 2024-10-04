@@ -1635,6 +1635,8 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 												onclick="guardarinforme(<?php echo $dipaciente ?>,<?php echo $idcomite; ?>)">
 												<i class="fa fa-save"></i> Guardar</button>
 										</div>
+										<input type="hidden" id="pacienteborrador" value="<?php echo $dipaciente; ?>">
+										<input type="hidden" id="comiteborrador" value="<?php echo $idcomite; ?>">
 									</div>
 								</div>
 							</div>

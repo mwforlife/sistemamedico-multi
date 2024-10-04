@@ -847,6 +847,11 @@ function guardarborrador(paciente, comite) {
 
 
   //Seccion de registro poblacional
+  var completereg = 0;
+  //Validar si se selecciono completar
+  if ($("#completereg").is(":checked")) {
+    completereg = $("#completereg").val();
+  }
   //Variables Rama
   var rama1 = 0;
   var rama2 = 0;
@@ -1160,7 +1165,7 @@ function guardarborrador(paciente, comite) {
   fichapacex3 = $("#fichaPaciente3").val();
   fechahospex3 = $("#fechaHospital3").val();
   horahospex3 = $("#horaHospital3").val();
-
+  previo = $("#previo").val();
   //Validaciones de Ultimos Detalles
   try {
     if (estadio == 2) {
@@ -1225,6 +1230,7 @@ function guardarborrador(paciente, comite) {
     ingreso: ingreso,
     observacionplan: observacionplan,
     resolucion: resolucion,
+    completereg: completereg,
     rama1: rama1,
     rama2: rama2,
     rama3: rama3,
@@ -1313,7 +1319,7 @@ function guardarborrador(paciente, comite) {
           if (json.status == true) {
             ToastifySuccess(json.message);
             setTimeout(function () {
-              window.location.href = "index.php";
+              window.location.href = previo;
             }, 500);
           } else {
             ToastifyError(json.message);
@@ -1327,6 +1333,59 @@ function guardarborrador(paciente, comite) {
     ToastifyError(error);
   }
 
+}
+
+$(document).ready(function () {
+  var paciente = $("#pacienteborrador").val();
+  var comite = $("#comiteborrador").val();
+  cargarborrador(paciente, comite);
+});
+
+function cargarborrador(paciente, comite) {
+  $.ajax({
+    url: "php/charge/borrador_informe.php",
+    type: "POST",
+    data: { comite: comite, paciente: paciente }, 
+    success: function (respuesta) {
+      try {
+        var data = JSON.parse(respuesta);
+        if (data.status == true) {
+          var informe = data.informe;
+          $("#peso").val(informe.peso);
+          $("#talla").val(informe.talla);
+          $("#sup").val(informe.sup);
+          $("#iddiag").val(informe.diagnostico);
+          $("#diagnostico").val(informe.diagnosticotext);
+          $("#idcie10").val(informe.diagnosticocie10);
+          $("#diagnosticocie10").val(informe.diagnosticocie10text);
+          $("#fechabiopsia").val(informe.fechabiopsia);
+          if (informe.reingreso == 1) {
+            $("#reingreso").prop("checked", true);
+          }
+          $("#ecog").val(informe.ecog);
+          $("#histologico").val(informe.histologico);
+          $("#invasiontumoral").val(informe.invasiontumoral);
+          $("#mitotico").val(informe.mitotico);
+          $("#observaciontnm").val(informe.observaciontnm);
+          $("#anamnesis").val(informe.anamnesis);
+          if (informe.cirugia == 1) {
+            $("#cirugia").prop("checked", true);
+          }
+          if (informe.quimioterapia == 2){
+            $("#quimioterapia").prop("checked", true);
+          }
+
+          if (informe.radioterapia == 3){
+            $("#radioterapia").prop("checked", true);
+          }
+        }else{
+          console.log(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  });
 }
 
 
