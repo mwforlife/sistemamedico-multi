@@ -747,7 +747,10 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 						</div>
 					</div>
 
-					<?php $ultimoregistro = $c->ultimoregistropoblacional($dipaciente);?>
+					<?php 
+					$ultimoregistro = $c->ultimoregistropoblacional($dipaciente);
+					$borrador = $c->listaborradorinforme($dipaciente,$idcomite);
+					?>
 
 					<div class="row">
 						<div class="col-md-12">
@@ -762,15 +765,15 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 									<div class="row">
 										<div class="col-md-2">
 											<label for="">Peso (KG)</label>
-											<input id="peso" class="form-control" onkeyup="calcsup()" step="0.01" placeholder="Ingreso el Peso" value="<?php echo $peso; ?>"></input>
+											<input id="peso" class="form-control" onkeyup="calcsup()" step="0.01" placeholder="Ingreso el Peso" value="<?php if($borrador != null){echo $borrador['peso'];}else{echo $peso;} ?>"></input>
 										</div>
 										<div class="col-md-2">
 											<label for="">Talla (CM)</label>
-											<input id="talla" class="form-control" onkeyup="calcsup()" step="0.01" placeholder="Ingrese la talla" value="<?php echo $talla; ?>"></input>
+											<input id="talla" class="form-control" onkeyup="calcsup()" step="0.01" placeholder="Ingrese la talla" value="<?php if($borrador != null){echo $borrador['talla'];}else{echo $talla;} ?>"></input>
 										</div>
 										<div class="col-md-2">
 											<label for="">Sup Corporal (m<sup>2</sup>)</label>
-											<input id="sup" readonly class="form-control" value="<?php echo $supcop; ?>"></input>
+											<input id="sup" readonly class="form-control" value="<?php if($borrador != null){echo $borrador['scorporal'];}else{echo $sup;} ?>"></input>
 										</div>
 										<div class="col-md-2">
 											<label for="">Fecha de Nacimiento</label>
@@ -861,9 +864,9 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																			class="fa fa-search"></i></button>
 																	<input type="text" class="form-control"
 																		id="diagnostico"
-																		value="<?php echo $diagtext; ?>">
+																		value="<?php if($borrador != null){echo $borrador['diagnosticotext'];}else{echo $diagtext;} ?>">
 																	<input type="hidden" class="form-control"
-																		id="iddiag" value="<?php echo $diagid; ?>">
+																		id="iddiag" value="<?php if($borrador != null){echo $borrador['diagnostico'];}else{echo $diagid;} ?>">
 																</div>
 																<div class="col-md-4">
 																	<label for="">Diagnostico CIE10</label>
@@ -873,18 +876,18 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																			class="fa fa-search"></i></button>
 																	<input type="text" class="form-control"
 																		id="diagnosticocie10"
-																		value="<?php echo $diagcie10text; ?>">
+																		value="<?php if($borrador != null){echo $borrador['diagnosticocie10text'];}else{echo $diagcie10text;} ?>">
 																	<input type="hidden" class="form-control"
-																		id="idcie10" value="<?php echo $diagcie10; ?>">
+																		id="idcie10" value="<?php if($borrador != null){echo $borrador['diagnosticocie10'];}else{echo $diagcie10;} ?>">
 																</div>
 																<div class="col-md-4">
 																	<label for="">Fecha de Biopsia</label>
 																	<input type="date" class="form-control"
-																		id="fechabiopsia">
+																		id="fechabiopsia" value="<?php if($borrador != null){echo $borrador['fechabiopsia'];}?>">
 																</div>
 																<div class="col-md-4 d-flex align-items-center">
 																	<input type="checkbox" class="mr-1" value="1"
-																		id="reingreso">
+																		id="reingreso" <?php if($borrador != null){if($borrador['reingreso']==1){ echo "checked";}}?>>
 																	<label style="margin:0;" for="">Reingreso</label>
 																</div>
 															</div>
@@ -907,9 +910,17 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	<select name="ecog" id="ecog"
 																		class="form-control select2">
 																		<?php
+																		$eco = 0;
+																		if($borrador != null){
+																			$eco = $borrador['ecog'];
+																		}
 																		$primario = $c->listarecog();
 																		foreach ($primario as $row) {
+																			if($eco == $row->getId()){
+																				echo "<option value='" . $row->getId() . "' selected>" . $row->getCodigo() . " - " . $row->getNombre() . "</option>";
+																			}else{
 																			echo "<option value='" . $row->getId() . "'>" . $row->getCodigo() . " - " . $row->getNombre() . "</option>";
+																			}
 																		}
 																		?>
 
@@ -920,9 +931,17 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	<select name="histologico" id="histologico"
 																		class="form-control select2">
 																		<?php
+																		$histologico = 0;
+																		if($borrador != null){
+																			$histologico = $borrador['histologico'];
+																		}
 																		$primario = $c->listarhistologico();
 																		foreach ($primario as $row) {
+																			if($histologico == $row->getId()){
+																				echo "<option value='" . $row->getId() . "' selected>" . $row->getCodigo() . " - " . $row->getNombre() . "</option>";
+																			}else{
 																			echo "<option value='" . $row->getId() . "'>" . $row->getCodigo() . " - " . $row->getNombre() . "</option>";
+																			}
 																		}
 																		?>
 
@@ -933,9 +952,17 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	<select name="invasiontumoral" id="invasiontumoral"
 																		class="form-control select2">
 																		<?php
+																		$invasiontumoral = 0;
+																		if($borrador != null){
+																			$invasiontumoral = $borrador['invaciontumoral'];
+																		}
 																		$primario = $c->listarinvaciontumoral();
 																		foreach ($primario as $row) {
+																			if($invasiontumoral == $row->getId()){
+																				echo "<option value='" . $row->getId() . "' selected>" . $row->getCodigo() . " - " . $row->getNombre() . "</option>";
+																			}else{
 																			echo "<option value='" . $row->getId() . "'>" . $row->getNombre() . "</option>";
+																			}
 																		}
 																		?>
 
@@ -946,10 +973,15 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	<select name="mitotico" id="mitotico"
 																		class="from-control select2">
 																		<?php
+																		$mitotico = 0;
 																		echo "<option value='0'>Sin Información</option>";
 																		//porcentajes del 1 al 100
 																		for ($i = 1; $i <= 100; $i++) {
+																			if($mitotico == $i){
+																				echo "<option value='" . $i . "' selected>" . $i . "%</option>";
+																			}else{
 																			echo "<option value='" . $i . "'>" . $i . "%</option>";
+																			}
 																		}
 																		?>
 																	</select>
@@ -959,27 +991,27 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																						<div class="row">
 																							<div class="col-md-4">
 																								<label for=""><strong>Grado de diferenciación</strong></label><br />
-																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado1" <?php if($ultimoregistro!=null){if($ultimoregistro['grado1']==1){ echo "checked";}}?>><span>Bien diferenciado</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado2" <?php if($ultimoregistro!=null){if($ultimoregistro['grado2']==1){ echo "checked";}}?>><span>Moderadamente diferenciado</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado3" <?php if($ultimoregistro!=null){if($ultimoregistro['grado3']==1){ echo "checked";}}?>><span>Pobremente diferenciado</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado4" <?php if($ultimoregistro!=null){if($ultimoregistro['grado4']==1){ echo "checked";}}?>><span>Indiferenciado o anaplásico</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado5" <?php if($ultimoregistro!=null){if($ultimoregistro['grado5']==1){ echo "checked";}}?>><span>No determinado o inaplicable</span>
+																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado1" <?php if($borrador != null){if($borrador['grado1']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['grado1']==1){ echo "checked";}}}}?>><span>Bien diferenciado</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado2" <?php if($borrador != null){if($borrador['grado2']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['grado2']==1){ echo "checked";}}}}?>><span>Moderadamente diferenciado</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado3" <?php if($borrador != null){if($borrador['grado3']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['grado3']==1){ echo "checked";}}}}?>><span>Pobremente diferenciado</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado4" <?php if($borrador != null){if($borrador['grado4']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['grado4']==1){ echo "checked";}}}}?>><span>Indiferenciado o anaplásico</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="grado" id="grado5" <?php if($borrador != null){if($borrador['grado5']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['grado5']==1){ echo "checked";}}}}?>><span>No determinado o inaplicable</span>
 																							</div>
 																							<div class="col-md-4">
 																								<label for=""><strong>Extensión</strong></label><br />
-																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension1" <?php if($ultimoregistro!=null){if($ultimoregistro['extension1']==1){ echo "checked";}}?>><span>In situ</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension2" <?php if($ultimoregistro!=null){if($ultimoregistro['extension2']==1){ echo "checked";}}?>><span>Localizada</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension3" <?php if($ultimoregistro!=null){if($ultimoregistro['extension3']==1){ echo "checked";}}?>><span>Regional</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension4" <?php if($ultimoregistro!=null){if($ultimoregistro['extension4']==1){ echo "checked";}}?>><span>Metástasis</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension5" <?php if($ultimoregistro!=null){if($ultimoregistro['extension5']==1){ echo "checked";}}?>><span>Desconocido</span>
+																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension1" <?php if($borrador != null){if($borrador['extension1']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['extension1']==1){ echo "checked";}}}}?>><span>Confina</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension2" <?php if($borrador != null){if($borrador['extension2']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['extension2']==1){ echo "checked";}}}}?>><span>Localizada</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension3" <?php if($borrador != null){if($borrador['extension3']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['extension3']==1){ echo "checked";}}}}?>><span>Regional</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension4" <?php if($borrador != null){if($borrador['extension4']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['extension4']==1){ echo "checked";}}}}?>><span>Metástasis</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="extension" id="extension5" <?php if($borrador != null){if($borrador['extension5']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['extension5']==1){ echo "checked";}}}}?>><span>Desconocido</span>
 																							</div>
 																							<div class="col-md-4">
 																								<label for=""><strong>Lateralidad</strong></label><br />
-																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad1" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad1']==1){ echo "checked";}}?>><span>Derecho</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad2" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad2']==1){ echo "checked";}}?>><span>Izquierdo</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad3" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad3']==1){ echo "checked";}}?>><span>Bilateral</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad4" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad4']==1){ echo "checked";}}?>><span>No corresponde</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad5" <?php if($ultimoregistro!=null){if($ultimoregistro['lateralidad5']==1){ echo "checked";}}?>><span>Desconocido</span>
+																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad1" <?php if($borrador != null){if($borrador['lateralidad1']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['lateralidad1']==1){ echo "checked";}}}}?>><span>Derecho</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad2" <?php if($borrador != null){if($borrador['lateralidad2']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['lateralidad2']==1){ echo "checked";}}}}?>><span>Izquierdo</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad3" <?php if($borrador != null){if($borrador['lateralidad3']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['lateralidad3']==1){ echo "checked";}}}}?>><span>Bilateral</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad4" <?php if($borrador != null){if($borrador['lateralidad4']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['lateralidad4']==1){ echo "checked";}}}}?>><span>No corresponde</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="lateralidad" id="lateralidad5" <?php if($borrador != null){if($borrador['lateralidad5']==1){ echo "checked";}else{if($ultimoregistro!=null){if($ultimoregistro['lateralidad5']==1){ echo "checked";}}}}?>><span>Desconocido</span>
 																							</div>
 																						</div>
 																						
@@ -1058,7 +1090,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	<textarea style="height: 100px;"
 																		name="observaciontnm" class="form-control"
 																		id="observaciontnm" cols="10"
-																		rows="10"></textarea>
+																		rows="10"><?php if($borrador != null){echo $borrador['observaciontnm'];}?></textarea>
 																</div>
 															</div>
 
@@ -1081,7 +1113,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																	<div class="card-body">
 																		<textarea style="height: 200;" name="anamnesis"
 																			class="form-control" id="anamnesis"
-																			cols="10" rows="10"></textarea>
+																			cols="10" rows="10"><?php if($borrador != null){echo $borrador['anamesis'];}?></textarea>
 																	</div>
 																</div>
 															</div>
@@ -1109,28 +1141,28 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				<div
 																					class="col-md-12 d-flex align-items-center">
 																					<input type="checkbox" class="mr-1"
-																						value="1" id="cirugia">
+																						value="1" id="cirugia" <?php if($borrador != null){if($borrador['cirugia']==1){ echo "checked";}}?>>
 																					<label style="margin: 0;"
 																						for="">Cirugía</label>
 																				</div>
 																				<div
 																					class="col-md-12 d-flex  align-items-center">
 																					<input type="checkbox" class="mr-1"
-																						value="2" id="quimioterapia">
+																						value="2" id="quimioterapia" <?php if($borrador != null){if($borrador['quimioterapia']==2){ echo "checked";}}?>>
 																					<label style="margin: 0;"
 																						for="">Quimioterapiaa</label>
 																				</div>
 																				<div
 																					class="col-md-12 d-flex  align-items-center">
 																					<input type="checkbox" class="mr-1"
-																						value="3" id="radioterapia">
+																						value="3" id="radioterapia" <?php if($borrador != null){if($borrador['radioterapia']==3){ echo "checked";}}?>>
 																					<label style="margin: 0;"
 																						for="">Radioterapia</label>
 																				</div>
 																				<div
 																					class="col-md-12 d-flex  align-items-center">
 																					<input type="checkbox" class="mr-1"
-																						value="4" id="otros">
+																						value="4" id="otros" <?php if($borrador != null){if($borrador['tratamientosoncologicos']==4){ echo "checked";}}?>>
 																					<label style="margin: 0;"
 																						for="">Otros Tratamientos
 																						Oncológicos</label>
@@ -1138,7 +1170,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				<div
 																					class="col-md-12 d-flex  align-items-center">
 																					<input type="checkbox" class="mr-1"
-																						value="5" id="seguimiento">
+																						value="5" id="seguimiento" <?php if($borrador != null){if($borrador['seguimientosintratamiento']==5){ echo "checked";}}?>>
 																					<label style="margin: 0;"
 																						for="">Seguimiento sin
 																						tratamiento activo</label>
@@ -1146,7 +1178,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				<div
 																					class="col-md-12 d-flex  align-items-center">
 																					<input type="checkbox" class="mr-1"
-																						value="6" id="completar">
+																						value="6" id="completar" <?php if($borrador != null){if($borrador['completarestudios']==6){ echo "checked";}}?>>
 																					<label style="margin: 0;"
 																						for="">Completar
 																						estudios</label>
@@ -1154,7 +1186,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				<div
 																					class="col-md-12 d-flex  align-items-center">
 																					<input type="checkbox" class="mr-1"
-																						value="7" id="revaluacion">
+																						value="7" id="revaluacion" <?php if($borrador != null){if($borrador['revaluacionposterior']==7){ echo "checked";}}?>>
 																					<label style="margin: 0;"
 																						for="">Revaluación Posterior en
 																						Comité</label>
@@ -1162,7 +1194,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				<div
 																					class="col-md-12 d-flex  align-items-center">
 																					<input type="checkbox" class="mr-1"
-																						value="8" id="estudioclinico">
+																						value="8" id="estudioclinico" <?php if($borrador != null){if($borrador['estudioclinico']==8){ echo "checked";}}?>>
 																					<label style="margin: 0;"
 																						for="">Estudio Clínico</label>
 																				</div>
@@ -1181,7 +1213,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				name="observacionesdecision"
 																				class="form-control"
 																				id="observacionesdecision" cols="10"
-																				rows="10"></textarea>
+																				rows="10"><?php if($borrador != null){echo $borrador['observaciondesicion'];}?></textarea>
 
 																		</div>
 																	</div>
@@ -1211,8 +1243,8 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																							<select name="consultade"
 																								id="consultade"
 																								class="form-control select2">
-																								<option value="1">Cirugía</option>
-																								<option value="2">Quimioterapia</option>
+																								<option value="1" <?php if($borrador != null){if($borrador['consultade']==1){ echo "selected";}}?>>Cirugía</option>
+																								<option value="2 <?php if($borrador != null){if($borrador['consultade']==2){ echo "selected";}}?>">Quimioterapia</option>
 																							</select>
 																						</div>
 																					</div>
@@ -1222,7 +1254,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				<div
 																					class="col-md-12 mt-3 d-flex  align-items-center">
 																					<input type="checkbox" class="mr-1"
-																						value="2" id="programacion">
+																						value="2" id="programacion" <?php if($borrador != null){if($borrador['programacionquirurgica']==2){ echo "checked";}}?>>
 																					<label style="margin: 0;"
 																						for="">Programación
 																						Quirúrgica</label>
@@ -1230,7 +1262,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				<div
 																					class="col-md-12 d-flex  align-items-center">
 																					<input type="checkbox" class="mr-1"
-																						value="3" id="traslado">
+																						value="3" id="traslado" <?php if($borrador != null){if($borrador['traslado']==3){ echo "checked";}}?>>
 																					<label style="margin: 0;"
 																						for="">Traslado a otro
 																						Centro</label>
@@ -1238,7 +1270,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				<div
 																					class="col-md-12 d-flex  align-items-center">
 																					<input type="checkbox" class="mr-1"
-																						value="4" id="paliativos">
+																						value="4" id="paliativos" <?php if($borrador != null){if($borrador['ciudadospaliativos']==4){ echo "checked";}}?>>
 																					<label style="margin: 0;"
 																						for="">Pasa a Cuidados
 																						Paliativos</label>
@@ -1246,7 +1278,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				<div
 																					class="col-md-12 d-flex  align-items-center">
 																					<input type="checkbox" class="mr-1"
-																						value="5" id="ingreso">
+																						value="5" id="ingreso" <?php if($borrador != null){if($borrador['ingresohospitalario']==5){ echo "checked";}}?>>
 																					<label style="margin: 0;"
 																						for="">Ingreso
 																						hospitalario</label>
@@ -1265,7 +1297,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																				name="observacionplan"
 																				class="form-control"
 																				id="observacionplan" cols="10"
-																				rows="10"></textarea>
+																				rows="10"><?php if($borrador != null){echo $borrador['observacionplan'];}?></textarea>
 
 																		</div>
 																	</div>
@@ -1287,7 +1319,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 														<div class="card-body">
 															<textarea style="height: 200;" name="resolucion"
 																class="form-control" id="resolucion" cols="10"
-																rows="10"></textarea>
+																rows="10"><?php if($borrador != null){echo $borrador['resolucion'];}?></textarea>
 														</div>
 													</div>
 												</div>
@@ -1315,7 +1347,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																							<input type="checkbox"
 																								name="completereg"
 																								class="custom-switch-input"
-																								value="1" id="completereg">
+																								value="1" id="completereg" <?php if($borrador != null){if($borrador['completereg']==1){ echo "checked";}}?>>
 																							<span
 																								class="custom-switch-indicator"></span>
 																							<span
@@ -1343,20 +1375,20 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																								<label for=""><strong>Rama de Actividad</strong></label>
 																							</div>
 																							<div class="col-md-4">
-																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama1" <?php if($ultimoregistro!=null){if($ultimoregistro['rama1']==1){ echo "checked";}}?>><span>Agricultura, Caza, Silvicultura y Pesca</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama2" <?php if($ultimoregistro!=null){if($ultimoregistro['rama2']==1){ echo "checked";}}?>><span>Minas y Canteras</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama3" <?php if($ultimoregistro!=null){if($ultimoregistro['rama3']==1){ echo "checked";}}?>><span>Industria Manufacturera</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama4" <?php if($ultimoregistro!=null){if($ultimoregistro['rama4']==1){ echo "checked";}}?>><span>Electricidad, Gas y Agua</span>
+																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama1" <?php if($borrador != null){if($borrador['rama1']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['rama1']==1){ echo "checked";}}}}?>><span>Agricultura, Caza, Silvicultura y Pesca</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama2" <?php if($borrador != null){if($borrador['rama2']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['rama2']==1){ echo "checked";}}}}?>><span>Minas y Canteras</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama3" <?php if($borrador != null){if($borrador['rama3']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['rama3']==1){ echo "checked";}}}}?>><span>Industrias Manufactureras</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama4" <?php if($borrador != null){if($borrador['rama4']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['rama4']==1){ echo "checked";}}}}?>><span>Electricidad, Gas y Agua</span>
 																							</div>
 																							<div class="col-md-4">
-																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama5" <?php if($ultimoregistro!=null){if($ultimoregistro['rama5']==1){ echo "checked";}}?>><span>Construcción</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama6" <?php if($ultimoregistro!=null){if($ultimoregistro['rama6']==1){ echo "checked";}}?>><span>Comercio mayor y menor, restaurant y hotel</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama7" <?php if($ultimoregistro!=null){if($ultimoregistro['rama7']==1){ echo "checked";}}?>><span>Transporte, Almacenamiento y Comunicaciones</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama8" <?php if($ultimoregistro!=null){if($ultimoregistro['rama8']==1){ echo "checked";}}?>><span>Servicios Financierios</span>
+																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama5" <?php if($borrador != null){if($borrador['rama5']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['rama5']==1){ echo "checked";}}}}?>><span>Construcción</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama6" <?php if($borrador != null){if($borrador['rama6']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['rama6']==1){ echo "checked";}}}}?>><span>Comercio mayor y menor, restaurant y hotel</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama7" <?php if($borrador != null){if($borrador['rama7']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['rama7']==1){ echo "checked";}}}}?>><span>Transporte, Almacenamiento y Comunicaciones</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama8" <?php if($borrador != null){if($borrador['rama8']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['rama8']==1){ echo "checked";}}}}?>><span>Servicios Financierios</span>
 																							</div>
 																							<div class="col-md-4">
-																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama9" <?php if($ultimoregistro!=null){if($ultimoregistro['rama9']==1){ echo "checked";}}?>><span>Servicios Comunales, Sociales, Personales</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama10" <?php if($ultimoregistro!=null){if($ultimoregistro['rama10']==1){ echo "checked";}}?>><span>Actividad no especificada</span>
+																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama9" <?php if($borrador != null){if($borrador['rama9']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['rama9']==1){ echo "checked";}}}}?>><span>Servicios Comunales, Sociales, Personales</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="rama" id="rama10" <?php if($borrador != null){if($borrador['rama10']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['rama10']==1){ echo "checked";}}}}?>><span>Actividad no especificada</span>
 																							</div>
 																						</div>
 																						<hr>
@@ -1365,21 +1397,21 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																								<label for=""><strong>Ocupación</strong></label>
 																							</div>
 																							<div class="col-md-4">
-																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion1" <?php if($ultimoregistro!=null){if($ultimoregistro['ocupacion1']==1){ echo "checked";}}?>><span>Profesionales, Técnicos y Afines</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion2" <?php if($ultimoregistro!=null){if($ultimoregistro['ocupacion2']==1){ echo "checked";}}?>><span>Gerentes, Administradores y Directivos</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion3" <?php if($ultimoregistro!=null){if($ultimoregistro['ocupacion3']==1){ echo "checked";}}?>><span>Empleados oficina y afines</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion4" <?php if($ultimoregistro!=null){if($ultimoregistro['ocupacion4']==1){ echo "checked";}}?>><span>Vendedores y afines</span>
+																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion1" <?php if($borrador != null){if($borrador['ocupacion1']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['ocupacion1']==1){ echo "checked";}}}}?>><span>Profesionales, Técnicos y Afines</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion2" <?php if($borrador != null){if($borrador['ocupacion2']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['ocupacion2']==1){ echo "checked";}}}}?>><span>Gerentes, Administradores y Directivos</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion3" <?php if($borrador != null){if($borrador['ocupacion3']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['ocupacion3']==1){ echo "checked";}}}}?>><span>Empleados oficina y afines</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion4" <?php if($borrador != null){if($borrador['ocupacion4']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['ocupacion4']==1){ echo "checked";}}}}?>><span>Vendedores y afines</span>
 																							</div>
 																							<div class="col-md-4">
-																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion5" <?php if($ultimoregistro!=null){if($ultimoregistro['ocupacion5']==1){ echo "checked";}}?>><span>Agricultores, Ganadores, Pescadores</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion6" <?php if($ultimoregistro!=null){if($ultimoregistro['ocupacion6']==1){ echo "checked";}}?>><span>Conductores y afines</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion7" <?php if($ultimoregistro!=null){if($ultimoregistro['ocupacion7']==1){ echo "checked";}}?>><span>Artesanos y Operarios</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion8" <?php if($ultimoregistro!=null){if($ultimoregistro['ocupacion8']==1){ echo "checked";}}?>><span>Otros Artesanos y Operarios</span>
+																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion5" <?php if($borrador != null){if($borrador['ocupacion5']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['ocupacion5']==1){ echo "checked";}}}}?>><span>Agricultores, Ganadores, Pescadores</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion6" <?php if($borrador != null){if($borrador['ocupacion6']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['ocupacion6']==1){ echo "checked";}}}}?>><span>Conductores y afines</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion7" <?php if($borrador != null){if($borrador['ocupacion7']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['ocupacion7']==1){ echo "checked";}}}}?>><span>Artesanos y Operarios</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion8" <?php if($borrador != null){if($borrador['ocupacion8']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['ocupacion8']==1){ echo "checked";}}}}?>><span>Otros Artesanos y Operarios</span>
 																							</div>
 																							<div class="col-md-4">
-																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion9" <?php if($ultimoregistro!=null){if($ultimoregistro['ocupacion9']==1){ echo "checked";}}?>><span>Obreros y Jornaleros N.E.O.C</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion10" <?php if($ultimoregistro!=null){if($ultimoregistro['ocupacion10']==1){ echo "checked";}}?>><span>Trabajadores en Servicios Personales</span><br />
-																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion11" <?php if($ultimoregistro!=null){if($ultimoregistro['ocupacion11']==1){ echo "checked";}}?>><span>Otros trabajadores N.E.O.C. 2/</span>
+																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion9" <?php if($borrador != null){if($borrador['ocupacion9']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['ocupacion9']==1){ echo "checked";}}}}?>><span>Obreros y Jornaleros N.E.O.C</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion10" <?php if($borrador != null){if($borrador['ocupacion10']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['ocupacion10']==1){ echo "checked";}}}}?>><span>Trabajadores en Servicios Personales</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="ocupacion" id="ocupacion11" <?php if($borrador != null){if($borrador['ocupacion11']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['ocupacion11']==1){ echo "checked";}}}}?>><span>Trabajadores en Servicios de Protección y Seguridad</span><br />
 																							</div>
 																						</div>
 																						<hr>
@@ -1398,16 +1430,16 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																												<label for="">C</label>
 																											</div>
 																											<div class="col-md-2" style="margin: 0;">
-																												<input type="text" class="form-control" id="sp1" name="sp1" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['sp1'];}?>">
+																												<input type="text" class="form-control" id="sp1" name="sp1" value="<?php if($borrador != null){echo $borrador['sp1'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['sp1'];}}?>">
 																											</div>
 																											<div class="col-md-2" style="margin: 0;">
-																												<input type="text" class="form-control" id="sp2" name="sp2" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['sp2'];}?>">
+																												<input type="text" class="form-control" id="sp2" name="sp2" value="<?php if($borrador != null){echo $borrador['sp2'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['sp2'];}}?>">
 																											</div>
 																											<div class="col-md-1 text-center" style="margin: 0; font-size:40px;">
 																												<label for="" class="text-center">.</label>
 																											</div>
 																											<div class="col-md-2" style="margin: 0;">
-																												<input type="text" class="form-control" id="sp3" name="sp3" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['sp3'];}?>">
+																												<input type="text" class="form-control" id="sp3" name="sp3" value="<?php if($borrador != null){echo $borrador['sp3'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['sp3'];}}?>">
 																											</div>
 																										</div>
 																										<div class="row align-items-center">
@@ -1415,22 +1447,22 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																												<label for="">Tipo Histológico:<br>(Morfología)</label>
 																											</div>
 																											<div class="col-md-2">
-																												<input type="text" class="form-control" id="th1" name="th1" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['th1'];}?>">
+																												<input type="text" class="form-control" id="th1" name="th1" value="<?php if($borrador != null){echo $borrador['th1'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['th1'];}}?>">
 																											</div>
 																											<div class="col-md-1">
 																												<label for="">_</label>
 																											</div>
 																											<div class="col-md-2">
-																												<input type="text" class="form-control" id="th2" name="th2" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['th2'];}?>">
+																												<input type="text" class="form-control" id="th2" name="th2" value="<?php if($borrador != null){echo $borrador['th2'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['th2'];}}?>">
 																											</div>
 																											<div class="col-md-2">
-																												<input type="text" class="form-control" id="th3" name="th3" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['th3'];}?>">
+																												<input type="text" class="form-control" id="th3" name="th3" value="<?php if($borrador != null){echo $borrador['th3'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['th3'];}}?>">
 																											</div>
 																											<div class="col-md-2">
-																												<input type="text" class="form-control" id="th4" name="th4" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['th4'];}?>">
+																												<input type="text" class="form-control" id="th4" name="th4" value="<?php if($borrador != null){echo $borrador['th4'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['th4'];}}?>">
 																											</div>
 																											<div class="col-md-2">
-																												<input type="text" class="form-control" id="th5" name="th5" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['th5'];}?>">
+																												<input type="text" class="form-control" id="th5" name="th5" value="<?php if($borrador != null){echo $borrador['th5'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['th5'];}}?>">
 																											</div>
 																										</div>
 																										<div class="row align-items-center">
@@ -1438,7 +1470,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																												<label for="">Comportamiento</label>
 																											</div>
 																											<div class="col-md-12">
-																												<input type="text" class="form-control" id="comportamiento" name="comportamiento" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['comportamiento'];}?>">
+																												<input type="text" class="form-control" id="comportamiento" name="comportamiento" value="<?php if($borrador != null){echo $borrador['comportamiento'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['comportamiento'];}}?>">
 																											</div>
 																										</div>
 																									</div>
@@ -1446,7 +1478,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																							</div>
 																							<div class="col-md-6">
 																								<label for="">Observaciones:</label>
-																								<textarea name="comportamientoobservaciones" id="comportamientoobservaciones" class="form-control" cols="30" rows="10"><?php if($ultimoregistro!=null){echo $ultimoregistro['comportamientoobservaciones'];}?></textarea>
+																								<textarea name="comportamientoobservaciones" id="comportamientoobservaciones" class="form-control" cols="30" rows="10"><?php if($borrador != null){echo $borrador['comportamientoobservaciones'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['comportamientoobservaciones'];}}?></textarea>
 																							</div>
 																						</div>
 																						<hr>
@@ -1457,10 +1489,10 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																										<label for="">Fecha Incidencia</label>
 																									</div>
 																									<div class="col-md-3">
-																										<input type="date" class="form-control" id="fechaIncidencia" name="fechaIncidencia" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fechaincidencia'];}?>">
+																										<input type="date" class="form-control" id="fechaIncidencia" name="fechaIncidencia" value="<?php if($borrador != null){echo $borrador['fechaincidencia'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['fechaincidencia'];}}?>">
 																									</div>
 																									<div class="col-md-3">
-																										<input type="time" class="form-control" id="horaIncidencia" name="horaIncidencia" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['horaincidencia'];}?>">
+																										<input type="time" class="form-control" id="horaIncidencia" name="horaIncidencia" value="<?php if($borrador != null){echo $borrador['horaincidencia'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['horaincidencia'];}}?>">
 																									</div>
 																								</div>
 																							</div>
@@ -1468,18 +1500,18 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																								<label for=""><strong>Base del Diágnóstico (El principal)</strong></label>
 																							</div>
 																							<div class="col-md-4">
-																								<input type="checkbox" class="mr-1" value="1" name="baseDiagnostico" id="baseDiagnostico1" <?php if($ultimoregistro!=null){if($ultimoregistro['basediagnostico1']==1){ echo "checked";}}?>><span>Sólo certificado de defunción</span><br />
-																								<input type="checkbox" class="mr-1" value="2" name="baseDiagnostico" id="baseDiagnostico2" <?php if($ultimoregistro!=null){if($ultimoregistro['basediagnostico2']==1){ echo "checked";}}?>><span>Sólo Clínica</span><br />
-																								<input type="checkbox" class="mr-1" value="3" name="baseDiagnostico" id="baseDiagnostico3" <?php if($ultimoregistro!=null){if($ultimoregistro['basediagnostico3']==1){ echo "checked";}}?>><span>Investigación clínica</span><br />
+																								<input type="checkbox" class="mr-1" value="1" name="baseDiagnostico" id="baseDiagnostico1" <?php if($borrador != null){if($borrador['basediagnostico1']==1){ echo "checked";}else{  if($ultimoregistro!=null){if($ultimoregistro['basediagnostico1']==1){ echo "checked";}}}}?>><span>Sólo certificado de defunción</span><br />
+																								<input type="checkbox" class="mr-1" value="2" name="baseDiagnostico" id="baseDiagnostico2" <?php if($borrador != null){if($borrador['basediagnostico2']==1){ echo "checked";}else{  if($ultimoregistro!=null){if($ultimoregistro['basediagnostico2']==1){ echo "checked";}}}}?>><span>Sólo Clínica</span><br />
+																								<input type="checkbox" class="mr-1" value="3" name="baseDiagnostico" id="baseDiagnostico3" <?php if($borrador != null){if($borrador['basediagnostico3']==1){ echo "checked";}else{  if($ultimoregistro!=null){if($ultimoregistro['basediagnostico3']==1){ echo "checked";}}}}?>><span>Investigación clínica</span><br />
 																							</div>
 																							<div class="col-md-4">
-																								<input type="checkbox" class="mr-1" value="4" name="baseDiagnostico" id="baseDiagnostico4" <?php if($ultimoregistro!=null){if($ultimoregistro['basediagnostico4']==1){ echo "checked";}}?>><span>Extámenes bioquímicos / inmunológicos</span><br />
-																								<input type="checkbox" class="mr-1" value="5" name="baseDiagnostico" id="baseDiagnostico5" <?php if($ultimoregistro!=null){if($ultimoregistro['basediagnostico5']==1){ echo "checked";}}?>><span>Citología / hematología</span><br />
-																								<input type="checkbox" class="mr-1" value="6" name="baseDiagnostico" id="baseDiagnostico6" <?php if($ultimoregistro!=null){if($ultimoregistro['basediagnostico6']==1){ echo "checked";}}?>><span>Histología de Metástasis</span><br />
+																								<input type="checkbox" class="mr-1" value="4" name="baseDiagnostico" id="baseDiagnostico4" <?php if($borrador != null){if($borrador['basediagnostico4']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['basediagnostico4']==1){ echo "checked";}}}}?>><span>Extámenes bioquímicos / inmunológicos</span><br />
+																								<input type="checkbox" class="mr-1" value="5" name="baseDiagnostico" id="baseDiagnostico5" <?php if($borrador != null){if($borrador['basediagnostico5']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['basediagnostico5']==1){ echo "checked";}}}}?>><span>Citología / hematología</span><br />
+																								<input type="checkbox" class="mr-1" value="6" name="baseDiagnostico" id="baseDiagnostico6" <?php if($borrador != null){if($borrador['basediagnostico6']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['basediagnostico6']==1){ echo "checked";}}}}?>><span>Histología de Metástasis</span><br />
 																							</div>
 																							<div class="col-md-4">
-																								<input type="checkbox" class="mr-1" value="7" name="baseDiagnostico" id="baseDiagnostico7" <?php if($ultimoregistro!=null){if($ultimoregistro['basediagnostico7']==1){ echo "checked";}}?>><span>Histología de cáncer primario</span><br />
-																								<input type="checkbox" class="mr-1" value="8" name="baseDiagnostico" id="baseDiagnostico8" <?php if($ultimoregistro!=null){if($ultimoregistro['basediagnostico8']==1){ echo "checked";}}?>><span>Desconocido</span>
+																								<input type="checkbox" class="mr-1" value="7" name="baseDiagnostico" id="baseDiagnostico7" <?php if($borrador != null){if($borrador['basediagnostico7']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['basediagnostico7']==1){ echo "checked";}}}}?>><span>Histología de cáncer primario</span><br />
+																								<input type="checkbox" class="mr-1" value="8" name="baseDiagnostico" id="baseDiagnostico8" <?php if($borrador != null){if($borrador['basediagnostico8']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['basediagnostico8']==1){ echo "checked";}}}}?>><span>Desconocido</span>
 																							</div>
 																						</div>
 																						
@@ -1495,22 +1527,22 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																									</div>
 																									<div class="col-md-12">
 																										<label for="">Nombre</label>
-																										<input type="text" class="form-control" id="fuente1" name="fuente1" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fuente1'];}?>">
+																										<input type="text" class="form-control" id="fuente1" name="fuente1" value="<?php if($borrador != null){echo $borrador['fuente1'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['fuente1'];}}?>">
 																									</div>
 																									<div class="col-md-12">
 																										<label for="">N° Ficha del paciente o del examen</label>
 																									</div>
 																									<div class="col-md-12">
-																										<input type="text" class="form-control" id="fichaPaciente1" name="fichaPaciente1" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fichapacex1'];}?>">
+																										<input type="text" class="form-control" id="fichaPaciente1" name="fichaPaciente1" value="<?php if($borrador != null){echo $borrador['fichapacex1'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['fichapacex1'];}}?>">
 																									</div>
 																									<div class="col-md-12">
 																										<label for="">Fecha de la hospitalización o exámen</label>
 																									</div>
 																									<div class="col-md-6">
-																										<input type="date" class="form-control" id="fechaHospital1" name="fechaHospital1" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fechahospex1'];}?>">
+																										<input type="date" class="form-control" id="fechaHospital1" name="fechaHospital1" value="<?php if($borrador != null){echo $borrador['fechahospex1'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['fechahospex1'];}}?>">
 																									</div>
 																									<div class="col-md-6">
-																										<input type="time" class="form-control" id="horaHospital1" name="horaHospital1" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['horahospex1'];}?>">
+																										<input type="time" class="form-control" id="horaHospital1" name="horaHospital1" value="<?php if($borrador != null){echo $borrador['horahospex1'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['horahospex1'];}}?>">
 																									</div>
 																								</div>
 																							</div>
@@ -1521,22 +1553,22 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																									</div>
 																									<div class="col-md-12">
 																										<label for="">Nombre</label>
-																										<input type="text" class="form-control" id="fuente2" name="fuente2" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fuente2'];}?>">
+																										<input type="text" class="form-control" id="fuente2" name="fuente2" value="<?php if($borrador != null){echo $borrador['fuente2'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['fuente2'];}}?>">
 																									</div>
 																									<div class="col-md-12">
 																										<label for="">N° Ficha del paciente o del examen</label>
 																									</div>
 																									<div class="col-md-12">
-																										<input type="text" class="form-control" id="fichaPaciente2" name="fichaPaciente2" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fichapacex2'];}?>">
+																										<input type="text" class="form-control" id="fichaPaciente2" name="fichaPaciente2" value="<?php if($borrador != null){echo $borrador['fichapacex2'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['fichapacex2'];}}?>">
 																									</div>
 																									<div class="col-md-12">
 																										<label for="">Fecha de la hospitalización o exámen</label>
 																									</div>
 																									<div class="col-md-6">
-																										<input type="date" class="form-control" id="fechaHospital2" name="fechaHospital2" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fechahospex2'];}?>">
+																										<input type="date" class="form-control" id="fechaHospital2" name="fechaHospital2" value="<?php if($borrador != null){echo $borrador['fechahospex2'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['fechahospex2'];}}?>">
 																									</div>
 																									<div class="col-md-6">
-																										<input type="time" class="form-control" id="horaHospital2" name="horaHospital2" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['horahospex2'];}?>">
+																										<input type="time" class="form-control" id="horaHospital2" name="horaHospital2" value="<?php if($borrador != null){echo $borrador['horahospex2'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['horahospex2'];}}?>">
 																									</div>
 																								</div>
 																							</div>
@@ -1547,22 +1579,22 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																									</div>
 																									<div class="col-md-12">
 																										<label for="">Nombre</label>
-																										<input type="text" class="form-control" id="fuente3" name="fuente3" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fuente3'];}?>">
+																										<input type="text" class="form-control" id="fuente3" name="fuente3" value="<?php if($borrador != null){echo $borrador['fuente3'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['fuente3'];}}?>">
 																									</div>
 																									<div class="col-md-12">
 																										<label for="">N° Ficha del paciente o del examen</label>
 																									</div>
 																									<div class="col-md-12">
-																										<input type="text" class="form-control" id="fichaPaciente3" name="fichaPaciente3" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fichapacex3'];}?>">
+																										<input type="text" class="form-control" id="fichaPaciente3" name="fichaPaciente3" value="<?php if($borrador != null){echo $borrador['fichapacex3'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['fichapacex3'];}}?>">
 																									</div>
 																									<div class="col-md-12">
 																										<label for="">Fecha de la hospitalización o exámen</label>
 																									</div>
 																									<div class="col-md-6">
-																										<input type="date" class="form-control" id="fechaHospital3" name="fechaHospital3" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fechahospex3'];}?>">
+																										<input type="date" class="form-control" id="fechaHospital3" name="fechaHospital3" value="<?php if($borrador != null){echo $borrador['fechahospex3'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['fechahospex3'];}}?>">
 																									</div>
 																									<div class="col-md-6">
-																										<input type="time" class="form-control" id="horaHospital3" name="horaHospital3" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['horahospex3'];}?>">
+																										<input type="time" class="form-control" id="horaHospital3" name="horaHospital3" value="<?php if($borrador != null){echo $borrador['horahospex3'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['horahospex3'];}}?>">
 																									</div>
 																								</div>
 																							</div>
@@ -1571,33 +1603,33 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																						<div class="row">
 																							<div class="col-md-6">
 																								<label for="">Fecha último contacto</label>
-																								<input type="date" class="form-control" id="fechacontacto" name="fechacontacto" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['fechaultimocontacto'];}?>">
+																								<input type="date" class="form-control" id="fechacontacto" name="fechacontacto" value="<?php if($borrador['fechaultimocontacto']!=null){echo $borrador['fechaultimocontacto'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['fechaultimocontacto'];}}?>">
 																							</div>
 																							<div class="col-md-6">
 																								<label for="">Estadio</label> <br>
-																								<input type="radio" id="estadio1" name="estadio" value="1" <?php if($ultimoregistro!=null){if($ultimoregistro['estadio']==1){ echo "checked";}}else{echo "checked";}?>><span class="ml-2">Vivo</span>
-																								<input type="radio" id="estadio2" name="estadio" value="2" <?php if($ultimoregistro!=null){if($ultimoregistro['estadio']==2){ echo "checked";}}?>><span class="ml-2">Muerto</span>
-																								<input type="radio" id="estadio3" name="estadio" value="3" <?php if($ultimoregistro!=null){if($ultimoregistro['estadio']==3){ echo "checked";}}?>><span class="ml-2">Sin información</span>
+																								<input type="radio" id="estadio1" name="estadio" value="1" <?php if($borrador != null){if($borrador['estadio']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['estadio']==1){ echo "checked";}}else{echo "checked";}}}?>><span class="ml-2">Vivo</span>
+																								<input type="radio" id="estadio2" name="estadio" value="2" <?php if($borrador != null){if($borrador['estadio']==2){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['estadio']==2){ echo "checked";}}}}?>><span class="ml-2">Muerto</span>
+																								<input type="radio" id="estadio3" name="estadio" value="3" <?php if($borrador != null){if($borrador['estadio']==3){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['estadio']==3){ echo "checked";}}}}?>><span class="ml-2">Sin Información</span>
 																							</div>
 																						</div>
 																						<hr>
 																						<div class="row">
 																							<div class="col-md-6">
 																								<label for="">Defunción</label>
-																								<input type="date" class="form-control" id="defuncion" name="defuncion" value="<?php if($ultimoregistro!=null){echo $ultimoregistro['defuncion'];}?>">
+																								<input type="date" class="form-control" id="defuncion" name="defuncion" value="<?php if($borrador != null){echo $borrador['defuncion'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['defuncion'];}}?>">
 																							</div>
 																							<div class="col-md-6">
 																								<label for="">Causa</label><br>
-																								<input type="radio" id="causa1" name="causa" value="1" <?php if($ultimoregistro!=null){if($ultimoregistro['causa']==1){ echo "checked";}}?>><span class="ml-2">Cáncer</span>
-																								<input type="radio" id="causa2" name="causa" value="2" <?php if($ultimoregistro!=null){if($ultimoregistro['causa']==2){ echo "checked";}}?>><span class="ml-2">Otra</span>
-																								<input type="radio" id="causa3" name="causa" value="3" <?php if($ultimoregistro!=null){if($ultimoregistro['causa']==3){ echo "checked";}}?>><span class="ml-2">Desconocido</span>
+																								<input type="radio" id="causa1" name="causa" value="1" <?php if($borrador != null){if($borrador['causa']==1){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['causa']==1){ echo "checked";}}}}?>><span class="ml-2">Cáncer</span>
+																								<input type="radio" id="causa2" name="causa" value="2" <?php if($borrador != null){if($borrador['causa']==2){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['causa']==2){ echo "checked";}}}}?>><span class="ml-2">Otra</span>
+																								<input type="radio" id="causa3" name="causa" value="3" <?php if($borrador != null){if($borrador['causa']==3){ echo "checked";}else{ if($ultimoregistro!=null){if($ultimoregistro['causa']==3){ echo "checked";}}}}?>><span class="ml-2">Desconocido</span>
 																							</div>
 																						</div>
 																						<hr>
 																						<div class="row">
 																							<div class="col-md-12">
 																								<label for="">Observacion</label>
-																								<textarea name="observacionfinal" id="observacionfinal" class="form-control" cols="30" rows="10"><?php if($ultimoregistro!=null){echo $ultimoregistro['obsersavacionfinal'];}?></textarea>
+																								<textarea name="observacionfinal" id="observacionfinal" class="form-control" cols="30" rows="10"><?php if($borrador != null){echo $borrador['obsersavacionfinal'];}else{  if($ultimoregistro!=null){echo $ultimoregistro['observacionfinal'];}}?></textarea>
 																							</div>
 																						</div>
 																						<input type="hidden" id="pacientepoblacional" name="pacientepoblacional" value="<?php echo $dipaciente; ?>">
@@ -1637,6 +1669,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 										</div>
 										<input type="hidden" id="pacienteborrador" value="<?php echo $dipaciente; ?>">
 										<input type="hidden" id="comiteborrador" value="<?php echo $idcomite; ?>">
+										<input type="hidden" id="idborrador" value="<?php if($borrador != null){echo $borrador['id'];}else{  echo "0";}?>">
 									</div>
 								</div>
 							</div>
@@ -2246,6 +2279,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 			cargarsignos();
 			cargarmedidas();
 			calcsup();
+			cargartnm2();
 		});
 
 		$('#tablegeneral').DataTable({

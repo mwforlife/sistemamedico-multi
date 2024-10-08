@@ -1335,60 +1335,6 @@ function guardarborrador(paciente, comite) {
 
 }
 
-$(document).ready(function () {
-  var paciente = $("#pacienteborrador").val();
-  var comite = $("#comiteborrador").val();
-  cargarborrador(paciente, comite);
-});
-
-function cargarborrador(paciente, comite) {
-  $.ajax({
-    url: "php/charge/borrador_informe.php",
-    type: "POST",
-    data: { comite: comite, paciente: paciente }, 
-    success: function (respuesta) {
-      try {
-        var data = JSON.parse(respuesta);
-        if (data.status == true) {
-          var informe = data.informe;
-          $("#peso").val(informe.peso);
-          $("#talla").val(informe.talla);
-          $("#sup").val(informe.sup);
-          $("#iddiag").val(informe.diagnostico);
-          $("#diagnostico").val(informe.diagnosticotext);
-          $("#idcie10").val(informe.diagnosticocie10);
-          $("#diagnosticocie10").val(informe.diagnosticocie10text);
-          $("#fechabiopsia").val(informe.fechabiopsia);
-          if (informe.reingreso == 1) {
-            $("#reingreso").prop("checked", true);
-          }
-          $("#ecog").val(informe.ecog);
-          $("#histologico").val(informe.histologico);
-          $("#invasiontumoral").val(informe.invasiontumoral);
-          $("#mitotico").val(informe.mitotico);
-          $("#observaciontnm").val(informe.observaciontnm);
-          $("#anamnesis").val(informe.anamnesis);
-          if (informe.cirugia == 1) {
-            $("#cirugia").prop("checked", true);
-          }
-          if (informe.quimioterapia == 2){
-            $("#quimioterapia").prop("checked", true);
-          }
-
-          if (informe.radioterapia == 3){
-            $("#radioterapia").prop("checked", true);
-          }
-        }else{
-          console.log(data.message);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  });
-}
-
-
 function cargartnm() {
   console.log(tnm);
   var html = "";
@@ -1440,6 +1386,41 @@ function cargartnm1() {
   });
 }
 
+function cargartnm2() {
+  var id = $("#idborrador").val();
+  if(id <=0){
+    return;
+  }
+  $.ajax({
+    url: "php/charge/tnmcomite1.php",
+    type: "POST",
+    data: { id: id },
+    success: function (respuesta) {
+      try {
+        var data = JSON.parse(respuesta);
+        if (data.status == true) {
+          var tnm = data.tnm;
+          for (var i = 0; i < tnm.length; i++) {
+            pushtnm(
+              tnm[i].t1,
+              tnm[i].t,
+              tnm[i].ttexto,
+              tnm[i].n,
+              tnm[i].ntexto,
+              tnm[i].m,
+              tnm[i].mtexto
+            );
+          }
+          cargartnm();
+        } else {
+          ToastifyError(data.message);
+        }
+      } catch (error) {
+        ToastifyError(error);
+      }
+    },
+  });
+}
 $(document).ready(function () {
   //Evento al cambiar el el estado de checkbox de citacion
   $("#citacion").on("change", function () {

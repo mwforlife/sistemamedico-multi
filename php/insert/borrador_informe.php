@@ -145,7 +145,7 @@ if(isset($_POST['paciente']) && isset($_POST['comite']) && isset($_POST['peso'])
             $tnm = $_POST['tnm'];
         }
         foreach ($tnm as $t) {
-            $c->registrarcomitetnm($result,$t['t1'],$t['t'],$t['ttext'], $t['n'],$t['ntext'],$t['m'],$t['mtext']);
+            $c->registrarborradortnm($result,$t['t1'],$t['t'],$t['ttext'], $t['n'],$t['ntext'],$t['m'],$t['mtext']);
         }
     }else{
         echo json_encode(array("status"=>false, "message"=>"Error al registrar borrador de informe"));

@@ -44,7 +44,7 @@ class Controller
     private $mi;
 
     private $host = "localhost";
-    /*Variables*/
+    /*Variables
     private $user = "root";
     private $pass = "";
     private $bd = "oncoway";
@@ -54,7 +54,7 @@ class Controller
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server
+    /*Variables BD Server*/
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
@@ -7455,7 +7455,7 @@ class Controller
     function registrarborradortnm($borrador, $t1, $t, $ttexto, $n, $ntexto, $m, $mtexto)
     {
         $this->conexion();
-        $sql = "insert into tnmborradorinformecomite values(null,$borrador, '$t1',  $t, '$ttexto',  $n, '$ntexto', $m, '$mtexto',now())";
+        $sql = "insert into tnmborradorinformecomite values(null,$borrador, '$t1',  $t, '$ttexto',  $n, '$ntexto', $m, '$mtexto')";
         $result = $this->mi->query($sql);
         $this->desconexion();
         return json_encode($result);
@@ -7465,7 +7465,7 @@ class Controller
     function listartnmborrador($borrador)
     {
         $this->conexion();
-        $sql = "select * from tnmborradorinformecomite where borradorinformecomite = $borrador order by registro desc";
+        $sql = "select * from tnmborradorinformecomite where borradorinformecomite = $borrador order by id";
         $result = $this->mi->query($sql);
         $array = array();
         while ($rs = mysqli_fetch_array($result)) {
@@ -7478,8 +7478,7 @@ class Controller
             $ntexto = $rs["ntexto"];
             $m = $rs["m"];
             $mtexto = $rs["mtexto"];
-            $registro = $rs["registro"];
-            $object = array("id" => $id, "informecomite" => $informecomite, "t1" => $t1, "t" => $t, "ttexto" => $ttexto,  "n" => $n, "ntexto" => $ntexto, "m" => $m, "mtexto" => $mtexto,  "registro" => $registro);
+            $object = array("id" => $id, "informecomite" => $informecomite, "t1" => $t1, "t" => $t, "ttexto" => $ttexto,  "n" => $n, "ntexto" => $ntexto, "m" => $m, "mtexto" => $mtexto);
             array_push($array, $object);
         }
         $this->desconexion();
