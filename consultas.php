@@ -637,7 +637,7 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <span>Copyright © 2022 - KaiserTech Todos los derechos reservados.</span>
+                        <span>Copyright © <?php echo date("Y")?> - OncoWay Todos los derechos reservados.</span>
                     </div>
                 </div>
             </div>

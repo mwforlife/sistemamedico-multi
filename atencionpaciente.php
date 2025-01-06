@@ -1389,7 +1389,6 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																								<th class="bg-transparent text-center">Fecha Registro</th>
 																								<th class="bg-transparent text-center">Profesional</th>
 																								<th class="bg-transparent text-center">Atención</th>
-																								<th class="bg-transparent text-center">Detalle</th>
 																								<th class="bg-transparent text-center">Reporte</th>
 																							</tr>
 																						</thead>
@@ -1421,9 +1420,11 @@ if (isset($_SESSION['CURRENT_ENTERPRISE'])) {
 																								echo "<td class='bg-transparent text-center'>" . $at->getRegistro() . "</td>";
 																								echo "<td class='bg-transparent text-center'>" . $at->getProfesional() . "</td>";
 																								echo "<td class='bg-transparent text-center'><a href='atencion.php?id=" . $at->getId() . "'><i class='fa fa-eye'></i></a></td>";
-																								echo "<td class='bg-transparent text-center'><a href='reporte.php?id=" . $at->getId() . "'><i class='fa fa-eye'></i></a></td>";
-																								echo "<td class='bg-transparent text-center'><a href='reporte.php?id=" . $at->getId() . "'><i class='fa fa-file-pdf-o'></i></a></td>";
-
+																								if($at->getEstado() == 5){
+																									echo "<td class='bg-transparent text-center'><a href='reporte.php?id=" . $at->getId() . "'><i class='fa fa-file-pdf-o'></i></a></td>";
+																								}else{
+																									echo "<td class='bg-transparent text-center'>-</td>";
+																								}
 																								echo "</tr>";
 																							}
 																							?>

@@ -687,6 +687,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 														$idcomite = $comite->getId();
 														$listapacientes = $c->buscarpacientescomite($comite->getId());
 														foreach ($listapacientes as $listapaciente) {
+															$pacientecomiteid = $listapaciente->getid();
 															$paciente = $listapaciente->getregistro();
 															$rut = $listapaciente->getrut();
 															$nombre = $listapaciente->getnombre();
@@ -746,8 +747,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 															echo "</td>";
 															echo "<td>";
 															if ($idinforme <= 0) {
-																$comfo = $idcomite;
-																echo "<a href='informepaciente.php?comite=$idcomite&code=$paciente'  title='Evaluar Paciente' class='btn btn-outline-success mr-1'><i class='fa fa-user-plus'></i></a>";
+																echo "<a href='informepaciente.php?comite=$pacientecomiteid&code=$paciente'  title='Evaluar Paciente' class='btn btn-outline-success mr-1'><i class='fa fa-user-plus'></i></a>";
 															}
 															if ($idinforme > 0) {
 																$id = $idinforme;

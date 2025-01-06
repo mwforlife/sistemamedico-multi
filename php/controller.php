@@ -5306,13 +5306,11 @@ class Controller
             $nombremedico = $rs["nombremedico"] . " " . $rs["ape1medico"] . " " . $rs["ape2medico"];
             $profesion = $rs["profesion"];
             $horas = $rs["horas"];
-            //08:00:00;08:30:00, 08:30:00;09:00:00, 09:00:00;09:30:00
             $horasarray = explode(",", $horas);
             $horas = "";
             foreach ($horasarray as $hora) {
                 $horas .= $hora . " ";
             }
-            //08:00:00;08:30:00 08:30:00;09:00:00 09:00:00;09:30:00
             $horasarray = explode(";", $horas);
             $horas = "";
             foreach ($horasarray as $hora) {
@@ -5566,34 +5564,88 @@ class Controller
     function buscarreservaspaciente($paciente)
     {
         $this->conexion();
-        $sql = "select atenciones.id as id, atenciones.horainicioespera as horainicioespera,atenciones.horafinespera as horafinespera, atenciones.horafinatencion as horafinatencion,  pacientes.tipoidentificacion as tipo, pacientes.rut as rut, pacientes.nombre as nombre, pacientes.apellido1 as apellido1, pacientes.apellido2 as apellido2, usuarios.nombre as nombremedico, usuarios.apellido1 as ape1medico, usuarios.apellido2 as ape2medico,profesiones.nombre as profesion, horarios.fecha as fecha, horarios.horainicio as horainicio, horarios.horafin as horafin, horarios.intervalo as intervalo, atenciones.observacion as observacion, atenciones.estado as estado, atenciones.registro as registro from atenciones, horarios,pacientes, usuarios, usuarioprofesion, profesiones where atenciones.horario = horarios.id and horarios.usuario = usuarios.id and usuarios.id = usuarioprofesion.usuario and usuarioprofesion.profesion = profesiones.id and atenciones.paciente = pacientes.id and pacientes.id = $paciente group by id order by horarios.horainicio asc";
+        $sql = "
+        SELECT 
+            atenciones.id as id,
+            atenciones.horainicioespera as horainicioespera,
+            atenciones.horafinespera as horafinespera,
+            atenciones.horafinatencion as horafinatencion,
+            horarios.tipohorario as tipo,
+            horarios.fecha as fecha,
+            horarios.intervalo as intervalo,
+            pacientes.rut as rut,
+            pacientes.nombre as nombre,
+            pacientes.apellido1 as apellido1,
+            pacientes.apellido2 as apellido2,
+            usuarios.nombre as nombremedico,
+            usuarios.apellido1 as ape1medico,
+            usuarios.apellido2 as ape2medico,
+            profesiones.nombre as profesion,
+            GROUP_CONCAT(DISTINCT CONCAT(horarios.horainicio, ';', horarios.horafin) ORDER BY horarios.horainicio ASC SEPARATOR ', ') as horas,
+            atenciones.observacion as observacion,
+            atenciones.estado as estado,
+            atenciones.registro as registro
+        FROM 
+            atenciones
+        JOIN 
+            horarioatencion ON atenciones.id = horarioatencion.atencion
+        JOIN 
+            horarios ON horarioatencion.horario = horarios.id
+        JOIN 
+            pacientes ON atenciones.paciente = pacientes.id
+        JOIN 
+            usuarios ON horarios.usuario = usuarios.id
+        JOIN 
+            usuarioprofesion ON usuarios.id = usuarioprofesion.usuario
+        JOIN 
+            profesiones ON usuarioprofesion.profesion = profesiones.id
+        WHERE 
+            atenciones.paciente = $paciente
+        GROUP BY 
+            atenciones.id
+        ORDER BY 
+            horarios.horainicio ASC";
+
         $result = $this->mi->query($sql);
         $lista = array();
         while ($rs = mysqli_fetch_array($result)) {
             $id = $rs["id"];
             $tipo = $rs["tipo"];
+            $intervalo = $rs["intervalo"];
+            $fecha = $rs["fecha"];
             $rut = $rs["rut"];
             $nombre = $rs["nombre"] . " " . $rs["apellido1"] . " " . $rs["apellido2"];
             $nombremedico = $rs["nombremedico"] . " " . $rs["ape1medico"] . " " . $rs["ape2medico"];
             $profesion = $rs["profesion"];
-            $fecha = $rs["fecha"];
-            $horainicio = $rs["horainicio"];
-            $horafin = $rs["horafin"];
-            $intervalo = $rs["intervalo"];
+            $horas = $rs["horas"];
+            $horasarray = explode(",", $horas);
+            $horas = "";
+            foreach ($horasarray as $hora) {
+                $horas .= $hora . " ";
+            }
+            $horasarray = explode(";", $horas);
+            $horas = "";
+            foreach ($horasarray as $hora) {
+                $horas .= $hora . " ";
+            }
+            $cantidadhoras = count($horasarray);
+            $horainit = $horasarray[0];
+            $horafin = $horasarray[$cantidadhoras - 1];
+            $horainit = date("H:i", strtotime($horainit));
+            $horafin = date("H:i", strtotime($horafin));
             $observacion = $rs["observacion"];
             $estado = $rs["estado"];
             $horainicioespera = $rs["horainicioespera"];
             $horafinespera = $rs["horafinespera"];
             $horafinatencion = $rs["horafinatencion"];
             $registro = $rs["registro"];
-            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainicio, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $horafinespera, $horafinatencion, $registro);
+            $reserva = new Atencion($id, $rut, $nombre, $nombremedico, $profesion, $fecha, $horainit, $horafin, $intervalo, $observacion, $estado, $horainicioespera, $horafinespera, $horafinatencion, $registro);
             $lista[] = $reserva;
         }
         $this->desconexion();
         return $lista;
     }
 
-    //Buscar Reserva por id
     
 
     //Registrar Historial Estado

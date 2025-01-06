@@ -28,18 +28,18 @@ if (isset($_GET['code']) && isset($_GET['comite'])) {
 	$pacientecomite = $c->buscarpacientecomite($comite);
 	if ($r == null) {
 		// Redireccionar a la página anterior
-		header("Location: $previous_page");
+		header("Location: $previous_page&error=1");
 		exit();
 	}
 	if ($pacientecomite == null) {
 		// Redireccionar a la página anterior
-		header("Location: $previous_page");
+		header("Location: $previous_page&error=2");
 		exit();
 	}
 	$idcomite = $comite;
 } else {
 	//Redireccionar a la página anterior
-	header("Location: $previous_page");
+	header("Location: $previous_page?error=3");
 	exit();
 }
 $sig = $c->buscarsignovital($id);
