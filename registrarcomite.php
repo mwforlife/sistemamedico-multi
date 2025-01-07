@@ -746,8 +746,9 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
 															}
 															echo "</td>";
 															echo "<td>";
+															$comiteid = $comite->getId();
 															if ($idinforme <= 0) {
-																echo "<a href='informepaciente.php?comite=$pacientecomiteid&code=$paciente'  title='Evaluar Paciente' class='btn btn-outline-success mr-1'><i class='fa fa-user-plus'></i></a>";
+																echo "<a href='informepaciente.php?comite=$comiteid&code=$paciente'  title='Evaluar Paciente' class='btn btn-outline-success mr-1'><i class='fa fa-user-plus'></i></a>";
 															}
 															if ($idinforme > 0) {
 																$id = $idinforme;

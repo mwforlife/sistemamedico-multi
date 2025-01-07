@@ -18,6 +18,7 @@ if(isset($_SESSION['CURRENT_ENTERPRISE'])){
     echo json_encode(array("status" => false, "status_code" => 500, "message" => "No se ha seleccionado una empresa"));
     exit();
 }
+
 if(isset($_GET['informe'])){
     $informe = json_decode($_GET['informe']);
     $paciente = $informe->paciente;
@@ -58,8 +59,13 @@ if(isset($_GET['informe'])){
     $resolucion = $informe->resolucion;
     $peso = $informe->peso;
     $talla = $informe->talla;
-    $sc = $c->calculateBSA($talla, $peso);
 
+    if(!is_numeric($peso) || !is_numeric($talla) || $peso <= 0 || $talla <= 0){
+        echo json_encode(array("status" => false, "status_code" => 500, "message" => "El peso y la talla deben ser valores numericos y mayores a 0"));
+        exit();
+    }
+
+    $sc = $c->calculateBSA($talla, $peso);
     $paciente = $c->buscarpaciente($paciente);
     $fechanacimiento = $paciente->getFechanacimiento();
     $edad = $c->calcularEdad($fechanacimiento);
@@ -85,6 +91,8 @@ if(isset($_GET['informe'])){
         </td>
     </tr>
     </table>";
+
+    echo $contenido;
     $contenido .= "<hr>";
     $contenido .= "<table width='100%' border='0' cellspacing='0' cellpadding='0' >
     <tr>
@@ -303,3 +311,4 @@ if(isset($_GET['informe'])){
 }else{
     echo json_encode(array("status" => false, "status_code" => 500, "message" => "No se ha enviado suficientes datos para generar el informe"));
 }
+    

@@ -36,6 +36,7 @@ if (isset($_GET['r'])) {
     $edad = $c->calcularEdad($paciente->getFechaNacimiento());
     $especialidad = $c->buscarespecialidad($medico->getProfesion());
     $inscripcion = $c->listarinscripcionprevision($paciente->getId());
+    $estimulador = $c->buscarestimuladorreceta($receta->getId());
     $noficha = "";
     if ($inscripcion != null) {
         $noficha = $inscripcion->getFicha();
@@ -408,8 +409,8 @@ if (isset($_GET['r'])) {
 
     $contenido .= "<hr style='margin:0; margin-top:10px; ' >";
     //SEssion Estimulador
-    $estimuladores = $c->listarEstimuladoresreceta($receta->getId());
-    if (count($estimuladores) > 0) {
+    $estimulador = $c->buscarestimuladorreceta($receta->getId());
+    if ($estimulador != null){
         $contenido .= "<h2 style='font-size:12pt; margin-top:10px;'>ESTIMULADORES</h2>";
         //Seccion Firma Medico a la derecha
         $contenido .= "<table width='100%' border='1' cellspacing='0' cellpadding='0' style='font-size:9pt; '>";
@@ -424,19 +425,11 @@ if (isset($_GET['r'])) {
             <h3 style='font-size:9pt'> Rango de dias</h3>
         </td>
         </tr>";
-        foreach ($estimuladores as $estimulador) {
-            $contenido .= "<tr>";
-            $contenido .= "<td style='text-align: left;'>
-            " . $estimulador->getNombre() . "
-        </td>";
-            $contenido .= "<td style='padding: 1px;text-align: left;'>
-            " . $estimulador->getCantidad() . "
-        </td>";
-            $contenido .= "<td style='text-align: left;'>
-            " . $estimulador->getRangoDias() . "";
-            $contenido .= "</td>";
-            $contenido .= "</tr>";
-        }
+        $contenido .= "<tr>";
+        $contenido .= "<td style='text-align: left;'>FILGRASTIM</td>";
+        $contenido .= "<td style='padding: 1px;text-align: left;'>" . $estimulador->getCantidad() . "</td>";
+        $contenido .= "<td style='text-align: left;'>" . $estimulador->getRangoDias() . "</td>";
+        $contenido .= "</tr>";
         $contenido .= "</table>";
     }
 

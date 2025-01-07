@@ -44,7 +44,7 @@ class Controller
     private $mi;
 
     private $host = "localhost";
-    /*Variables
+    /*Variables*/
     private $user = "root";
     private $pass = "";
     private $bd = "oncoway";
@@ -54,7 +54,7 @@ class Controller
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'oncowayc_bd';
     
-    /*Variables BD Server*/
+    /*Variables BD Server
     private $user = 'u729479817_admin';
     private $pass = 'Administrad0r2023%$#@';
     private $bd = 'u729479817_oncoway';
